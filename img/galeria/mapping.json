@@ -1,0 +1,576 @@
+{
+  "consulta-ginecologica": [
+    {
+      "original": "doctora 2026-07-31 at 11.40.32 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.32 (4).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-1.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-1.webp",
+      "width": 974,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.32.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.32.jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-2.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-2.webp",
+      "width": 991,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.33 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.33 (1).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-3.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-3.webp",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.33 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.33 (2).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-4.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-4.webp",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.33 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.33 (3).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-5.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-5.webp",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.33 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.33 (4).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-6.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-6.webp",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.33.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.33.jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-7.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-7.webp",
+      "width": 960,
+      "height": 1280
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.34 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.34 (1).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-8.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-8.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.34 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.34 (2).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-9.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-9.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.40.34 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.40.34 (3).jpeg",
+      "webp_path": "img/galeria/consulta-ginecologica-10.webp",
+      "web_rel_path": "../img/galeria/consulta-ginecologica-10.webp",
+      "width": 1200,
+      "height": 1600
+    }
+  ],
+  "papanicolaou": [
+    {
+      "original": "doctora 2026-07-31 at 11.41.11 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.11 (3).jpeg",
+      "webp_path": "img/galeria/papanicolaou-1.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-1.webp",
+      "width": 996,
+      "height": 1220
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.11 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.11 (4).jpeg",
+      "webp_path": "img/galeria/papanicolaou-2.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-2.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.11.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.11.jpeg",
+      "webp_path": "img/galeria/papanicolaou-3.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-3.webp",
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12 (1).jpeg",
+      "webp_path": "img/galeria/papanicolaou-4.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-4.webp",
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12 (2).jpeg",
+      "webp_path": "img/galeria/papanicolaou-5.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-5.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12 (3).jpeg",
+      "webp_path": "img/galeria/papanicolaou-6.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-6.webp",
+      "width": 1200,
+      "height": 903
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12 (4).jpeg",
+      "webp_path": "img/galeria/papanicolaou-7.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-7.webp",
+      "width": 1200,
+      "height": 903
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12 (5).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12 (5).jpeg",
+      "webp_path": "img/galeria/papanicolaou-8.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-8.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12 (6).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12 (6).jpeg",
+      "webp_path": "img/galeria/papanicolaou-9.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-9.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.12.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.12.jpeg",
+      "webp_path": "img/galeria/papanicolaou-10.webp",
+      "web_rel_path": "../img/galeria/papanicolaou-10.webp",
+      "width": 1200,
+      "height": 1600
+    }
+  ],
+  "colposcopia": [
+    {
+      "original": "doctora 2026-07-31 at 11.41.16 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.16 (2).jpeg",
+      "webp_path": "img/galeria/colposcopia-1.webp",
+      "web_rel_path": "../img/galeria/colposcopia-1.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.16 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.16 (3).jpeg",
+      "webp_path": "img/galeria/colposcopia-2.webp",
+      "web_rel_path": "../img/galeria/colposcopia-2.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.16.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.16.jpeg",
+      "webp_path": "img/galeria/colposcopia-3.webp",
+      "web_rel_path": "../img/galeria/colposcopia-3.webp",
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.17 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.17 (1).jpeg",
+      "webp_path": "img/galeria/colposcopia-4.webp",
+      "web_rel_path": "../img/galeria/colposcopia-4.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.17 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.17 (2).jpeg",
+      "webp_path": "img/galeria/colposcopia-5.webp",
+      "web_rel_path": "../img/galeria/colposcopia-5.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.17 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.17 (3).jpeg",
+      "webp_path": "img/galeria/colposcopia-6.webp",
+      "web_rel_path": "../img/galeria/colposcopia-6.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.17 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.17 (4).jpeg",
+      "webp_path": "img/galeria/colposcopia-7.webp",
+      "web_rel_path": "../img/galeria/colposcopia-7.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.17 (5).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.17 (5).jpeg",
+      "webp_path": "img/galeria/colposcopia-8.webp",
+      "web_rel_path": "../img/galeria/colposcopia-8.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.17.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.17.jpeg",
+      "webp_path": "img/galeria/colposcopia-9.webp",
+      "web_rel_path": "../img/galeria/colposcopia-9.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.41.18 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.41.18 (1).jpeg",
+      "webp_path": "img/galeria/colposcopia-10.webp",
+      "web_rel_path": "../img/galeria/colposcopia-10.webp",
+      "width": 1199,
+      "height": 1600
+    }
+  ],
+  "control-prenatal": [
+    {
+      "original": "doctora 2026-07-31 at 11.42.37 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.37 (1).jpeg",
+      "webp_path": "img/galeria/control-prenatal-1.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-1.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.37 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.37 (2).jpeg",
+      "webp_path": "img/galeria/control-prenatal-2.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-2.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.37.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.37.jpeg",
+      "webp_path": "img/galeria/control-prenatal-3.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-3.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.38 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.38 (1).jpeg",
+      "webp_path": "img/galeria/control-prenatal-4.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-4.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.38 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.38 (2).jpeg",
+      "webp_path": "img/galeria/control-prenatal-5.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-5.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.38.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.38.jpeg",
+      "webp_path": "img/galeria/control-prenatal-6.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-6.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.39 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.39 (1).jpeg",
+      "webp_path": "img/galeria/control-prenatal-7.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-7.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.39 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.39 (2).jpeg",
+      "webp_path": "img/galeria/control-prenatal-8.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-8.webp",
+      "width": 1199,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.39.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.39.jpeg",
+      "webp_path": "img/galeria/control-prenatal-9.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-9.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.40 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.40 (1).jpeg",
+      "webp_path": "img/galeria/control-prenatal-10.webp",
+      "web_rel_path": "../img/galeria/control-prenatal-10.webp",
+      "width": 1199,
+      "height": 1600
+    }
+  ],
+  "atencion-embarazo": [
+    {
+      "original": "doctora 2026-07-31 at 11.42.44.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.44.jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-1.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-1.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.45 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.45 (1).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-2.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-2.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.45.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.45.jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-3.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-3.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.46 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.46 (1).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-4.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-4.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.46 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.46 (2).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-5.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-5.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.46 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.46 (3).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-6.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-6.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.46.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.46.jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-7.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-7.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.47 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.47 (1).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-8.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-8.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.47 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.47 (2).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-9.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-9.webp",
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.47 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.47 (3).jpeg",
+      "webp_path": "img/galeria/atencion-embarazo-10.webp",
+      "web_rel_path": "../img/galeria/atencion-embarazo-10.webp",
+      "width": 1200,
+      "height": 900
+    }
+  ],
+  "vph": [
+    {
+      "original": "doctora 2026-07-31 at 11.42.51.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.51.jpeg",
+      "webp_path": "img/galeria/vph-1.webp",
+      "web_rel_path": "../img/galeria/vph-1.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.52 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.52 (1).jpeg",
+      "webp_path": "img/galeria/vph-2.webp",
+      "web_rel_path": "../img/galeria/vph-2.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.52 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.52 (2).jpeg",
+      "webp_path": "img/galeria/vph-3.webp",
+      "web_rel_path": "../img/galeria/vph-3.webp",
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.52 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.52 (3).jpeg",
+      "webp_path": "img/galeria/vph-4.webp",
+      "web_rel_path": "../img/galeria/vph-4.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.52 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.52 (4).jpeg",
+      "webp_path": "img/galeria/vph-5.webp",
+      "web_rel_path": "../img/galeria/vph-5.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.52.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.52.jpeg",
+      "webp_path": "img/galeria/vph-6.webp",
+      "web_rel_path": "../img/galeria/vph-6.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.53 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.53 (1).jpeg",
+      "webp_path": "img/galeria/vph-7.webp",
+      "web_rel_path": "../img/galeria/vph-7.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.53 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.53 (2).jpeg",
+      "webp_path": "img/galeria/vph-8.webp",
+      "web_rel_path": "../img/galeria/vph-8.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.53 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.53 (3).jpeg",
+      "webp_path": "img/galeria/vph-9.webp",
+      "web_rel_path": "../img/galeria/vph-9.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.53 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.53 (4).jpeg",
+      "webp_path": "img/galeria/vph-10.webp",
+      "web_rel_path": "../img/galeria/vph-10.webp",
+      "width": 1200,
+      "height": 1600
+    }
+  ],
+  "revision-ginecologicapreventiva": [
+    {
+      "original": "doctora 2026-07-31 at 11.42.56 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56 (2).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-1.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-1.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.56 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56 (3).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-2.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-2.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.56 (4).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56 (4).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-3.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-3.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.56 (5).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56 (5).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-4.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-4.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.56 (6).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56 (6).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-5.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-5.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.56 (7).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56 (7).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-6.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-6.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.56.jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.56.jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-7.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-7.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.57 (1).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.57 (1).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-8.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-8.webp",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.57 (2).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.57 (2).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-9.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-9.webp",
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "original": "doctora 2026-07-31 at 11.42.57 (3).jpeg",
+      "orig_path": "imagenes/doctora 2026-07-31 at 11.42.57 (3).jpeg",
+      "webp_path": "img/galeria/revision-ginecologicapreventiva-10.webp",
+      "web_rel_path": "../img/galeria/revision-ginecologicapreventiva-10.webp",
+      "width": 1200,
+      "height": 1600
+    }
+  ]
+}
