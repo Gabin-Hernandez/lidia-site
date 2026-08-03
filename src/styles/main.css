@@ -1,0 +1,155 @@
+/* Solo se escanean clases dentro de src/ (plantillas y JS); evita que
+   markdown u otros archivos del repo inyecten utilidades no usadas. */
+@import "tailwindcss" source(none);
+@source "../";
+
+/* --- Línea gráfica del sitio (tokens de diseño) --- */
+@theme {
+  --color-marino: #1d3d61;
+  --color-rosa-palido: #fdf5f2;
+  --color-oro-rosa: #d9a694;
+  --color-oro-rosa-oscuro: #c28e7d;
+  /* Variante AA (≥4.5:1 sobre blanco) para texto pequeño y estados hover */
+  --color-oro-rosa-profundo: #8a5a45;
+  /* Variante AA sobre los azules del hero oscuro (≥5.3:1) */
+  --color-oro-rosa-claro: #f2d3c4;
+  --color-tinta: #2c3e50;
+  --color-wsp: #25d366;
+  --color-gris-suave: #f9fafb;
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+
+  --ease-suave: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-suave: 0 10px 30px rgba(29, 61, 97, 0.05);
+  --shadow-flotante: 0 20px 40px rgba(29, 61, 97, 0.1);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-tinta);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  p {
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+    opacity: 0.9;
+  }
+}
+
+/* --- Animaciones de entrada (hero) y de aparición al hacer scroll --- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .anim-alzada {
+    animation: alzada 0.8s var(--ease-suave) both;
+    animation-delay: var(--alzada-delay, 0s);
+  }
+
+  /* Estado previo a revelarse; el JS quita el atributo al terminar para
+     devolver a cada elemento sus transiciones/hovers originales. */
+  html.js [data-reveal],
+  html.js [data-reveal-group] > * {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.65s var(--ease-suave),
+      transform 0.65s var(--ease-suave);
+  }
+
+  html.js [data-reveal].revelado,
+  html.js [data-reveal-group].revelado > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Red de seguridad: si main.js no llega a ejecutarse, nada queda oculto. */
+  html.js [data-reveal],
+  html.js [data-reveal-group] > * {
+    animation: reveal-rescate 0s 4s forwards;
+  }
+}
+
+@keyframes reveal-rescate {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes alzada {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Transiciones de navegación entre páginas (View Transitions + fallback) --- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root) {
+    animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out-slide;
+  }
+
+  ::view-transition-new(root) {
+    animation: 0.35s cubic-bezier(0.16, 1, 0.3, 1) both fade-in-slide;
+  }
+}
+
+@keyframes fade-out-slide {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.99);
+  }
+}
+
+@keyframes fade-in-slide {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body {
+  opacity: 1;
+  transition:
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.page-leaving {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.page-entering {
+  animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
