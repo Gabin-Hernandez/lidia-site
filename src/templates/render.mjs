@@ -1,10 +1,19 @@
 // Punto de entrada del renderizado estático: resuelve un id de página a su HTML.
 import { getService } from '../data/services.mjs'
+import { renderConoce } from './conoce.mjs'
+import { renderContacto } from './contacto.mjs'
 import { renderHome } from './home.mjs'
 import { renderService } from './service.mjs'
 
+const ESTATICAS = {
+  home: renderHome,
+  conoce: renderConoce,
+  contacto: renderContacto,
+}
+
 export function renderPage(id) {
-  if (id === 'home') return renderHome()
+  const estatica = ESTATICAS[id]
+  if (estatica) return estatica()
   const service = getService(id)
   if (!service) throw new Error(`Página desconocida: ${id}`)
   return renderService(service)

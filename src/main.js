@@ -1,49 +1,150 @@
 /**
- * Dra. Lidia Chávez — scripts compartidos.
- * Menú móvil, acordeón de FAQ accesible, tracking de conversiones de WhatsApp
- * y transición suave entre páginas.
- * El CSS se enlaza directo en el <head> (ver layout.mjs) para evitar FOUC.
+ * Dra. Lidia Chávez — motor de interacción y movimiento.
+ *
+ * El CSS hace el trabajo pesado de la animación (scroll-driven donde el
+ * navegador lo soporta). Este archivo aporta lo que el CSS no puede:
+ *   · partir titulares en palabras para la tipografía cinética
+ *   · fallback de revelado con IntersectionObserver (Firefox)
+ *   · estado del encabezado, menús, acordeón, visor de galería
+ *   · contadores, vista previa del índice de servicios, botones magnéticos
+ *
+ * Todo es aditivo: sin JS la página se ve completa y estática.
  */
 const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
 
-// --- Menú hamburguesa móvil ---
-const menuToggle = document.querySelector('[data-menu-toggle]')
-const navLinks = document.getElementById('navLinks')
+const $ = (sel, ctx = document) => ctx.querySelector(sel)
+const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)]
 
-function setMenu(abierto) {
-  if (!menuToggle || !navLinks) return
-  menuToggle.setAttribute('aria-expanded', String(abierto))
-  navLinks.toggleAttribute('data-open', abierto)
+const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const scrollNativo = CSS.supports('animation-timeline', 'view()')
+const escritorio = window.matchMedia('(min-width: 1024px)')
+const puedeHover = window.matchMedia('(hover: hover) and (pointer: fine)')
+
+/* ══════════════════════════════════════════ 1. Tipografía cinética ══════ */
+
+// Envuelve cada palabra en `<span class="pal"><span>…</span></span>` sin
+// destruir el marcado interno (los <em>/<strong> del titular se conservan).
+function partirEnPalabras(raiz) {
+  const textos = []
+  const walker = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT)
+  while (walker.nextNode()) textos.push(walker.currentNode)
+
+  let i = 0
+  for (const nodo of textos) {
+    if (!nodo.nodeValue.trim()) continue
+    const frag = document.createDocumentFragment()
+    for (const trozo of nodo.nodeValue.split(/(\s+)/)) {
+      if (!trozo) continue
+      if (!trozo.trim()) {
+        frag.appendChild(document.createTextNode(trozo))
+        continue
+      }
+      const pal = document.createElement('span')
+      pal.className = 'pal'
+      pal.style.setProperty('--i', i++)
+      const interior = document.createElement('span')
+      interior.textContent = trozo
+      pal.appendChild(interior)
+      frag.appendChild(pal)
+    }
+    nodo.parentNode.replaceChild(frag, nodo)
+  }
 }
 
-menuToggle?.addEventListener('click', () => {
-  setMenu(menuToggle.getAttribute('aria-expanded') !== 'true')
+const cineticos = $$('[data-cinetico]')
+if (!menosMovimiento) cineticos.forEach(partirEnPalabras)
+
+/* ═══════════════════════════════ 2. Revelado al hacer scroll (fallback) ══ */
+
+// Numera los hijos de cada grupo: el CSS usa `--i` para escalonar la entrada.
+$$('[data-anim-grupo]').forEach((grupo) => {
+  ;[...grupo.children].forEach((hijo, i) => hijo.style.setProperty('--i', i))
 })
 
-navLinks?.addEventListener('click', (e) => {
+// Con soporte nativo el CSS ya se encarga; aquí solo cubrimos el resto.
+if (!menosMovimiento && !scrollNativo && 'IntersectionObserver' in window) {
+  const observados = $$('[data-anim], [data-anim-grupo], [data-cinetico="scroll"]')
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      for (const entrada of entradas) {
+        if (!entrada.isIntersecting) continue
+        entrada.target.classList.add('visible')
+        observador.unobserve(entrada.target)
+      }
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+  )
+  observados.forEach((el) => observador.observe(el))
+}
+
+/* ══════════════════════════════════════ 3. Marquesinas infinitas ════════ */
+
+// Se duplica la pista para que el bucle a -100 % no deje hueco.
+$$('.marquesina').forEach((m) => {
+  const pista = $('.marquesina__pista', m)
+  if (!pista) return
+  const copia = pista.cloneNode(true)
+  copia.setAttribute('aria-hidden', 'true')
+  m.appendChild(copia)
+})
+
+/* ══════════════════════════════════ 4. Encabezado: estado y menús ═══════ */
+
+const cabecera = $('[data-cabecera]')
+const barraProgreso = $('[data-progreso]')
+
+if (cabecera) {
+  let ultimoY = window.scrollY
+  const actualizarCabecera = () => {
+    const y = window.scrollY
+    cabecera.toggleAttribute('data-solido', y > 24)
+    // Se esconde al bajar y reaparece al subir, pero nunca cerca del inicio.
+    const oculta = y > 420 && y > ultimoY + 4
+    cabecera.toggleAttribute('data-oculta', oculta)
+    ultimoY = y
+  }
+  window.addEventListener('scroll', actualizarCabecera, { passive: true })
+  actualizarCabecera()
+}
+
+// --- Menú móvil ---
+const botonMenu = $('[data-menu-toggle]')
+const panelMenu = $('#navLinks')
+
+function setMenu(abierto) {
+  if (!botonMenu || !panelMenu) return
+  botonMenu.setAttribute('aria-expanded', String(abierto))
+  panelMenu.toggleAttribute('data-open', abierto)
+  document.body.style.overflow = abierto ? 'hidden' : ''
+}
+
+botonMenu?.addEventListener('click', () => {
+  setMenu(botonMenu.getAttribute('aria-expanded') !== 'true')
+})
+
+panelMenu?.addEventListener('click', (e) => {
   if (e.target.closest('a')) {
     setMenu(false)
     cerrarDropdowns()
   }
 })
 
-// --- Menú desplegable de servicios ---
-const dropdowns = document.querySelectorAll('[data-dropdown]')
-const escritorio = window.matchMedia('(min-width: 768px)')
+// --- Submenú de servicios ---
+const dropdowns = $$('[data-dropdown]')
 
 function cerrarDropdowns(excepto = null) {
-  dropdowns.forEach((dd) => {
-    if (dd === excepto) return
-    const btn = dd.querySelector('[data-dropdown-btn]')
+  for (const dd of dropdowns) {
+    if (dd === excepto) continue
+    const btn = $('[data-dropdown-btn]', dd)
     // Devolver el foco al botón si estaba dentro del panel que se cierra.
     if (dd.hasAttribute('data-open') && dd.contains(document.activeElement)) btn?.focus()
     dd.removeAttribute('data-open')
     btn?.setAttribute('aria-expanded', 'false')
-  })
+  }
 }
 
 dropdowns.forEach((dd) => {
-  const btn = dd.querySelector('[data-dropdown-btn]')
+  const btn = $('[data-dropdown-btn]', dd)
   if (!btn) return
 
   btn.addEventListener('click', () => {
@@ -55,13 +156,15 @@ dropdowns.forEach((dd) => {
     }
   })
 
-  // En desktop el panel también se abre por :hover (CSS); mantenemos
+  // En escritorio el panel también abre por :hover (CSS); mantenemos
   // aria-expanded sincronizado con ese estado visual.
   dd.addEventListener('pointerenter', () => {
     if (escritorio.matches) btn.setAttribute('aria-expanded', 'true')
   })
   dd.addEventListener('pointerleave', () => {
-    if (escritorio.matches && !dd.hasAttribute('data-open')) btn.setAttribute('aria-expanded', 'false')
+    if (escritorio.matches && !dd.hasAttribute('data-open')) {
+      btn.setAttribute('aria-expanded', 'false')
+    }
   })
 })
 
@@ -70,129 +173,199 @@ document.addEventListener('click', (e) => {
 })
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') cerrarDropdowns()
+  if (e.key !== 'Escape') return
+  cerrarDropdowns()
+  if (botonMenu?.getAttribute('aria-expanded') === 'true') {
+    setMenu(false)
+    botonMenu.focus()
+  }
 })
 
-// --- Acordeón FAQ accesible (comportamiento exclusivo) ---
-const faqItems = document.querySelectorAll('[data-faq]')
+/* ══════════════════════════════════════════ 5. Acordeón de preguntas ════ */
 
-function setFaq(item, abierto) {
-  const btn = item.querySelector('[data-faq-btn]')
-  const panel = item.querySelector('[data-faq-panel]')
-  if (!btn || !panel) return
-  btn.setAttribute('aria-expanded', String(abierto))
-  panel.style.maxHeight = abierto ? `${panel.scrollHeight}px` : ''
-}
+const faqs = $$('[data-faq]')
 
-faqItems.forEach((item) => {
-  const btn = item.querySelector('[data-faq-btn]')
+faqs.forEach((item) => {
+  const btn = $('[data-faq-btn]', item)
   btn?.addEventListener('click', () => {
-    const abierto = btn.getAttribute('aria-expanded') === 'true'
-    faqItems.forEach((otro) => setFaq(otro, false))
-    setFaq(item, !abierto)
+    const abierto = item.hasAttribute('data-abierto')
+    for (const otro of faqs) {
+      otro.removeAttribute('data-abierto')
+      $('[data-faq-btn]', otro)?.setAttribute('aria-expanded', 'false')
+    }
+    if (!abierto) {
+      item.setAttribute('data-abierto', '')
+      btn.setAttribute('aria-expanded', 'true')
+    }
   })
 })
 
-// --- Tracking de clics de WhatsApp (conversión + evento etiquetado) ---
-document.addEventListener('click', (e) => {
-  const enlace = e.target.closest('[data-wa-label]')
-  if (!enlace || typeof gtag !== 'function') return
-  gtag('event', 'conversion', {
-    send_to: GTAG_CONVERSION,
-    value: 1.0,
-    currency: 'MXN',
-  })
-  gtag('event', enlace.dataset.waLabel, {
-    event_category: 'WhatsApp',
-    event_label: enlace.dataset.waLabel,
-  })
-})
+/* ═══════════════════════════════════ 6. Contadores de cifras ════════════ */
 
-// --- Aparición al hacer scroll (reveal) con escalonado por grupo ---
-// Al terminar, se quita el atributo para devolver a cada elemento sus
-// transiciones y hovers originales (el estado final coincide con el natural).
-const revelables = document.querySelectorAll('[data-reveal], [data-reveal-group]')
-const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const contadores = $$('[data-contador]')
 
-if ('IntersectionObserver' in window && revelables.length && !menosMovimiento) {
-  const limpiar = (el, esGrupo) => {
-    el.classList.remove('revelado')
-    el.removeAttribute(esGrupo ? 'data-reveal-group' : 'data-reveal')
-    if (esGrupo) [...el.children].forEach((hijo) => (hijo.style.transitionDelay = ''))
+// La cifra final ya está escrita en el HTML: se lee de ahí y solo se pone a
+// cero justo antes de animar, para que sin JS (o si algo falla) siga visible.
+if (contadores.length && !menosMovimiento && 'IntersectionObserver' in window) {
+  const animarNumero = (el) => {
+    const texto = el.textContent.trim()
+    const destino = Number(texto)
+    if (!Number.isFinite(destino)) return
+    const decimales = (texto.split('.')[1] || '').length
+    const duracion = 1500
+    let inicio = null
+    const paso = (ahora) => {
+      inicio ??= ahora
+      const t = Math.min(1, (ahora - inicio) / duracion)
+      // easeOutExpo: arranca rápido y aterriza con suavidad en la cifra final.
+      const e = t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
+      el.textContent = (destino * e).toFixed(decimales)
+      if (t < 1) requestAnimationFrame(paso)
+      else el.textContent = texto
+    }
+    el.textContent = (0).toFixed(decimales)
+    requestAnimationFrame(paso)
   }
 
-  const observador = new IntersectionObserver(
+  const obsCifras = new IntersectionObserver(
     (entradas) => {
-      entradas.forEach((entrada) => {
-        if (!entrada.isIntersecting) return
-        const el = entrada.target
-        const esGrupo = el.hasAttribute('data-reveal-group')
-        if (esGrupo) {
-          ;[...el.children].forEach((hijo, i) => (hijo.style.transitionDelay = `${i * 70}ms`))
-        }
-        el.classList.add('revelado')
-        observador.unobserve(el)
-        const hijos = esGrupo ? el.children.length : 0
-        setTimeout(() => limpiar(el, esGrupo), 750 + hijos * 70)
-      })
+      for (const e of entradas) {
+        if (!e.isIntersecting) continue
+        obsCifras.unobserve(e.target)
+        animarNumero(e.target)
+      }
     },
-    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    { threshold: 0.4 }
   )
-
-  revelables.forEach((el) => observador.observe(el))
+  contadores.forEach((el) => obsCifras.observe(el))
 }
 
-// --- Lightbox de la galería ---
-const disparadoresGaleria = [...document.querySelectorAll('[data-lightbox]')]
+/* ═════════════════════════ 7. Vista previa del índice de servicios ══════ */
 
-if (disparadoresGaleria.length) {
-  const fotos = disparadoresGaleria.map((btn) => ({
+const indice = $('[data-indice]')
+
+if (indice && puedeHover.matches && !menosMovimiento) {
+  const filas = $$('[data-preview]', indice)
+  const visor = document.createElement('div')
+  visor.className = 'preview'
+  visor.setAttribute('aria-hidden', 'true')
+  visor.innerHTML = '<img alt="" decoding="async">'
+  document.body.appendChild(visor)
+  const imagen = $('img', visor)
+
+  let objetivoX = 0
+  let objetivoY = 0
+  let x = 0
+  let y = 0
+  let animando = false
+
+  const seguir = () => {
+    // Interpolación: la tarjeta persigue al cursor con inercia.
+    x += (objetivoX - x) * 0.14
+    y += (objetivoY - y) * 0.14
+    visor.style.translate = `${x}px ${y}px`
+    if (Math.abs(objetivoX - x) > 0.4 || Math.abs(objetivoY - y) > 0.4) {
+      requestAnimationFrame(seguir)
+    } else {
+      animando = false
+    }
+  }
+
+  indice.addEventListener('pointermove', (e) => {
+    objetivoX = e.clientX
+    objetivoY = e.clientY
+    if (!animando) {
+      animando = true
+      requestAnimationFrame(seguir)
+    }
+  })
+
+  filas.forEach((fila) => {
+    fila.addEventListener('pointerenter', () => {
+      imagen.src = fila.dataset.preview
+      visor.setAttribute('data-activo', '')
+    })
+    fila.addEventListener('pointerleave', () => visor.removeAttribute('data-activo'))
+  })
+
+  indice.addEventListener('pointerleave', () => visor.removeAttribute('data-activo'))
+}
+
+/* ═══════════════════════════ 8. Botones magnéticos y brillo del cursor ══ */
+
+if (puedeHover.matches && !menosMovimiento) {
+  $$('.magnetico').forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect()
+      const dx = (e.clientX - (r.left + r.width / 2)) * 0.22
+      const dy = (e.clientY - (r.top + r.height / 2)) * 0.28
+      el.style.translate = `${dx}px ${dy}px`
+    })
+    el.addEventListener('pointerleave', () => (el.style.translate = ''))
+  })
+}
+
+$$('.brillo').forEach((el) => {
+  el.addEventListener('pointermove', (e) => {
+    const r = el.getBoundingClientRect()
+    el.style.setProperty('--mx', `${e.clientX - r.left}px`)
+    el.style.setProperty('--my', `${e.clientY - r.top}px`)
+  })
+})
+
+/* ═══════════════════════════════════════════ 9. Visor de galería ════════ */
+
+const disparadores = $$('[data-lightbox]')
+
+if (disparadores.length) {
+  const fotos = disparadores.map((btn) => ({
     src: btn.dataset.lightbox,
     caption: btn.dataset.caption || '',
   }))
-  let indice = 0
+  let indiceFoto = 0
   let focoPrevio = null
 
   const visor = document.createElement('div')
   visor.setAttribute('role', 'dialog')
   visor.setAttribute('aria-modal', 'true')
   visor.setAttribute('aria-label', 'Visor de galería')
-  visor.className = 'fixed inset-0 z-[2000] hidden items-center justify-center bg-marino/95 p-4 backdrop-blur-sm'
+  visor.className =
+    'fixed inset-0 z-[2000] hidden items-center justify-center bg-noche/96 p-4 backdrop-blur-md'
   visor.innerHTML = `
-    <figure class="flex max-h-full w-full max-w-4xl flex-col items-center gap-4">
-      <img data-visor-img src="" alt="" class="max-h-[74vh] w-auto max-w-full rounded-2xl object-contain shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300">
+    <figure class="flex max-h-full w-full max-w-5xl flex-col items-center gap-5">
+      <img data-visor-img src="" alt="" class="max-h-[74vh] w-auto max-w-full rounded-3xl object-contain shadow-alta transition-opacity duration-300">
       <figcaption class="text-center" aria-live="polite">
-        <span data-visor-caption class="block text-[1.02rem] font-semibold text-white"></span>
-        <span data-visor-counter class="mt-1 block text-[0.85rem] text-white/70"></span>
+        <span data-visor-caption class="block font-display text-[1.05rem] font-semibold text-white"></span>
+        <span data-visor-counter class="mt-1.5 block text-[0.8rem] uppercase tracking-[3px] text-oro-rosa-claro"></span>
       </figcaption>
     </figure>
     <button type="button" data-visor-cerrar aria-label="Cerrar visor"
-            class="absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition duration-300 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white">
+            class="absolute right-4 top-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition duration-300 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-5 w-5"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
     <button type="button" data-visor-prev aria-label="Foto anterior"
-            class="absolute left-3 top-1/2 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition duration-300 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white max-sm:left-1 max-sm:h-10 max-sm:w-10">
+            class="absolute left-3 top-1/2 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition duration-300 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white max-sm:left-1 max-sm:h-10 max-sm:w-10">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <button type="button" data-visor-next aria-label="Foto siguiente"
-            class="absolute right-3 top-1/2 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition duration-300 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white max-sm:right-1 max-sm:h-10 max-sm:w-10">
+            class="absolute right-3 top-1/2 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition duration-300 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white max-sm:right-1 max-sm:h-10 max-sm:w-10">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><polyline points="9 18 15 12 9 6"/></svg>
     </button>`
   document.body.appendChild(visor)
 
-  const img = visor.querySelector('[data-visor-img]')
-  const caption = visor.querySelector('[data-visor-caption]')
-  const counter = visor.querySelector('[data-visor-counter]')
-  const btnCerrar = visor.querySelector('[data-visor-cerrar]')
+  const img = $('[data-visor-img]', visor)
+  const caption = $('[data-visor-caption]', visor)
+  const counter = $('[data-visor-counter]', visor)
+  const btnCerrar = $('[data-visor-cerrar]', visor)
 
   function mostrarFoto(i) {
-    indice = (i + fotos.length) % fotos.length
+    indiceFoto = (i + fotos.length) % fotos.length
     img.style.opacity = '0'
-    const foto = fotos[indice]
+    const foto = fotos[indiceFoto]
     const pintar = () => {
       img.alt = foto.caption
       caption.textContent = foto.caption
-      counter.textContent = `${indice + 1} / ${fotos.length}`
+      counter.textContent = `${indiceFoto + 1} / ${fotos.length}`
       img.style.opacity = '1'
     }
     img.onload = pintar
@@ -217,10 +390,10 @@ if (disparadoresGaleria.length) {
     focoPrevio?.focus()
   }
 
-  disparadoresGaleria.forEach((btn, i) => btn.addEventListener('click', () => abrirVisor(i)))
+  disparadores.forEach((btn, i) => btn.addEventListener('click', () => abrirVisor(i)))
   btnCerrar.addEventListener('click', cerrarVisor)
-  visor.querySelector('[data-visor-prev]').addEventListener('click', () => mostrarFoto(indice - 1))
-  visor.querySelector('[data-visor-next]').addEventListener('click', () => mostrarFoto(indice + 1))
+  $('[data-visor-prev]', visor).addEventListener('click', () => mostrarFoto(indiceFoto - 1))
+  $('[data-visor-next]', visor).addEventListener('click', () => mostrarFoto(indiceFoto + 1))
   // Cierra al pulsar fuera de la foto: el <figure> ocupa más ancho que la
   // imagen, así que comprobar solo `e.target === visor` dejaba zonas muertas.
   visor.addEventListener('click', (e) => {
@@ -230,11 +403,11 @@ if (disparadoresGaleria.length) {
   document.addEventListener('keydown', (e) => {
     if (visor.classList.contains('hidden')) return
     if (e.key === 'Escape') cerrarVisor()
-    if (e.key === 'ArrowLeft') mostrarFoto(indice - 1)
-    if (e.key === 'ArrowRight') mostrarFoto(indice + 1)
+    if (e.key === 'ArrowLeft') mostrarFoto(indiceFoto - 1)
+    if (e.key === 'ArrowRight') mostrarFoto(indiceFoto + 1)
     if (e.key === 'Tab') {
       // Trampa de foco: el ciclo no puede escapar al contenido de fondo.
-      const focables = [...visor.querySelectorAll('button')]
+      const focables = $$('button', visor)
       const primero = focables[0]
       const ultimo = focables[focables.length - 1]
       if (!visor.contains(document.activeElement)) {
@@ -251,21 +424,22 @@ if (disparadoresGaleria.length) {
   })
 }
 
-// --- Navegación interna: sección activa, progreso de lectura y CTA fija ---
-const enlacesSpy = [...document.querySelectorAll('[data-spy-link]')]
-const barraProgreso = document.querySelector('[data-progreso]')
-const ctaFija = document.querySelector('[data-cta-fija]')
+/* ═══════════════════ 10. Navegación interna, progreso y CTA fija ════════ */
 
-if (enlacesSpy.length || barraProgreso || ctaFija) {
-  const secciones = enlacesSpy
-    .map((a) => document.getElementById(a.dataset.spyLink))
-    .filter(Boolean)
-  const subnav = document.querySelector('[data-subnav]')
+const enlacesSpy = $$('[data-spy-link]')
+const ctaFija = $('[data-cta-fija]')
+// Con scroll-driven nativo la barra la anima el CSS; aquí solo el fallback.
+const progresoJs = barraProgreso && !scrollNativo
+
+if (enlacesSpy.length || progresoJs || ctaFija) {
+  const secciones = enlacesSpy.map((a) => document.getElementById(a.dataset.spyLink)).filter(Boolean)
+  const subnav = $('[data-subnav]')
   let pendiente = false
 
   function marcarActiva(id) {
-    enlacesSpy.forEach((a) => {
+    for (const a of enlacesSpy) {
       const activo = a.dataset.spyLink === id
+      a.toggleAttribute('data-activo', activo)
       if (activo) a.setAttribute('aria-current', 'true')
       else a.removeAttribute('aria-current')
       // Mantiene el enlace activo a la vista dentro del carrusel horizontal.
@@ -276,29 +450,29 @@ if (enlacesSpy.length || barraProgreso || ctaFija) {
           lista.scrollTo({ left: destino, behavior: menosMovimiento ? 'auto' : 'smooth' })
         }
       }
-    })
+    }
   }
 
   function actualizar() {
     pendiente = false
 
-    if (barraProgreso) {
+    if (progresoJs) {
       const alcance = document.documentElement.scrollHeight - window.innerHeight
-      const pct = alcance > 0 ? Math.min(100, Math.max(0, (window.scrollY / alcance) * 100)) : 0
-      barraProgreso.style.width = `${pct}%`
+      const pct = alcance > 0 ? Math.min(1, Math.max(0, window.scrollY / alcance)) : 0
+      barraProgreso.style.transform = `scaleX(${pct})`
     }
 
     if (ctaFija) {
-      const mostrar = window.scrollY > window.innerHeight * 0.6
+      const mostrar = window.scrollY > window.innerHeight * 0.7
       ctaFija.toggleAttribute('data-visible', mostrar)
       ctaFija.setAttribute('aria-hidden', String(!mostrar))
-      const enlace = ctaFija.querySelector('a')
+      const enlace = $('a', ctaFija)
       if (enlace) enlace.tabIndex = mostrar ? 0 : -1
     }
 
     if (secciones.length) {
       // Activa la última sección cuyo inicio ya pasó la línea de lectura.
-      const linea = 150
+      const linea = 210
       let activa = secciones[0]
       for (const sec of secciones) {
         if (sec.getBoundingClientRect().top <= linea) activa = sec
@@ -324,38 +498,67 @@ if (enlacesSpy.length || barraProgreso || ctaFija) {
   actualizar()
 }
 
-// --- Transición suave de entrada y salida al navegar entre páginas ---
-document.body.classList.add('page-entering')
-setTimeout(() => document.body.classList.remove('page-entering'), 450)
+/* ═════════════════════════════ 11. Carruseles con flechas ═══════════════ */
 
-document.querySelectorAll('a[href^="/"]').forEach((link) => {
+$$('[data-carrusel]').forEach((bloque) => {
+  const pista = $('.carrusel', bloque)
+  if (!pista) return
+  const paso = () => pista.firstElementChild?.getBoundingClientRect().width ?? 320
+  $('[data-carrusel-prev]', bloque)?.addEventListener('click', () => {
+    pista.scrollBy({ left: -(paso() + 20), behavior: menosMovimiento ? 'auto' : 'smooth' })
+  })
+  $('[data-carrusel-next]', bloque)?.addEventListener('click', () => {
+    pista.scrollBy({ left: paso() + 20, behavior: menosMovimiento ? 'auto' : 'smooth' })
+  })
+})
+
+/* ═════════════════════════ 12. Conversiones de WhatsApp ═════════════════ */
+
+document.addEventListener('click', (e) => {
+  const enlace = e.target.closest('[data-wa-label]')
+  if (!enlace || typeof gtag !== 'function') return
+  gtag('event', 'conversion', {
+    send_to: GTAG_CONVERSION,
+    value: 1.0,
+    currency: 'MXN',
+  })
+  gtag('event', enlace.dataset.waLabel, {
+    event_category: 'WhatsApp',
+    event_label: enlace.dataset.waLabel,
+  })
+})
+
+/* ═══════════════════════════ 13. Transiciones entre páginas ═════════════ */
+
+$$('a[href^="/"]').forEach((link) => {
   link.addEventListener('click', (e) => {
     const destino = link.getAttribute('href')
     if (!destino || destino.startsWith('#') || link.getAttribute('target') === '_blank') return
-    // Respeta abrir en pestaña/ventana nueva y los clicks que no son del botón principal.
+    // Respeta abrir en pestaña/ventana nueva y los clics que no son del principal.
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
 
-    // Si el navegador no soporta View Transitions, hacemos la salida fluida por CSS.
-    if (!document.startViewTransition) {
+    // Si el navegador no soporta View Transitions, la salida se hace por CSS.
+    if (!document.startViewTransition && !menosMovimiento) {
       e.preventDefault()
-      document.body.classList.add('page-leaving')
+      document.body.classList.add('saliendo')
       setTimeout(() => {
         window.location.href = destino
-      }, 220)
+      }, 200)
     }
   })
 })
 
 // Al volver con Atrás desde el bfcache el DOM se restaura tal cual quedó: hay
-// que deshacer el estado de salida y el bloqueo de scroll del visor.
+// que deshacer el estado de salida y el bloqueo de scroll del visor/menú.
 window.addEventListener('pageshow', () => {
-  document.body.classList.remove('page-leaving')
+  document.body.classList.remove('saliendo')
   document.body.style.overflow = ''
 })
 
+/* ═══════════════════════════ 14. Anclas tras cargar fuentes ═════════════ */
+
 // Al abrir un enlace con ancla, el navegador salta antes de que carguen las
 // fuentes web; cuando estas cambian la altura del texto el destino se desplaza.
-// Reposicionamos una vez que todo está asentado.
 if (location.hash) {
   const id = decodeURIComponent(location.hash.slice(1))
   let intentos = 0

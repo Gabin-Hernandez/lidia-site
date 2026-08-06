@@ -5,7 +5,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const root = dirname(fileURLToPath(import.meta.url))
 
-const SLUGS = [
+// Toda página con carpeta propia: los siete servicios más las estáticas.
+const PAGINAS = [
   'consulta-ginecologica',
   'papanicolaou',
   'colposcopia',
@@ -13,6 +14,8 @@ const SLUGS = [
   'atencion-embarazo',
   'vph',
   'revision-ginecologicapreventiva',
+  'conoce',
+  'contacto',
 ]
 
 const PAGE_RE = /<!--\s*page:([a-z0-9-]+)\s*-->/
@@ -56,7 +59,7 @@ export default defineConfig({
     rollupOptions: {
       input: Object.fromEntries([
         ['home', resolve(root, 'index.html')],
-        ...SLUGS.map((slug) => [slug, resolve(root, `${slug}/index.html`)]),
+        ...PAGINAS.map((slug) => [slug, resolve(root, `${slug}/index.html`)]),
       ]),
     },
   },

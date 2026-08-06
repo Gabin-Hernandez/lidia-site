@@ -1,88 +1,284 @@
+/* ============================================================================
+   Dra. Lidia Chávez — Sistema de diseño «Editorial Clinical Boutique»
+   ----------------------------------------------------------------------------
+   1. Tokens (@theme)      — color, tipografía, sombras, curvas
+   2. Base                 — reset suave, tipografía fluida, selección, foco
+   3. Textura              — grano y mallas de color
+   4. Motor de animación   — scroll-driven (CSS) con fallback IntersectionObserver
+   5. Componentes de motion— tipografía cinética, marquesina, cursor, líneas
+   6. Transiciones de página
+   ==========================================================================*/
+
 /* Solo se escanean clases dentro de src/ (plantillas y JS); evita que
    markdown u otros archivos del repo inyecten utilidades no usadas. */
 @import "tailwindcss" source(none);
 @source "../";
 
-/* --- Línea gráfica del sitio (tokens de diseño) --- */
+/* ------------------------------------------------------------------ 1. Tokens */
 @theme {
+  /* Azules — la marca. `noche` es el fondo oscuro editorial. */
+  --color-noche: #0b1c2c;
+  --color-noche-2: #12293f;
   --color-marino: #1d3d61;
+  --color-marino-claro: #2f5c87;
+
+  /* Tintas de texto */
+  --color-tinta: #1c2a38;
+  --color-humo: #5c6b7a;
+
+  /* Neutros cálidos — la base del sitio ya no es blanco puro */
+  --color-lino: #fbf7f4;
+  --color-arena: #f5eae3;
+  --color-arena-2: #ecdcd1;
   --color-rosa-palido: #fdf5f2;
+  --color-gris-suave: #f7f6f4;
+
+  /* Acento oro rosa */
   --color-oro-rosa: #d9a694;
   --color-oro-rosa-oscuro: #c28e7d;
-  /* Variante AA (≥4.5:1 sobre blanco) para texto pequeño y estados hover */
+  /* Variante AA (≥4.5:1 sobre blanco/lino) para texto pequeño y estados hover */
   --color-oro-rosa-profundo: #8a5a45;
-  /* Variante AA sobre los azules del hero oscuro (≥5.3:1) */
+  /* Variante AA sobre los azules oscuros (≥5.3:1) */
   --color-oro-rosa-claro: #f2d3c4;
-  --color-tinta: #2c3e50;
+
   --color-wsp: #25d366;
-  --color-gris-suave: #f9fafb;
 
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Fraunces", "Playfair Display", ui-serif, Georgia, serif;
 
   --ease-suave: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-entrada: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-salida: cubic-bezier(0.55, 0, 0.45, 1);
 
-  --shadow-suave: 0 10px 30px rgba(29, 61, 97, 0.05);
-  --shadow-flotante: 0 20px 40px rgba(29, 61, 97, 0.1);
+  --shadow-suave: 0 10px 30px rgba(29, 61, 97, 0.06);
+  --shadow-flotante: 0 24px 60px rgba(29, 61, 97, 0.12);
+  --shadow-alta: 0 48px 100px -20px rgba(11, 28, 44, 0.35);
+  --shadow-cristal: 0 8px 32px rgba(11, 28, 44, 0.12);
 }
 
+/* ------------------------------------------------------------------- 2. Base */
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     font-family: var(--font-sans);
     color: var(--color-tinta);
+    background-color: var(--color-lino);
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Fraunces es variable: fijamos ejes para un display elegante, no «wonky». */
+  .font-display,
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-variation-settings:
+      "SOFT" 0,
+      "WONK" 0;
+    font-optical-sizing: auto;
+    letter-spacing: -0.015em;
   }
 
   p {
-    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-    opacity: 0.9;
+    font-size: clamp(0.97rem, 1.4vw, 1.06rem);
+    color: color-mix(in srgb, var(--color-tinta) 88%, transparent);
+  }
+
+  ::selection {
+    background: var(--color-oro-rosa);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-oro-rosa-profundo);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  img {
+    /* Evita el salto de layout cuando el navegador aún no midió la imagen. */
+    background-color: color-mix(in srgb, var(--color-arena) 60%, transparent);
   }
 }
 
-/* --- Animaciones de entrada (hero) y de aparición al hacer scroll --- */
+/* --------------------------------------------------------------- 3. Textura */
+
+/* Grano fino sobre todo el sitio: da «papel» al lino y evita el banding
+   de los degradados grandes. Se apaga en pantallas de baja densidad lentas. */
+.grano::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Halo difuso reutilizable para fondos (mallas de color). */
+.halo {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+/* Línea fina con degradado, para separadores editoriales. */
+.regla {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--color-marino) 22%, transparent),
+    transparent
+  );
+}
+
+/* ----------------------------------------------------- 4. Motor de animación
+   Estrategia en tres capas:
+     a) Sin JS  → todo visible, cero animación (progressive enhancement).
+     b) JS + soporte de scroll-driven → animaciones en el compositor, sin JS
+        en el hilo principal, y reversibles al hacer scroll hacia arriba.
+     c) JS sin soporte (Firefox) → IntersectionObserver añade `.visible`.
+   Todo queda anulado bajo prefers-reduced-motion.
+   ------------------------------------------------------------------------ */
+
 @media (prefers-reduced-motion: no-preference) {
-  html.js .anim-alzada {
-    animation: alzada 0.8s var(--ease-suave) both;
-    animation-delay: var(--alzada-delay, 0s);
-  }
-
-  /* Estado previo a revelarse; el JS quita el atributo al terminar para
-     devolver a cada elemento sus transiciones/hovers originales. */
-  html.js [data-reveal],
-  html.js [data-reveal-group] > * {
+  /* --- (a→c) Estado inicial: solo si hay JS --- */
+  html.js [data-anim] {
     opacity: 0;
-    transform: translateY(26px);
-    transition:
-      opacity 0.65s var(--ease-suave),
-      transform 0.65s var(--ease-suave);
   }
 
-  html.js [data-reveal].revelado,
-  html.js [data-reveal-group].revelado > * {
-    opacity: 1;
-    transform: none;
+  /* Red de seguridad: si main.js muere, nada queda invisible. */
+  html.js [data-anim] {
+    animation: rescate 0s 3.5s forwards;
   }
 
-  /* Red de seguridad: si main.js no llega a ejecutarse, nada queda oculto. */
-  html.js [data-reveal],
-  html.js [data-reveal-group] > * {
-    animation: reveal-rescate 0s 4s forwards;
+  /* --- Animaciones de entrada por scroll (fallback JS con .visible) --- */
+  html.js [data-anim].visible {
+    animation: var(--anim-nombre, subir) 0.9s var(--ease-suave) both;
+    animation-delay: var(--d, 0s);
+  }
+
+  /* --- Capa preferida: scroll-driven puro --- */
+  @supports (animation-timeline: view()) {
+    /* El rango termina pronto a propósito: si un texto ya está del todo en
+       pantalla no debe seguir a media opacidad esperando más scroll. */
+    html.js [data-anim] {
+      animation: var(--anim-nombre, subir) linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover var(--fin, 26%);
+    }
+
+    /* En grupos escalonados cada hijo entra un poco más tarde en el rango. */
+    html.js [data-anim-grupo] > * {
+      opacity: 0;
+      animation: subir linear both;
+      animation-timeline: view();
+      animation-range: entry calc(5% + var(--i, 0) * 2.5%) cover calc(24% + var(--i, 0) * 2.5%);
+    }
+
+    /* Los elementos que ya están en pantalla al cargar no deben «esperar». */
+    html.js [data-anim="none"] {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  /* Fallback: escalonado por transition-delay que aplica main.js */
+  @supports not (animation-timeline: view()) {
+    html.js [data-anim-grupo] > * {
+      opacity: 0;
+    }
+    html.js [data-anim-grupo].visible > * {
+      animation: subir 0.9s var(--ease-suave) both;
+      animation-delay: calc(var(--i, 0) * 80ms);
+    }
+  }
+
+  /* --- Efectos continuos ligados al scroll (solo con soporte nativo) --- */
+  @supports (animation-timeline: view()) {
+    /* Parallax de imagen dentro de su marco. */
+    .parallax {
+      animation: parallax linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+
+    /* Zoom lento: la foto respira mientras la sección cruza la pantalla. */
+    .zoom-scroll {
+      animation: zoom-scroll linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+
+    /* Barra de progreso de lectura anclada al scroll del documento. */
+    .progreso-scroll {
+      animation: progreso linear both;
+      animation-timeline: scroll(root);
+      transform-origin: 0 50%;
+    }
+
+    /* Trazo vertical que se «dibuja» al recorrer una línea de tiempo. */
+    .trazo {
+      animation: trazo linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 75%;
+      transform-origin: 50% 0;
+    }
+
+    /* Tarjetas que se apilan y se van encogiendo al pasar (sticky stack). */
+    .apilada {
+      animation: apilada linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+
+  /* --- Entrada del hero: temporal, no por scroll (ya está en pantalla) --- */
+  html.js .entrada {
+    animation: subir-hero 1s var(--ease-suave) both;
+    animation-delay: var(--d, 0s);
   }
 }
 
-@keyframes reveal-rescate {
+/* Sin movimiento: se respeta la preferencia del sistema al 100 %. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-anim],
+  html.js [data-anim-grupo] > *,
+  html.js .entrada {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .marquesina__pista {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes rescate {
   to {
     opacity: 1;
     transform: none;
+    clip-path: none;
   }
 }
 
-@keyframes alzada {
+@keyframes subir {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translate3d(0, 34px, 0);
   }
   to {
     opacity: 1;
@@ -90,66 +286,687 @@
   }
 }
 
-/* --- Transiciones de navegación entre páginas (View Transitions + fallback) --- */
+@keyframes subir-hero {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entrar-izq {
+  from {
+    opacity: 0;
+    transform: translate3d(-42px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entrar-der {
+  from {
+    opacity: 0;
+    transform: translate3d(42px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes escalar {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Cortina: la imagen se descubre de abajo hacia arriba. */
+@keyframes cortina {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+/* Persiana horizontal, para bloques anchos. */
+@keyframes persiana {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes desenfoque {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes parallax {
+  from {
+    transform: translate3d(0, calc(var(--px, 7%) * -1), 0) scale(1.16);
+  }
+  to {
+    transform: translate3d(0, var(--px, 7%), 0) scale(1.16);
+  }
+}
+
+@keyframes zoom-scroll {
+  from {
+    transform: scale(1.14);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes progreso {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes trazo {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes apilada {
+  to {
+    transform: scale(0.92) translateY(-14px);
+    opacity: 0.45;
+  }
+}
+
+/* Variantes declarativas: `data-anim="cortina"` elige la keyframe. */
+[data-anim="izq"] {
+  --anim-nombre: entrar-izq;
+}
+[data-anim="der"] {
+  --anim-nombre: entrar-der;
+}
+[data-anim="escalar"] {
+  --anim-nombre: escalar;
+}
+[data-anim="cortina"] {
+  --anim-nombre: cortina;
+}
+[data-anim="persiana"] {
+  --anim-nombre: persiana;
+}
+[data-anim="desenfoque"] {
+  --anim-nombre: desenfoque;
+}
+
+/* ------------------------------------------- 5. Componentes de motion */
+
+/* --- Tipografía cinética: palabras que suben desde una máscara ---------- */
+.cinetico .pal {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* El descendente de la Fraunces se cortaría con overflow:hidden exacto. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.cinetico .pal > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero: entrada temporal encadenada. */
+  html.js .cinetico[data-cinetico="hero"] .pal > span {
+    animation: palabra 1.05s var(--ease-suave) both;
+    animation-delay: calc(var(--base, 0.1s) + var(--i) * 55ms);
+  }
+
+  /* Resto de la página: entrada ligada al scroll. */
+  html.js .cinetico[data-cinetico="scroll"] .pal > span {
+    animation: palabra 0.9s var(--ease-suave) both;
+    animation-delay: calc(var(--i) * 45ms);
+    animation-play-state: paused;
+  }
+  html.js .cinetico[data-cinetico="scroll"].visible .pal > span {
+    animation-play-state: running;
+  }
+
+  @supports (animation-timeline: view()) {
+    html.js .cinetico[data-cinetico="scroll"] .pal > span {
+      animation: palabra linear both;
+      animation-delay: 0s;
+      animation-play-state: running;
+      animation-timeline: view();
+      animation-range: entry 8% cover calc(20% + var(--i) * 1.8%);
+    }
+  }
+}
+
+@keyframes palabra {
+  from {
+    transform: translate3d(0, 108%, 0) rotate(2.5deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* --- Marquesina infinita ------------------------------------------------ */
+.marquesina {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquesina__pista {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--gap, 2.5rem);
+  padding-right: var(--gap, 2.5rem);
+  min-width: 100%;
+  animation: correr var(--vel, 38s) linear infinite;
+}
+
+.marquesina:hover .marquesina__pista {
+  animation-play-state: paused;
+}
+
+.marquesina[data-dir="der"] .marquesina__pista {
+  animation-direction: reverse;
+}
+
+@keyframes correr {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* --- Enlace con subrayado que se dibuja -------------------------------- */
+.enlace-linea {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.45s var(--ease-suave);
+}
+.enlace-linea:hover,
+.enlace-linea:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+/* --- Vista previa flotante del índice de servicios (desktop) ----------- */
+.preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 19rem;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) scale(0.9) rotate(-3deg);
+  transition:
+    opacity 0.4s var(--ease-suave),
+    transform 0.55s var(--ease-suave);
+  box-shadow: var(--shadow-alta);
+  will-change: transform;
+}
+.preview[data-activo] {
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 0) scale(1) rotate(-2deg);
+}
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Fila del índice de servicios -------------------------------------- */
+.fila-servicio {
+  position: relative;
+  transition:
+    color 0.5s var(--ease-suave),
+    padding-left 0.5s var(--ease-suave);
+}
+.fila-servicio::before {
+  content: "";
+  position: absolute;
+  inset: -1px -1.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-oro-rosa) 22%, transparent),
+    transparent 65%
+  );
+  opacity: 0;
+  transform: scaleX(0.94);
+  transform-origin: left;
+  transition:
+    opacity 0.5s var(--ease-suave),
+    transform 0.5s var(--ease-suave);
+  pointer-events: none;
+}
+@media (hover: hover) and (min-width: 1024px) {
+  .fila-servicio:hover::before,
+  .fila-servicio:focus-within::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  .fila-servicio:hover,
+  .fila-servicio:focus-within {
+    padding-left: 0.75rem;
+  }
+}
+
+/* --- Botón magnético / brillo que sigue al cursor ---------------------- */
+.magnetico {
+  transition: transform 0.5s var(--ease-suave);
+}
+
+.brillo {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.brillo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    16rem circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, #fff 28%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-suave);
+}
+.brillo:hover::after {
+  opacity: 1;
+}
+
+/* --- Acordeón FAQ: altura animada con grid ----------------------------- */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--ease-suave);
+}
+.faq-panel > div {
+  overflow: hidden;
+}
+[data-faq][data-abierto] .faq-panel {
+  grid-template-rows: 1fr;
+}
+
+/* --- Escena del arco: manifiesto anclado al scroll ---------------------
+   Sin soporte de scroll-driven (o sin JS, o con prefers-reduced-motion) la
+   sección es un bloque normal: frase → foto en arco → promesa. Con soporte, la
+   sección se alarga, la escena se fija y el arco se abre hasta ocupar toda la
+   pantalla mientras el primer texto se va y entra el segundo.
+   ---------------------------------------------------------------------- */
+.escena {
+  position: relative;
+  background: var(--color-lino);
+}
+
+.escena__stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.escena__texto,
+.escena__cierre {
+  position: relative;
+  z-index: 2;
+  margin-inline: auto;
+  max-width: 60rem;
+  padding-inline: 1.25rem;
+  text-align: center;
+  color: var(--color-marino);
+}
+
+.escena__texto {
+  padding-block: clamp(4rem, 9vw, 7.5rem) clamp(2.5rem, 5vw, 4rem);
+}
+
+.escena__cierre {
+  padding-block: clamp(2.5rem, 5vw, 4rem) clamp(4rem, 9vw, 7.5rem);
+}
+
+/* `color: inherit` no es decorativo: la regla base de `p` fija una tinta oscura
+   y, al invertirse la escena, el texto quedaría negro sobre la foto oscura. */
+.escena__frase {
+  color: inherit;
+  margin-top: 1.75rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 4.4vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+/* Fase clara (estática): oro rosa profundo, que cumple AA sobre el lino. En la
+   fase oscura de la versión animada se cambia por la variante clara. */
+.escena__acento {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-oro-rosa-profundo);
+}
+
+.escena__pie {
+  color: inherit;
+  margin-top: 1.5rem;
+  font-size: clamp(0.98rem, 1.6vw, 1.12rem);
+  line-height: 1.7;
+  opacity: 0.82;
+}
+
+.escena__cta {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Solo tiene sentido cuando la escena está anclada y hay recorrido que medir. */
+.escena__barra {
+  display: none;
+}
+
+.escena__marco {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+  width: min(100% - 2.5rem, 30rem);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 15rem 15rem 1.5rem 1.5rem;
+  background: var(--color-arena);
+}
+
+.escena__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* A sangre el recorte es muy horizontal: subimos el encuadre a las caras. */
+  object-position: 50% 32%;
+}
+
+/* El velo solo hace falta cuando el texto pasa a ir encima de la foto. Va
+   oscuro a propósito: estas fotos son claras y con mucho detalle de fondo, y el
+   texto blanco necesita al menos 4.5:1 sobre el punto más claro. */
+.escena__velo {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 28, 44, 0.84),
+    rgba(11, 28, 44, 0.7) 40%,
+    rgba(11, 28, 44, 0.88)
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* La sección se alarga para dar recorrido; la escena se queda fija. */
+    html.js .escena {
+      height: 300vh;
+      view-timeline-name: --escena;
+    }
+
+    html.js .escena__stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+    }
+
+    /* Lo que se anima es la caja del arco, no un recorte sobre la foto: así
+       `object-fit: cover` reencuadra en cada paso y el arco pequeño enseña la
+       escena completa en vez de un primerísimo plano. Arranca arriba, que es
+       donde caen las caras en estas fotos verticales, y deja abajo el texto. */
+    html.js .escena__marco {
+      --arco-x: 34%;
+      --arco-arriba: 7%;
+      --arco-abajo: 45%;
+      position: absolute;
+      top: var(--arco-arriba);
+      right: var(--arco-x);
+      bottom: var(--arco-abajo);
+      left: var(--arco-x);
+      margin-inline: 0;
+      width: auto;
+      aspect-ratio: auto;
+      border-radius: 12rem 12rem 1.25rem 1.25rem;
+      /* Animar la caja recalcula layout en cada fotograma; `contain` acota ese
+         recálculo al propio arco y no deja que suba al resto de la página. */
+      contain: layout paint;
+      animation: arco-abre linear both;
+      animation-timeline: --escena;
+      animation-range: contain 6% contain 48%;
+    }
+
+    @media (max-width: 900px) {
+      html.js .escena__marco {
+        --arco-x: 16%;
+        --arco-arriba: 6%;
+        --arco-abajo: 48%;
+      }
+    }
+
+    html.js .escena__img {
+      animation: arco-zoom linear both;
+      animation-timeline: --escena;
+      animation-range: contain 0% contain 70%;
+    }
+
+    html.js .escena__velo {
+      animation: arco-velo linear both;
+      animation-timeline: --escena;
+      animation-range: contain 24% contain 50%;
+    }
+
+    /* Ambos textos ocupan la escena completa y se centran con grid. */
+    html.js .escena__texto,
+    html.js .escena__cierre {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      max-width: none;
+      padding: 0 clamp(1.25rem, 6vw, 5rem);
+    }
+
+    html.js .escena__texto > *,
+    html.js .escena__cierre > * {
+      margin-inline: auto;
+      max-width: 56rem;
+    }
+
+    /* El primer texto vive arriba, sobre el lino; el cierre se centra ya con la
+       foto a sangre debajo. */
+    html.js .escena__texto {
+      align-content: end;
+      padding-bottom: clamp(3.5rem, 9vh, 6.5rem);
+      animation: escena-sale linear both;
+      animation-timeline: --escena;
+      animation-range: contain 6% contain 28%;
+    }
+
+    html.js .escena__acento {
+      color: var(--color-oro-rosa-claro);
+    }
+
+    html.js .escena__cierre {
+      align-content: center;
+      color: #fff;
+      opacity: 0;
+      animation: escena-entra linear both;
+      animation-timeline: --escena;
+      animation-range: contain 44% contain 68%;
+    }
+
+    /* Palabras del cierre: entran encadenadas sobre la misma línea de tiempo. */
+    html.js .cinetico[data-cinetico="escena"] .pal > span {
+      animation: palabra linear both;
+      animation-timeline: --escena;
+      animation-range: contain calc(46% + var(--i) * 1.1%) contain calc(58% + var(--i) * 1.1%);
+    }
+
+    /* Indicador de avance de la escena. */
+    html.js .escena__barra {
+      display: block;
+      position: absolute;
+      z-index: 3;
+      inset-inline: 0;
+      bottom: 0;
+      height: 2px;
+      transform-origin: 0 50%;
+      background: linear-gradient(to right, var(--color-oro-rosa), var(--color-oro-rosa-claro));
+      animation: progreso linear both;
+      animation-timeline: --escena;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+
+@keyframes arco-abre {
+  to {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0rem;
+  }
+}
+
+@keyframes arco-zoom {
+  from {
+    scale: 1.08;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes arco-velo {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes escena-sale {
+  to {
+    opacity: 0;
+    scale: 0.94;
+    filter: blur(7px);
+  }
+}
+
+@keyframes escena-entra {
+  from {
+    opacity: 0;
+    scale: 1.05;
+    filter: blur(9px);
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    filter: none;
+  }
+}
+
+/* --- Carrusel con scroll-snap ------------------------------------------ */
+.carrusel {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+.carrusel::-webkit-scrollbar {
+  display: none;
+}
+.carrusel > * {
+  scroll-snap-align: center;
+}
+
+/* --------------------------------------------- 6. Transiciones de página */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
     navigation: auto;
   }
 
   ::view-transition-old(root) {
-    animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out-slide;
+    animation: 0.28s var(--ease-salida) both salir-pagina;
   }
 
   ::view-transition-new(root) {
-    animation: 0.35s cubic-bezier(0.16, 1, 0.3, 1) both fade-in-slide;
+    animation: 0.45s var(--ease-suave) both entrar-pagina;
+  }
+
+  /* El encabezado no debe parpadear entre navegaciones. */
+  header[data-cabecera] {
+    view-transition-name: cabecera;
   }
 }
 
-@keyframes fade-out-slide {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+@keyframes salir-pagina {
   to {
     opacity: 0;
-    transform: translateY(-12px) scale(0.99);
+    transform: translateY(-10px);
   }
 }
 
-@keyframes fade-in-slide {
+@keyframes entrar-pagina {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.99);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(14px);
   }
 }
 
+/* Fallback para navegadores sin View Transitions (lo activa main.js). */
 body {
-  opacity: 1;
-  transition:
-    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.24s var(--ease-salida);
 }
-
-body.page-leaving {
+body.saliendo {
   opacity: 0;
-  transform: translateY(-8px);
-}
-
-.page-entering {
-  animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes pageEnter {
-  0% {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

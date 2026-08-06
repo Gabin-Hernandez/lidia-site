@@ -37,6 +37,61 @@ export const MAPS_EMBED =
 export const DISCLAIMER =
   'La información contenida en esta página web posee fines exclusivamente educativos e informativos y bajo ningún concepto sustituye una valoración médica profesional en consultorio. Para recibir orientación médica adecuada, agenda una consulta formal con la especialista.'
 
+// Cifras de la banda de confianza. Solo afirmaciones que el sitio ya sostenía
+// (valoración de Google y pacientes atendidas) más datos verificables del propio
+// sitio. `animar` activa el conteo; sin él, el valor se pinta tal cual.
+export const CIFRAS = [
+  { valor: '4.9', animar: true, label: 'Valoración en Google' },
+  { valor: '120', sufijo: '+', animar: true, label: 'Pacientes atendidas' },
+  { valor: '7', animar: true, label: 'Servicios especializados' },
+  { valor: 'Minutos', texto: true, label: 'Respuesta por WhatsApp' },
+]
+
+// Los cuatro pilares de la propuesta de atención. Se usan en la home y dan
+// contenido a la sección de «cómo se trabaja aquí».
+export const PILARES = [
+  {
+    titulo: 'Trato humano, sin juicios',
+    texto:
+      'Un espacio donde puedes hablar con confianza de tu cuerpo, tu ciclo y tus dudas. La consulta se adapta a tu ritmo, no al revés.',
+    icono: 'corazon',
+  },
+  {
+    titulo: 'Explicaciones claras',
+    texto:
+      'Cada hallazgo, estudio y tratamiento se explica en lenguaje sencillo, para que tomes decisiones informadas sobre tu salud.',
+    icono: 'chat',
+  },
+  {
+    titulo: 'Confidencialidad total',
+    texto:
+      'Tu historial, tus resultados y lo que se conversa en consulta permanecen estrictamente entre tú y la especialista.',
+    icono: 'escudo',
+  },
+  {
+    titulo: 'Agenda ágil por WhatsApp',
+    texto:
+      'Sin formularios largos ni llamadas en espera. Escribes, revisamos disponibilidad y confirmas tu cita el mismo día.',
+    icono: 'reloj',
+  },
+]
+
+// Recorrido de la paciente, de la primera duda al seguimiento.
+export const RECORRIDO = [
+  {
+    titulo: 'Escribes por WhatsApp',
+    texto: 'Cuentas brevemente qué necesitas y revisamos juntas los horarios disponibles.',
+  },
+  {
+    titulo: 'Consulta en Polanco',
+    texto: 'Valoración sin prisas en Aurafem: historial, exploración y resolución de dudas.',
+  },
+  {
+    titulo: 'Plan y seguimiento',
+    texto: 'Recibes indicaciones claras por escrito y acompañamiento en las siguientes citas.',
+  },
+]
+
 export function waLink(texto) {
   return `https://wa.me/${DOCTORA.waNumero}?text=${encodeURIComponent(texto)}`
 }

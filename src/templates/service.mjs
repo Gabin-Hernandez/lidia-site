@@ -1,17 +1,19 @@
 // Plantilla de página de servicio: /<slug>/
 //
 // Ritmo del layout (pensado para lectura larga y conversión):
-//   hero oscuro → tira de datos clave (montada sobre el hero) → navegación interna
-//   sticky con scrollspy → secciones con formato según su contenido (editorial con
-//   foto / checklist a dos columnas / tarjetas / línea de tiempo) → FAQ con panel de
-//   contacto → galería → confianza → servicios relacionados → ubicación → cierre.
-import { DOCTORA, DOMAIN, FOTO_DRA, physicianSchema, waLink } from '../data/site.mjs'
-import { GALERIA_DIMS } from '../data/galeria-dims.mjs'
+//   hero inmersivo a sangre → tira de datos clave montada sobre el hero →
+//   navegación interna sticky con scrollspy → secciones con formato según su
+//   contenido (editorial con foto fija / checklist / tarjetas / línea de tiempo
+//   dibujada al hacer scroll) → preguntas → galería → cifras → la doctora →
+//   servicios relacionados → ubicación → transparencia → cierre.
+import { DOCTORA, DOMAIN, physicianSchema, waLink } from '../data/site.mjs'
+import { RETRATO, SERVICIO_IMG, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
 import {
+  bandaCifras,
   claridad,
-  confianza,
   ctaFinal,
+  doctora,
   floatingWa,
   footer,
   head,
@@ -21,21 +23,28 @@ import {
 } from './layout.mjs'
 import {
   CONTAINER,
+  H2,
+  H3,
   SECTION_BG,
+  acento,
+  badgeRespuesta,
+  btnGhost,
   btnWa,
   checkIcon,
   escapeAttr,
   faqItem,
+  icono,
   otroServicioCard,
-  sectionHeader,
-  sectionHeaderIzq,
-  sectionTag,
+  rotulo,
   slugId,
+  tiraDatos,
+  titulo,
   waIcon,
 } from './ui.mjs'
 
-// Desplazamiento al saltar a un ancla: header (74px) + navegación interna (~50px).
-const SCROLL_MT = 'scroll-mt-[132px]'
+// Desplazamiento al saltar a un ancla: cabecera fija (76px) + subnav (~54px).
+const SCROLL_MT = 'scroll-mt-[142px]'
+const PAD = 'py-[clamp(64px,8.5vw,120px)]'
 
 function serviceSchema(s) {
   const url = `${DOMAIN}/${s.slug}/`
@@ -89,65 +98,82 @@ function construirIndice(s) {
   return { secciones, nav }
 }
 
-function foto(s, i) {
-  const dims = GALERIA_DIMS[s.slug] || []
-  const [w, h] = dims[i] || [1200, 1600]
-  return { src: `/img/galeria/${s.slug}-${i + 1}.webp`, w, h, caption: s.galeria[i] || '' }
+// Foto editorial nº `i` del servicio, según la curaduría de imagenes.mjs.
+function fotoEditorial(s, i) {
+  const claves = SERVICIO_IMG[s.slug]?.editorial || []
+  return img(claves[i % claves.length] || RETRATO)
 }
 
-/* ------------------------------------------------------------------ hero */
+/* ══════════════════════════════════════════════════════════════ hero ══ */
 
 function heroServicio(s) {
-  const f = foto(s, 0)
+  const f = imgServicio(s.slug, 'hero')
+  const retrato = img(RETRATO)
   const crumb = (href, texto) =>
-    `<li><a href="${href}" class="text-white/75 no-underline transition duration-300 hover:text-white">${texto}</a></li>`
-  return `
-  <section class="relative overflow-hidden bg-linear-to-br from-marino via-[#22496f] to-[#2c5685] text-white">
-    <div aria-hidden="true" class="pointer-events-none absolute -left-36 -top-36 h-[26rem] w-[26rem] rounded-full bg-oro-rosa/15 blur-3xl"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-44 right-1/4 h-[26rem] w-[26rem] rounded-full bg-white/5 blur-3xl"></div>
+    `<li><a href="${href}" class="text-white/60 no-underline transition-colors duration-400 hover:text-white">${texto}</a></li>`
 
-    <div class="${CONTAINER} relative">
-      <nav aria-label="Breadcrumb" class="anim-alzada pt-6">
-        <ol class="flex list-none flex-wrap items-center gap-2 text-[0.85rem]">
+  return `
+  <section class="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-noche text-white">
+    <!-- Fondo a sangre con velo para asegurar contraste del texto -->
+    <div aria-hidden="true" class="absolute inset-0 -z-10">
+      <img src="${f.src}" alt="" width="${f.w}" height="${f.h}" loading="eager" fetchpriority="high" decoding="async"
+           class="h-full w-full object-cover object-center opacity-45">
+      <span class="absolute inset-0 bg-gradient-to-t from-noche via-noche/88 to-noche/65"></span>
+      <span class="absolute inset-0 bg-gradient-to-r from-noche/85 via-transparent to-transparent"></span>
+    </div>
+    <span aria-hidden="true" class="halo -left-32 top-10 h-[26rem] w-[26rem] bg-oro-rosa/12"></span>
+
+    <div class="${CONTAINER} relative pb-[clamp(96px,12vw,150px)] pt-[clamp(108px,14vh,150px)]">
+      <nav aria-label="Ruta de navegación" class="entrada mb-9">
+        <ol class="flex list-none flex-wrap items-center gap-2 text-[0.8rem]">
           ${crumb('/', 'Inicio')}
-          <li aria-hidden="true" class="text-white/30">›</li>
+          <li aria-hidden="true" class="text-white/25">/</li>
           ${crumb('/#servicios', 'Servicios')}
-          <li aria-hidden="true" class="text-white/30">›</li>
+          <li aria-hidden="true" class="text-white/25">/</li>
           <li class="font-semibold text-oro-rosa-claro" aria-current="page">${s.nombre}</li>
         </ol>
       </nav>
 
-      <div class="grid items-center gap-[clamp(36px,5vw,64px)] pb-[clamp(84px,10vw,124px)] pt-[clamp(30px,4vw,54px)] md:grid-cols-[1.05fr_0.95fr]">
-        <div class="max-md:text-center">
-          <span class="anim-alzada mb-5 inline-block rounded-full border border-oro-rosa/40 bg-oro-rosa/15 px-4 py-1.5 text-[0.72rem] font-bold uppercase tracking-[2px] text-rosa-palido">${s.tagline}</span>
-          <h1 class="anim-alzada mb-5 font-display text-[clamp(2rem,4.5vw,3.4rem)] font-bold leading-[1.12] text-white" style="--alzada-delay:.08s">${s.h1}</h1>
-          <p class="anim-alzada mb-4 text-[clamp(1.02rem,1.8vw,1.15rem)] font-medium leading-relaxed text-white/85 [&_strong]:font-bold [&_strong]:text-oro-rosa-claro" style="--alzada-delay:.16s">${s.heroP}</p>
-          <p class="anim-alzada mb-8 text-[0.98rem] leading-relaxed text-white/75" style="--alzada-delay:.22s">${s.heroSubP}</p>
+      <div class="grid items-end gap-[clamp(32px,5vw,72px)] lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <span class="entrada inline-block" style="--d:.06s">${rotulo(s.tagline, { claro: true })}</span>
 
-          <div class="anim-alzada flex flex-wrap items-center gap-4 max-md:justify-center" style="--alzada-delay:.3s">
+          ${titulo(s.h1, {
+            tag: 'h1',
+            modo: 'hero',
+            clase:
+              'font-display font-medium text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.02] tracking-[-0.03em] text-white mt-6 max-w-[18ch]',
+          })}
+
+          <p class="entrada mt-7 max-w-[58ch] text-[clamp(1rem,1.7vw,1.14rem)] font-medium leading-[1.65] text-white/85 [&_strong]:font-bold [&_strong]:text-oro-rosa-claro" style="--d:.5s">${s.heroP}</p>
+          <p class="entrada mt-4 max-w-[56ch] text-[0.96rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
+
+          <div class="entrada mt-10 flex flex-wrap items-center gap-4" style="--d:.66s">
             ${btnWa(s.waText, `wa_click_${s.slug}_hero`)}
-            <a href="#proceso" class="inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-7 py-3.5 text-[0.95rem] font-bold text-white no-underline transition duration-400 ease-suave hover:border-white hover:bg-white/10">Cómo es el proceso <span aria-hidden="true">↓</span></a>
+            ${btnGhost('#proceso', 'Cómo es el proceso', { claro: true, icono: 'abajo' })}
           </div>
 
-          <ul class="anim-alzada mt-8 flex list-none flex-wrap items-center gap-x-6 gap-y-2 text-[0.88rem] font-medium text-white/75 max-md:justify-center" style="--alzada-delay:.38s">
-            <li class="flex items-center gap-1.5"><span aria-hidden="true" class="text-oro-rosa-claro">★</span> 4.9 en Google</li>
-            <li aria-hidden="true" class="h-1 w-1 rounded-full bg-white/30"></li>
-            <li>+120 pacientes atendidas</li>
-            <li aria-hidden="true" class="h-1 w-1 rounded-full bg-white/30"></li>
-            <li class="flex items-center gap-1.5"><span aria-hidden="true" class="text-[0.55rem] leading-none">🟢</span> Responde en minutos</li>
-          </ul>
+          <div class="entrada mt-8 flex flex-wrap items-center gap-x-5 gap-y-3" style="--d:.74s">
+            <span class="flex items-center gap-1.5 text-[0.86rem] text-white/70">
+              <span class="text-oro-rosa-claro" aria-hidden="true">${icono('estrella', 'h-3.5 w-3.5')}</span>
+              <strong class="font-bold text-white">4.9</strong> en Google
+            </span>
+            <span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/25"></span>
+            <span class="text-[0.86rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>
+            ${badgeRespuesta({ claro: true })}
+          </div>
         </div>
 
-        <div class="anim-alzada relative pb-8 max-md:order-first max-md:pb-10" style="--alzada-delay:.15s">
-          <div class="mx-auto aspect-[4/5] w-full max-w-[400px] overflow-hidden rounded-t-[200px] rounded-b-[2rem] border border-white/15 shadow-[0_30px_60px_rgba(10,25,45,0.45)] ring-1 ring-white/10 max-md:max-w-[290px]">
-            <img src="${f.src}" alt="${escapeAttr(s.ogAlt)}" width="${f.w}" height="${f.h}" loading="eager" fetchpriority="high" class="block h-full w-full object-cover">
-          </div>
-          <div class="absolute bottom-0 left-1/2 flex w-max -translate-x-1/2 items-center gap-3 rounded-2xl border border-white/40 bg-white px-4 py-2.5 shadow-flotante">
-            <img src="${FOTO_DRA}" alt="" width="1254" height="1254" loading="lazy" class="h-11 w-11 rounded-full border-2 border-oro-rosa object-cover">
-            <div class="text-left">
-              <span class="block font-display text-[0.95rem] font-bold leading-tight text-marino">${DOCTORA.nombre}</span>
-              <span class="block text-[0.72rem] font-medium text-tinta/85">Ginecología y Colposcopía</span>
-            </div>
+        <!-- Ficha de la especialista -->
+        <div class="entrada lg:justify-self-end" style="--d:.4s">
+          <div class="flex items-center gap-4 rounded-[1.5rem] border border-white/12 bg-white/8 p-4 shadow-cristal backdrop-blur-xl">
+            <img src="${retrato.src}" alt="" aria-hidden="true" width="${retrato.w}" height="${retrato.h}" loading="lazy" decoding="async"
+                 class="h-16 w-16 shrink-0 rounded-2xl object-cover ring-1 ring-oro-rosa/50">
+            <span class="min-w-0">
+              <span class="block text-[0.62rem] font-bold uppercase tracking-[0.22em] text-oro-rosa-claro">Te atiende</span>
+              <span class="mt-1.5 block font-display text-[1.05rem] font-semibold leading-tight text-white">${DOCTORA.nombre}</span>
+              <span class="mt-1 block text-[0.78rem] text-white/60">Ginecología y Colposcopía · Polanco</span>
+            </span>
           </div>
         </div>
       </div>
@@ -155,84 +181,70 @@ function heroServicio(s) {
   </section>`
 }
 
-/* ------------------------------------- datos clave + navegación interna */
+/* ═════════════════════════════════ datos clave + navegación interna ══ */
 
-// Tarjeta elevada que "monta" sobre el hero: responde de inmediato las dudas
-// más frecuentes antes de que la paciente tenga que leer la página completa.
-function datosClave(s) {
-  if (!s.datosClave?.length) return ''
-  return `
-  <section aria-label="Datos clave del servicio" class="relative z-20 -mt-[clamp(30px,4vw,52px)] pb-[clamp(34px,4.5vw,56px)]">
-    <div class="${CONTAINER}">
-      <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-marino/10 shadow-flotante ring-1 ring-marino/10 md:grid-cols-4">
-        ${s.datosClave
-          .map(
-            (d) => `
-        <div class="flex flex-col items-center justify-start bg-white px-5 py-6 text-center">
-          <dt class="mb-1.5 text-[0.68rem] font-bold uppercase tracking-[1.5px] text-oro-rosa-profundo">${d.label}</dt>
-          <dd class="font-display text-[1rem] font-bold leading-snug text-marino">${d.valor}</dd>
-        </div>`
-          )
-          .join('')}
-      </dl>
-    </div>
-  </section>`
-}
-
-// Solo navegación: el llamado a la acción persistente ya vive en el header,
-// repetirlo aquí ponía dos botones de agendar uno encima del otro.
 function navInterna(nav) {
   const item = (n, i) => `
         <li class="shrink-0">
-          <a href="#${n.id}" data-spy-link="${n.id}" ${i === 0 ? 'aria-current="true"' : ''}
-             class="block rounded-full px-3.5 py-1.5 text-[0.82rem] font-semibold whitespace-nowrap text-tinta/75 no-underline transition duration-300 ease-suave hover:bg-rosa-palido hover:text-marino aria-[current=true]:bg-marino aria-[current=true]:text-white">${n.label}</a>
+          <a href="#${n.id}" data-spy-link="${n.id}" ${i === 0 ? 'aria-current="true" data-activo' : ''}
+             class="block rounded-full px-4 py-1.5 text-[0.8rem] font-semibold whitespace-nowrap text-humo no-underline transition duration-400 ease-suave hover:bg-arena hover:text-marino data-activo:bg-marino data-activo:text-lino">${n.label}</a>
         </li>`
   return `
   <nav aria-label="Secciones de esta página" data-subnav
-       class="sticky top-[73px] z-40 border-b border-marino/10 bg-white/92 backdrop-blur-md">
+       class="sticky top-[76px] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl">
     <div class="${CONTAINER}">
-      <ul class="flex list-none items-center gap-1 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <ul class="flex list-none items-center gap-1.5 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         ${nav.map(item).join('')}
       </ul>
     </div>
-    <span aria-hidden="true" data-progreso class="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-oro-rosa to-marino"></span>
   </nav>`
 }
 
-/* ------------------------------------------------------- tipos de sección */
+/* ═══════════════════════════════════════════════ tipos de sección ═══ */
 
-// Los párrafos se revelan como un bloque: si cada <p> llevara data-reveal,
-// al limpiar el reveal saltarían de opacity 1 al .9 de la regla base.
-function bloqueParrafos(parrafos, { lead = true } = {}) {
+// Los párrafos se revelan como un bloque para que su opacidad final coincida
+// con la de la regla base de <p>.
+function bloqueParrafos(parrafos, { lead = true, claro = false } = {}) {
   if (!parrafos?.length) return ''
   const ps = parrafos
     .map(
       (p, i) =>
         `<p class="${
           i === 0 && lead
-            ? 'mb-5 text-[1.12rem] leading-[1.65] font-medium text-marino'
-            : 'mb-5 text-[1.02rem] leading-[1.75] text-tinta'
-        } last:mb-0 [&_strong]:font-bold [&_strong]:text-marino">${p}</p>`
+            ? `mb-6 text-[clamp(1.05rem,1.7vw,1.16rem)] leading-[1.7] font-medium ${claro ? 'text-white' : 'text-marino'}`
+            : `mb-5 text-[1rem] leading-[1.8] ${claro ? 'text-white/70' : 'text-humo'}`
+        } last:mb-0 [&_strong]:font-semibold [&_strong]:${claro ? 'text-white' : 'text-marino'}">${p}</p>`
     )
     .join('\n')
-  return `<div data-reveal>${ps}</div>`
+  return `<div data-anim style="--d:.08s">${ps}</div>`
 }
 
-// Sección editorial: texto acompañado de una foto real de la consulta.
-function seccionEditorial(sec, s, idxFoto, invertida) {
-  const f = foto(s, idxFoto)
+// Numeral editorial grande que marca el orden de lectura de la sección.
+function numeral(i) {
+  return `<span aria-hidden="true" class="mb-6 block font-display text-[0.85rem] italic text-oro-rosa">(${String(i + 1).padStart(2, '0')})</span>`
+}
+
+// Sección editorial: la foto queda fija mientras el texto se desplaza.
+function seccionEditorial(sec, s, idxFoto, invertida, orden) {
+  const f = fotoEditorial(s, idxFoto)
   return `
-  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} py-[clamp(54px,7vw,88px)]">
+  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
-      <div class="grid items-center gap-[clamp(32px,5vw,68px)] md:grid-cols-2">
-        <div data-reveal class="relative ${invertida ? 'md:order-2' : ''}">
-          <span aria-hidden="true" class="absolute -bottom-4 ${invertida ? '-right-4' : '-left-4'} h-28 w-28 rounded-3xl bg-oro-rosa/25"></span>
-          <div class="relative overflow-hidden rounded-[2rem] shadow-flotante ring-1 ring-marino/10">
-            <img src="${f.src}" alt="${escapeAttr(`${f.caption} - Dra. Lidia Chávez en Polanco`)}" width="${f.w}" height="${f.h}" loading="lazy" class="block aspect-[5/4] w-full object-cover">
+      <div class="grid gap-[clamp(36px,5vw,80px)] lg:grid-cols-2">
+
+        <div class="${invertida ? 'lg:order-2' : ''} lg:sticky lg:top-[150px] lg:self-start">
+          <div data-anim="cortina" class="relative overflow-hidden rounded-[1.75rem] bg-arena shadow-alta">
+            <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+                 class="parallax block aspect-[4/5] w-full object-cover" style="--px:5%">
           </div>
+          <span aria-hidden="true" class="pointer-events-none absolute -bottom-5 ${invertida ? '-right-5' : '-left-5'} -z-10 h-32 w-32 rounded-[1.75rem] bg-oro-rosa/25"></span>
         </div>
-        <div class="${invertida ? 'md:order-1' : ''}">
-          ${sectionHeaderIzq(sec.tag, sec.title, sec.headerIntro)}
+
+        <div class="${invertida ? 'lg:order-1' : ''}">
+          ${numeral(orden)}
+          <span data-anim>${rotulo(sec.tag)}</span>
+          ${titulo(sec.title, { clase: `${H2} mt-5 mb-7 text-marino` })}
+          ${sec.headerIntro ? `<p data-anim class="mb-7 max-w-[58ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           ${bloqueParrafos(sec.paragraphs || [])}
         </div>
       </div>
@@ -241,22 +253,25 @@ function seccionEditorial(sec, s, idxFoto, invertida) {
 }
 
 // Sección de checklist: encabezado fijo a la izquierda y lista a la derecha.
-function seccionChecklist(sec, s) {
+function seccionChecklist(sec, s, orden) {
   const fila = (html) => `
-        <li class="flex items-start gap-4 rounded-2xl border border-marino/10 bg-white px-5 py-4 shadow-suave transition duration-400 ease-suave hover:-translate-y-0.5 hover:border-oro-rosa/60 hover:shadow-flotante">
-          <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-oro-rosa/20 text-oro-rosa-profundo">${checkIcon()}</span>
-          <span class="text-[0.98rem] font-medium leading-[1.55] text-tinta [&_strong]:font-bold [&_strong]:text-marino">${html}</span>
+        <li class="group flex items-start gap-4 border-b border-marino/10 py-5 transition-colors duration-500 last:border-0 hover:border-oro-rosa/50">
+          <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-oro-rosa/40 text-oro-rosa-profundo transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">${checkIcon()}</span>
+          <span class="text-[1rem] font-medium leading-[1.6] text-tinta [&_strong]:font-semibold [&_strong]:text-marino">${html}</span>
         </li>`
   return `
-  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} py-[clamp(54px,7vw,88px)]">
+  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
-      <div class="grid gap-[clamp(28px,4vw,60px)] md:grid-cols-[0.85fr_1.15fr]">
-        <div class="md:sticky md:top-[150px] md:self-start">
-          ${sectionHeaderIzq(sec.tag, sec.title, sec.headerIntro)}
-          ${sec.paragraphs?.length ? `<div class="mt-2">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
-          ${sec.bulletsTitle ? `<p data-reveal class="mt-5 font-display text-[1.05rem] font-bold text-marino">${sec.bulletsTitle}</p>` : ''}
+      <div class="grid gap-[clamp(32px,4.5vw,72px)] lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="lg:sticky lg:top-[150px] lg:self-start">
+          ${numeral(orden)}
+          <span data-anim>${rotulo(sec.tag)}</span>
+          ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
+          ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
+          ${sec.paragraphs?.length ? `<div class="mt-6">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
+          ${sec.bulletsTitle ? `<p data-anim class="mt-7 font-display text-[1.05rem] font-semibold text-marino">${sec.bulletsTitle}</p>` : ''}
         </div>
-        <ul data-reveal-group class="grid list-none gap-3.5 self-start">
+        <ul data-anim-grupo class="list-none self-start">
           ${sec.bullets.map(fila).join('\n')}
         </ul>
       </div>
@@ -265,127 +280,139 @@ function seccionChecklist(sec, s) {
 }
 
 // Sección de tarjetas (etapas, trimestres): numeradas en tipografía editorial.
-function seccionTarjetas(sec, s) {
-  const cols = sec.cards.length >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'
+function seccionTarjetas(sec, s, orden) {
+  const cols = sec.cards.length >= 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
   const tarjeta = (c, i) => `
-        <article class="group relative flex flex-col overflow-hidden rounded-3xl border border-marino/10 bg-white p-7 shadow-suave transition duration-400 ease-suave hover:-translate-y-1.5 hover:border-oro-rosa/60 hover:shadow-flotante">
-          <span aria-hidden="true" class="absolute right-5 top-4 font-display text-[2.4rem] italic leading-none text-marino/8 transition duration-400 group-hover:text-oro-rosa/30">${String(i + 1).padStart(2, '0')}</span>
-          <span aria-hidden="true" class="mb-5 block h-1 w-12 rounded-full bg-linear-to-r from-oro-rosa to-marino"></span>
-          <h3 class="mb-3 font-display text-[1.18rem] font-bold leading-snug text-marino">${c.title}</h3>
-          <p class="text-[0.95rem] leading-[1.6] text-tinta opacity-85">${c.text}</p>
+        <article class="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/45 hover:shadow-flotante">
+          <span aria-hidden="true" class="pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
+          <span aria-hidden="true" class="relative mb-7 font-display text-[2.4rem] italic leading-none text-oro-rosa/40 transition-colors duration-500 group-hover:text-oro-rosa">${String(i + 1).padStart(2, '0')}</span>
+          <h3 class="${H3} relative mb-3.5 text-marino">${c.title}</h3>
+          <p class="relative text-[0.95rem] leading-[1.7] text-humo">${c.text}</p>
         </article>`
   return `
-  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} py-[clamp(54px,7vw,88px)]">
+  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
-      ${sectionHeader(sec.tag, sec.title, sec.headerIntro)}
-      ${sec.paragraphs?.length ? `<div class="mx-auto mb-10 max-w-[760px] text-center">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
-      <div data-reveal-group class="grid gap-6 ${cols}">
+      <div class="mb-[clamp(34px,4.5vw,60px)] max-w-[720px]">
+        ${numeral(orden)}
+        <span data-anim>${rotulo(sec.tag)}</span>
+        ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
+        ${sec.headerIntro ? `<p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
+      </div>
+      ${sec.paragraphs?.length ? `<div class="mb-10 max-w-[760px]">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
+      <div data-anim-grupo class="grid gap-5 ${cols}">
         ${sec.cards.map(tarjeta).join('\n')}
       </div>
     </div>
   </section>`
 }
 
-// Clases literales: Tailwind escanea el código como texto y no vería una
-// clase construida por interpolación.
-const COLS_PASOS = {
-  2: 'md:grid-cols-2',
-  3: 'md:grid-cols-3',
-  4: 'md:grid-cols-4',
-  5: 'md:grid-cols-5',
-}
-
-// Sección de proceso: línea de tiempo con nodos conectados.
-function seccionProceso(sec, s) {
-  const n = sec.steps.length
-  const inicio = (100 / (2 * n)).toFixed(2)
-  const cols = COLS_PASOS[n] || 'md:grid-cols-4'
+// Sección de proceso: línea de tiempo vertical que se dibuja al hacer scroll.
+function seccionProceso(sec, s, orden) {
   const nodo = (p, i) => `
-          <li class="relative flex flex-col items-center text-center">
-            <span aria-hidden="true" class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-linear-to-br from-marino to-[#2c5685] font-display text-[1.15rem] font-bold text-white shadow-[0_10px_22px_rgba(29,61,97,0.3)]">${i + 1}</span>
-            <h3 class="mt-5 font-display text-[1.1rem] font-bold leading-snug text-marino"><span class="sr-only">Paso ${i + 1}: </span>${p.title}</h3>
-            <p class="mt-2 max-w-[26ch] text-[0.93rem] leading-[1.55] text-tinta opacity-85">${p.text}</p>
+          <li class="relative pl-16 sm:pl-20">
+            <span aria-hidden="true" class="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border border-oro-rosa/45 bg-lino font-display text-[0.95rem] font-medium text-oro-rosa-profundo sm:h-14 sm:w-14 sm:text-[1.1rem]">${i + 1}</span>
+            <h3 class="${H3} mb-3 text-marino"><span class="sr-only">Paso ${i + 1}: </span>${p.title}</h3>
+            <p class="max-w-[48ch] text-[0.97rem] leading-[1.75] text-humo">${p.text}</p>
           </li>`
   return `
-  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} py-[clamp(54px,7vw,88px)]">
+  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
-      ${sectionHeader(sec.tag, sec.title, sec.headerIntro)}
-      <div class="relative">
-        <span aria-hidden="true" class="absolute top-7 hidden h-px bg-linear-to-r from-oro-rosa/40 via-marino/30 to-oro-rosa/40 md:block" style="left:${inicio}%;right:${inicio}%"></span>
-        <ol data-reveal-group class="relative grid list-none gap-10 ${cols} md:gap-6">
-          ${sec.steps.map(nodo).join('\n')}
-        </ol>
+      <div class="grid gap-[clamp(36px,5vw,80px)] lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="lg:sticky lg:top-[150px] lg:self-start">
+          ${numeral(orden)}
+          <span data-anim>${rotulo(sec.tag)}</span>
+          ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
+          ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
+          <div data-anim class="mt-9">
+            ${btnWa(s.waText, `wa_click_${s.slug}_proceso`, 'Agendar este servicio')}
+          </div>
+        </div>
+
+        <div class="relative">
+          <span aria-hidden="true" class="trazo absolute left-[1.375rem] top-4 h-[calc(100%-2rem)] w-px bg-gradient-to-b from-oro-rosa via-oro-rosa/45 to-transparent sm:left-7"></span>
+          <ol data-anim-grupo class="grid list-none gap-11 sm:gap-14">
+            ${sec.steps.map(nodo).join('\n')}
+          </ol>
+        </div>
       </div>
     </div>
   </section>`
 }
 
 function contentSection(sec, s, ctx) {
-  if (sec.steps?.length) return seccionProceso(sec, s)
-  if (sec.bullets?.length) return seccionChecklist(sec, s)
-  if (sec.cards?.length) return seccionTarjetas(sec, s)
+  const orden = ctx.orden++
+  if (sec.steps?.length) return seccionProceso(sec, s, orden)
+  if (sec.bullets?.length) return seccionChecklist(sec, s, orden)
+  if (sec.cards?.length) return seccionTarjetas(sec, s, orden)
   const idx = ctx.fotoEditorial++
-  return seccionEditorial(sec, s, Math.min(idx + 1, 9), idx % 2 === 1)
+  return seccionEditorial(sec, s, idx, idx % 2 === 1, orden)
 }
 
-/* -------------------------------------------------------- FAQ y galería */
+/* ══════════════════════════════════════════════ preguntas y galería ══ */
 
 function faqSection(s) {
   return `
-  <section id="preguntas" class="${SECTION_BG[s.faqBg]} ${SCROLL_MT} py-[clamp(54px,7vw,88px)]">
+  <section id="preguntas" class="${SECTION_BG[s.faqBg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
-      <div class="grid gap-[clamp(30px,4vw,60px)] lg:grid-cols-[0.82fr_1.18fr]">
+      <div class="grid gap-[clamp(32px,4.5vw,72px)] lg:grid-cols-[0.8fr_1.2fr]">
         <div class="lg:sticky lg:top-[150px] lg:self-start">
-          ${sectionHeaderIzq(s.faqTag, s.faqTitle)}
-          <div data-reveal class="mt-7 rounded-3xl border border-oro-rosa/30 bg-white p-6 shadow-suave">
-            <p class="mb-1.5 font-display text-[1.08rem] font-bold text-marino">¿No resolvimos tu duda?</p>
-            <p class="mb-5 text-[0.92rem] leading-relaxed text-tinta opacity-85">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
-            <a href="${waLink(s.waText)}" target="_blank" data-wa-label="wa_click_${s.slug}_faq"
-               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.92rem] font-bold text-white no-underline shadow-[0_8px_18px_rgba(37,211,102,0.25)] transition duration-400 ease-suave hover:-translate-y-0.5 hover:bg-[#20ba56]">
+          <span data-anim>${rotulo(s.faqTag)}</span>
+          ${titulo(s.faqTitle, { clase: `${H2} mt-5 text-marino` })}
+
+          <div data-anim class="mt-9 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-7">
+            <p class="mb-2 font-display text-[1.1rem] font-semibold text-marino">¿No resolvimos tu duda?</p>
+            <p class="mb-6 text-[0.92rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
+            <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_faq"
+               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
               ${waIcon(18)} Preguntar por WhatsApp
             </a>
           </div>
         </div>
-        <div data-reveal-group class="flex flex-col gap-4">
-          ${s.faqs.map((f) => faqItem(f.q, f.a)).join('\n')}
+
+        <div>
+          ${s.faqs.map((f, i) => faqItem(f.q, f.a, i)).join('\n')}
         </div>
       </div>
     </div>
   </section>`
 }
 
-// Mosaico: dos fotos destacadas (2×2) y ocho secundarias completan la retícula.
+// Mosaico asimétrico: dos piezas grandes anclan la retícula y el resto la completa.
 function galeriaSection(s) {
   const destacadas = new Set([0, 5])
-  const tile = (caption, i) => {
-    const f = foto(s, i)
+  const fotos = (SERVICIO_IMG[s.slug]?.galeria || []).map(img)
+  const tile = (f, i) => {
+    const caption = f.alt
     const grande = destacadas.has(i)
     return `
         <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(caption)}" aria-label="${escapeAttr(`Ampliar foto: ${caption}`)}"
-                class="group relative block cursor-zoom-in overflow-hidden rounded-2xl bg-marino/5 p-0 shadow-suave ring-1 ring-marino/10 transition duration-400 ease-suave hover:shadow-flotante hover:ring-oro-rosa focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo ${
+                class="group relative block cursor-zoom-in overflow-hidden rounded-[1.25rem] bg-arena p-0 transition duration-500 ease-suave hover:shadow-flotante focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo ${
                   grande ? 'col-span-2 md:row-span-2' : ''
                 }">
-          <img src="${f.src}" alt="${escapeAttr(`${caption} - Dra. Lidia Chávez en Polanco`)}" width="${f.w}" height="${f.h}" loading="lazy" class="block h-full w-full object-cover transition duration-700 ease-suave group-hover:scale-[1.05]">
-          <span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-linear-to-t from-marino/90 via-marino/45 to-transparent px-3.5 pb-3 pt-8 text-left">
-            <span class="block ${grande ? 'text-[0.92rem]' : 'text-[0.76rem]'} font-semibold leading-tight text-white">${caption}</span>
+          <img src="${f.src}" alt="${escapeAttr(caption)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+               class="block h-full w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-[1.07]">
+          <span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/90 via-noche/35 to-transparent px-3.5 pb-3 pt-10 text-left">
+            <span class="block ${grande ? 'text-[0.9rem]' : 'text-[0.74rem]'} font-semibold leading-tight text-white">${caption}</span>
           </span>
-          <span aria-hidden="true" class="absolute inset-0 flex items-center justify-center bg-marino/0 transition duration-400 ease-suave group-hover:bg-marino/25">
-            <span class="flex h-11 w-11 scale-75 items-center justify-center rounded-full bg-white/90 text-marino opacity-0 shadow-flotante transition duration-400 ease-suave group-hover:scale-100 group-hover:opacity-100">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-5 w-5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
-            </span>
+          <span aria-hidden="true" class="absolute right-3 top-3 flex h-9 w-9 scale-75 items-center justify-center rounded-full bg-lino/90 text-marino opacity-0 shadow-cristal transition duration-500 ease-suave group-hover:scale-100 group-hover:opacity-100">
+            ${icono('lupa', 'h-4 w-4')}
           </span>
         </button>`
   }
   return `
-  <section id="galeria" class="bg-rosa-palido ${SCROLL_MT} py-[clamp(54px,7vw,88px)]">
+  <section id="galeria" class="bg-arena/40 ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
-      ${sectionHeader(
-        'Galería de Consulta',
-        'Instalaciones y experiencia de atención médica',
-        'Conoce de cerca nuestro consultorio en Polanco, el equipamiento y el entorno seguro de atención ginecológica. Toca una foto para verla en grande.'
-      )}
-      <div data-reveal-group class="grid auto-rows-[130px] grid-cols-2 gap-3.5 md:auto-rows-[168px] md:grid-cols-4 md:gap-4">
-        ${s.galeria.map(tile).join('\n')}
+      <div class="mb-[clamp(30px,4vw,56px)] max-w-[700px]">
+        <span data-anim>${rotulo('Galería de consulta')}</span>
+        ${titulo(`Instalaciones y ${acento('experiencia')} de atención`, {
+          clase: `${H2} mt-5 text-marino`,
+        })}
+        <p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">
+          Conoce de cerca el consultorio en Polanco, el equipamiento y el entorno seguro de atención ginecológica. Toca una foto para verla en grande.
+        </p>
+      </div>
+      <div data-anim-grupo class="grid auto-rows-[132px] grid-cols-2 gap-3.5 md:auto-rows-[172px] md:grid-cols-4 md:gap-4">
+        ${fotos.map(tile).join('\n')}
       </div>
     </div>
   </section>`
@@ -394,10 +421,18 @@ function galeriaSection(s) {
 function otrosServicios(s) {
   const otros = SERVICES.filter((o) => o.slug !== s.slug)
   return `
-  <section class="bg-gris-suave py-[clamp(54px,7vw,88px)]">
+  <section class="bg-lino ${PAD}">
     <div class="${CONTAINER}">
-      ${sectionHeader(s.otrosTag || 'Servicios Relacionados', 'Otros servicios ginecológicos disponibles', s.otrosIntro)}
-      <div data-reveal-group class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mb-[clamp(30px,4vw,56px)] flex flex-wrap items-end justify-between gap-6">
+        <div class="max-w-[640px]">
+          <span data-anim>${rotulo(s.otrosTag || 'Servicios relacionados')}</span>
+          ${titulo(`Otros servicios ${acento('ginecológicos')} disponibles`, {
+            clase: `${H2} mt-5 text-marino`,
+          })}
+        </div>
+        ${s.otrosIntro ? `<p data-anim class="max-w-[42ch] text-[0.97rem] leading-[1.7] text-humo">${s.otrosIntro}</p>` : ''}
+      </div>
+      <div data-anim-grupo class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         ${otros.map(otroServicioCard).join('\n')}
       </div>
     </div>
@@ -408,27 +443,27 @@ function otrosServicios(s) {
 function ctaFija(s) {
   return `
   <div data-cta-fija aria-hidden="true"
-       class="fixed inset-x-0 bottom-0 z-[900] translate-y-full border-t border-marino/10 bg-white/95 px-4 py-3 shadow-[0_-8px_24px_rgba(29,61,97,0.14)] backdrop-blur transition-transform duration-400 ease-suave md:hidden data-visible:translate-y-0">
+       class="fixed inset-x-0 bottom-0 z-[900] translate-y-full border-t border-marino/10 bg-lino/95 px-4 py-3 shadow-[0_-10px_30px_-10px_rgba(11,28,44,0.25)] backdrop-blur-xl transition-transform duration-500 ease-suave lg:hidden data-visible:translate-y-0">
     <div class="flex items-center gap-3">
       <span class="min-w-0 flex-1">
-        <span class="block truncate font-display text-[0.95rem] font-bold leading-tight text-marino">${s.nombre}</span>
-        <span class="block text-[0.75rem] text-tinta/70">Agenda directo con la especialista</span>
+        <span class="block truncate font-display text-[0.95rem] font-semibold leading-tight text-marino">${s.nombre}</span>
+        <span class="block text-[0.74rem] text-humo">Agenda directo con la especialista</span>
       </span>
-      <a href="${waLink(s.waText)}" target="_blank" tabindex="-1" data-wa-label="wa_click_${s.slug}_ctafija"
-         class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.9rem] font-bold text-white no-underline shadow-[0_6px_14px_rgba(37,211,102,0.3)]">
+      <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-label="wa_click_${s.slug}_ctafija"
+         class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.88rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)]">
         ${waIcon(18)} Agendar
       </a>
     </div>
   </div>`
 }
 
-/* ----------------------------------------------------------- ensamblado */
+/* ═══════════════════════════════════════════════════════ ensamblado ══ */
 
 export function renderService(s) {
   const canonical = `${DOMAIN}/${s.slug}/`
   const waLabel = (pos) => `wa_click_${s.slug}_${pos}`
   const { secciones, nav } = construirIndice(s)
-  const ctx = { fotoEditorial: 0 }
+  const ctx = { fotoEditorial: 0, orden: 0 }
 
   const headHtml = head({
     title: s.title,
@@ -437,19 +472,20 @@ export function renderService(s) {
     ogType: 'article',
     ogAlt: s.ogAlt,
     schema: serviceSchema(s),
+    preload: imgServicio(s.slug, 'hero').src,
   })
 
-  const bodyHtml = [
-    header({ waText: s.waText, waLabel: waLabel('header'), logoAlt: s.logoAlt }),
+  const main = [
     heroServicio(s),
-    datosClave(s),
+    tiraDatos(s.datosClave, { montada: true }),
     navInterna(nav),
     ...secciones.map((sec) => contentSection(sec, s, ctx)),
     faqSection(s),
     galeriaSection(s),
-    confianza({
+    bandaCifras(),
+    doctora({
       waText: s.waText,
-      waLabel: waLabel('confianza'),
+      waLabel: waLabel('doctora'),
       bullet1: s.confianzaBullet,
       ctaTexto: s.confianzaCta,
     }),
@@ -457,6 +493,16 @@ export function renderService(s) {
     ubicacion({ waText: s.waText, waLabel: waLabel('ubicacion') }),
     claridad(),
     ctaFinal({ titulo: s.ctaTitle, waText: s.waText, waLabel: waLabel('ctafinal') }),
+  ].join('\n')
+
+  const bodyHtml = [
+    header({
+      waText: s.waText,
+      waLabel: waLabel('header'),
+      logoAlt: s.logoAlt,
+      tema: 'oscuro',
+    }),
+    `<main id="contenido">${main}</main>`,
     floatingWa({ waText: s.waText, waLabel: waLabel('floating'), soloDesktop: true }),
     ctaFija(s),
     footer({ logoAlt: s.logoAlt, espacioCtaFija: true }),

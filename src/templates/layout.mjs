@@ -1,35 +1,47 @@
 // Bloques compartidos por todas las páginas: head, header, secciones comunes y footer.
+import { CONSULTORIO, RETRATO_2, img, imgServicio } from '../data/imagenes.mjs'
 import {
-  DOMAIN,
-  DOCTORA,
+  CIFRAS,
   DIRECCION,
   DISCLAIMER,
-  FOTO_CONSULTORIO,
+  DOCTORA,
+  DOMAIN,
   GTAG_ID,
   LOGO,
   MAPS_EMBED,
+  PILARES,
   waLink,
 } from '../data/site.mjs'
 import { SERVICES } from '../data/services.mjs'
 import {
   CONTAINER,
   H2,
-  btnOutline,
+  H3,
+  acento,
+  badgeRespuesta,
+  btnGhost,
   btnWa,
   bulletItem,
   escapeAttr,
-  sectionTag,
+  icono,
+  marquesina,
+  rotulo,
+  titulo,
   waIcon,
 } from './ui.mjs'
 
-export function head({ title, description, canonical, ogType, ogAlt, schema }) {
+/* ═══════════════════════════════════════════════════════════════ <head> ══ */
+
+export function head({ title, description, canonical, ogType, ogAlt, schema, preload }) {
   return `
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
   <meta name="description" content="${escapeAttr(description)}">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#fbf7f4">
   <link rel="canonical" href="${canonical}">
+  <link rel="icon" href="${LOGO}" type="image/webp">
 
   <!-- Open Graph -->
   <meta property="og:locale" content="es_MX">
@@ -49,10 +61,11 @@ export function head({ title, description, canonical, ogType, ogAlt, schema }) {
   <meta name="twitter:description" content="${escapeAttr(description)}">
   <meta name="twitter:image" content="${DOMAIN}/39f0736b-1235-4968-9c70-9ccc6640fa1e.webp">
 
-  <!-- Google Fonts -->
+  <!-- Tipografías: Fraunces (display variable) + Plus Jakarta Sans (texto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high">` : ''}
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}"></script>
@@ -60,7 +73,7 @@ export function head({ title, description, canonical, ogType, ogAlt, schema }) {
 
   <!-- CSS en el head (render-blocking) para evitar FOUC; el JS solo trae interacción -->
   <link rel="stylesheet" href="/src/styles/main.css">
-  <!-- Marca 'js' antes del primer paint: las animaciones de scroll solo aplican con JS activo -->
+  <!-- Marca 'js' antes del primer paint: las animaciones solo aplican con JS activo -->
   <script>document.documentElement.classList.add('js')</script>
   <script type="module" src="/src/main.js"></script>
 
@@ -68,34 +81,64 @@ export function head({ title, description, canonical, ogType, ogAlt, schema }) {
   <script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>`
 }
 
-export function header({ waText, waLabel, logoAlt }) {
-  const navLinkClases =
-    'relative block px-1 py-2 text-[0.95rem] font-semibold text-marino no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-oro-rosa after:transition-all after:duration-400 after:ease-suave hover:after:w-full max-md:text-xl'
-  const navLink = (href, texto) => `<li><a href="${href}" data-nav-link class="${navLinkClases}">${texto}</a></li>`
+/* ══════════════════════════════════════════════════════════════ header ══ */
 
-  const dropdownItem = (s) => `
-          <li>
-            <a href="/${s.slug}/" class="group/item flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-[0.9rem] font-semibold text-marino no-underline transition duration-300 ease-suave hover:bg-rosa-palido max-md:justify-center max-md:text-base">
-              ${s.nombre}
-              <span aria-hidden="true" class="-translate-x-1 text-oro-rosa-profundo opacity-0 transition duration-300 ease-suave group-hover/item:translate-x-0 group-hover/item:opacity-100 max-md:hidden">→</span>
-            </a>
-          </li>`
+// `tema`: 'claro' = texto oscuro sobre hero luminoso (home);
+//         'oscuro' = texto blanco sobre hero oscuro (páginas de servicio).
+export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }) {
+  const oscuro = tema === 'oscuro'
+  const tono = oscuro ? 'text-white data-solido:text-marino' : 'text-marino'
+  // El oro rosa claro solo tiene contraste sobre el azul noche; en cuanto la
+  // cabecera se vuelve sólida (lino) hay que pasar a la variante profunda.
+  const tonoRotulo = oscuro
+    ? 'text-oro-rosa-claro group-data-solido/cab:text-oro-rosa-profundo'
+    : 'text-oro-rosa-profundo'
 
-  const dropdownServicios = `
-        <li class="group relative max-md:w-full max-md:max-w-[340px]" data-dropdown>
-          <div class="flex items-center justify-center">
-            <a href="/#servicios" data-nav-link class="${navLinkClases}">Servicios</a>
-            <button type="button" data-dropdown-btn aria-expanded="false" aria-controls="servicios-submenu" aria-label="Abrir submenú de servicios"
-                    class="ml-0.5 cursor-pointer p-1.5 text-marino transition duration-400 ease-suave group-data-open:rotate-180 md:group-hover:rotate-180">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="h-3.5 w-3.5"><polyline points="6 9 12 15 18 9"/></svg>
+  const navLink = (href, texto, id) => `
+        <li>
+          <a href="${href}" class="relative block px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium ${
+            activo === id ? 'after:w-full' : ''
+          }">${texto}</a>
+        </li>`
+
+  const megaItem = (s) => {
+    const f = imgServicio(s.slug, 'tarjeta')
+    return `
+              <li>
+                <a href="/${s.slug}/" class="group/it flex items-center gap-4 rounded-2xl p-2.5 no-underline transition duration-400 ease-suave hover:bg-arena/70">
+                  <span class="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-arena">
+                    <img src="${f.src}" alt="" aria-hidden="true" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+                         class="h-full w-full object-cover transition-transform duration-700 ease-suave group-hover/it:scale-110">
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block text-[0.9rem] font-bold leading-tight text-marino">${s.nombre}</span>
+                    <span class="mt-0.5 block truncate text-[0.75rem] text-humo">${s.tagline}</span>
+                  </span>
+                  <span aria-hidden="true" class="ml-auto shrink-0 -translate-x-1 text-oro-rosa opacity-0 transition duration-400 ease-suave group-hover/it:translate-x-0 group-hover/it:opacity-100 max-lg:hidden">${icono('flecha', 'h-4 w-4')}</span>
+                </a>
+              </li>`
+  }
+
+  const megaServicios = `
+        <li class="group relative max-lg:w-full" data-dropdown>
+          <div class="flex items-center justify-center gap-0.5">
+            <a href="/#servicios" class="relative block px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium">Servicios</a>
+            <button type="button" data-dropdown-btn aria-expanded="false" aria-controls="mega-servicios" aria-label="Abrir submenú de servicios"
+                    class="cursor-pointer p-1.5 text-current transition duration-500 ease-suave group-data-open:rotate-180 lg:group-hover:rotate-180">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
           </div>
-          <div id="servicios-submenu" class="invisible absolute left-1/2 top-full z-[1020] w-72 -translate-x-1/2 translate-y-1.5 pt-3 opacity-0 transition-all duration-300 ease-suave group-data-open:visible group-data-open:translate-y-0 group-data-open:opacity-100 md:group-hover:visible md:group-hover:translate-y-0 md:group-hover:opacity-100 max-md:static max-md:grid max-md:w-full max-md:translate-x-0 max-md:translate-y-0 max-md:grid-rows-[0fr] max-md:pt-0 max-md:opacity-100 max-md:transition-[grid-template-rows,visibility] group-data-open:max-md:grid-rows-[1fr]">
-            <div class="min-h-0 overflow-hidden md:overflow-visible">
-              <div class="rounded-2xl border border-marino/10 bg-white p-2 shadow-flotante max-md:mt-2 max-md:border-0 max-md:bg-transparent max-md:shadow-none">
-                <span class="block px-4 pb-1.5 pt-2.5 text-[0.68rem] font-bold uppercase tracking-[2px] text-oro-rosa-profundo max-md:text-center">Especialidades</span>
-                <ul class="list-none">
-                  ${SERVICES.map(dropdownItem).join('')}
+
+          <div id="mega-servicios"
+               class="invisible absolute left-1/2 top-full z-[1020] w-[min(46rem,calc(100vw-3rem))] -translate-x-1/2 translate-y-2 pt-4 opacity-0 transition-all duration-500 ease-suave group-data-open:visible group-data-open:translate-y-0 group-data-open:opacity-100 lg:group-hover:visible lg:group-hover:translate-y-0 lg:group-hover:opacity-100 max-lg:static max-lg:grid max-lg:w-full max-lg:translate-x-0 max-lg:translate-y-0 max-lg:grid-rows-[0fr] max-lg:pt-0 max-lg:opacity-100 max-lg:transition-[grid-template-rows,visibility] group-data-open:max-lg:grid-rows-[1fr]">
+            <div class="min-h-0 overflow-hidden lg:overflow-visible">
+              <div class="rounded-[1.75rem] border border-marino/10 bg-lino/95 p-4 shadow-alta backdrop-blur-xl max-lg:mt-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none">
+                <div class="mb-2 flex items-center justify-between px-2.5 max-lg:justify-center">
+                  ${rotulo('Especialidades')}
+                  <a href="/#servicios" class="text-[0.78rem] font-bold text-marino no-underline transition-colors duration-300 hover:text-oro-rosa-profundo max-lg:hidden">Ver todas</a>
+                </div>
+                <ul class="grid list-none gap-1 lg:grid-cols-2">
+                  ${SERVICES.map(megaItem).join('')}
                 </ul>
               </div>
             </div>
@@ -103,129 +146,269 @@ export function header({ waText, waLabel, logoAlt }) {
         </li>`
 
   return `
-  <header class="sticky top-0 z-[1000] border-b border-marino/5 bg-white/95 shadow-[0_2px_20px_rgba(0,0,0,0.03)] backdrop-blur-[10px] transition duration-400 ease-suave">
-    <div class="${CONTAINER} relative flex items-center justify-between py-3">
-      <a href="/" class="z-[1010] flex items-center gap-3 no-underline">
-        <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="lazy" class="h-[50px] w-[50px] rounded-full border-2 border-oro-rosa object-cover">
-        <div>
-          <span class="block font-display text-[1.05rem] font-bold leading-[1.1] text-marino">${DOCTORA.nombre}</span>
-          <span class="mt-0.5 block text-[0.7rem] font-medium tracking-[1px] text-oro-rosa">${DOCTORA.subtitulo}</span>
-        </div>
+  <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[2100] focus:rounded-full focus:bg-marino focus:px-5 focus:py-3 focus:text-[0.9rem] focus:font-bold focus:text-lino">Saltar al contenido</a>
+
+  <header data-cabecera
+          class="group/cab fixed inset-x-0 top-0 z-[1000] ${tono} transition-[background-color,transform,box-shadow] duration-500 ease-suave data-solido:bg-lino/85 data-solido:shadow-[0_1px_0_rgba(29,61,97,0.09)] data-solido:backdrop-blur-xl data-oculta:-translate-y-full">
+    <div class="${CONTAINER} relative flex items-center justify-between gap-6 py-4">
+      <a href="/" class="relative z-[1010] flex items-center gap-3 no-underline text-current">
+        <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="eager" class="h-11 w-11 rounded-full object-cover ring-1 ring-oro-rosa/70 ring-offset-2 ring-offset-transparent">
+        <span class="leading-none">
+          <span class="block font-display text-[1.02rem] font-semibold tracking-[-0.01em] text-current">${DOCTORA.nombre}</span>
+          <span class="mt-1 block text-[0.6rem] font-bold uppercase tracking-[0.25em] ${tonoRotulo}">${DOCTORA.subtitulo}</span>
+        </span>
       </a>
 
-      <button class="group z-[1010] flex cursor-pointer flex-col gap-1.5 p-1 md:hidden" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
-        <span class="block h-0.5 w-[26px] rounded-sm bg-marino transition duration-400 ease-suave group-aria-expanded:translate-y-2 group-aria-expanded:rotate-45"></span>
-        <span class="block h-0.5 w-[26px] rounded-sm bg-marino transition duration-400 ease-suave group-aria-expanded:opacity-0"></span>
-        <span class="block h-0.5 w-[26px] rounded-sm bg-marino transition duration-400 ease-suave group-aria-expanded:-translate-y-2 group-aria-expanded:-rotate-45"></span>
+      <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px] lg:hidden" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:translate-y-[6px] group-aria-expanded:rotate-45"></span>
+        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:opacity-0"></span>
+        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
       </button>
 
-      <nav class="flex items-center gap-6">
-        <ul id="navLinks" class="flex list-none md:items-center md:gap-6 max-md:invisible max-md:fixed max-md:top-[74px] max-md:left-full max-md:z-[1000] max-md:h-[calc(100vh-74px)] max-md:w-full max-md:flex-col max-md:items-center max-md:justify-start max-md:gap-7 max-md:overflow-y-auto max-md:bg-white max-md:pb-24 max-md:pt-12 max-md:shadow-[0_10px_30px_rgba(0,0,0,0.05)] max-md:transition-[left,visibility] max-md:duration-400 max-md:ease-suave data-open:max-md:visible data-open:max-md:left-0">
-          ${dropdownServicios}
-          ${navLink('/#confianza', 'Nosotros')}
-          ${navLink('/#ubicacion', 'Ubicación')}
+      <nav class="flex items-center gap-7" aria-label="Principal">
+        <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
+          ${megaServicios}
+          ${navLink('/conoce/', 'La doctora', 'conoce')}
+          ${navLink('/contacto/', 'Contacto', 'contacto')}
+          <li class="hidden max-lg:mt-4 max-lg:block">
+            ${btnWa(waText, `${waLabel}_movil`, 'Agendar por WhatsApp')}
+          </li>
         </ul>
-        <a href="${waLink(waText)}" target="_blank" data-wa-label="${waLabel}"
-           class="flex items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_4px_10px_rgba(37,211,102,0.15)] transition duration-400 ease-suave hover:-translate-y-0.5 hover:shadow-[0_8px_15px_rgba(37,211,102,0.25)] max-md:gap-[5px] max-md:px-3.5 max-md:py-2 max-md:text-[0.78rem]">
-          ${waIcon(20)}
-          WhatsApp
+
+        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="${waLabel}"
+           class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b] lg:flex">
+          ${waIcon(18)}
+          <span>WhatsApp</span>
         </a>
       </nav>
     </div>
+
+    <!-- Progreso de lectura: lo anima el CSS (scroll-driven) o main.js. -->
+    <span aria-hidden="true" data-progreso class="progreso-scroll absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-oro-rosa via-oro-rosa-oscuro to-marino"></span>
   </header>`
 }
 
-export function confianza({ waText, waLabel, bullet1, ctaTexto }) {
+/* ═══════════════════════════════════════════════ banda de cifras ══════ */
+
+export function bandaCifras() {
+  // El valor real vive en el DOM: si el JS no corre, la cifra se ve igual.
+  const celda = (c) => `
+        <div class="relative min-w-0 px-5 py-10 text-center">
+          <span class="block font-display font-medium leading-none tracking-[-0.03em] text-white ${
+            c.texto ? 'text-[clamp(1.5rem,3vw,2.2rem)]' : 'text-[clamp(2.4rem,5vw,3.6rem)]'
+          }">
+            ${c.animar ? `<span data-contador>${c.valor}</span>` : c.valor}${c.sufijo || ''}
+          </span>
+          <span class="mt-3 block text-[0.7rem] font-bold uppercase leading-relaxed tracking-[0.18em] text-oro-rosa-claro">${c.label}</span>
+        </div>`
   return `
-  <section id="confianza" class="scroll-mt-20 bg-rosa-palido py-[clamp(60px,8vw,100px)]">
-    <div class="${CONTAINER} grid items-center gap-[clamp(40px,6vw,80px)] md:grid-cols-2 max-md:text-center">
-      <div data-reveal class="w-full">
-        ${sectionTag('Espacio Seguro')}
-        <h2 class="${H2} md:text-left">Atención profesional, cercana y confidencial</h2>
-        <p class="mb-8 text-[1.05rem] leading-relaxed text-tinta">La Dra. Lidia Chávez brinda atención ginecológica en Polanco, CDMX, con un enfoque profesional, respetuoso y firmemente orientado al bienestar integral de cada paciente.</p>
-
-        <ul class="mb-10 list-none max-md:mx-auto max-md:inline-block max-md:text-left">
-          ${bulletItem(bullet1)}
-          ${bulletItem('Atención en Polanco, Miguel Hidalgo')}
-          ${bulletItem('Agenda rápida por WhatsApp')}
-        </ul>
-
-        <div>${btnOutline(waText, waLabel, ctaTexto)}</div>
+  <section aria-label="Cifras de la consulta" class="relative overflow-hidden bg-noche">
+    <span aria-hidden="true" class="halo -left-40 top-0 h-96 w-96 bg-oro-rosa/12"></span>
+    <span aria-hidden="true" class="halo -bottom-48 right-0 h-96 w-96 bg-marino-claro/25"></span>
+    <div class="${CONTAINER} relative">
+      <div data-anim-grupo class="grid grid-cols-[repeat(2,minmax(0,1fr))] divide-x divide-y divide-white/10 md:grid-cols-[repeat(4,minmax(0,1fr))] md:divide-y-0">
+        ${CIFRAS.map(celda).join('')}
       </div>
-      <div data-reveal class="flex w-full justify-center">
-        <div class="w-full max-w-[480px] overflow-hidden rounded-3xl border-6 border-white shadow-[0_15px_40px_rgba(29,61,97,0.1)] max-md:max-w-[320px]">
-          <img src="${FOTO_CONSULTORIO}" alt="Consultorio ginecológico Aurafem Dra. Lidia Chávez en Polanco Anzures" width="1254" height="1254" loading="lazy" class="block h-auto w-full object-cover">
+    </div>
+  </section>`
+}
+
+/* ══════════════════════════════════════════════ pilares de atención ═══ */
+
+export function pilares() {
+  const tarjeta = (p) => `
+        <article class="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-7 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/40 hover:shadow-flotante">
+          <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
+          <span class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-marino text-oro-rosa-claro transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">
+            ${icono(p.icono, 'h-5 w-5')}
+          </span>
+          <h3 class="${H3} relative mb-3 text-marino">${p.titulo}</h3>
+          <p class="relative text-[0.94rem] leading-[1.7] text-humo">${p.texto}</p>
+        </article>`
+  return `
+  <section class="relative bg-arena/40 py-[clamp(72px,10vw,140px)]">
+    <div class="${CONTAINER}">
+      <div class="mb-[clamp(38px,5.5vw,72px)] grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <span data-anim>${rotulo('Cómo se trabaja aquí')}</span>
+          ${titulo(`Medicina rigurosa con ${acento('trato humano')}`, { clase: `${H2} mt-5 text-marino` })}
+        </div>
+        <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo lg:pb-2">
+          La consulta ginecológica funciona cuando hay confianza. Estos son los cuatro compromisos que sostienen cada cita con la Dra. Lidia Chávez.
+        </p>
+      </div>
+      <div data-anim-grupo class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        ${PILARES.map(tarjeta).join('')}
+      </div>
+    </div>
+  </section>`
+}
+
+/* ════════════════════════════════════════ la doctora / espacio seguro ══ */
+
+export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
+  const retrato = img(RETRATO_2)
+  const espacio = img(CONSULTORIO)
+  return `
+  <section id="doctora" class="relative scroll-mt-[110px] overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
+    <span aria-hidden="true" class="halo -right-32 top-24 h-[28rem] w-[28rem] bg-arena-2/60"></span>
+
+    <div class="${CONTAINER} relative">
+      <div class="grid items-center gap-[clamp(40px,6vw,90px)] lg:grid-cols-[0.95fr_1.05fr]">
+
+        <!-- Retrato + foto de consultorio superpuesta -->
+        <div class="relative mx-auto w-full max-w-[520px]">
+          <div data-anim="cortina" class="relative overflow-hidden rounded-t-[14rem] rounded-b-[2rem] bg-arena shadow-alta">
+            <img src="${retrato.src}" alt="${escapeAttr(`${DOCTORA.nombreCompleto}, ginecóloga en Polanco CDMX`)}" width="${retrato.w}" height="${retrato.h}" loading="lazy" decoding="async"
+                 class="zoom-scroll block aspect-[4/5] w-full object-cover">
+          </div>
+
+          <div data-anim="escalar" style="--d:.2s" class="absolute -bottom-8 -left-4 w-[46%] max-w-[210px] overflow-hidden rounded-[1.25rem] border-4 border-lino bg-arena shadow-flotante sm:-left-10">
+            <img src="${espacio.src}" alt="${escapeAttr(espacio.alt)}" width="${espacio.w}" height="${espacio.h}" loading="lazy" decoding="async"
+                 class="block aspect-square w-full object-cover">
+          </div>
+
+          <div data-anim style="--d:.3s" class="absolute -right-2 top-8 rounded-2xl border border-marino/10 bg-lino/90 px-4 py-3 shadow-cristal backdrop-blur-md sm:-right-6">
+            <span class="block font-display text-[1.5rem] font-medium leading-none text-marino">4.9<span class="text-[0.9rem] text-oro-rosa">/5</span></span>
+            <span class="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-humo">Google</span>
+          </div>
+        </div>
+
+        <!-- Texto -->
+        <div class="max-lg:text-center">
+          <span data-anim>${rotulo('Espacio seguro')}</span>
+          ${titulo(`Atención profesional, cercana y ${acento('confidencial')}`, {
+            clase: `${H2} mt-5 text-marino`,
+          })}
+
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[56ch] text-[1.05rem] leading-[1.75] text-tinta max-lg:mx-auto">
+            La <strong class="font-semibold text-marino">${DOCTORA.nombreCompleto}</strong> brinda atención ginecológica en Polanco, CDMX, con un enfoque profesional, respetuoso y firmemente orientado al bienestar integral de cada paciente.
+          </p>
+
+          <ul data-anim-grupo class="mt-9 grid list-none gap-4 max-lg:mx-auto max-lg:inline-grid max-lg:text-left">
+            ${bulletItem(bullet1)}
+            ${bulletItem('Atención en Polanco, Miguel Hidalgo')}
+            ${bulletItem('Agenda rápida por WhatsApp')}
+          </ul>
+
+          <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4 max-lg:justify-center">
+            ${btnWa(waText, waLabel, ctaTexto)}
+            ${badgeRespuesta()}
+          </div>
         </div>
       </div>
     </div>
   </section>`
 }
+
+/* ═══════════════════════════════════════════════════════════ ubicación ══ */
 
 export function ubicacion({ waText, waLabel }) {
-  return `
-  <section id="ubicacion" class="scroll-mt-20 bg-white py-[clamp(60px,8vw,100px)]">
-    <div class="${CONTAINER} grid items-center gap-[clamp(30px,5vw,60px)] md:grid-cols-[1.1fr_0.9fr]">
-      <div data-reveal class="w-full overflow-hidden rounded-3xl shadow-suave">
-        <iframe
-          class="block h-[clamp(300px,40vw,450px)] w-full border-0 bg-gris-suave"
-          src="${MAPS_EMBED}"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Mapa del consultorio Aurafem en Anzures, CDMX">
-        </iframe>
-      </div>
-      <div data-reveal class="w-full max-md:text-center">
-        ${sectionTag('Ubicación y Acceso')}
-        <h2 class="${H2} md:text-left">Consulta en Polanco, CDMX</h2>
-        <p class="opacity-90">Atención en zona Miguel Hidalgo, cerca de Polanco, con un fácil acceso y conectividad desde Benito Juárez, Cuauhtémoc y zonas aledañas.</p>
+  const dato = (ic, label, valor) => `
+        <li class="flex items-start gap-4">
+          <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-oro-rosa-claro">${icono(ic, 'h-4 w-4')}</span>
+          <span>
+            <span class="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-claro">${label}</span>
+            <span class="mt-1 block text-[0.97rem] leading-[1.6] text-white/85">${valor}</span>
+          </span>
+        </li>`
 
-        <div class="mt-6 mb-8 rounded-r-2xl border-l-4 border-oro-rosa bg-rosa-palido p-6 max-md:rounded-none max-md:rounded-b-2xl max-md:border-l-0 max-md:border-t-4 max-md:text-left">
-          <div class="mb-2 flex items-center gap-2.5 text-[1.15rem] font-bold text-marino">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${DIRECCION.lugar}
+  return `
+  <section id="ubicacion" class="relative scroll-mt-[110px] overflow-hidden bg-noche py-[clamp(72px,10vw,140px)] text-white">
+    <span aria-hidden="true" class="halo -left-40 bottom-0 h-[30rem] w-[30rem] bg-marino-claro/25"></span>
+    <span aria-hidden="true" class="halo right-1/4 -top-40 h-[26rem] w-[26rem] bg-oro-rosa/10"></span>
+
+    <div class="${CONTAINER} relative">
+      <div class="grid items-center gap-[clamp(36px,5vw,72px)] lg:grid-cols-[1.05fr_0.95fr]">
+        <div>
+          <span data-anim>${rotulo('Ubicación y acceso', { claro: true })}</span>
+          ${titulo(`Consulta en ${acento('Polanco', { claro: true })}, CDMX`, {
+            clase: `${H2} mt-5 text-white`,
+          })}
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[54ch] text-[1.02rem] leading-[1.75] text-white/70">
+            Atención en zona Miguel Hidalgo, cerca de Polanco, con fácil acceso y conectividad desde Benito Juárez, Cuauhtémoc y zonas aledañas.
+          </p>
+
+          <ul data-anim-grupo class="mt-10 grid list-none gap-6 sm:grid-cols-2">
+            ${dato('mapa', DIRECCION.lugar, DIRECCION.texto)}
+            ${dato('reloj', 'Agenda', 'Confirmación de horarios por WhatsApp el mismo día.')}
+          </ul>
+
+          <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
+            ${btnWa(waText, waLabel, 'Agendar por WhatsApp')}
+            ${btnGhost(
+              `https://www.google.com/maps/search/?api=1&query=${DIRECCION.lat},${DIRECCION.lng}`,
+              'Ver en Google Maps',
+              { claro: true, icono: 'flechaDiag', externo: true }
+            )}
           </div>
-          <p class="text-[0.95rem] text-tinta">${DIRECCION.texto}</p>
         </div>
 
-        ${btnWa(waText, waLabel)}
+        <div data-anim="escalar" class="relative overflow-hidden rounded-[1.75rem] border border-white/12 shadow-alta">
+          <iframe
+            class="block h-[clamp(320px,44vw,520px)] w-full border-0 bg-marino/40"
+            src="${MAPS_EMBED}"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa del consultorio Aurafem en Anzures, CDMX">
+          </iframe>
+        </div>
       </div>
     </div>
   </section>`
 }
+
+/* ══════════════════════════════════════════ transparencia / claridad ══ */
 
 export function claridad() {
   const dato = (label, valor) => `
-    <div class="rounded-xl border border-marino/5 bg-white px-3 py-4 text-center shadow-suave">
-      <span class="mb-1.5 block text-[0.75rem] font-bold uppercase tracking-[1px] text-oro-rosa-oscuro">${label}</span>
-      <span class="block text-[0.9rem] font-bold text-marino">${valor}</span>
-    </div>`
+        <div class="border-l border-marino/10 px-5 py-4 first:border-l-0 max-sm:border-l-0 max-sm:border-t max-sm:first:border-t-0">
+          <span class="block text-[0.63rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">${label}</span>
+          <span class="mt-1.5 block text-[0.88rem] font-semibold leading-snug text-marino">${valor}</span>
+        </div>`
   return `
-  <section class="border-y border-marino/5 bg-gris-suave py-[clamp(50px,6vw,80px)]">
-    <div class="${CONTAINER} max-w-[850px]">
-      <div data-reveal class="mb-12 rounded-[20px] border border-dashed border-oro-rosa/50 bg-white p-[clamp(20px,4vw,30px)] text-center shadow-suave">
-        <p class="text-[0.95rem] leading-relaxed text-tinta">${DISCLAIMER}</p>
-      </div>
+  <section class="border-y border-marino/8 bg-gris-suave py-[clamp(48px,6vw,80px)]">
+    <div class="${CONTAINER}">
+      <div class="mx-auto max-w-[960px]">
+        <div data-anim class="rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-lino p-[clamp(22px,3.5vw,36px)]">
+          <span class="mb-3 block">${rotulo('Aviso')}</span>
+          <p class="text-[0.92rem] leading-[1.75] text-humo">${DISCLAIMER}</p>
+        </div>
 
-      <div data-reveal-group class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-        ${dato('Nombre', DOCTORA.nombre)}
-        ${dato('Especialidad', 'Ginecología')}
-        ${dato('Ubicación', DIRECCION.municipio)}
-        ${dato('Contacto', DOCTORA.telefonoDisplay)}
-        ${dato('WhatsApp', DOCTORA.telefonoDisplay)}
+        <div data-anim-grupo class="mt-8 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5">
+          ${dato('Nombre', DOCTORA.nombre)}
+          ${dato('Especialidad', 'Ginecología y Colposcopía')}
+          ${dato('Ubicación', `${DIRECCION.municipio}, ${DIRECCION.region}`)}
+          ${dato('Contacto', DOCTORA.telefonoDisplay)}
+          ${dato('WhatsApp', DOCTORA.telefonoDisplay)}
+        </div>
       </div>
     </div>
   </section>`
 }
 
-export function ctaFinal({ titulo, waText, waLabel }) {
-  return `
-  <section id="agendar" class="scroll-mt-20 bg-[radial-gradient(circle_at_top,#FDF5F2_0%,#FFFFFF_100%)] py-[clamp(80px,10vw,120px)] text-center">
-    <div data-reveal class="${CONTAINER}">
-      <h2 class="mx-auto mb-6 max-w-[800px] font-display text-[clamp(2rem,5vw,3rem)] font-bold leading-[1.25] text-marino">${titulo}</h2>
-      <p class="mx-auto mb-10 max-w-[600px] text-[clamp(1rem,2vw,1.25rem)] text-tinta opacity-90">Escríbele directamente a la Dra. Lidia Chávez para revisar fechas disponibles, horarios de atención y resolver tus dudas de forma rápida.</p>
+/* ═════════════════════════════════════════════════════════ cierre CTA ══ */
 
-      ${btnWa(waText, waLabel, 'Agendar ahora por WhatsApp', { grande: true })}
+export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
+  return `
+  <section id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,160px)]">
+    <span aria-hidden="true" class="halo left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 bg-oro-rosa/20"></span>
+    <span aria-hidden="true" class="halo -bottom-40 right-10 h-80 w-80 bg-white/60"></span>
+
+    <div class="${CONTAINER} relative text-center">
+      <span data-anim class="inline-block">${rotulo('Agenda tu cita')}</span>
+      ${titulo(t, {
+        clase: 'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-6 mx-auto max-w-[16ch]',
+      })}
+      <p data-anim style="--d:.12s" class="mx-auto mt-7 max-w-[54ch] text-[1.05rem] leading-[1.75] text-humo">
+        ${intro || 'Escríbele directamente a la Dra. Lidia Chávez para revisar fechas disponibles, horarios de atención y resolver tus dudas de forma rápida.'}
+      </p>
+
+      <div data-anim style="--d:.2s" class="mt-11 flex flex-col items-center gap-5">
+        ${btnWa(waText, waLabel, 'Agendar ahora por WhatsApp', { grande: true })}
+        ${badgeRespuesta()}
+      </div>
     </div>
   </section>`
 }
@@ -234,22 +417,94 @@ export function ctaFinal({ titulo, waText, waLabel }) {
 // flotante se oculta ahí para no duplicar el mismo llamado a la acción.
 export function floatingWa({ waText, waLabel, soloDesktop = false }) {
   return `
-  <a href="${waLink(waText)}" target="_blank" aria-label="Escríbenos por WhatsApp" data-wa-label="${waLabel}"
-     class="fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden md:flex' : 'flex'} h-[60px] w-[60px] items-center justify-center rounded-full bg-wsp shadow-[0_8px_24px_rgba(37,211,102,0.35)] transition duration-400 ease-suave hover:-translate-y-[3px] hover:scale-110 hover:shadow-[0_12px_28px_rgba(37,211,102,0.5)] max-sm:bottom-4 max-sm:right-4 max-sm:h-[54px] max-sm:w-[54px]">
-    ${waIcon(32)}
+  <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-label="${waLabel}"
+     class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full bg-wsp shadow-[0_12px_30px_-6px_rgba(37,211,102,0.75)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
+    <span aria-hidden="true" class="absolute inset-0 animate-ping rounded-full bg-wsp/40"></span>
+    <span class="relative">${waIcon(28)}</span>
   </a>`
 }
 
+/* ═════════════════════════════════════════════════════════════ footer ══ */
+
 export function footer({ logoAlt, espacioCtaFija = false }) {
+  const enlace = (href, texto) =>
+    `<li><a href="${href}" class="enlace-linea text-[0.9rem] text-white/65 no-underline transition-colors duration-400 hover:text-white">${texto}</a></li>`
+
+  const cinta = marquesina(
+    [
+      'Ginecología',
+      'Colposcopía',
+      'Papanicolaou',
+      'Control prenatal',
+      'VPH',
+      'Revisión preventiva',
+      'Atención del embarazo',
+    ].map((t) => `<span class="font-display text-[clamp(1.6rem,4vw,2.6rem)] font-medium text-white/12">${t}</span>`),
+    { vel: '48s' }
+  )
+
   return `
-  <footer class="bg-marino py-10 text-center text-white ${espacioCtaFija ? 'max-md:pb-28' : ''}">
-    <div class="${CONTAINER}">
-      <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="lazy" class="mx-auto mb-6 h-16 w-16 rounded-full border-2 border-oro-rosa">
-      <p class="mb-2 text-[0.85rem] opacity-70">&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
-      <p class="text-[0.85rem] opacity-70">Atención en ${DIRECCION.lugar} - Cantú 11, Col. Anzures, Miguel Hidalgo, CDMX.</p>
+  <footer class="relative overflow-hidden bg-noche text-white ${espacioCtaFija ? 'max-lg:pb-24' : ''}">
+    <span aria-hidden="true" class="halo -left-40 -top-32 h-96 w-96 bg-marino-claro/20"></span>
+
+    <div class="relative border-b border-white/8 py-7">${cinta}</div>
+
+    <div class="${CONTAINER} relative py-[clamp(48px,7vw,84px)]">
+      <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+        <div>
+          <a href="/" class="flex items-center gap-3.5 no-underline">
+            <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="lazy" class="h-14 w-14 rounded-full object-cover ring-1 ring-oro-rosa/60">
+            <span>
+              <span class="block font-display text-[1.2rem] font-semibold text-white">${DOCTORA.nombre}</span>
+              <span class="mt-1 block text-[0.6rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">${DOCTORA.subtitulo}</span>
+            </span>
+          </a>
+          <p class="mt-6 max-w-[42ch] text-[0.92rem] leading-[1.7] text-white/60">
+            Atención ginecológica profesional y confidencial en ${DIRECCION.lugar}, Col. Anzures, Miguel Hidalgo, CDMX.
+          </p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-label="wa_click_footer"
+               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
+              ${waIcon(18)} WhatsApp
+            </a>
+            <a href="tel:${DOCTORA.telefono}" class="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:border-white hover:bg-white/10">
+              ${DOCTORA.telefonoDisplay}
+            </a>
+          </div>
+        </div>
+
+        <nav aria-label="Servicios">
+          <span class="mb-5 block text-[0.65rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">Servicios</span>
+          <ul class="grid list-none gap-3">
+            ${SERVICES.map((s) => enlace(`/${s.slug}/`, s.nombre)).join('')}
+          </ul>
+        </nav>
+
+        <nav aria-label="Consultorio">
+          <span class="mb-5 block text-[0.65rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">Consultorio</span>
+          <ul class="grid list-none gap-3">
+            ${enlace('/conoce/', 'La doctora')}
+            ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
+            ${enlace('/contacto/', 'Contacto y citas')}
+            ${enlace('/#servicios', 'Todos los servicios')}
+          </ul>
+          <address class="mt-7 not-italic text-[0.88rem] leading-[1.7] text-white/60">
+            ${DIRECCION.calle}<br>${DIRECCION.municipio}, ${DIRECCION.cp}<br>${DIRECCION.region}, México
+          </address>
+        </nav>
+      </div>
+    </div>
+
+    <div class="relative border-t border-white/8">
+      <div class="${CONTAINER} flex flex-wrap items-center justify-between gap-4 py-6 text-[0.78rem] text-white/60">
+        <p>&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
+        <p>Ginecóloga en Polanco, Ciudad de México.</p>
+      </div>
     </div>
   </footer>`
 }
+
+/* ══════════════════════════════════════════════════════════════ shell ══ */
 
 export function pageShell({ headHtml, bodyHtml }) {
   return `<!DOCTYPE html>
@@ -257,7 +512,7 @@ export function pageShell({ headHtml, bodyHtml }) {
 <head>
 ${headHtml}
 </head>
-<body>
+<body class="grano bg-lino antialiased">
 ${bodyHtml}
 </body>
 </html>`
