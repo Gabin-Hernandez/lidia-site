@@ -509,6 +509,7 @@ export function renderService(s) {
     canonical,
     ogType: 'article',
     ogAlt: s.ogAlt,
+    ogImage: `/og/${s.slug}.jpg`,
     schema: serviceSchema(s),
     preload: imgServicio(s.slug, 'hero').src,
   })

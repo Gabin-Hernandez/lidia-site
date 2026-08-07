@@ -31,7 +31,25 @@ import {
 
 /* ═══════════════════════════════════════════════════════════════ <head> ══ */
 
-export function head({ title, description, canonical, ogType, ogAlt, schema, preload }) {
+/**
+ * `ogImage`: ruta dentro de /og/, una por página, generada por
+ * scripts/generar-og.sh. Son JPEG de 1200x630 a propósito: WhatsApp no
+ * renderiza WebP en las vistas previas de enlaces (el enlace saldría sin
+ * miniatura) y a 1.91:1 muestra la tarjeta grande en vez de la miniatura
+ * pequeña. La URL tiene que ser absoluta: los rastreadores no resuelven
+ * rutas relativas.
+ */
+export function head({
+  title,
+  description,
+  canonical,
+  ogType,
+  ogAlt,
+  ogImage = '/og/home.jpg',
+  schema,
+  preload,
+}) {
+  const imagen = `${DOMAIN}${ogImage}`
   return `
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,16 +67,19 @@ export function head({ title, description, canonical, ogType, ogAlt, schema, pre
   <meta property="og:description" content="${escapeAttr(description)}">
   <meta property="og:url" content="${canonical}">
   <meta property="og:site_name" content="Dra. Lidia Chávez - Ginecología y Colposcopía">
-  <meta property="og:image" content="${DOMAIN}/39f0736b-1235-4968-9c70-9ccc6640fa1e.webp">
-  <meta property="og:image:width" content="1254">
-  <meta property="og:image:height" content="1254">
+  <meta property="og:image" content="${imagen}">
+  <meta property="og:image:secure_url" content="${imagen}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="${escapeAttr(ogAlt)}">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeAttr(title)}">
   <meta name="twitter:description" content="${escapeAttr(description)}">
-  <meta name="twitter:image" content="${DOMAIN}/39f0736b-1235-4968-9c70-9ccc6640fa1e.webp">
+  <meta name="twitter:image" content="${imagen}">
+  <meta name="twitter:image:alt" content="${escapeAttr(ogAlt)}">
 
   <!-- Tipografías: Fraunces (display variable) + Plus Jakarta Sans (texto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

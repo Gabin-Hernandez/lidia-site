@@ -313,6 +313,7 @@ export function renderConoce() {
     canonical: URL,
     ogType: 'profile',
     ogAlt: CONOCE.ogAlt,
+    ogImage: '/og/conoce.jpg',
     schema: conoceSchema(),
     preload: img(RETRATO).src,
   })

@@ -389,6 +389,7 @@ export function renderHome() {
     canonical: `${DOMAIN}/`,
     ogType: 'website',
     ogAlt: HOME.ogAlt,
+    ogImage: '/og/home.jpg',
     schema: homeSchema(),
     preload: img(RETRATO).src,
   })

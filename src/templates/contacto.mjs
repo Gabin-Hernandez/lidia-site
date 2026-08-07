@@ -390,6 +390,7 @@ export function renderContacto() {
     canonical: URL,
     ogType: 'website',
     ogAlt: CONTACTO.ogAlt,
+    ogImage: '/og/contacto.jpg',
     schema: contactoSchema(),
     preload: img(RETRATO).src,
   })
