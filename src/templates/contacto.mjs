@@ -37,7 +37,6 @@ import {
   H2,
   H3,
   acento,
-  badgeRespuesta,
   btnGhost,
   btnWa,
   checkIcon,
@@ -117,7 +116,6 @@ function hero() {
 
         <div class="entrada mt-10 flex flex-col items-center gap-5" style="--d:.64s">
           ${btnWa(CONTACTO.waHero, 'wa_click_contacto_hero', 'Escribir por WhatsApp', { grande: true })}
-          ${badgeRespuesta()}
         </div>
 
         <div class="entrada mx-auto mt-12 flex w-fit items-center gap-4 rounded-[1.5rem] border border-marino/8 bg-white/70 px-5 py-4 shadow-cristal backdrop-blur-sm" style="--d:.72s">
@@ -159,7 +157,6 @@ function canales() {
           </p>
           <div class="relative mt-auto flex flex-col items-start gap-4">
             ${btnWa(CONTACTO.waHero, 'wa_click_contacto_canal', `Escribir al ${DOCTORA.telefonoDisplay}`)}
-            ${badgeRespuesta({ claro: true })}
           </div>
         </article>
 

@@ -60,6 +60,16 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    /* Alto real del encabezado fijo (logo h-11 + py-4). Lo pegajoso que va
+       debajo de él se ancla a esta medida. */
+    --alto-cabecera: 76px;
+  }
+
+  /* Cuando el encabezado se esconde al bajar, deja de ocupar sitio: lo que
+     está pegado debajo sube con él en vez de dejar un hueco. El atributo lo
+     pone el JS junto con `data-oculta` del propio encabezado. */
+  html[data-cabecera-oculta] {
+    --alto-cabecera: 0px;
   }
 
   body {
@@ -138,6 +148,33 @@
     color-mix(in srgb, var(--color-marino) 22%, transparent),
     transparent
   );
+}
+
+/* Misma idea sobre fondos oscuros: el oro rosa se enciende en el centro. */
+.regla-oro {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--color-oro-rosa) 55%, transparent) 35%,
+    color-mix(in srgb, var(--color-oro-rosa-claro) 70%, transparent) 50%,
+    color-mix(in srgb, var(--color-oro-rosa) 55%, transparent) 65%,
+    transparent
+  );
+}
+
+/* Arcos concéntricos: el mismo gesto del arco de las escenas, reducido a
+   línea. Decorativo, va detrás del contenido del pie. El color lo pone una
+   utilidad `text-*`: aquí no se declara o ganaría, al ir sin @layer. */
+.arcos {
+  position: absolute;
+  pointer-events: none;
+}
+
+.arcos path {
+  fill: none;
+  stroke: currentColor;
+  vector-effect: non-scaling-stroke;
 }
 
 /* ----------------------------------------------------- 4. Motor de animación

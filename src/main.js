@@ -94,16 +94,69 @@ const cabecera = $('[data-cabecera]')
 const barraProgreso = $('[data-progreso]')
 
 if (cabecera) {
+  // Umbrales de intención: comparar con el fotograma anterior hace parpadear la
+  // barra, porque la inercia del trackpad manda muchos eventos de 1-2px y basta
+  // uno "hacia arriba" para revelarla. Acumulamos recorrido por sentido y solo
+  // cambiamos de estado al superar el umbral; un microrrebote no cuenta.
+  const ESCONDER = 64
+  const MOSTRAR = 28
+  const SOLIDO_ON = 24
+  const SOLIDO_OFF = 8
+
   let ultimoY = window.scrollY
+  let acumulado = 0
+  let oculta = false
+  let solido = false
+  let enCola = false
+
   const actualizarCabecera = () => {
-    const y = window.scrollY
-    cabecera.toggleAttribute('data-solido', y > 24)
-    // Se esconde al bajar y reaparece al subir, pero nunca cerca del inicio.
-    const oculta = y > 420 && y > ultimoY + 4
-    cabecera.toggleAttribute('data-oculta', oculta)
+    enCola = false
+    const y = Math.max(0, window.scrollY)
+    const d = y - ultimoY
     ultimoY = y
+
+    // Histéresis también aquí: rebotando alrededor del umbral, el fondo con
+    // blur entraba y salía.
+    const nuevoSolido = solido ? y > SOLIDO_OFF : y > SOLIDO_ON
+    if (nuevoSolido !== solido) {
+      solido = nuevoSolido
+      cabecera.toggleAttribute('data-solido', solido)
+    }
+
+    // Cerca del inicio siempre visible.
+    if (y <= 420) {
+      acumulado = 0
+      if (oculta) {
+        oculta = false
+        cabecera.removeAttribute('data-oculta')
+        document.documentElement.removeAttribute('data-cabecera-oculta')
+      }
+      return
+    }
+
+    if (d === 0) return
+    // Al cambiar de sentido se reinicia el recorrido acumulado.
+    if (d > 0 !== acumulado > 0) acumulado = 0
+    acumulado += d
+
+    const siguiente = oculta ? acumulado > -MOSTRAR : acumulado > ESCONDER
+    if (siguiente === oculta) return
+
+    oculta = siguiente
+    acumulado = 0
+    cabecera.toggleAttribute('data-oculta', oculta)
+    // Espejo en <html> para que lo pegajoso de debajo (la subnav de servicios)
+    // se ancle sin un `:has()` que invalide estilos en toda la página.
+    document.documentElement.toggleAttribute('data-cabecera-oculta', oculta)
   }
-  window.addEventListener('scroll', actualizarCabecera, { passive: true })
+
+  const alScroll = () => {
+    if (enCola) return
+    enCola = true
+    requestAnimationFrame(actualizarCabecera)
+  }
+
+  window.addEventListener('scroll', alScroll, { passive: true })
   actualizarCabecera()
 }
 

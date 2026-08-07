@@ -26,7 +26,6 @@ import {
   H2,
   H3,
   acento,
-  badgeRespuesta,
   btnGhost,
   btnWa,
   escapeAttr,
@@ -124,7 +123,6 @@ function hero() {
 
           <div class="entrada mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 max-lg:justify-center" style="--d:.74s">
             ${pruebaSocial()}
-            ${badgeRespuesta()}
           </div>
 
           <div class="entrada mt-11 flex flex-wrap gap-6 max-lg:justify-center" style="--d:.82s">

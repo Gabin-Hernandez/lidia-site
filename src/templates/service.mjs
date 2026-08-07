@@ -27,7 +27,6 @@ import {
   H3,
   SECTION_BG,
   acento,
-  badgeRespuesta,
   btnGhost,
   btnWa,
   checkIcon,
@@ -188,7 +187,6 @@ function heroServicio(s) {
             </span>
             <span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/25"></span>
             <span class="text-[0.86rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>
-            ${badgeRespuesta({ claro: true })}
           </div>
         </div>
 
@@ -219,7 +217,7 @@ function navInterna(nav) {
         </li>`
   return `
   <nav aria-label="Secciones de esta página" data-subnav
-       class="sticky top-[76px] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl">
+       class="sticky top-[var(--alto-cabecera)] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl transition-[top] duration-500 ease-suave">
     <div class="${CONTAINER}">
       <ul class="flex list-none items-center gap-1.5 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         ${nav.map(item).join('')}
@@ -263,7 +261,7 @@ function seccionEditorial(sec, s, idxFoto, invertida, orden) {
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(36px,5vw,80px)] lg:grid-cols-2">
 
-        <div class="${invertida ? 'lg:order-2' : ''} lg:sticky lg:top-[150px] ${f.contain ? 'lg:self-center' : 'lg:self-start'}">
+        <div class="${invertida ? 'lg:order-2' : ''} lg:sticky lg:top-[calc(var(--alto-cabecera)+74px)] ${f.contain ? 'lg:self-center' : 'lg:self-start'}">
           ${marcoFoto(f, { orden })}
         </div>
 
@@ -291,7 +289,7 @@ function seccionChecklist(sec, s, orden) {
   <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(32px,4.5vw,72px)] lg:grid-cols-[0.85fr_1.15fr]">
-        <div class="lg:sticky lg:top-[150px] lg:self-start">
+        <div class="lg:sticky lg:top-[calc(var(--alto-cabecera)+74px)] lg:self-start">
           ${numeral(orden)}
           <span data-anim>${rotulo(sec.tag)}</span>
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
@@ -357,7 +355,7 @@ function seccionProceso(sec, s, orden) {
   <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(36px,5vw,80px)] lg:grid-cols-[0.85fr_1.15fr]">
-        <div class="lg:sticky lg:top-[150px] lg:self-start">
+        <div class="lg:sticky lg:top-[calc(var(--alto-cabecera)+74px)] lg:self-start">
           ${numeral(orden)}
           <span data-anim>${rotulo(sec.tag)}</span>
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
@@ -395,7 +393,7 @@ function faqSection(s) {
   <section id="preguntas" class="${SECTION_BG[s.faqBg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(32px,4.5vw,72px)] lg:grid-cols-[0.8fr_1.2fr]">
-        <div class="lg:sticky lg:top-[150px] lg:self-start">
+        <div class="lg:sticky lg:top-[calc(var(--alto-cabecera)+74px)] lg:self-start">
           <span data-anim>${rotulo(s.faqTag)}</span>
           ${titulo(s.faqTitle, { clase: `${H2} mt-5 text-marino` })}
 

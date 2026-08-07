@@ -121,19 +121,6 @@ export function btnGhost(href, texto, { claro = false, icono: ic = 'flecha', ext
 
 /* ───────────────────────────────────────────── distintivos y microcopys */
 
-export function badgeRespuesta({ claro = false } = {}) {
-  const tono = claro
-    ? 'border-white/20 bg-white/10 text-white'
-    : 'border-[#bfe6cd] bg-[#eaf8f0] text-[#136c33]'
-  return `<span class="inline-flex items-center gap-2 rounded-full border ${tono} px-3.5 py-1.5 text-[0.8rem] font-semibold">
-      <span aria-hidden="true" class="relative flex h-2 w-2">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-wsp opacity-70"></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-wsp"></span>
-      </span>
-      Responde en minutos
-    </span>`
-}
-
 // Fila de prueba social: estrellas + valoración + volumen de pacientes.
 export function pruebaSocial({ claro = false } = {}) {
   const base = claro ? 'text-white/70' : 'text-humo'

@@ -18,7 +18,6 @@ import {
   H2,
   H3,
   acento,
-  badgeRespuesta,
   btnGhost,
   btnWa,
   bulletItem,
@@ -293,7 +292,6 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4 max-lg:justify-center">
             ${btnWa(waText, waLabel, ctaTexto)}
-            ${badgeRespuesta()}
           </div>
         </div>
       </div>
@@ -407,7 +405,6 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
 
       <div data-anim style="--d:.2s" class="mt-11 flex flex-col items-center gap-5">
         ${btnWa(waText, waLabel, 'Agendar ahora por WhatsApp', { grande: true })}
-        ${badgeRespuesta()}
       </div>
     </div>
   </section>`
@@ -426,6 +423,26 @@ export function floatingWa({ waText, waLabel, soloDesktop = false }) {
 
 /* ═════════════════════════════════════════════════════════════ footer ══ */
 
+/**
+ * Arcos concéntricos en línea: el gesto del arco de las escenas reducido a
+ * trazo. `n` arcos que nacen de la misma base, separados por `paso`.
+ */
+function arcos({ n = 4, paso = 46, base = 400, clase = '' } = {}) {
+  const cx = 200
+  const pierna = 118 // tramo recto antes de que abra la curva
+  const paths = Array.from({ length: n }, (_, i) => {
+    const r = 58 + i * paso
+    const y = base - pierna
+    return `<path d="M${cx - r} ${base} L${cx - r} ${y} A${r} ${r} 0 0 1 ${cx + r} ${y} L${cx + r} ${base}"
+                  stroke-width="${(1.2 - i * 0.12).toFixed(2)}" opacity="${(0.9 - i * 0.16).toFixed(2)}"/>`
+  }).join('')
+
+  return `
+    <svg class="arcos ${clase}" viewBox="0 0 400 400" fill="none" aria-hidden="true" focusable="false">
+      ${paths}
+    </svg>`
+}
+
 export function footer({ logoAlt, espacioCtaFija = false }) {
   const enlace = (href, texto) =>
     `<li><a href="${href}" class="enlace-linea text-[0.9rem] text-white/65 no-underline transition-colors duration-400 hover:text-white">${texto}</a></li>`
@@ -439,14 +456,22 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
       'VPH',
       'Revisión preventiva',
       'Atención del embarazo',
-    ].map((t) => `<span class="font-display text-[clamp(1.6rem,4vw,2.6rem)] font-medium text-white/12">${t}</span>`),
+    ].map(
+      (t) =>
+        `<span class="font-display text-[clamp(1.6rem,4vw,2.6rem)] font-medium text-arena/55">${t}</span>`
+    ),
     { vel: '48s' }
   )
 
   return `
   <footer class="relative overflow-hidden bg-noche text-white ${espacioCtaFija ? 'max-lg:pb-24' : ''}">
     <span aria-hidden="true" class="halo -left-40 -top-32 h-96 w-96 bg-marino-claro/20"></span>
+    <span aria-hidden="true" class="halo -right-24 top-1/3 h-[28rem] w-[28rem] bg-oro-rosa/10"></span>
+    <span aria-hidden="true" class="halo -left-28 bottom-0 h-[22rem] w-[22rem] bg-oro-rosa/8"></span>
+    ${arcos({ clase: '-bottom-28 -right-20 h-[34rem] w-[34rem] text-oro-rosa/45 max-lg:hidden' })}
+    ${arcos({ n: 3, paso: 52, clase: '-bottom-24 left-[-7rem] h-[20rem] w-[20rem] text-oro-rosa/30 max-lg:hidden' })}
 
+    <div aria-hidden="true" class="regla-oro"></div>
     <div class="relative border-b border-white/8 py-7">${cinta}</div>
 
     <div class="${CONTAINER} relative py-[clamp(48px,7vw,84px)]">
@@ -495,10 +520,15 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
       </div>
     </div>
 
-    <div class="relative border-t border-white/8">
-      <div class="${CONTAINER} flex flex-wrap items-center justify-between gap-4 py-6 text-[0.78rem] text-white/60">
-        <p>&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
-        <p>Ginecóloga en Polanco, Ciudad de México.</p>
+    <div class="relative">
+      <div aria-hidden="true" class="regla-oro opacity-70"></div>
+      <!-- El color va en cada <p>: la regla base de <p> pisa el heredado. -->
+      <div class="${CONTAINER} flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-6">
+        <p class="text-[0.78rem] text-white/70">&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
+        <p class="flex items-center gap-2.5 text-[0.78rem] text-white/70">
+          <span aria-hidden="true" class="text-oro-rosa">✦</span>
+          Ginecóloga en Polanco, Ciudad de México.
+        </p>
       </div>
     </div>
   </footer>`
