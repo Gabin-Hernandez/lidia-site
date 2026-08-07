@@ -280,7 +280,7 @@ function galeria() {
         </p>
       </div>
       <div data-anim-grupo class="grid auto-rows-[140px] grid-cols-2 gap-3.5 md:auto-rows-[180px] md:grid-cols-4 md:gap-4">
-        ${GALERIA_HOME.slice(0, 7).map(tile).join('\n')}
+        ${GALERIA_HOME.slice(0, 8).map(tile).join('\n')}
       </div>
     </div>
   </section>`

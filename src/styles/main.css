@@ -412,6 +412,38 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Marco flotante de las fotos editoriales.
+   El movimiento es lento y de poca amplitud: acompaña la lectura sin competir
+   con ella. Cada marco recibe un desfase distinto (--flota-d) para que no se
+   muevan todos a la vez, y la sombra respira con la imagen.
+   --------------------------------------------------------------------------- */
+/* La curva es senoidal y simétrica a propósito: `--ease-suave` (0.16,1,0.3,1)
+   está pensada para entradas —arranca de golpe y frena— y en un bucle se nota
+   como un tirón hacia arriba. Esta sube y baja al mismo ritmo. */
+.marco-flota {
+  animation: flotar 9s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-delay: var(--flota-d, 0s);
+  will-change: transform;
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(-7px);
+  }
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marco-flota {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 /* Variantes declarativas: `data-anim="cortina"` elige la keyframe. */
 [data-anim="izq"] {
   --anim-nombre: entrar-izq;

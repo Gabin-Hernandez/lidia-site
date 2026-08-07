@@ -104,6 +104,34 @@ function fotoEditorial(s, i) {
   return img(claves[i % claves.length] || RETRATO)
 }
 
+// Foto de apoyo para las secciones que por diseño no llevan una (tarjetas,
+// checklist, proceso). Solo la tienen los servicios que la declaran.
+function fotoSeccion(s, id) {
+  const clave = SERVICIO_IMG[s.slug]?.seccionFoto?.[id]
+  return clave ? img(clave) : null
+}
+
+/**
+ * Marco compartido de todas las fotos de sección.
+ * `orden` desfasa la animación flotante para que no se muevan al unísono.
+ */
+function marcoFoto(f, { orden = 0, alto = 'aspect-[4/5]' } = {}) {
+  const cuerpo = f.contain
+    ? `<img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+             class="block max-h-full w-auto max-w-full object-contain">`
+    : `<img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+             class="parallax block ${alto} w-full object-cover" style="--px:5%">`
+
+  return `
+          <div class="marco-flota" style="--flota-d:${(orden % 3) * 0.9}s">
+            <div data-anim="cortina" class="relative overflow-hidden rounded-[1.75rem] ring-1 ring-marino/8 shadow-flotante ${
+              f.contain ? 'flex items-center justify-center bg-lino p-4 lg:min-h-[420px]' : 'bg-arena'
+            }">
+              ${cuerpo}
+            </div>
+          </div>`
+}
+
 /* ══════════════════════════════════════════════════════════════ hero ══ */
 
 function heroServicio(s) {
@@ -225,6 +253,9 @@ function numeral(i) {
 }
 
 // Sección editorial: la foto queda fija mientras el texto se desplaza.
+// Las ilustraciones marcadas `contain` (ej. diagramas panorámicos con texto en
+// los bordes) se muestran completas en vez de recortarlas a 4:5: recortarlas
+// les cortaría las etiquetas.
 function seccionEditorial(sec, s, idxFoto, invertida, orden) {
   const f = fotoEditorial(s, idxFoto)
   return `
@@ -232,12 +263,8 @@ function seccionEditorial(sec, s, idxFoto, invertida, orden) {
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(36px,5vw,80px)] lg:grid-cols-2">
 
-        <div class="${invertida ? 'lg:order-2' : ''} lg:sticky lg:top-[150px] lg:self-start">
-          <div data-anim="cortina" class="relative overflow-hidden rounded-[1.75rem] bg-arena shadow-alta">
-            <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
-                 class="parallax block aspect-[4/5] w-full object-cover" style="--px:5%">
-          </div>
-          <span aria-hidden="true" class="pointer-events-none absolute -bottom-5 ${invertida ? '-right-5' : '-left-5'} -z-10 h-32 w-32 rounded-[1.75rem] bg-oro-rosa/25"></span>
+        <div class="${invertida ? 'lg:order-2' : ''} lg:sticky lg:top-[150px] ${f.contain ? 'lg:self-center' : 'lg:self-start'}">
+          ${marcoFoto(f, { orden })}
         </div>
 
         <div class="${invertida ? 'lg:order-1' : ''}">
@@ -254,6 +281,7 @@ function seccionEditorial(sec, s, idxFoto, invertida, orden) {
 
 // Sección de checklist: encabezado fijo a la izquierda y lista a la derecha.
 function seccionChecklist(sec, s, orden) {
+  const foto = fotoSeccion(s, sec.id)
   const fila = (html) => `
         <li class="group flex items-start gap-4 border-b border-marino/10 py-5 transition-colors duration-500 last:border-0 hover:border-oro-rosa/50">
           <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-oro-rosa/40 text-oro-rosa-profundo transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">${checkIcon()}</span>
@@ -270,6 +298,7 @@ function seccionChecklist(sec, s, orden) {
           ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           ${sec.paragraphs?.length ? `<div class="mt-6">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
           ${sec.bulletsTitle ? `<p data-anim class="mt-7 font-display text-[1.05rem] font-semibold text-marino">${sec.bulletsTitle}</p>` : ''}
+          ${foto ? `<div class="mt-9">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
         <ul data-anim-grupo class="list-none self-start">
           ${sec.bullets.map(fila).join('\n')}
@@ -281,6 +310,7 @@ function seccionChecklist(sec, s, orden) {
 
 // Sección de tarjetas (etapas, trimestres): numeradas en tipografía editorial.
 function seccionTarjetas(sec, s, orden) {
+  const foto = fotoSeccion(s, sec.id)
   const cols = sec.cards.length >= 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
   const tarjeta = (c, i) => `
         <article class="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/45 hover:shadow-flotante">
@@ -289,15 +319,23 @@ function seccionTarjetas(sec, s, orden) {
           <h3 class="${H3} relative mb-3.5 text-marino">${c.title}</h3>
           <p class="relative text-[0.95rem] leading-[1.7] text-humo">${c.text}</p>
         </article>`
-  return `
-  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
-    <div class="${CONTAINER}">
-      <div class="mb-[clamp(34px,4.5vw,60px)] max-w-[720px]">
+  const encabezado = `
         ${numeral(orden)}
         <span data-anim>${rotulo(sec.tag)}</span>
         ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
-        ${sec.headerIntro ? `<p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
-      </div>
+        ${sec.headerIntro ? `<p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}`
+
+  return `
+  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
+    <div class="${CONTAINER}">
+      ${
+        foto
+          ? `<div class="mb-[clamp(34px,4.5vw,60px)] grid items-center gap-[clamp(28px,4vw,64px)] lg:grid-cols-[1.05fr_0.95fr]">
+        <div class="max-w-[620px]">${encabezado}</div>
+        ${marcoFoto(foto, { orden, alto: 'aspect-[16/10]' })}
+      </div>`
+          : `<div class="mb-[clamp(34px,4.5vw,60px)] max-w-[720px]">${encabezado}</div>`
+      }
       ${sec.paragraphs?.length ? `<div class="mb-10 max-w-[760px]">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
       <div data-anim-grupo class="grid gap-5 ${cols}">
         ${sec.cards.map(tarjeta).join('\n')}
@@ -308,6 +346,7 @@ function seccionTarjetas(sec, s, orden) {
 
 // Sección de proceso: línea de tiempo vertical que se dibuja al hacer scroll.
 function seccionProceso(sec, s, orden) {
+  const foto = fotoSeccion(s, sec.id)
   const nodo = (p, i) => `
           <li class="relative pl-16 sm:pl-20">
             <span aria-hidden="true" class="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border border-oro-rosa/45 bg-lino font-display text-[0.95rem] font-medium text-oro-rosa-profundo sm:h-14 sm:w-14 sm:text-[1.1rem]">${i + 1}</span>
@@ -326,6 +365,7 @@ function seccionProceso(sec, s, orden) {
           <div data-anim class="mt-9">
             ${btnWa(s.waText, `wa_click_${s.slug}_proceso`, 'Agendar este servicio')}
           </div>
+          ${foto ? `<div class="mt-10">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
 
         <div class="relative">
