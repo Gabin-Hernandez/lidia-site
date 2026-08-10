@@ -81,10 +81,7 @@ export function head({
   <meta name="twitter:image" content="${imagen}">
   <meta name="twitter:image:alt" content="${escapeAttr(ogAlt)}">
 
-  <!-- Tipografías: Fraunces (display variable) + Plus Jakarta Sans (texto) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tipografías oficiales locales: Against (display) + Champagne & Limousines (texto) -->
   ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high">` : ''}
 
   <!-- Google tag (gtag.js) -->

@@ -14,46 +14,88 @@
 @import "tailwindcss" source(none);
 @source "../";
 
+/* --- Declaración de Fuentes Oficiales de Marca --- */
+@font-face {
+  font-family: 'Against';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/against%20regular.otf') format('opentype'),
+       url('/fonts/against%20regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Against';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/against%20regular.otf') format('opentype'),
+       url('/fonts/against%20regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Champagne & Limousines';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Champagne%20&%20Limousines.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Champagne & Limousines';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Champagne%20&%20Limousines%20Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Champagne & Limousines';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Champagne%20&%20Limousines%20Italic.ttf') format('truetype');
+}
+
 /* ------------------------------------------------------------------ 1. Tokens */
 @theme {
-  /* Azules — la marca. `noche` es el fondo oscuro editorial. */
-  --color-noche: #0b1c2c;
-  --color-noche-2: #12293f;
-  --color-marino: #1d3d61;
-  --color-marino-claro: #2f5c87;
+  /* Paleta Oficial de Marca: #315172, #528bb9, #a1cee3, #d894ab, #954a60 */
+  --color-noche: #1d3349;
+  --color-noche-2: #263e58;
+  --color-marino: #315172;
+  --color-marino-claro: #528bb9;
+  --color-cielo: #a1cee3;
 
   /* Tintas de texto */
-  --color-tinta: #1c2a38;
-  --color-humo: #5c6b7a;
+  --color-tinta: #1d3349;
+  --color-humo: #4a637d;
 
-  /* Neutros cálidos — la base del sitio ya no es blanco puro */
-  --color-lino: #fbf7f4;
-  --color-arena: #f5eae3;
-  --color-arena-2: #ecdcd1;
-  --color-rosa-palido: #fdf5f2;
-  --color-gris-suave: #f7f6f4;
+  /* Neutros cálidos y fondos suaves */
+  --color-lino: #fbf3f6;
+  --color-arena: #f0f6fa;
+  --color-arena-2: #e2eff6;
+  --color-rosa-palido: #fbf3f6;
+  --color-gris-suave: #f0f6fa;
 
-  /* Acento oro rosa */
-  --color-oro-rosa: #d9a694;
-  --color-oro-rosa-oscuro: #c28e7d;
-  /* Variante AA (≥4.5:1 sobre blanco/lino) para texto pequeño y estados hover */
-  --color-oro-rosa-profundo: #8a5a45;
-  /* Variante AA sobre los azules oscuros (≥5.3:1) */
-  --color-oro-rosa-claro: #f2d3c4;
+  /* Acentos de marca */
+  --color-oro-rosa: #d894ab;
+  --color-oro-rosa-oscuro: #954a60;
+  --color-oro-rosa-profundo: #954a60;
+  --color-oro-rosa-claro: #fbf3f6;
 
   --color-wsp: #25d366;
 
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Champagne & Limousines", "Champagne &amp; Limousines", "Century Gothic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Against", Didot, "Playfair Display", ui-serif, Georgia, serif;
 
   --ease-suave: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-entrada: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-salida: cubic-bezier(0.55, 0, 0.45, 1);
 
-  --shadow-suave: 0 10px 30px rgba(29, 61, 97, 0.06);
-  --shadow-flotante: 0 24px 60px rgba(29, 61, 97, 0.12);
-  --shadow-alta: 0 48px 100px -20px rgba(11, 28, 44, 0.35);
-  --shadow-cristal: 0 8px 32px rgba(11, 28, 44, 0.12);
+  --shadow-suave: 0 10px 30px rgba(49, 81, 114, 0.08);
+  --shadow-flotante: 0 24px 60px rgba(49, 81, 114, 0.14);
+  --shadow-alta: 0 48px 100px -20px rgba(49, 81, 114, 0.3);
+  --shadow-cristal: 0 8px 32px rgba(49, 81, 114, 0.1);
 }
 
 /* ------------------------------------------------------------------- 2. Base */
