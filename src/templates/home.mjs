@@ -212,7 +212,7 @@ function filaServicio(s, i) {
             <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_landing"
                aria-label="${escapeAttr(`Agendar ${s.nombre} por WhatsApp`)}"
                class="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-marino/12 text-wsp transition duration-500 ease-suave hover:border-wsp hover:bg-wsp hover:text-white max-lg:hidden">
-              ${waIcon(18)}
+              ${waIcon(18, 'glifo')}
             </a>
 
             <span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-marino/12 text-marino transition-all duration-500 ease-suave group-hover:border-oro-rosa group-hover:bg-oro-rosa group-hover:text-white sm:h-11 sm:w-11">

@@ -223,7 +223,7 @@ function motivos() {
           <span class="mb-2 block font-display text-[1.1rem] font-semibold leading-snug text-marino">${m.titulo}</span>
           <span class="mb-6 block text-[0.9rem] leading-[1.6] text-humo">${m.texto}</span>
           <span class="mt-auto inline-flex items-center gap-2 text-[0.85rem] font-bold text-wsp">
-            ${waIcon(16)} Escribir
+            ${waIcon(16, 'glifo')} Escribir
             <span aria-hidden="true" class="transition-transform duration-500 ease-suave group-hover:translate-x-1">${icono('flecha', 'h-3.5 w-3.5')}</span>
           </span>
         </a>`

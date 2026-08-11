@@ -550,9 +550,16 @@
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  /* El descendente de la Fraunces se cortaría con overflow:hidden exacto. */
+  /* La máscara recorta la caja de cada palabra, y la Fraunces se sale de
+     ella: por abajo el descendente, por arriba los acentos y, en itálica,
+     el remate de la última letra (por eso también hay colchón lateral).
+     El margen negativo descuenta cada colchón para no mover la composición. */
   padding-bottom: 0.14em;
   margin-bottom: -0.14em;
+  padding-top: 0.1em;
+  margin-top: -0.1em;
+  padding-inline: 0.14em;
+  margin-inline: -0.14em;
 }
 
 .cinetico .pal > span {

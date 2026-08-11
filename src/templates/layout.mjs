@@ -194,7 +194,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
 
         <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="${waLabel}"
            class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b] lg:flex">
-          ${waIcon(18)}
+          ${waIcon(18, 'blanco')}
           <span>WhatsApp</span>
         </a>
       </nav>
@@ -433,9 +433,9 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
 export function floatingWa({ waText, waLabel, soloDesktop = false }) {
   return `
   <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-label="${waLabel}"
-     class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full bg-wsp shadow-[0_12px_30px_-6px_rgba(37,211,102,0.75)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
+     class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full bg-wsp text-white shadow-[0_12px_30px_-6px_rgba(37,211,102,0.75)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
     <span aria-hidden="true" class="absolute inset-0 animate-ping rounded-full bg-wsp/40"></span>
-    <span class="relative">${waIcon(28)}</span>
+    <span class="relative">${waIcon(30, 'glifo')}</span>
   </a>`
 }
 
@@ -508,7 +508,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
           <div class="mt-7 flex flex-wrap gap-3">
             <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-label="wa_click_footer"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
-              ${waIcon(18)} WhatsApp
+              ${waIcon(18, 'blanco')} WhatsApp
             </a>
             <a href="tel:${DOCTORA.telefono}" class="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:border-white hover:bg-white/10">
               ${DOCTORA.telefonoDisplay}
