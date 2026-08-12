@@ -29,15 +29,17 @@
  * Physician, y marcarlas puede acarrear una acción manual. La valoración de
  * Google ya se comunica en la banda de cifras y en la prueba social.
  */
-// El orden importa: la maquetación es por columnas CSS, así que las entradas
-// llenan la columna izquierda de arriba abajo antes de pasar a la siguiente.
+/**
+ * El orden define la maquetación: la plantilla reparte el arreglo en tres
+ * columnas por bloques, así que las primeras tres entradas forman la columna
+ * izquierda (de arriba abajo), las siguientes tres la central, y así.
+ *
+ * Están intercaladas a propósito para que las tres columnas queden de alto
+ * parecido: la más larga (Keira L.) encabeza una columna y las más cortas la
+ * cierran.
+ */
 export const TESTIMONIOS = [
-  {
-    texto: 'Excelente lugar y excelente atención de la doctora Lidia.',
-    autora: 'Natali M.',
-    fuente: 'Google',
-    estrellas: 5,
-  },
+  // ── Columna izquierda ──
   {
     texto:
       'Fui a la consulta con la Dra. Lidia con mucha incertidumbre y salí completamente tranquila y agradecida. Desde el primer momento su trato es cálido, cercano y profesional. Es una doctora que te escucha con atención, te explica todo con claridad y te genera una confianza inmediata. Me resolvió todas mis dudas y, lo más importante, me dio un tratamiento completo y seguimiento para cada uno de mis problemas. Me sentí tan cómoda como si estuviera hablando con una amiga en quien confías plenamente. La recomiendo al 1000%.',
@@ -47,15 +49,23 @@ export const TESTIMONIOS = [
   },
   {
     texto:
-      'Recibí muy buena atención de la Dra. Lidia Chávez, mi consulta fue muy buena, atendió todas mis dudas, me dedicó bastante tiempo y fue amable al explicarme todos los procedimientos y detalles. El consultorio está en excelentes condiciones desde la recepción hasta el consultorio médico.',
-    autora: 'Dulce Estefanía R.',
+      'Excelente atención, tanto de parte de la Dra. Lidia como del equipo que la acompaña. Muy cómodas instalaciones. ¡Gracias!',
+    autora: 'Arelis G.',
     fuente: 'Google',
     estrellas: 5,
   },
   {
+    texto: 'Excelente lugar y excelente atención de la doctora Lidia.',
+    autora: 'Natali M.',
+    fuente: 'Google',
+    estrellas: 5,
+  },
+
+  // ── Columna central ──
+  {
     texto:
-      'Excelente atención de Ana en recepción y la Dra. Lidia, quien me explicó con paciencia lo que tengo y me dio tips para estar mejor en ciertos cuidados. Ahora siento que tengo el acompañamiento adecuado en la etapa de la perimenopausia y lo que venga. Eso es importantísimo para mí. ¡Muchas gracias!',
-    autora: 'Mariana G.',
+      'Recibí muy buena atención de la Dra. Lidia Chávez, mi consulta fue muy buena, atendió todas mis dudas, me dedicó bastante tiempo y fue amable al explicarme todos los procedimientos y detalles. El consultorio está en excelentes condiciones desde la recepción hasta el consultorio médico.',
+    autora: 'Dulce Estefanía R.',
     fuente: 'Google',
     estrellas: 5,
   },
@@ -68,8 +78,17 @@ export const TESTIMONIOS = [
   },
   {
     texto:
-      'Excelente atención, tanto de parte de la Dra. Lidia como del equipo que la acompaña. Muy cómodas instalaciones. ¡Gracias!',
-    autora: 'Arelis G.',
+      'Excelente atención y servicio. Mi pareja y yo sin duda regresaremos para llevar el nacimiento de nuestros bebés.',
+    autora: 'César Augusto R.',
+    fuente: 'Google',
+    estrellas: 5,
+  },
+
+  // ── Columna derecha ──
+  {
+    texto:
+      'Excelente atención de Ana en recepción y la Dra. Lidia, quien me explicó con paciencia lo que tengo y me dio tips para estar mejor en ciertos cuidados. Ahora siento que tengo el acompañamiento adecuado en la etapa de la perimenopausia y lo que venga. Eso es importantísimo para mí. ¡Muchas gracias!',
+    autora: 'Mariana G.',
     fuente: 'Google',
     estrellas: 5,
   },
@@ -77,13 +96,6 @@ export const TESTIMONIOS = [
     texto:
       'Ya es la segunda vez que visito a la Dra. Lidia, me gusta que se toma el tiempo en explicarte todas tus dudas.',
     autora: 'Linda Daniela L.',
-    fuente: 'Google',
-    estrellas: 5,
-  },
-  {
-    texto:
-      'Excelente atención y servicio. Mi pareja y yo sin duda regresaremos para llevar el nacimiento de nuestros bebés.',
-    autora: 'César Augusto R.',
     fuente: 'Google',
     estrellas: 5,
   },

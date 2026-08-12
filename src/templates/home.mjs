@@ -337,15 +337,22 @@ function recorrido() {
 function testimonios() {
   if (!TESTIMONIOS.length) return ''
 
-  // Los testimonios reales varían mucho de largo: en una retícula rígida las
-  // tarjetas cortas quedarían con un hueco enorme para igualar a la más larga.
-  // Con columnas CSS cada una fluye a su altura natural.
-  const cols =
-    TESTIMONIOS.length === 1
+  // Reparto explícito en columnas, no `columns-*` de CSS: ahí el navegador
+  // equilibra por altura y no hay forma de fijar en qué columna cae cada
+  // testimonio. Repartiendo a mano, el orden del arreglo manda: los primeros
+  // llenan la columna izquierda de arriba abajo, y así con el resto.
+  const nCols = TESTIMONIOS.length >= 5 ? 3 : TESTIMONIOS.length >= 2 ? 2 : 1
+  const porCol = Math.ceil(TESTIMONIOS.length / nCols)
+  const columnas = Array.from({ length: nCols }, (_, i) =>
+    TESTIMONIOS.slice(i * porCol, (i + 1) * porCol)
+  ).filter((c) => c.length)
+
+  const rejilla =
+    nCols === 1
       ? 'max-w-[760px] mx-auto'
-      : TESTIMONIOS.length === 2
-        ? 'md:columns-2 max-w-[1000px] mx-auto'
-        : 'md:columns-2 lg:columns-3'
+      : nCols === 2
+        ? 'md:grid-cols-2 max-w-[1000px] mx-auto'
+        : 'md:grid-cols-2 lg:grid-cols-3'
 
   const estrellas = (n) =>
     !n
@@ -355,7 +362,7 @@ function testimonios() {
           </span>`
 
   const tarjeta = (t) => `
-        <figure class="group relative mb-5 block break-inside-avoid overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/40 hover:shadow-flotante">
+        <figure class="group relative overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/40 hover:shadow-flotante">
           <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
           <span aria-hidden="true" class="relative mb-5 block font-display text-[2.8rem] italic leading-none text-oro-rosa/35">&ldquo;</span>
           ${estrellas(t.estrellas)}
@@ -387,8 +394,14 @@ function testimonios() {
           ${TESTIMONIOS_INTRO.texto}
         </p>
       </div>
-      <div data-anim-grupo class="gap-5 ${cols}">
-        ${TESTIMONIOS.map(tarjeta).join('\n')}
+      <div class="grid items-start gap-5 ${rejilla}">
+        ${columnas
+          .map(
+            (col) => `<div data-anim-grupo class="grid content-start gap-5">
+          ${col.map(tarjeta).join('\n')}
+        </div>`
+          )
+          .join('\n')}
       </div>
     </div>
   </section>`
