@@ -11,7 +11,7 @@ export const H1 =
   'font-display font-medium text-[clamp(2.5rem,6.4vw,5rem)] leading-[0.98] tracking-[-0.03em]'
 export const H2 =
   'font-display font-medium text-[clamp(1.95rem,4.4vw,3.4rem)] leading-[1.04] tracking-[-0.025em]'
-export const H3 = 'font-display font-semibold text-[clamp(1.15rem,1.9vw,1.45rem)] leading-[1.2]'
+export const H3 = 'font-display font-semibold text-[clamp(1.38rem,2.28vw,1.74rem)] leading-[1.2]'
 
 export const SECTION_BG = {
   light: 'bg-arena/45',
@@ -167,7 +167,7 @@ export function pruebaSocial({ claro = false } = {}) {
   const base = claro ? 'text-white/70' : 'text-humo'
   const fuerte = claro ? 'text-white' : 'text-marino'
   return `
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.86rem] ${base}">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[1.03rem] ${base}">
       <span class="flex items-center gap-1 text-oro-rosa" aria-hidden="true">
         ${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}
       </span>
@@ -184,7 +184,7 @@ export function checkIcon() {
 // Bullet simple sin tarjeta.
 export function bulletItem(texto) {
   return `
-    <li class="flex items-center gap-3.5 text-[1rem] font-semibold text-marino">
+    <li class="flex items-center gap-3.5 text-[1.2rem] font-semibold text-marino">
       <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-oro-rosa/20 text-oro-rosa-profundo">${checkIcon()}</span>
       ${texto}
     </li>`
@@ -202,7 +202,7 @@ export function tiraDatos(items, { montada = false } = {}) {
           i >= 2 ? 'border-t md:border-t-0' : ''
         } md:border-l md:first:border-l-0">
           <dt class="mb-2.5 text-[0.63rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">${d.label}</dt>
-          <dd class="font-display text-[0.98rem] font-semibold leading-snug text-marino">${d.valor}</dd>
+          <dd class="font-display text-[1.18rem] font-semibold leading-snug text-marino">${d.valor}</dd>
         </div>`
   return `
   <section aria-label="Datos clave" class="relative z-20 ${montada ? '-mt-[clamp(60px,8vw,96px)]' : ''}">
@@ -221,7 +221,7 @@ export function faqItem(q, a, i = 0) {
               class="group flex w-full cursor-pointer items-start justify-between gap-6 py-6 text-left transition-colors duration-400">
         <span class="flex items-baseline gap-4">
           <span aria-hidden="true" class="font-display text-[0.85rem] italic text-oro-rosa">${String(i + 1).padStart(2, '0')}</span>
-          <span class="font-display text-[clamp(1.02rem,1.7vw,1.22rem)] font-semibold leading-snug text-marino transition-colors duration-400 group-hover:text-oro-rosa-profundo">${q}</span>
+          <span class="font-display text-[clamp(1.22rem,2.04vw,1.46rem)] font-semibold leading-snug text-marino transition-colors duration-400 group-hover:text-oro-rosa-profundo">${q}</span>
         </span>
         <span aria-hidden="true" class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-marino/15 text-marino transition duration-500 ease-suave group-aria-expanded:rotate-45 group-aria-expanded:border-marino group-aria-expanded:bg-marino group-aria-expanded:text-lino">
           ${icono('mas', 'h-3.5 w-3.5')}
@@ -229,7 +229,7 @@ export function faqItem(q, a, i = 0) {
       </button>
       <div class="faq-panel">
         <div>
-          <p class="max-w-[68ch] pb-7 pl-[2.15rem] pr-10 text-[0.97rem] leading-[1.75] text-humo">${a}</p>
+          <p class="max-w-[68ch] pb-7 pl-[2.15rem] pr-10 text-[1.16rem] leading-[1.75] text-humo">${a}</p>
         </div>
       </div>
     </div>`
@@ -245,8 +245,8 @@ export function otroServicioCard(s) {
              class="h-full w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-110">
       </span>
       <span class="min-w-0 flex-1">
-        <span class="block font-display text-[1.05rem] font-semibold leading-tight text-marino transition-colors duration-400 group-hover:text-oro-rosa-profundo">${s.nombre}</span>
-        <span class="mt-1.5 block text-[0.85rem] leading-[1.5] text-humo">${s.otroDesc}</span>
+        <span class="block font-display text-[1.26rem] font-semibold leading-tight text-marino transition-colors duration-400 group-hover:text-oro-rosa-profundo">${s.nombre}</span>
+        <span class="mt-1.5 block text-[1.02rem] leading-[1.5] text-humo">${s.otroDesc}</span>
       </span>
       <span aria-hidden="true" class="shrink-0 text-marino/30 transition-all duration-500 ease-suave group-hover:translate-x-1 group-hover:text-oro-rosa">${icono('flechaDiag', 'h-5 w-5')}</span>
     </a>`

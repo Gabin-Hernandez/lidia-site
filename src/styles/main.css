@@ -138,7 +138,7 @@
   }
 
   p {
-    font-size: clamp(0.97rem, 1.4vw, 1.06rem);
+    font-size: clamp(1.16rem, 1.68vw, 1.27rem);
     color: color-mix(in srgb, var(--color-tinta) 88%, transparent);
   }
 
@@ -814,7 +814,7 @@
 .escena__pie {
   color: inherit;
   margin-top: 1.5rem;
-  font-size: clamp(0.98rem, 1.6vw, 1.12rem);
+  font-size: clamp(1.18rem, 1.92vw, 1.34rem);
   line-height: 1.7;
   opacity: 0.82;
 }

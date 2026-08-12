@@ -114,11 +114,11 @@ function hero() {
             clase: `${H1} mt-7 text-marino`,
           })}
 
-          <p class="entrada mt-7 max-w-[54ch] text-[clamp(1.05rem,1.9vw,1.2rem)] font-medium leading-[1.6] text-tinta max-lg:mx-auto" style="--d:.5s">
+          <p class="entrada mt-7 max-w-[54ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.6] text-tinta max-lg:mx-auto" style="--d:.5s">
             Atención ginecológica profesional para consulta, revisión preventiva, Papanicolaou, colposcopía, embarazo y control prenatal.
           </p>
 
-          <p class="entrada mt-4 max-w-[52ch] text-[1rem] leading-[1.7] text-humo max-lg:mx-auto" style="--d:.58s">
+          <p class="entrada mt-4 max-w-[52ch] text-[1.2rem] leading-[1.7] text-humo max-lg:mx-auto" style="--d:.58s">
             Agenda tu consulta con la ${DOCTORA.nombreCompleto} de forma rápida por WhatsApp, sin formularios ni llamadas en espera.
           </p>
 
@@ -212,7 +212,7 @@ function filaServicio(s, i) {
               <h3 class="font-display text-[clamp(1.22rem,3.1vw,2.15rem)] font-medium leading-[1.12] tracking-[-0.02em]">
                 <a href="/${s.slug}/" class="text-marino no-underline transition-colors duration-500 after:absolute after:inset-0 after:content-[''] group-hover:text-oro-rosa-profundo">${s.nombre}</a>
               </h3>
-              <p class="mt-2.5 max-w-[62ch] text-[0.9rem] leading-[1.6] text-humo lg:text-[0.95rem]">${s.cardDesc}</p>
+              <p class="mt-2.5 max-w-[62ch] text-[1.08rem] leading-[1.6] text-humo lg:text-[1.14rem]">${s.cardDesc}</p>
             </span>
 
             <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_landing"
@@ -238,7 +238,7 @@ function serviciosSection() {
           ${titulo(`Servicios ${acento('ginecológicos')}`, { clase: `${H2} mt-5 text-marino` })}
         </div>
         <div class="lg:pb-3">
-          <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo">
+          <p data-anim style="--d:.1s" class="text-[1.22rem] leading-[1.7] text-humo">
             La Dra. Lidia brinda atención ginecológica profesional para distintas etapas y necesidades de la salud femenina.
           </p>
           <span data-anim style="--d:.16s" class="mt-4 block font-display text-[0.85rem] italic text-oro-rosa-profundo">(${String(SERVICES.length).padStart(2, '0')}) especialidades</span>
@@ -249,7 +249,7 @@ function serviciosSection() {
         ${SERVICES.map(filaServicio).join('\n')}
       </ol>
 
-      <p class="mt-9 text-center text-[0.85rem] text-humo lg:text-left">
+      <p class="mt-9 text-center text-[1.02rem] text-humo lg:text-left">
         ¿No sabes cuál necesitas?
         <a href="${waLink('Hola Dra. Lidia, no sé qué servicio necesito, ¿me orienta?')}" target="_blank" rel="noopener" data-wa-label="wa_click_landing_orientacion"
            class="enlace-linea font-bold text-marino no-underline">Escríbele a la doctora y te orienta.</a>
@@ -305,7 +305,7 @@ function recorrido() {
         <li class="relative border-t border-marino/12 pl-[4.5rem] pt-7 first:border-t-0 first:pt-0">
           <span aria-hidden="true" class="absolute left-0 ${i === 0 ? 'top-0' : 'top-7'} flex h-12 w-12 items-center justify-center rounded-full border border-oro-rosa/40 bg-lino font-display text-[1.05rem] font-medium text-oro-rosa-profundo">${i + 1}</span>
           <h3 class="${H3} mb-3 text-marino">${p.titulo}</h3>
-          <p class="max-w-[52ch] text-[0.96rem] leading-[1.75] text-humo">${p.texto}</p>
+          <p class="max-w-[52ch] text-[1.15rem] leading-[1.75] text-humo">${p.texto}</p>
         </li>`
   return `
   <section class="relative overflow-hidden bg-arena/40 py-[clamp(72px,10vw,140px)]">
@@ -316,7 +316,7 @@ function recorrido() {
           ${titulo(`De la duda a la ${acento('consulta')} en tres pasos`, {
             clase: `${H2} mt-5 text-marino`,
           })}
-          <p data-anim style="--d:.1s" class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">
             Sin llamadas en espera ni formularios largos: escribes, confirmamos horario y llegas a tu cita con todo claro.
           </p>
           <div data-anim style="--d:.18s" class="mt-9">
@@ -382,7 +382,7 @@ function galeria() {
       <span aria-hidden="true" class="w-1 shrink-0"></span>
     </div>
 
-    <p class="${CONTAINER} mt-6 text-[0.82rem] text-humo">Toca una foto para verla en grande.</p>
+    <p class="${CONTAINER} mt-6 text-[0.98rem] text-humo">Toca una foto para verla en grande.</p>
   </section>`
 }
 

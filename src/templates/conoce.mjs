@@ -133,8 +133,8 @@ function hero() {
             'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
         })}
 
-        <p class="entrada mx-auto mt-8 max-w-[58ch] text-[clamp(1.05rem,1.9vw,1.2rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONOCE.lead}</p>
-        <p class="entrada mx-auto mt-4 max-w-[56ch] text-[1rem] leading-[1.7] text-humo" style="--d:.58s">${CONOCE.subLead}</p>
+        <p class="entrada mx-auto mt-8 max-w-[58ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONOCE.lead}</p>
+        <p class="entrada mx-auto mt-4 max-w-[56ch] text-[1.2rem] leading-[1.7] text-humo" style="--d:.58s">${CONOCE.subLead}</p>
 
         <div class="entrada mt-10 flex flex-wrap items-center justify-center gap-4" style="--d:.66s">
           ${btnWa(CONOCE.waHero, 'wa_click_conoce_hero')}
@@ -163,8 +163,8 @@ function seccionEnfoque(sec, i) {
       (p, j) =>
         `<p class="${
           j === 0
-            ? 'mb-6 text-[clamp(1.05rem,1.7vw,1.16rem)] font-medium leading-[1.7] text-marino'
-            : 'mb-5 text-[1rem] leading-[1.8] text-humo'
+            ? 'mb-6 text-[clamp(1.26rem,2.04vw,1.39rem)] font-medium leading-[1.7] text-marino'
+            : 'mb-5 text-[1.2rem] leading-[1.8] text-humo'
         } last:mb-0 [&_strong]:font-semibold [&_strong]:text-marino">${p}</p>`
     )
     .join('\n')
@@ -200,7 +200,7 @@ function trayectoria() {
         <li class="relative border-t border-marino/12 pl-[4.5rem] pt-7 first:border-t-0 first:pt-0">
           <span aria-hidden="true" class="absolute left-0 top-7 flex h-12 w-12 items-center justify-center rounded-full border border-oro-rosa/40 bg-lino font-display text-[0.8rem] font-medium text-oro-rosa-profundo first:top-0">${h.anio}</span>
           <h3 class="${H3} mb-2 text-marino">${h.titulo}</h3>
-          <p class="max-w-[52ch] text-[0.96rem] leading-[1.75] text-humo">${h.detalle}</p>
+          <p class="max-w-[52ch] text-[1.15rem] leading-[1.75] text-humo">${h.detalle}</p>
         </li>`
   return `
   <section class="bg-lino ${PAD}">
@@ -227,8 +227,8 @@ function especialidades() {
           <a href="/${s.slug}/" class="relative flex items-center gap-4 py-5 no-underline sm:gap-6">
             <span aria-hidden="true" class="w-6 shrink-0 font-display text-[0.8rem] italic text-oro-rosa">${String(i + 1).padStart(2, '0')}</span>
             <span class="min-w-0 flex-1">
-              <span class="block font-display text-[clamp(1.1rem,2.2vw,1.5rem)] font-medium leading-tight text-marino transition-colors duration-500 group-hover:text-oro-rosa-profundo">${s.nombre}</span>
-              <span class="mt-1.5 block text-[0.85rem] leading-[1.5] text-humo">${s.otroDesc}</span>
+              <span class="block font-display text-[clamp(1.32rem,2.64vw,1.8rem)] font-medium leading-tight text-marino transition-colors duration-500 group-hover:text-oro-rosa-profundo">${s.nombre}</span>
+              <span class="mt-1.5 block text-[1.02rem] leading-[1.5] text-humo">${s.otroDesc}</span>
             </span>
             <span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-marino/12 text-marino transition-all duration-500 ease-suave group-hover:border-oro-rosa group-hover:bg-oro-rosa group-hover:text-white">
               ${icono('flechaDiag', 'h-4 w-4')}
@@ -244,7 +244,7 @@ function especialidades() {
           <span data-anim>${rotulo('En qué puede ayudarte')}</span>
           ${titulo(`Sus ${acento('especialidades')}`, { clase: `${H2} mt-5 text-marino` })}
         </div>
-        <p data-anim style="--d:.1s" class="text-[1rem] leading-[1.7] text-humo lg:pb-2">
+        <p data-anim style="--d:.1s" class="text-[1.2rem] leading-[1.7] text-humo lg:pb-2">
           Siete servicios que cubren la salud ginecológica en distintas etapas: prevención, diagnóstico, embarazo y seguimiento.
         </p>
       </div>
@@ -280,7 +280,7 @@ function galeria() {
       <div class="mb-[clamp(30px,4vw,52px)] max-w-[620px]">
         <span data-anim>${rotulo('Su consultorio')}</span>
         ${titulo(`Dónde te ${acento('atiende')}`, { clase: `${H2} mt-5 text-marino` })}
-        <p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">
+        <p data-anim class="mt-6 text-[1.2rem] leading-[1.75] text-humo">
           Aurafem, en Colonia Anzures, a unos minutos de Polanco. Toca una foto para verla en grande.
         </p>
       </div>

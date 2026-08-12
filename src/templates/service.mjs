@@ -172,8 +172,8 @@ function heroServicio(s) {
               'font-display font-medium text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.02] tracking-[-0.03em] text-white mt-6 max-w-[18ch]',
           })}
 
-          <p class="entrada mt-7 max-w-[58ch] text-[clamp(1rem,1.7vw,1.14rem)] font-medium leading-[1.65] text-white/85 [&_strong]:font-bold [&_strong]:text-oro-rosa-claro" style="--d:.5s">${s.heroP}</p>
-          <p class="entrada mt-4 max-w-[56ch] text-[0.96rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
+          <p class="entrada mt-7 max-w-[58ch] text-[clamp(1.2rem,2.04vw,1.37rem)] font-medium leading-[1.65] text-white/85 [&_strong]:font-bold [&_strong]:text-oro-rosa-claro" style="--d:.5s">${s.heroP}</p>
+          <p class="entrada mt-4 max-w-[56ch] text-[1.15rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
 
           <div class="entrada mt-10 flex flex-wrap items-center gap-4" style="--d:.66s">
             ${btnWa(s.waText, `wa_click_${s.slug}_hero`)}
@@ -181,12 +181,12 @@ function heroServicio(s) {
           </div>
 
           <div class="entrada mt-8 flex flex-wrap items-center gap-x-5 gap-y-3" style="--d:.74s">
-            <span class="flex items-center gap-1.5 text-[0.86rem] text-white/70">
+            <span class="flex items-center gap-1.5 text-[1.03rem] text-white/70">
               <span class="text-oro-rosa-claro" aria-hidden="true">${icono('estrella', 'h-3.5 w-3.5')}</span>
               <strong class="font-bold text-white">4.9</strong> en Google
             </span>
             <span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/25"></span>
-            <span class="text-[0.86rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>
+            <span class="text-[1.03rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>
           </div>
         </div>
 
@@ -237,8 +237,8 @@ function bloqueParrafos(parrafos, { lead = true, claro = false } = {}) {
       (p, i) =>
         `<p class="${
           i === 0 && lead
-            ? `mb-6 text-[clamp(1.05rem,1.7vw,1.16rem)] leading-[1.7] font-medium ${claro ? 'text-white' : 'text-marino'}`
-            : `mb-5 text-[1rem] leading-[1.8] ${claro ? 'text-white/70' : 'text-humo'}`
+            ? `mb-6 text-[clamp(1.26rem,2.04vw,1.39rem)] leading-[1.7] font-medium ${claro ? 'text-white' : 'text-marino'}`
+            : `mb-5 text-[1.2rem] leading-[1.8] ${claro ? 'text-white/70' : 'text-humo'}`
         } last:mb-0 [&_strong]:font-semibold [&_strong]:${claro ? 'text-white' : 'text-marino'}">${p}</p>`
     )
     .join('\n')
@@ -269,7 +269,7 @@ function seccionEditorial(sec, s, idxFoto, invertida, orden) {
           ${numeral(orden)}
           <span data-anim>${rotulo(sec.tag)}</span>
           ${titulo(sec.title, { clase: `${H2} mt-5 mb-7 text-marino` })}
-          ${sec.headerIntro ? `<p data-anim class="mb-7 max-w-[58ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
+          ${sec.headerIntro ? `<p data-anim class="mb-7 max-w-[58ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           ${bloqueParrafos(sec.paragraphs || [])}
         </div>
       </div>
@@ -283,7 +283,7 @@ function seccionChecklist(sec, s, orden) {
   const fila = (html) => `
         <li class="group flex items-start gap-4 border-b border-marino/10 py-5 transition-colors duration-500 last:border-0 hover:border-oro-rosa/50">
           <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-oro-rosa/40 text-oro-rosa-profundo transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">${checkIcon()}</span>
-          <span class="text-[1rem] font-medium leading-[1.6] text-tinta [&_strong]:font-semibold [&_strong]:text-marino">${html}</span>
+          <span class="text-[1.2rem] font-medium leading-[1.6] text-tinta [&_strong]:font-semibold [&_strong]:text-marino">${html}</span>
         </li>`
   return `
   <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
@@ -293,9 +293,9 @@ function seccionChecklist(sec, s, orden) {
           ${numeral(orden)}
           <span data-anim>${rotulo(sec.tag)}</span>
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
-          ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
+          ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           ${sec.paragraphs?.length ? `<div class="mt-6">${bloqueParrafos(sec.paragraphs, { lead: false })}</div>` : ''}
-          ${sec.bulletsTitle ? `<p data-anim class="mt-7 font-display text-[1.05rem] font-semibold text-marino">${sec.bulletsTitle}</p>` : ''}
+          ${sec.bulletsTitle ? `<p data-anim class="mt-7 font-display text-[1.26rem] font-semibold text-marino">${sec.bulletsTitle}</p>` : ''}
           ${foto ? `<div class="mt-9">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
         <ul data-anim-grupo class="list-none self-start">
@@ -315,13 +315,13 @@ function seccionTarjetas(sec, s, orden) {
           <span aria-hidden="true" class="pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
           <span aria-hidden="true" class="relative mb-7 font-display text-[2.4rem] italic leading-none text-oro-rosa/40 transition-colors duration-500 group-hover:text-oro-rosa">${String(i + 1).padStart(2, '0')}</span>
           <h3 class="${H3} relative mb-3.5 text-marino">${c.title}</h3>
-          <p class="relative text-[0.95rem] leading-[1.7] text-humo">${c.text}</p>
+          <p class="relative text-[1.14rem] leading-[1.7] text-humo">${c.text}</p>
         </article>`
   const encabezado = `
         ${numeral(orden)}
         <span data-anim>${rotulo(sec.tag)}</span>
         ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
-        ${sec.headerIntro ? `<p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}`
+        ${sec.headerIntro ? `<p data-anim class="mt-6 text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}`
 
   return `
   <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
@@ -349,7 +349,7 @@ function seccionProceso(sec, s, orden) {
           <li class="relative pl-16 sm:pl-20">
             <span aria-hidden="true" class="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border border-oro-rosa/45 bg-lino font-display text-[0.95rem] font-medium text-oro-rosa-profundo sm:h-14 sm:w-14 sm:text-[1.1rem]">${i + 1}</span>
             <h3 class="${H3} mb-3 text-marino"><span class="sr-only">Paso ${i + 1}: </span>${p.title}</h3>
-            <p class="max-w-[48ch] text-[0.97rem] leading-[1.75] text-humo">${p.text}</p>
+            <p class="max-w-[48ch] text-[1.16rem] leading-[1.75] text-humo">${p.text}</p>
           </li>`
   return `
   <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
@@ -359,7 +359,7 @@ function seccionProceso(sec, s, orden) {
           ${numeral(orden)}
           <span data-anim>${rotulo(sec.tag)}</span>
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
-          ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
+          ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           <div data-anim class="mt-9">
             ${btnWa(s.waText, `wa_click_${s.slug}_proceso`, 'Agendar este servicio')}
           </div>
@@ -398,8 +398,8 @@ function faqSection(s) {
           ${titulo(s.faqTitle, { clase: `${H2} mt-5 text-marino` })}
 
           <div data-anim class="mt-9 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-7">
-            <p class="mb-2 font-display text-[1.1rem] font-semibold text-marino">¿No resolvimos tu duda?</p>
-            <p class="mb-6 text-[0.92rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
+            <p class="mb-2 font-display text-[1.32rem] font-semibold text-marino">¿No resolvimos tu duda?</p>
+            <p class="mb-6 text-[1.1rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
             <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_faq"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
               ${waIcon(18, 'blanco')} Preguntar por WhatsApp
@@ -445,7 +445,7 @@ function galeriaSection(s) {
         ${titulo(`Instalaciones y ${acento('experiencia')} de atención`, {
           clase: `${H2} mt-5 text-marino`,
         })}
-        <p data-anim class="mt-6 text-[1rem] leading-[1.75] text-humo">
+        <p data-anim class="mt-6 text-[1.2rem] leading-[1.75] text-humo">
           Conoce de cerca el consultorio en Polanco, el equipamiento y el entorno seguro de atención ginecológica. Toca una foto para verla en grande.
         </p>
       </div>
@@ -468,7 +468,7 @@ function otrosServicios(s) {
             clase: `${H2} mt-5 text-marino`,
           })}
         </div>
-        ${s.otrosIntro ? `<p data-anim class="max-w-[42ch] text-[0.97rem] leading-[1.7] text-humo">${s.otrosIntro}</p>` : ''}
+        ${s.otrosIntro ? `<p data-anim class="max-w-[42ch] text-[1.16rem] leading-[1.7] text-humo">${s.otrosIntro}</p>` : ''}
       </div>
       <div data-anim-grupo class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         ${otros.map(otroServicioCard).join('\n')}
@@ -484,7 +484,7 @@ function ctaFija(s) {
        class="fixed inset-x-0 bottom-0 z-[900] translate-y-full border-t border-marino/10 bg-lino/95 px-4 py-3 shadow-[0_-10px_30px_-10px_rgba(11,28,44,0.25)] backdrop-blur-xl transition-transform duration-500 ease-suave lg:hidden data-visible:translate-y-0">
     <div class="flex items-center gap-3">
       <span class="min-w-0 flex-1">
-        <span class="block truncate font-display text-[0.95rem] font-semibold leading-tight text-marino">${s.nombre}</span>
+        <span class="block truncate font-display text-[1.14rem] font-semibold leading-tight text-marino">${s.nombre}</span>
         <span class="block text-[0.74rem] text-humo">Agenda directo con la especialista</span>
       </span>
       <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-label="wa_click_${s.slug}_ctafija"

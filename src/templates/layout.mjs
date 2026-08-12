@@ -296,12 +296,12 @@ export function testimonios({ limite = 0, verTodos = false } = {}) {
           <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
           <span aria-hidden="true" class="relative mb-5 block font-display text-[2.8rem] italic leading-none text-oro-rosa/35">&ldquo;</span>
           ${estrellas(t.estrellas)}
-          <blockquote class="relative text-[1rem] leading-[1.75] text-tinta">${t.texto}</blockquote>
+          <blockquote class="relative text-[1.2rem] leading-[1.75] text-tinta">${t.texto}</blockquote>
           <figcaption class="relative mt-7 border-t border-marino/10 pt-5">
-            <span class="block font-display text-[1rem] font-semibold text-marino">${t.autora}</span>
+            <span class="block font-display text-[1.2rem] font-semibold text-marino">${t.autora}</span>
             ${
               t.servicio || t.fuente
-                ? `<span class="mt-1 block text-[0.8rem] text-humo">${[t.servicio, t.fuente ? `vía ${t.fuente}` : '']
+                ? `<span class="mt-1 block text-[0.96rem] text-humo">${[t.servicio, t.fuente ? `vía ${t.fuente}` : '']
                     .filter(Boolean)
                     .join(' · ')}</span>`
                 : ''
@@ -324,7 +324,7 @@ export function testimonios({ limite = 0, verTodos = false } = {}) {
           })}
         </div>
         <div class="lg:pb-2">
-          <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo">
+          <p data-anim style="--d:.1s" class="text-[1.22rem] leading-[1.7] text-humo">
             ${TESTIMONIOS_INTRO.texto}
           </p>
           ${
@@ -359,7 +359,7 @@ export function pilares() {
             ${icono(p.icono, 'h-5 w-5')}
           </span>
           <h3 class="${H3} relative mb-3 text-marino">${p.titulo}</h3>
-          <p class="relative text-[0.94rem] leading-[1.7] text-humo">${p.texto}</p>
+          <p class="relative text-[1.13rem] leading-[1.7] text-humo">${p.texto}</p>
         </article>`
   return `
   <section class="relative bg-arena/40 py-[clamp(72px,10vw,140px)]">
@@ -369,7 +369,7 @@ export function pilares() {
           <span data-anim>${rotulo('Cómo se trabaja aquí')}</span>
           ${titulo(`Medicina rigurosa con ${acento('trato humano')}`, { clase: `${H2} mt-5 text-marino` })}
         </div>
-        <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo lg:pb-2">
+        <p data-anim style="--d:.1s" class="text-[1.22rem] leading-[1.7] text-humo lg:pb-2">
           La consulta ginecológica funciona cuando hay confianza. Estos son los cuatro compromisos que sostienen cada cita con la Dra. Lidia Chávez.
         </p>
       </div>
@@ -417,7 +417,7 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
             clase: `${H2} mt-5 text-marino`,
           })}
 
-          <p data-anim style="--d:.1s" class="mt-6 max-w-[56ch] text-[1.05rem] leading-[1.75] text-tinta max-lg:mx-auto">
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[56ch] text-[1.26rem] leading-[1.75] text-tinta max-lg:mx-auto">
             La <strong class="font-semibold text-marino">${DOCTORA.nombreCompleto}</strong> brinda atención ginecológica en Polanco, CDMX, con un enfoque profesional, respetuoso y firmemente orientado al bienestar integral de cada paciente.
           </p>
 
@@ -444,7 +444,7 @@ export function ubicacion({ waText, waLabel }) {
           <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-oro-rosa-claro">${icono(ic, 'h-4 w-4')}</span>
           <span>
             <span class="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-claro">${label}</span>
-            <span class="mt-1 block text-[0.97rem] leading-[1.6] text-white/85">${valor}</span>
+            <span class="mt-1 block text-[1.16rem] leading-[1.6] text-white/85">${valor}</span>
           </span>
         </li>`
 
@@ -460,7 +460,7 @@ export function ubicacion({ waText, waLabel }) {
           ${titulo(`Consulta en ${acento('Polanco', { claro: true })}, CDMX`, {
             clase: `${H2} mt-5 text-white`,
           })}
-          <p data-anim style="--d:.1s" class="mt-6 max-w-[54ch] text-[1.02rem] leading-[1.75] text-white/70">
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[54ch] text-[1.22rem] leading-[1.75] text-white/70">
             Atención en zona Miguel Hidalgo, cerca de Polanco, con fácil acceso y conectividad desde Benito Juárez, Cuauhtémoc y zonas aledañas.
           </p>
 
@@ -500,7 +500,7 @@ export function claridad() {
   const dato = (label, valor) => `
         <div class="border-l border-marino/10 px-5 py-4 first:border-l-0 max-sm:border-l-0 max-sm:border-t max-sm:first:border-t-0">
           <span class="block text-[0.63rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">${label}</span>
-          <span class="mt-1.5 block text-[0.88rem] font-semibold leading-snug text-marino">${valor}</span>
+          <span class="mt-1.5 block text-[1.06rem] font-semibold leading-snug text-marino">${valor}</span>
         </div>`
   return `
   <section class="border-y border-marino/8 bg-gris-suave py-[clamp(48px,6vw,80px)]">
@@ -508,7 +508,7 @@ export function claridad() {
       <div class="mx-auto max-w-[960px]">
         <div data-anim class="rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-lino p-[clamp(22px,3.5vw,36px)]">
           <span class="mb-3 block">${rotulo('Aviso')}</span>
-          <p class="text-[0.92rem] leading-[1.75] text-humo">${DISCLAIMER}</p>
+          <p class="text-[1.1rem] leading-[1.75] text-humo">${DISCLAIMER}</p>
         </div>
 
         <div data-anim-grupo class="mt-8 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5">
@@ -536,7 +536,7 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
       ${titulo(t, {
         clase: 'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-6 mx-auto max-w-[16ch]',
       })}
-      <p data-anim style="--d:.12s" class="mx-auto mt-7 max-w-[54ch] text-[1.05rem] leading-[1.75] text-humo">
+      <p data-anim style="--d:.12s" class="mx-auto mt-7 max-w-[54ch] text-[1.26rem] leading-[1.75] text-humo">
         ${intro || 'Escríbele directamente a la Dra. Lidia Chávez para revisar fechas disponibles, horarios de atención y resolver tus dudas de forma rápida.'}
       </p>
 
@@ -621,7 +621,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
               <span class="mt-1 block text-[0.6rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">${DOCTORA.subtitulo}</span>
             </span>
           </a>
-          <p class="mt-6 max-w-[42ch] text-[0.92rem] leading-[1.7] text-white/60">
+          <p class="mt-6 max-w-[42ch] text-[1.1rem] leading-[1.7] text-white/60">
             Atención ginecológica profesional y confidencial en ${DIRECCION.lugar}, Col. Anzures, Miguel Hidalgo, CDMX.
           </p>
           <div class="mt-7 flex flex-wrap gap-3">
@@ -651,7 +651,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             ${enlace('/contacto/', 'Contacto y citas')}
             ${enlace('/#servicios', 'Todos los servicios')}
           </ul>
-          <address class="mt-7 not-italic text-[0.88rem] leading-[1.7] text-white/60">
+          <address class="mt-7 not-italic text-[1.06rem] leading-[1.7] text-white/60">
             ${DIRECCION.calle}<br>${DIRECCION.municipio}, ${DIRECCION.cp}<br>${DIRECCION.region}, México
           </address>
         </nav>
@@ -662,8 +662,8 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
       <div aria-hidden="true" class="regla-oro opacity-70"></div>
       <!-- El color va en cada <p>: la regla base de <p> pisa el heredado. -->
       <div class="${CONTAINER} flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-6">
-        <p class="text-[0.78rem] text-white/70">&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
-        <p class="flex items-center gap-2.5 text-[0.78rem] text-white/70">
+        <p class="text-[0.94rem] text-white/70">&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
+        <p class="flex items-center gap-2.5 text-[0.94rem] text-white/70">
           <span aria-hidden="true" class="text-oro-rosa">✦</span>
           Ginecóloga en Polanco, Ciudad de México.
         </p>

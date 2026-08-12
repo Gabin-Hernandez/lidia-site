@@ -106,8 +106,8 @@ function hero() {
             'font-display font-medium text-[clamp(2.3rem,5.8vw,4.5rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
         })}
 
-        <p class="entrada mx-auto mt-8 max-w-[56ch] text-[clamp(1.05rem,1.9vw,1.2rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${TESTIMONIOS_PAGINA.lead}</p>
-        <p class="entrada mx-auto mt-4 max-w-[54ch] text-[1rem] leading-[1.7] text-humo" style="--d:.58s">${TESTIMONIOS_PAGINA.subLead}</p>
+        <p class="entrada mx-auto mt-8 max-w-[56ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${TESTIMONIOS_PAGINA.lead}</p>
+        <p class="entrada mx-auto mt-4 max-w-[54ch] text-[1.2rem] leading-[1.7] text-humo" style="--d:.58s">${TESTIMONIOS_PAGINA.subLead}</p>
 
         <div class="entrada mt-9 flex flex-wrap items-center justify-center gap-4" style="--d:.66s">
           ${btnWa(TESTIMONIOS_PAGINA.waHero, 'wa_click_testimonios_hero')}
@@ -140,7 +140,7 @@ function nota() {
   return `
   <section aria-label="Sobre estos testimonios" class="bg-lino pb-[clamp(56px,7vw,96px)]">
     <div class="${CONTAINER}">
-      <p data-anim class="mx-auto max-w-[820px] rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-arena/30 px-[clamp(22px,3.5vw,36px)] py-[clamp(18px,2.5vw,26px)] text-center text-[0.95rem] leading-[1.75] text-humo">
+      <p data-anim class="mx-auto max-w-[820px] rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-arena/30 px-[clamp(22px,3.5vw,36px)] py-[clamp(18px,2.5vw,26px)] text-center text-[1.14rem] leading-[1.75] text-humo">
         ${TESTIMONIOS_PAGINA.nota}
       </p>
     </div>

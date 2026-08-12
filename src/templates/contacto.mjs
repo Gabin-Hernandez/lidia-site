@@ -111,8 +111,8 @@ function hero() {
             'font-display font-medium text-[clamp(2.4rem,6vw,4.6rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
         })}
 
-        <p class="entrada mx-auto mt-8 max-w-[54ch] text-[clamp(1.05rem,1.9vw,1.2rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONTACTO.lead}</p>
-        <p class="entrada mx-auto mt-3 text-[1rem] leading-[1.7] text-humo" style="--d:.56s">${CONTACTO.subLead}</p>
+        <p class="entrada mx-auto mt-8 max-w-[54ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONTACTO.lead}</p>
+        <p class="entrada mx-auto mt-3 text-[1.2rem] leading-[1.7] text-humo" style="--d:.56s">${CONTACTO.subLead}</p>
 
         <div class="entrada mt-10 flex flex-col items-center gap-5" style="--d:.64s">
           ${btnWa(CONTACTO.waHero, 'wa_click_contacto_hero', 'Escribir por WhatsApp', { grande: true })}
@@ -152,7 +152,7 @@ function canales() {
           <span aria-hidden="true" class="halo -right-20 -top-20 h-56 w-56 bg-wsp/25"></span>
           <span class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-wsp/15">${waIcon(24)}</span>
           <h3 class="${H3} relative mb-3 text-white">WhatsApp</h3>
-          <p class="relative mb-7 text-[0.95rem] leading-[1.7] text-white/65">
+          <p class="relative mb-7 text-[1.14rem] leading-[1.7] text-white/65">
             El camino más corto. Escribes, se revisan los horarios disponibles y se confirma tu cita, normalmente el mismo día.
           </p>
           <div class="relative mt-auto flex flex-col items-start gap-4">
@@ -164,7 +164,7 @@ function canales() {
         <article class="group flex flex-col rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-1.5 hover:border-oro-rosa/40 hover:shadow-flotante">
           <span class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-marino text-oro-rosa-claro transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">${icono('telefono', 'h-5 w-5')}</span>
           <h3 class="${H3} mb-3 text-marino">Teléfono</h3>
-          <p class="mb-6 text-[0.95rem] leading-[1.7] text-humo">
+          <p class="mb-6 text-[1.14rem] leading-[1.7] text-humo">
             Si prefieres hablar, puedes llamar al mismo número del consultorio.
           </p>
           <a href="tel:${DOCTORA.telefono}" data-wa-label="tel_click_contacto"
@@ -184,7 +184,7 @@ function canales() {
           </span>
           <span class="flex flex-1 flex-col p-8">
             <h3 class="${H3} mb-3 text-marino">Consultorio</h3>
-            <address class="mb-7 not-italic text-[0.95rem] leading-[1.7] text-humo">
+            <address class="mb-7 not-italic text-[1.14rem] leading-[1.7] text-humo">
               <strong class="font-semibold text-marino">${DIRECCION.lugar}</strong><br>
               ${DIRECCION.calle}<br>${DIRECCION.municipio}, ${DIRECCION.cp}, ${DIRECCION.region}
             </address>
@@ -199,11 +199,11 @@ function canales() {
         ${HORARIOS.map(
           (h) => `<div class="bg-lino px-6 py-5 text-center">
           <dt class="text-[0.63rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">${h.dias}</dt>
-          <dd class="mt-2 font-display text-[1rem] font-semibold text-marino">${h.horas}</dd>
+          <dd class="mt-2 font-display text-[1.2rem] font-semibold text-marino">${h.horas}</dd>
         </div>`
         ).join('')}
       </dl>`
-          : `<p data-anim class="mt-8 rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-lino px-6 py-5 text-center text-[0.92rem] leading-[1.7] text-humo">
+          : `<p data-anim class="mt-8 rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-lino px-6 py-5 text-center text-[1.1rem] leading-[1.7] text-humo">
         Los horarios de atención se confirman por WhatsApp según la agenda de la semana.
       </p>`
       }
@@ -220,8 +220,8 @@ function motivos() {
           <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-oro-rosa/15 text-oro-rosa-profundo transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">
             ${icono(m.icono, 'h-5 w-5')}
           </span>
-          <span class="mb-2 block font-display text-[1.1rem] font-semibold leading-snug text-marino">${m.titulo}</span>
-          <span class="mb-6 block text-[0.9rem] leading-[1.6] text-humo">${m.texto}</span>
+          <span class="mb-2 block font-display text-[1.32rem] font-semibold leading-snug text-marino">${m.titulo}</span>
+          <span class="mb-6 block text-[1.08rem] leading-[1.6] text-humo">${m.texto}</span>
           <span class="mt-auto inline-flex items-center gap-2 text-[0.85rem] font-bold text-wsp">
             ${waIcon(16, 'glifo')} Escribir
             <span aria-hidden="true" class="transition-transform duration-500 ease-suave group-hover:translate-x-1">${icono('flecha', 'h-3.5 w-3.5')}</span>
@@ -238,7 +238,7 @@ function motivos() {
             clase: `${H2} mt-5 text-marino`,
           })}
         </div>
-        <p data-anim style="--d:.1s" class="text-[1rem] leading-[1.7] text-humo lg:pb-2">
+        <p data-anim style="--d:.1s" class="text-[1.2rem] leading-[1.7] text-humo lg:pb-2">
           Cada tarjeta abre WhatsApp con el mensaje redactado. Puedes editarlo antes de enviarlo o añadir lo que necesites contar.
         </p>
       </div>
@@ -256,7 +256,7 @@ function despues() {
         <li class="relative border-t border-marino/12 pl-[4.5rem] pt-7 first:border-t-0 first:pt-0">
           <span aria-hidden="true" class="absolute left-0 ${i === 0 ? 'top-0' : 'top-7'} flex h-12 w-12 items-center justify-center rounded-full border border-oro-rosa/40 bg-lino font-display text-[1.05rem] font-medium text-oro-rosa-profundo">${i + 1}</span>
           <h3 class="${H3} mb-3 text-marino">${p.titulo}</h3>
-          <p class="max-w-[52ch] text-[0.96rem] leading-[1.75] text-humo">${p.texto}</p>
+          <p class="max-w-[52ch] text-[1.15rem] leading-[1.75] text-humo">${p.texto}</p>
         </li>`
 
   return `
@@ -266,7 +266,7 @@ function despues() {
         <div class="lg:sticky lg:top-[120px] lg:self-start">
           <span data-anim>${rotulo('Qué pasa después')}</span>
           ${titulo(`De tu mensaje a la ${acento('consulta')}`, { clase: `${H2} mt-5 text-marino` })}
-          <p data-anim style="--d:.1s" class="mt-6 max-w-[46ch] text-[1rem] leading-[1.75] text-humo">
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">
             Sin intermediarios: el mensaje llega directo a la especialista y de ahí sale la confirmación de tu cita.
           </p>
         </div>
@@ -287,7 +287,7 @@ function comoLlegar() {
           <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-oro-rosa-claro">${icono(ic, 'h-4 w-4')}</span>
           <span>
             <span class="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-claro">${label}</span>
-            <span class="mt-1 block text-[0.97rem] leading-[1.6] text-white/85">${valor}</span>
+            <span class="mt-1 block text-[1.16rem] leading-[1.6] text-white/85">${valor}</span>
           </span>
         </li>`
 
@@ -303,7 +303,7 @@ function comoLlegar() {
           ${titulo(`El consultorio está en ${acento('Anzures', { claro: true })}`, {
             clase: `${H2} mt-5 text-white`,
           })}
-          <p data-anim style="--d:.1s" class="mt-6 max-w-[52ch] text-[1.02rem] leading-[1.75] text-white/70">
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[52ch] text-[1.22rem] leading-[1.75] text-white/70">
             A unos minutos de Polanco y del Bosque de Chapultepec, en la alcaldía Miguel Hidalgo, con acceso desde Cuauhtémoc, Benito Juárez y zonas aledañas.
           </p>
 
@@ -339,7 +339,7 @@ function antesDeTuCita() {
   const fila = (html) => `
         <li class="group flex items-start gap-4 border-b border-marino/10 py-5 transition-colors duration-500 last:border-0 hover:border-oro-rosa/50">
           <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-oro-rosa/40 text-oro-rosa-profundo transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">${checkIcon()}</span>
-          <span class="text-[1rem] font-medium leading-[1.6] text-tinta [&_strong]:font-semibold [&_strong]:text-marino">${html}</span>
+          <span class="text-[1.2rem] font-medium leading-[1.6] text-tinta [&_strong]:font-semibold [&_strong]:text-marino">${html}</span>
         </li>`
 
   return `
@@ -349,7 +349,7 @@ function antesDeTuCita() {
         <div class="lg:sticky lg:top-[120px] lg:self-start">
           <span data-anim>${rotulo('Antes de tu cita')}</span>
           ${titulo(`Qué conviene ${acento('llevar')}`, { clase: `${H2} mt-5 text-marino` })}
-          <p data-anim style="--d:.1s" class="mt-6 max-w-[44ch] text-[1rem] leading-[1.75] text-humo">
+          <p data-anim style="--d:.1s" class="mt-6 max-w-[44ch] text-[1.2rem] leading-[1.75] text-humo">
             Nada es obligatorio, pero con esto la valoración se aprovecha mejor desde la primera consulta.
           </p>
         </div>
