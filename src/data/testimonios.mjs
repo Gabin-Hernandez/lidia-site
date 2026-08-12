@@ -29,7 +29,15 @@
  * Physician, y marcarlas puede acarrear una acción manual. La valoración de
  * Google ya se comunica en la banda de cifras y en la prueba social.
  */
+// El orden importa: la maquetación es por columnas CSS, así que las entradas
+// llenan la columna izquierda de arriba abajo antes de pasar a la siguiente.
 export const TESTIMONIOS = [
+  {
+    texto: 'Excelente lugar y excelente atención de la doctora Lidia.',
+    autora: 'Natali M.',
+    fuente: 'Google',
+    estrellas: 5,
+  },
   {
     texto:
       'Fui a la consulta con la Dra. Lidia con mucha incertidumbre y salí completamente tranquila y agradecida. Desde el primer momento su trato es cálido, cercano y profesional. Es una doctora que te escucha con atención, te explica todo con claridad y te genera una confianza inmediata. Me resolvió todas mis dudas y, lo más importante, me dio un tratamiento completo y seguimiento para cada uno de mis problemas. Me sentí tan cómoda como si estuviera hablando con una amiga en quien confías plenamente. La recomiendo al 1000%.',
@@ -82,12 +90,6 @@ export const TESTIMONIOS = [
   {
     texto: 'Excelente atención y diagnóstico de la doctora Lidia, muy clara en la explicación.',
     autora: 'Yesenia Esmeralda B.',
-    fuente: 'Google',
-    estrellas: 5,
-  },
-  {
-    texto: 'Excelente lugar y excelente atención de la doctora Lidia.',
-    autora: 'Natali M.',
     fuente: 'Google',
     estrellas: 5,
   },
