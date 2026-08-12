@@ -13,6 +13,7 @@ import {
   waLink,
 } from '../data/site.mjs'
 import { SERVICES } from '../data/services.mjs'
+import { TESTIMONIOS, TESTIMONIOS_INTRO } from '../data/testimonios.mjs'
 import {
   CONTAINER,
   H2,
@@ -118,6 +119,13 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
           }">${texto}</a>
         </li>`
 
+  // La sección de testimonios existe en la portada y en /conoce/. Desde
+  // /conoce/ el enlace baja a la de la propia página, en vez de mandar a cargar
+  // la portada para leer lo mismo. Sin testimonios no hay ancla y no hay enlace.
+  const enlaceTestimonios = TESTIMONIOS.length
+    ? navLink(activo === 'conoce' ? '#testimonios' : '/#testimonios', 'Testimonios')
+    : ''
+
   const megaItem = (s) => {
     const f = imgServicio(s.slug, 'tarjeta')
     return `
@@ -186,6 +194,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
         <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
           ${megaServicios}
           ${navLink('/conoce/', 'La doctora', 'conoce')}
+          ${enlaceTestimonios}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
           <li class="hidden max-lg:mt-4 max-lg:block">
             ${btnWa(waText, `${waLabel}_movil`, 'Agendar por WhatsApp')}
@@ -225,6 +234,90 @@ export function bandaCifras() {
     <div class="${CONTAINER} relative">
       <div data-anim-grupo class="grid grid-cols-[repeat(2,minmax(0,1fr))] divide-x divide-y divide-white/10 md:grid-cols-[repeat(4,minmax(0,1fr))] md:divide-y-0">
         ${CIFRAS.map(celda).join('')}
+      </div>
+    </div>
+  </section>`
+}
+
+/* ════════════════════════════════════════════════════════ testimonios ══ */
+
+// Solo se renderiza cuando hay testimonios reales en `TESTIMONIOS`. Con el
+// arreglo vacío devuelve '' y la página no muestra ningún hueco.
+//
+// Vive aquí, y no en la plantilla de la portada, porque la usan la portada y
+// /conoce/, y el enlace «Testimonios» del menú apunta al ancla #testimonios:
+// donde exista la sección, el salto cae en la misma página.
+export function testimonios() {
+  if (!TESTIMONIOS.length) return ''
+
+  // Reparto explícito en columnas, no `columns-*` de CSS: ahí el navegador
+  // equilibra por altura y no hay forma de fijar en qué columna cae cada
+  // testimonio. Repartiendo a mano, el orden del arreglo manda: los primeros
+  // llenan la columna izquierda de arriba abajo, y así con el resto.
+  const nCols = TESTIMONIOS.length >= 5 ? 3 : TESTIMONIOS.length >= 2 ? 2 : 1
+  const porCol = Math.ceil(TESTIMONIOS.length / nCols)
+  const columnas = Array.from({ length: nCols }, (_, i) =>
+    TESTIMONIOS.slice(i * porCol, (i + 1) * porCol)
+  ).filter((c) => c.length)
+
+  const rejilla =
+    nCols === 1
+      ? 'max-w-[760px] mx-auto'
+      : nCols === 2
+        ? 'md:grid-cols-2 max-w-[1000px] mx-auto'
+        : 'md:grid-cols-2 lg:grid-cols-3'
+
+  const estrellas = (n) =>
+    !n
+      ? ''
+      : `<span class="mb-5 flex items-center gap-1 text-oro-rosa" aria-label="${escapeAttr(`${n} de 5 estrellas`)}">
+            ${Array.from({ length: Math.min(5, Math.max(1, n)) }, () => icono('estrella', 'h-3.5 w-3.5')).join('')}
+          </span>`
+
+  const tarjeta = (t) => `
+        <figure class="group relative overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/40 hover:shadow-flotante">
+          <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
+          <span aria-hidden="true" class="relative mb-5 block font-display text-[2.8rem] italic leading-none text-oro-rosa/35">&ldquo;</span>
+          ${estrellas(t.estrellas)}
+          <blockquote class="relative text-[1rem] leading-[1.75] text-tinta">${t.texto}</blockquote>
+          <figcaption class="relative mt-7 border-t border-marino/10 pt-5">
+            <span class="block font-display text-[1rem] font-semibold text-marino">${t.autora}</span>
+            ${
+              t.servicio || t.fuente
+                ? `<span class="mt-1 block text-[0.8rem] text-humo">${[t.servicio, t.fuente ? `vía ${t.fuente}` : '']
+                    .filter(Boolean)
+                    .join(' · ')}</span>`
+                : ''
+            }
+          </figcaption>
+        </figure>`
+
+  // Sin `id` propio: el ancla #testimonios la coloca cada página con `ancla()`,
+  // porque el punto desde el que conviene ver el bloque cambia según lo que
+  // tenga encima (en la portada, la banda de cifras).
+  return `
+  <section class="relative overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
+    <span aria-hidden="true" class="halo -right-32 top-0 h-[28rem] w-[28rem] bg-arena-2/60"></span>
+    <div class="${CONTAINER} relative">
+      <div class="mb-[clamp(38px,5.5vw,72px)] grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <span data-anim>${rotulo(TESTIMONIOS_INTRO.rotulo)}</span>
+          ${titulo(`${TESTIMONIOS_INTRO.titulo} ${acento(TESTIMONIOS_INTRO.tituloAcento)}`, {
+            clase: `${H2} mt-5 text-marino`,
+          })}
+        </div>
+        <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo lg:pb-2">
+          ${TESTIMONIOS_INTRO.texto}
+        </p>
+      </div>
+      <div class="grid items-start gap-5 ${rejilla}">
+        ${columnas
+          .map(
+            (col) => `<div data-anim-grupo class="grid content-start gap-5">
+          ${col.map(tarjeta).join('\n')}
+        </div>`
+          )
+          .join('\n')}
       </div>
     </div>
   </section>`

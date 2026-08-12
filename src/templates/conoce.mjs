@@ -3,7 +3,12 @@
 // Ritmo: hero centrado sobre lino → tríptico de retratos escalonados → ficha de
 // credenciales → enfoque clínico (editorial con foto fija) → trayectoria (solo
 // si hay datos) → pilares → cifras → especialidades → galería → preguntas →
-// ubicación → transparencia → cierre.
+// testimonios → ubicación → transparencia → cierre.
+//
+// Los testimonios cierran el recorrido, después de las preguntas: aquí la
+// página ya explicó quién es la doctora y cómo trabaja, y las pacientes lo
+// confirman al final. En la portada van más arriba, porque ahí compiten con
+// menos contexto previo.
 //
 // El hero es claro y centrado a propósito: así no se confunde ni con la portada
 // (hero partido en dos columnas) ni con las internas de servicio (hero oscuro a
@@ -29,6 +34,7 @@ import {
   header,
   pageShell,
   pilares,
+  testimonios,
   ubicacion,
 } from './layout.mjs'
 import {
@@ -36,6 +42,7 @@ import {
   H2,
   H3,
   acento,
+  ancla,
   btnGhost,
   btnWa,
   escapeAttr,
@@ -329,6 +336,10 @@ export function renderConoce() {
     especialidades(),
     galeria(),
     preguntas(),
+    // Aquí el ancla va pegada a la sección: lo que tiene encima son las
+    // preguntas, y no hay nada que convenga arrastrar al salto.
+    ancla('testimonios'),
+    testimonios(),
     ubicacion({ waText: CONOCE.waHero, waLabel: 'wa_click_conoce_ubicacion' }),
     claridad(),
     ctaFinal({

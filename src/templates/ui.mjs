@@ -33,6 +33,27 @@ export function slugId(texto) {
     .replace(/^-+|-+$/g, '')
 }
 
+/**
+ * Punto de aterrizaje de un enlace con ancla. Es un elemento aparte, de altura
+ * cero, que se coloca entre secciones en vez de poner el `id` en la sección
+ * misma: así cada página decide desde dónde quiere que se empiece a ver el
+ * bloque. En la portada el ancla de testimonios va antes de la banda de cifras
+ * —el salto la deja entera a la vista, no cortada por la mitad—, mientras que
+ * en /conoce/ va pegada a la sección, que ahí es lo que sigue.
+ *
+ * Sin margen de scroll a propósito: el salto cae exactamente en el borde del
+ * destino. No hace falta reservar sitio para la cabecera fija, porque al bajar
+ * se esconde sola, y lo que queda arriba del todo —la banda de cifras, o el
+ * relleno superior de la sección— no lleva contenido pegado al borde. Cualquier
+ * margen aquí se ve como una franja muerta encima del destino.
+ *
+ * Cada página debe llamarlo una sola vez por `id`: dos anclas iguales dejarían
+ * ids repetidos en el documento.
+ */
+export function ancla(id) {
+  return `<span id="${id}" class="block"></span>`
+}
+
 /* ─────────────────────────────────────────────────────────── iconografía */
 
 // `extra` va primero a propósito: en HTML gana el primer atributo repetido, así
