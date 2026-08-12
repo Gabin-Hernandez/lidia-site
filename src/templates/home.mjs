@@ -2,8 +2,14 @@
 //
 // Ritmo narrativo: hero editorial → cinta de especialidades → índice de
 // servicios (pieza central, con vista previa al pasar el cursor) → la doctora →
-// pilares de atención → cifras → testimonios → cómo agendar → galería →
-// ubicación → transparencia → cierre.
+// pilares de atención → cifras → cómo agendar → galería → ubicación →
+// transparencia → cierre.
+//
+// Los testimonios ya no viven aquí: tienen página propia en /testimonios/, a la
+// que llevan el menú y el pie. En la portada quedaban a media página de scroll
+// y alargaban un recorrido que ya es largo; como página aparte se leen enteros
+// y tienen URL que compartir. La prueba social de la portada la sostienen el
+// hero (valoración y volumen de pacientes) y la banda de cifras.
 import { DOCTORA, DOMAIN, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
 import { GALERIA_HOME, RETRATO, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
@@ -18,7 +24,6 @@ import {
   header,
   pageShell,
   pilares,
-  testimonios,
   ubicacion,
 } from './layout.mjs'
 import {
@@ -27,7 +32,6 @@ import {
   H2,
   H3,
   acento,
-  ancla,
   btnGhost,
   btnWa,
   escapeAttr,
@@ -408,12 +412,7 @@ export function renderHome() {
       ctaTexto: 'Quiero agendar una consulta',
     }),
     pilares(),
-    // El ancla va antes de la banda de cifras, no antes de los testimonios: el
-    // salto desde el menú deja la banda entera a la vista y los testimonios
-    // justo debajo, en vez de cortarla por la mitad.
-    ancla('testimonios'),
     bandaCifras(),
-    testimonios(),
     recorrido(),
     galeria(),
     ubicacion({ waText: HOME.waUbicacion, waLabel: 'wa_click_landing_ubicacion' }),

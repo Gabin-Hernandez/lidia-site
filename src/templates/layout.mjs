@@ -119,11 +119,11 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
           }">${texto}</a>
         </li>`
 
-  // La sección de testimonios existe en la portada y en /conoce/. Desde
-  // /conoce/ el enlace baja a la de la propia página, en vez de mandar a cargar
-  // la portada para leer lo mismo. Sin testimonios no hay ancla y no hay enlace.
+  // Los testimonios tienen página propia: el enlace es una navegación normal,
+  // no un ancla. Sin testimonios que mostrar, la página quedaría vacía y el
+  // enlace no se pinta.
   const enlaceTestimonios = TESTIMONIOS.length
-    ? navLink(activo === 'conoce' ? '#testimonios' : '/#testimonios', 'Testimonios')
+    ? navLink('/testimonios/', 'Testimonios', 'testimonios')
     : ''
 
   const megaItem = (s) => {
@@ -244,20 +244,37 @@ export function bandaCifras() {
 // Solo se renderiza cuando hay testimonios reales en `TESTIMONIOS`. Con el
 // arreglo vacío devuelve '' y la página no muestra ningún hueco.
 //
-// Vive aquí, y no en la plantilla de la portada, porque la usan la portada y
-// /conoce/, y el enlace «Testimonios» del menú apunta al ancla #testimonios:
-// donde exista la sección, el salto cae en la misma página.
-export function testimonios() {
+// Vive aquí, y no dentro de una plantilla, porque la usan dos páginas: la de
+// testimonios (/testimonios/, con todos) y /conoce/, que muestra un adelanto y
+// remite a la página completa.
+//
+// `limite`   reduce la lista a n testimonios repartidos (0 = todos).
+// `verTodos` añade el enlace a /testimonios/ junto al encabezado.
+export function testimonios({ limite = 0, verTodos = false } = {}) {
   if (!TESTIMONIOS.length) return ''
+
+  // El adelanto no corta por la cabeza: el orden del arreglo está pensado para
+  // el reparto en columnas, así que los primeros n son una columna entera —un
+  // testimonio muy largo seguido de dos muy cortos—. Tomando uno de cada tramo
+  // salen las cabezas de columna, que están escogidas para verse parejas.
+  const n = Math.min(limite || TESTIMONIOS.length, TESTIMONIOS.length)
+  const paso = Math.max(1, Math.floor(TESTIMONIOS.length / n))
+  const lista =
+    n === TESTIMONIOS.length
+      ? TESTIMONIOS
+      : Array.from({ length: n }, (_, i) => TESTIMONIOS[i * paso])
 
   // Reparto explícito en columnas, no `columns-*` de CSS: ahí el navegador
   // equilibra por altura y no hay forma de fijar en qué columna cae cada
   // testimonio. Repartiendo a mano, el orden del arreglo manda: los primeros
   // llenan la columna izquierda de arriba abajo, y así con el resto.
-  const nCols = TESTIMONIOS.length >= 5 ? 3 : TESTIMONIOS.length >= 2 ? 2 : 1
-  const porCol = Math.ceil(TESTIMONIOS.length / nCols)
+  //
+  // Tres columnas solo cuando se llenan enteras: con cuatro tarjetas, `porCol`
+  // sería 2 y la tercera columna quedaría vacía dentro de una rejilla de tres.
+  const nCols = lista.length >= 5 || lista.length === 3 ? 3 : lista.length >= 2 ? 2 : 1
+  const porCol = Math.ceil(lista.length / nCols)
   const columnas = Array.from({ length: nCols }, (_, i) =>
-    TESTIMONIOS.slice(i * porCol, (i + 1) * porCol)
+    lista.slice(i * porCol, (i + 1) * porCol)
   ).filter((c) => c.length)
 
   const rejilla =
@@ -292,9 +309,9 @@ export function testimonios() {
           </figcaption>
         </figure>`
 
-  // Sin `id` propio: el ancla #testimonios la coloca cada página con `ancla()`,
-  // porque el punto desde el que conviene ver el bloque cambia según lo que
-  // tenga encima (en la portada, la banda de cifras).
+  // Sin `id` propio: donde haga falta un ancla, la coloca la página con
+  // `ancla()`, porque el punto desde el que conviene ver el bloque cambia según
+  // lo que tenga encima.
   return `
   <section class="relative overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
     <span aria-hidden="true" class="halo -right-32 top-0 h-[28rem] w-[28rem] bg-arena-2/60"></span>
@@ -306,9 +323,18 @@ export function testimonios() {
             clase: `${H2} mt-5 text-marino`,
           })}
         </div>
-        <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo lg:pb-2">
-          ${TESTIMONIOS_INTRO.texto}
-        </p>
+        <div class="lg:pb-2">
+          <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo">
+            ${TESTIMONIOS_INTRO.texto}
+          </p>
+          ${
+            verTodos
+              ? `<div data-anim style="--d:.18s" class="mt-7">
+            ${btnGhost('/testimonios/', 'Ver todos los testimonios')}
+          </div>`
+              : ''
+          }
+        </div>
       </div>
       <div class="grid items-start gap-5 ${rejilla}">
         ${columnas
@@ -620,6 +646,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
           <span class="mb-5 block text-[0.65rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">Consultorio</span>
           <ul class="grid list-none gap-3">
             ${enlace('/conoce/', 'La doctora')}
+            ${TESTIMONIOS.length ? enlace('/testimonios/', 'Testimonios') : ''}
             ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
             ${enlace('/contacto/', 'Contacto y citas')}
             ${enlace('/#servicios', 'Todos los servicios')}

@@ -4,11 +4,13 @@ import { renderConoce } from './conoce.mjs'
 import { renderContacto } from './contacto.mjs'
 import { renderHome } from './home.mjs'
 import { renderService } from './service.mjs'
+import { renderTestimonios } from './testimonios.mjs'
 
 const ESTATICAS = {
   home: renderHome,
   conoce: renderConoce,
   contacto: renderContacto,
+  testimonios: renderTestimonios,
 }
 
 export function renderPage(id) {

@@ -115,3 +115,30 @@ export const TESTIMONIOS_INTRO = {
   texto:
     'Comentarios de pacientes que han pasado por consulta con la Dra. Lidia Chávez.',
 }
+
+// Copia de la página /testimonios/. El resto de páginas guarda lo suyo en
+// doctora.mjs y contacto.mjs; los testimonios ya tenían archivo propio, así que
+// el texto de su página vive aquí, junto a los comentarios que muestra.
+export const TESTIMONIOS_PAGINA = {
+  slug: 'testimonios',
+  title: 'Testimonios de pacientes | Dra. Lidia Chávez, ginecóloga en Polanco CDMX',
+  description:
+    'Opiniones y experiencias de pacientes de la Dra. Lidia Chávez, ginecóloga y colposcopista en Polanco, CDMX. Comentarios sobre la consulta, el trato y el consultorio.',
+  ogAlt: 'Testimonios de pacientes de la Dra. Lidia Chávez, ginecóloga en Polanco CDMX',
+  logoAlt: 'Logo Dra. Lidia Chávez - Ginecóloga en Polanco CDMX',
+
+  eyebrow: 'Testimonios',
+  h1: 'Lo que dicen sus',
+  h1Acento: 'pacientes',
+  lead: 'Mujeres que ya pasaron por consulta con la Dra. Lidia Chávez cuentan cómo fue: el trato, las explicaciones y el seguimiento después de la cita.',
+  subLead:
+    'Comentarios publicados por ellas mismas, reunidos aquí para que sepas qué esperar antes de tu primera visita.',
+
+  // Precisión sobre el origen de los comentarios: es lo que sostiene que se
+  // publiquen sin marcado de reseñas (ver la nota de SEO arriba).
+  nota: 'Cada comentario se reproduce tal como lo escribió la paciente. Solo se abrevia el apellido para proteger su identidad.',
+
+  waHero: 'Hola Dra. Lidia, leí los testimonios y quiero agendar una consulta.',
+  waCierre: 'Hola Dra. Lidia, quiero agendar una consulta.',
+  ctaTitle: 'Agenda tu consulta con la Dra. Lidia Chávez',
+}

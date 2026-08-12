@@ -15,6 +15,7 @@ const PAGINAS = [
   'vph',
   'revision-ginecologicapreventiva',
   'conoce',
+  'testimonios',
   'contacto',
 ]
 

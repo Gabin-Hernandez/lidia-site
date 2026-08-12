@@ -5,10 +5,11 @@
 // si hay datos) → pilares → cifras → especialidades → galería → preguntas →
 // testimonios → ubicación → transparencia → cierre.
 //
-// Los testimonios cierran el recorrido, después de las preguntas: aquí la
-// página ya explicó quién es la doctora y cómo trabaja, y las pacientes lo
-// confirman al final. En la portada van más arriba, porque ahí compiten con
-// menos contexto previo.
+// De los testimonios solo va un adelanto, después de las preguntas: aquí la
+// página ya explicó quién es la doctora y cómo trabaja, y tres pacientes lo
+// confirman antes del cierre. Los demás están en /testimonios/, que es donde
+// viven completos; repetirlos enteros en dos páginas sería el mismo texto dos
+// veces para quien lee y para quien indexa.
 //
 // El hero es claro y centrado a propósito: así no se confunde ni con la portada
 // (hero partido en dos columnas) ni con las internas de servicio (hero oscuro a
@@ -42,7 +43,6 @@ import {
   H2,
   H3,
   acento,
-  ancla,
   btnGhost,
   btnWa,
   escapeAttr,
@@ -336,10 +336,7 @@ export function renderConoce() {
     especialidades(),
     galeria(),
     preguntas(),
-    // Aquí el ancla va pegada a la sección: lo que tiene encima son las
-    // preguntas, y no hay nada que convenga arrastrar al salto.
-    ancla('testimonios'),
-    testimonios(),
+    testimonios({ limite: 3, verTodos: true }),
     ubicacion({ waText: CONOCE.waHero, waLabel: 'wa_click_conoce_ubicacion' }),
     claridad(),
     ctaFinal({

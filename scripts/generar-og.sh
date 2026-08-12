@@ -70,6 +70,7 @@ echo "Generando $OUT/ …"
 tarjeta public/39f0736b-1235-4968-9c70-9ccc6640fa1e.webp "$OUT/home.jpg"
 recorte "$GAL/colposcopia-10.webp"             "$OUT/conoce.jpg"    45
 recorte "$GAL/consulta-ginecologica-4.webp"    "$OUT/contacto.jpg"  45
+recorte "$GAL/consulta-ginecologica-2.webp"    "$OUT/testimonios.jpg" 45
 recorte "$GAL/consulta-ginecologica-1.webp"    "$OUT/consulta-ginecologica.jpg" 45
 recorte "$GAL/papanicolaou-3.webp"             "$OUT/papanicolaou.jpg"      45
 recorte "$GAL/colposcopia-10.webp"             "$OUT/colposcopia.jpg"       45

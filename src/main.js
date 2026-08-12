@@ -588,9 +588,9 @@ $$('a[href^="/"]').forEach((link) => {
     const destino = link.getAttribute('href')
     if (!destino || destino.startsWith('#') || link.getAttribute('target') === '_blank') return
     // Un ancla de la propia página no es una navegación: los enlaces del menú
-    // se escriben absolutos ('/#testimonios') para que funcionen desde
-    // cualquier página, pero cuando ya estamos en esa página recargarla sería
-    // absurdo. Se deja pasar el clic y el navegador hace el salto interno.
+    // se escriben absolutos ('/#servicios') para que funcionen desde cualquier
+    // página, pero cuando ya estamos en esa página recargarla sería absurdo. Se
+    // deja pasar el clic y el navegador hace el salto interno.
     const url = new URL(destino, location.href)
     if (url.hash && url.pathname === location.pathname) return
     // Respeta abrir en pestaña/ventana nueva y los clics que no son del principal.
