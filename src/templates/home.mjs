@@ -7,6 +7,7 @@
 import { DOCTORA, DOMAIN, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
 import { GALERIA_HOME, RETRATO, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
+import { TESTIMONIOS, TESTIMONIOS_INTRO } from '../data/testimonios.mjs'
 import {
   bandaCifras,
   claridad,
@@ -329,6 +330,70 @@ function recorrido() {
   </section>`
 }
 
+/* ────────────────────────────────────────────────────── testimonios ─── */
+
+// Solo se renderiza cuando hay testimonios reales en `TESTIMONIOS`. Con el
+// arreglo vacío devuelve '' y la portada no muestra ningún hueco.
+function testimonios() {
+  if (!TESTIMONIOS.length) return ''
+
+  // Los testimonios reales varían mucho de largo: en una retícula rígida las
+  // tarjetas cortas quedarían con un hueco enorme para igualar a la más larga.
+  // Con columnas CSS cada una fluye a su altura natural.
+  const cols =
+    TESTIMONIOS.length === 1
+      ? 'max-w-[760px] mx-auto'
+      : TESTIMONIOS.length === 2
+        ? 'md:columns-2 max-w-[1000px] mx-auto'
+        : 'md:columns-2 lg:columns-3'
+
+  const estrellas = (n) =>
+    !n
+      ? ''
+      : `<span class="mb-5 flex items-center gap-1 text-oro-rosa" aria-label="${escapeAttr(`${n} de 5 estrellas`)}">
+            ${Array.from({ length: Math.min(5, Math.max(1, n)) }, () => icono('estrella', 'h-3.5 w-3.5')).join('')}
+          </span>`
+
+  const tarjeta = (t) => `
+        <figure class="group relative mb-5 block break-inside-avoid overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-2 hover:border-oro-rosa/40 hover:shadow-flotante">
+          <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-oro-rosa/0 blur-2xl transition-colors duration-700 group-hover:bg-oro-rosa/20"></span>
+          <span aria-hidden="true" class="relative mb-5 block font-display text-[2.8rem] italic leading-none text-oro-rosa/35">&ldquo;</span>
+          ${estrellas(t.estrellas)}
+          <blockquote class="relative text-[1rem] leading-[1.75] text-tinta">${t.texto}</blockquote>
+          <figcaption class="relative mt-7 border-t border-marino/10 pt-5">
+            <span class="block font-display text-[1rem] font-semibold text-marino">${t.autora}</span>
+            ${
+              t.servicio || t.fuente
+                ? `<span class="mt-1 block text-[0.8rem] text-humo">${[t.servicio, t.fuente ? `vía ${t.fuente}` : '']
+                    .filter(Boolean)
+                    .join(' · ')}</span>`
+                : ''
+            }
+          </figcaption>
+        </figure>`
+
+  return `
+  <section class="relative overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
+    <span aria-hidden="true" class="halo -right-32 top-0 h-[28rem] w-[28rem] bg-arena-2/60"></span>
+    <div class="${CONTAINER} relative">
+      <div class="mb-[clamp(38px,5.5vw,72px)] grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <span data-anim>${rotulo(TESTIMONIOS_INTRO.rotulo)}</span>
+          ${titulo(`${TESTIMONIOS_INTRO.titulo} ${acento(TESTIMONIOS_INTRO.tituloAcento)}`, {
+            clase: `${H2} mt-5 text-marino`,
+          })}
+        </div>
+        <p data-anim style="--d:.1s" class="text-[1.02rem] leading-[1.7] text-humo lg:pb-2">
+          ${TESTIMONIOS_INTRO.texto}
+        </p>
+      </div>
+      <div data-anim-grupo class="gap-5 ${cols}">
+        ${TESTIMONIOS.map(tarjeta).join('\n')}
+      </div>
+    </div>
+  </section>`
+}
+
 /* ─────────────────────────────────────────────────────────── galería */
 
 function galeria() {
@@ -407,6 +472,7 @@ export function renderHome() {
     }),
     pilares(),
     bandaCifras(),
+    testimonios(),
     recorrido(),
     galeria(),
     ubicacion({ waText: HOME.waUbicacion, waLabel: 'wa_click_landing_ubicacion' }),
