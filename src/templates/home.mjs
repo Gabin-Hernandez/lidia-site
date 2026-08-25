@@ -161,7 +161,7 @@ function hero() {
             <span class="flex items-center justify-center gap-1 text-oro-rosa" aria-hidden="true">
               ${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}
             </span>
-            <span class="mt-1.5 block font-display text-[1.15rem] font-medium leading-none text-marino">5.0</span>
+            <span class="mt-1.5 block text-[1.35rem] font-bold leading-none tracking-[0.01em] text-marino">5.0</span>
             <span class="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-humo">Google</span>
           </div>
         </div>
