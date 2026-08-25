@@ -21,7 +21,7 @@ export const CONOCE = {
   h1: 'Dra. Lidia Estela Chávez Buendía',
   lead: 'Gineco obstetra y colposcopista. Atiende en Aurafem, Polanco / Anzures, con una consulta pensada para que puedas hablar sin prisas y entender cada decisión sobre tu salud.',
   subLead:
-    'Consulta ginecológica, revisión preventiva, Papanicolaou, colposcopía, control prenatal y acompañamiento durante el embarazo.',
+    'Consulta ginecológica, revisión preventiva, Papanicolaou, colposcopía, orientación sobre VPH y control prenatal.',
 
   waHero: 'Hola Dra. Lidia, me gustaría agendar una consulta con usted.',
   waCierre: 'Hola Dra. Lidia, quiero agendar una consulta.',
@@ -31,9 +31,10 @@ export const CONOCE = {
 // Ficha rápida. Solo afirmaciones sostenidas por el material de la doctora.
 export const CREDENCIALES = [
   { label: 'Especialidad', valor: 'Gineco obstetricia' },
-  { label: 'Alta especialidad', valor: 'Colposcopía' },
+  { label: 'Alta especialidad', valor: 'Colposcopía y patología del tracto genital inferior' },
+  { label: 'Diplomado', valor: 'Menopausia' },
+  { label: 'Consulta', valor: 'Ginecológica y obstétrica' },
   { label: 'Consultorio', valor: 'Aurafem · Polanco / Anzures' },
-  { label: 'Consulta', valor: 'Primera vez y seguimiento' },
 ]
 
 // Secciones editoriales: cómo entiende y cómo conduce la consulta.
@@ -50,8 +51,8 @@ export const ENFOQUE = [
     tag: 'Diagnóstico y seguimiento',
     title: 'Precisión clínica explicada en palabras claras',
     paragraphs: [
-      'La formación en <strong>colposcopía</strong> permite estudiar el cuello uterino con detalle cuando un Papanicolaou sale alterado o hay antecedentes de VPH, y resolver en la misma consulta muchas de las dudas que generan más angustia.',
-      'Los hallazgos se explican en lenguaje sencillo, con las indicaciones por escrito, para que salgas del consultorio sabiendo exactamente qué sigue y en cuánto tiempo.',
+      'La formación en <strong>colposcopía</strong> permite estudiar el tracto genital inferior con detalle cuando un Papanicolaou sale alterado, hay antecedentes de VPH o existe una patología vulvar, y resolver en la misma consulta muchas de las dudas que generan más angustia.',
+      'Los hallazgos se explican en lenguaje sencillo, con las indicaciones por escrito, para que salgas del consultorio sabiendo exactamente qué sigue y en cuánto tiempo la doctora tiene que volver a revisarte.',
     ],
   },
 ]
@@ -71,7 +72,7 @@ export const FAQ_DOCTORA = [
   },
   {
     q: '¿Qué servicios ofrece?',
-    a: 'Consulta ginecológica, revisión ginecológica preventiva, Papanicolaou, colposcopía, orientación sobre VPH, control prenatal y atención durante el embarazo.',
+    a: 'Consulta ginecológica, revisión ginecológica preventiva, Papanicolaou, colposcopía, orientación y tratamiento del VPH, control prenatal, entre otros.',
   },
   {
     q: '¿Cómo agendo una cita con ella?',

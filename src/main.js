@@ -306,33 +306,10 @@ if (indice && puedeHover.matches && !menosMovimiento) {
   document.body.appendChild(visor)
   const imagen = $('img', visor)
 
-  let objetivoX = 0
-  let objetivoY = 0
-  let x = 0
-  let y = 0
-  let animando = false
-
-  const seguir = () => {
-    // Interpolación: la tarjeta persigue al cursor con inercia.
-    x += (objetivoX - x) * 0.14
-    y += (objetivoY - y) * 0.14
-    visor.style.translate = `${x}px ${y}px`
-    if (Math.abs(objetivoX - x) > 0.4 || Math.abs(objetivoY - y) > 0.4) {
-      requestAnimationFrame(seguir)
-    } else {
-      animando = false
-    }
-  }
-
-  indice.addEventListener('pointermove', (e) => {
-    objetivoX = e.clientX
-    objetivoY = e.clientY
-    if (!animando) {
-      animando = true
-      requestAnimationFrame(seguir)
-    }
-  })
-
+  // La tarjeta ya no persigue al cursor. Iba pegada al puntero y, al recorrer
+  // la lista, tapaba el texto de la fila que se estaba leyendo; la doctora pidió
+  // que apareciera y se quedara quieta en una zona. Dónde se queda lo decide el
+  // CSS (.preview): aquí solo se elige qué foto se ve.
   filas.forEach((fila) => {
     fila.addEventListener('pointerenter', () => {
       imagen.src = fila.dataset.preview

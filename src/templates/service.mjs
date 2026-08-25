@@ -183,7 +183,7 @@ function heroServicio(s) {
           <div class="entrada mt-8 flex flex-wrap items-center gap-x-5 gap-y-3" style="--d:.74s">
             <span class="flex items-center gap-1.5 text-[1.03rem] text-white/70">
               <span class="text-oro-rosa-claro" aria-hidden="true">${icono('estrella', 'h-3.5 w-3.5')}</span>
-              <strong class="font-bold text-white">4.9</strong> en Google
+              <strong class="font-bold text-white">5.0</strong> en Google
             </span>
             <span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/25"></span>
             <span class="text-[1.03rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>

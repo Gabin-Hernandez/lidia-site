@@ -49,7 +49,8 @@ const FOTOS = {
   'atencion-embarazo-8': 'Recién nacido tras la atención médica del parto',
   'atencion-embarazo-9': 'Primeros minutos de vida bajo supervisión médica',
   'atencion-embarazo-10': 'Acompañamiento en el nacimiento y los primeros cuidados',
-  'atencion-embarazo-1': 'La Dra. Lidia Chávez utilizando el colposcopio durante un procedimiento',
+  'atencion-embarazo-1':
+    'La Dra. Lidia Chávez con su colega realizando un procedimiento bajo visión colposcópica',
   'papanicolaou-1': 'Recién nacido en las primeras horas tras el parto',
   'papanicolaou-4': 'Recién nacido descansando tras el parto',
   'papanicolaou-9': 'Procedimiento de colposcopía con electrocauterio',
@@ -180,11 +181,179 @@ const FOTOS_APOYO = {
 }
 
 /**
+ * Fotografía nueva de la doctora y del consultorio (agosto 2026), procesada
+ * desde `fotos-originales/` con `scripts/procesar-fotos.mjs`. Todas son de la
+ * Dra. Lidia Chávez o de Aurafem: sustituyen ilustraciones de banco allí donde
+ * ahora existe una foto real del mismo tema.
+ *
+ * Las que muestran a una paciente (control prenatal, colposcopía) las envió la
+ * propia doctora para el sitio; se prefirieron los encuadres donde no se
+ * reconoce el rostro ni queda exposición innecesaria.
+ */
+const FOTOS_DRA = {
+  'dra-hero': {
+    file: 'dra-hero.webp',
+    w: 900,
+    h: 1211,
+    alt: 'La Dra. Lidia Chávez, ginecóloga en Polanco, en el escritorio de su consultorio',
+  },
+  'dra-escritorio': {
+    file: 'dra-escritorio.webp',
+    w: 1100,
+    h: 1375,
+    alt: 'La Dra. Lidia Chávez sentada al escritorio de consulta',
+  },
+  'dra-de-pie': {
+    file: 'dra-de-pie.webp',
+    w: 1000,
+    h: 1250,
+    alt: 'La Dra. Lidia Chávez de pie en el área de exploración del consultorio',
+  },
+  'equipo-aurafem': {
+    file: 'equipo-aurafem.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con la asistente del consultorio en la sala de espera de Aurafem',
+  },
+  'recepcion-aurafem': {
+    file: 'recepcion-aurafem.webp',
+    w: 1000,
+    h: 1501,
+    alt: 'La Dra. Lidia Chávez en la recepción de Aurafem, Colonia Anzures',
+  },
+  'dra-laptop': {
+    file: 'dra-laptop.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez tomando notas durante la consulta',
+  },
+  'consulta-ultrasonido': {
+    file: 'consulta-ultrasonido.webp',
+    w: 1600,
+    h: 1067,
+    alt: 'La Dra. Lidia Chávez en el consultorio, junto al equipo de ultrasonido',
+  },
+  'dra-modelo-utero': {
+    file: 'dra-modelo-utero.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con el modelo anatómico que usa para explicar en consulta',
+  },
+  'dra-consola-ultrasonido': {
+    file: 'dra-consola-ultrasonido.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez frente a la consola del equipo de ultrasonido',
+  },
+  'papanicolaou-instrumental': {
+    file: 'papanicolaou-instrumental.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con el instrumental que se usa en la toma de Papanicolaou',
+  },
+  'papanicolaou-consultorio': {
+    file: 'papanicolaou-consultorio.webp',
+    w: 1600,
+    h: 1067,
+    alt: 'La Dra. Lidia Chávez en el área de exploración, con el material para la citología',
+  },
+  'papanicolaou-citologia': {
+    file: 'papanicolaou-citologia.webp',
+    w: 1200,
+    h: 800,
+    alt: 'Material estéril de un solo uso para la toma de la muestra citológica',
+  },
+  'dra-equipo-clinica': {
+    file: 'dra-equipo-clinica.webp',
+    w: 853,
+    h: 1280,
+    alt: 'La Dra. Lidia Chávez junto al equipo médico del consultorio',
+  },
+  'colposcopio-uso': {
+    file: 'colposcopio-uso.webp',
+    w: 853,
+    h: 1280,
+    alt: 'La Dra. Lidia Chávez observando a través del colposcopio',
+  },
+  'colposcopia-procedimiento': {
+    file: 'colposcopia-procedimiento.webp',
+    w: 1600,
+    h: 1067,
+    alt: 'La Dra. Lidia Chávez durante un estudio de colposcopía en el consultorio',
+  },
+  'colposcopia-tecnica': {
+    file: 'colposcopia-tecnica.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez realizando la exploración colposcópica',
+  },
+  'vph-vacuna': {
+    file: 'vph-vacuna.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con la vacuna contra el virus del papiloma humano',
+  },
+  'vph-vacuna-caja': {
+    file: 'vph-vacuna-caja.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez muestra la vacuna contra el VPH que se aplica en consulta',
+  },
+  'vph-colposcopia': {
+    file: 'vph-colposcopia.webp',
+    w: 1600,
+    h: 1067,
+    alt: 'La Dra. Lidia Chávez durante un procedimiento guiado por colposcopía',
+  },
+  'prenatal-equipo': {
+    file: 'prenatal-equipo.webp',
+    w: 853,
+    h: 640,
+    alt: 'La Dra. Lidia Chávez junto al equipo de ultrasonido obstétrico',
+  },
+  'prenatal-paciente': {
+    file: 'prenatal-paciente.webp',
+    w: 1600,
+    h: 1067,
+    alt: 'La Dra. Lidia Chávez con una paciente embarazada tras su ultrasonido',
+  },
+  'prenatal-explicacion': {
+    file: 'prenatal-explicacion.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez explicando el resultado del ultrasonido a una paciente embarazada',
+  },
+  'prenatal-consulta': {
+    file: 'prenatal-consulta.webp',
+    w: 1200,
+    h: 800,
+    alt: 'Consulta de control prenatal con la Dra. Lidia Chávez',
+  },
+  'anticonceptivos-metodos': {
+    file: 'anticonceptivos-metodos.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con distintos métodos anticonceptivos',
+  },
+  'anticonceptivos-diu': {
+    file: 'anticonceptivos-diu.webp',
+    w: 1200,
+    h: 800,
+    alt: 'Dispositivo intrauterino, uno de los métodos anticonceptivos que se colocan en consulta',
+  },
+}
+
+/**
  * Resuelve una clave del banco a un objeto listo para pintar en una plantilla.
  * Las medidas salen de GALERIA_DIMS (fotos reales) o de FOTOS_APOYO
  * (ilustraciones) para que nunca haya salto de layout.
  */
 export function img(clave) {
+  const dra = FOTOS_DRA[clave]
+  if (dra) {
+    return { src: `/img/dra/${dra.file}`, alt: dra.alt, w: dra.w, h: dra.h, contain: false }
+  }
+
   const apoyo = FOTOS_APOYO[clave]
   if (apoyo) {
     return {
@@ -203,22 +372,24 @@ export function img(clave) {
 }
 
 // Imágenes de marca reutilizadas en toda la navegación.
-export const RETRATO = 'colposcopia-10'
-export const RETRATO_2 = 'colposcopia-9'
-export const CONSULTORIO = 'consulta-ginecologica-4'
+export const RETRATO = 'dra-hero'
+export const RETRATO_2 = 'dra-escritorio'
+export const CONSULTORIO = 'recepcion-aurafem'
 
 // Fotos del carrusel «El consultorio» de la portada (y del mosaico de /conoce/).
 // Solo fotografía real: aquí no entran las ilustraciones de `/img/apoyo/`,
-// porque la sección afirma mostrar el consultorio de la doctora.
-// Se quitaron colposcopia-6/7/9 (selfies) y consulta-ginecologica-1 (misma
-// escena que -7): la sección habla del espacio, no de retratos suyos.
+// porque la sección afirma mostrar el consultorio de la doctora. Con el
+// material nuevo se recorre el espacio —recepción, equipo, áreas de estudio—
+// en vez de repetir retratos suyos.
 export const GALERIA_HOME = [
+  'recepcion-aurafem',
+  'equipo-aurafem',
+  'consulta-ultrasonido',
+  'dra-consola-ultrasonido',
+  'colposcopio-uso',
+  'dra-equipo-clinica',
+  'prenatal-equipo',
   'consulta-ginecologica-4',
-  'consulta-ginecologica-5',
-  'consulta-ginecologica-2',
-  'consulta-ginecologica-8',
-  'papanicolaou-3',
-  'atencion-embarazo-1',
 ]
 
 /**
@@ -243,74 +414,95 @@ export const GALERIA_HOME = [
  */
 export const SERVICIO_IMG = {
   'consulta-ginecologica': {
-    hero: 'consulta-ginecologica-1',
-    tarjeta: 'consulta-ginecologica-2',
-    editorial: ['apoyo-ginecologia-modelo', 'consulta-ginecologica-4', 'consulta-ginecologica-8'],
+    hero: 'consulta-ultrasonido',
+    tarjeta: 'dra-modelo-utero',
+    editorial: ['dra-modelo-utero', 'dra-laptop', 'consulta-ginecologica-8'],
+    // La sección de motivos de visita menciona la asesoría anticonceptiva; es
+    // el único lugar del sitio donde hoy encaja esa serie de fotos.
+    seccionFoto: { 'motivos-de-visita': 'anticonceptivos-metodos' },
     galeria: [
-      'consulta-ginecologica-7',
+      'consulta-ultrasonido',
+      'dra-laptop',
+      'equipo-aurafem',
+      'recepcion-aurafem',
       'consulta-ginecologica-4',
       'consulta-ginecologica-8',
-      'consulta-ginecologica-5',
+      'anticonceptivos-diu',
     ],
   },
+  'revision-ginecologicapreventiva': {
+    hero: 'dra-consola-ultrasonido',
+    tarjeta: 'dra-escritorio',
+    editorial: ['dra-consola-ultrasonido', 'papanicolaou-instrumental', 'dra-de-pie'],
+    // La galería se había quedado en una sola foto al quitar las de quirófano
+    // que señaló la doctora; se rellena con material nuevo del consultorio.
+    galeria: ['dra-de-pie', 'dra-laptop', 'equipo-aurafem', 'recepcion-aurafem', 'apoyo-colposcopia-2'],
+  },
   papanicolaou: {
-    // El hero va a sangre y a pantalla completa: pide una foto grande. Las de
-    // apoyo rondan los 600–700 px y ahí se verían pixeladas.
-    hero: 'papanicolaou-3',
-    tarjeta: 'apoyo-papanicolaou-2',
-    // [0] → sección 1 «¿Para qué sirve?», [1] → sección 4 «Reporte de laboratorio».
-    editorial: ['apoyo-papanicolaou-2', 'apoyo-papanicolaou-1', 'consulta-ginecologica-8'],
+    hero: 'papanicolaou-consultorio',
+    tarjeta: 'papanicolaou-instrumental',
+    // Se conserva la ilustración de la toma de muestra: explica el
+    // procedimiento mejor que una foto posada con el instrumental.
+    editorial: ['papanicolaou-instrumental', 'apoyo-papanicolaou-1', 'papanicolaou-citologia'],
     galeria: [
+      'papanicolaou-consultorio',
+      'papanicolaou-citologia',
+      'papanicolaou-instrumental',
       'apoyo-papanicolaou-1',
-      'papanicolaou-3',
-      'apoyo-papanicolaou-2',
-      'consulta-ginecologica-8',
     ],
   },
   colposcopia: {
-    hero: 'colposcopia-10',
-    tarjeta: 'atencion-embarazo-1',
-    editorial: ['apoyo-colposcopia-diagrama', 'atencion-embarazo-1', 'apoyo-colposcopia-2'],
-    // Antes: 7 selfies de 8 fotos. Ahora: equipo en uso, procedimiento real,
-    // material de apoyo y una sola foto suya (colposcopia-4, con el equipo de
-    // ultrasonido, no un primer plano).
+    hero: 'colposcopia-procedimiento',
+    tarjeta: 'colposcopio-uso',
+    editorial: ['apoyo-colposcopia-diagrama', 'colposcopio-uso', 'colposcopia-tecnica'],
+    galeria: [
+      'colposcopia-procedimiento',
+      'colposcopio-uso',
+      'colposcopia-tecnica',
+      'dra-equipo-clinica',
+      'apoyo-colposcopia-2',
+    ],
+  },
+  vph: {
+    hero: 'vph-colposcopia',
+    tarjeta: 'vph-vacuna',
+    // [1] cae en la sección de vacunación: la doctora pidió cambiar ahí la
+    // ilustración de banco por una foto suya con la vacuna.
+    editorial: ['apoyo-vph-diagrama', 'vph-vacuna', 'vph-colposcopia'],
     galeria: [
       'atencion-embarazo-1',
-      'apoyo-colposcopia-2',
-      'apoyo-colposcopia-1',
-      'papanicolaou-9',
-      'colposcopia-4',
+      'vph-vacuna',
+      'vph-vacuna-caja',
+      'vph-colposcopia',
+      'colposcopia-tecnica',
     ],
   },
   'control-prenatal': {
-    hero: 'papanicolaou-3',
-    tarjeta: 'apoyo-control-prenatal-4',
-    editorial: [
-      'apoyo-control-prenatal-2',
-      'apoyo-control-prenatal-1',
-      'apoyo-control-prenatal-3',
-    ],
+    hero: 'prenatal-paciente',
+    tarjeta: 'prenatal-equipo',
+    editorial: ['prenatal-paciente', 'prenatal-explicacion', 'dra-consola-ultrasonido'],
     galeria: [
-      'apoyo-control-prenatal-4',
-      'papanicolaou-3',
-      'apoyo-control-prenatal-3',
-      'control-prenatal-6',
+      'prenatal-paciente',
+      'prenatal-explicacion',
+      'prenatal-consulta',
+      'prenatal-equipo',
+      'dra-consola-ultrasonido',
     ],
   },
+  // Sin tocar hasta que llegue el contenido de orientación anticonceptiva: sus
+  // fotos son de parto y recién nacidos, del tema que hoy tiene la página.
   'atencion-embarazo': {
     hero: 'atencion-embarazo-10',
-    tarjeta: 'atencion-embarazo-8',
+    // La miniatura sí cambia: es la que sale en el menú y en los listados, ya
+    // con el rótulo «Orientación anticonceptiva». Un recién nacido ahí no
+    // cuadraba con el nombre nuevo.
+    tarjeta: 'anticonceptivos-metodos',
     editorial: ['vph-1', 'atencion-embarazo-9', 'atencion-embarazo-10'],
-    // Secciones de tipo tarjetas/checklist/proceso: no llevan foto por diseño,
-    // pero aquí se les puede dar una de apoyo. La clave es el id de sección
-    // (el `tag` en minúsculas y sin acentos; 'proceso' para las de pasos).
     seccionFoto: {
       'cuidado-gestacional': 'apoyo-acompanamiento-1',
       'prevencion-y-seguridad': 'apoyo-acompanamiento-2',
       proceso: 'apoyo-acompanamiento-3',
     },
-    // papanicolaou-4 salió: es casi la misma toma que
-    // revision-ginecologicapreventiva-9 (bebé envuelto en azul).
     galeria: [
       'vph-1',
       'revision-ginecologicapreventiva-10',
@@ -319,32 +511,6 @@ export const SERVICIO_IMG = {
       'atencion-embarazo-10',
       'papanicolaou-1',
       'revision-ginecologicapreventiva-9',
-    ],
-  },
-  vph: {
-    hero: 'atencion-embarazo-1',
-    tarjeta: 'apoyo-vph-diagrama',
-    editorial: ['apoyo-vph-diagrama', 'apoyo-vph-vacuna', 'papanicolaou-9'],
-    galeria: [
-      'atencion-embarazo-1',
-      'papanicolaou-9',
-      'revision-ginecologicapreventiva-2',
-      'revision-ginecologicapreventiva-7',
-      'vph-6',
-      'vph-7',
-    ],
-  },
-  'revision-ginecologicapreventiva': {
-    hero: 'consulta-ginecologica-3',
-    tarjeta: 'apoyo-colposcopia-1',
-    editorial: ['consulta-ginecologica-9', 'revision-ginecologicapreventiva-2', 'colposcopia-10'],
-    // No hay ninguna foto real de una revisión preventiva de rutina en el
-    // banco; se dejan solo las que sí tienen relación directa.
-    galeria: [
-      'consulta-ginecologica-9',
-      'revision-ginecologicapreventiva-2',
-      'apoyo-colposcopia-2',
-      'atencion-embarazo-1',
     ],
   },
 }

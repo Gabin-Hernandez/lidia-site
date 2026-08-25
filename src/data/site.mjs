@@ -19,20 +19,29 @@ export const DIRECCION = {
   region: 'CDMX',
   cp: '11590',
   pais: 'MX',
-  lat: 19.4367354,
-  lng: -99.1764654,
+  lat: 19.4284101,
+  lng: -99.177708,
+  // Identificador del lugar en Google Maps (AuraFem Health Care). Es lo que
+  // hace que el mapa y el enlace abran la ficha del consultorio y no una
+  // dirección aproximada.
+  mapsId: '0x85d1ff9dbb94facf:0xa5dc7bf9ebf15a61',
 }
 
 export const GTAG_ID = 'AW-18297301316'
 export const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
 
-export const FOTO_DRA = '/39f0736b-1235-4968-9c70-9ccc6640fa1e.webp'
+export const FOTO_DRA = '/img/dra/dra-hero.webp'
 export const FOTO_CONSULTORIO = '/b2be7d1b-d159-43c4-a876-fcba0a17f1d1.webp'
 export const LOGO = '/logo.webp'
 export const WA_ICON = '/img/wa.svg'
 
 export const MAPS_EMBED =
-  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.437142436894!2d-99.1764654!3d19.4367354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f8ad3fa7b127%3A0xe543fa0e6ebf8b0d!2sCant%C3%BA%2011%2C%20Anzures%2C%20Miguel%20Hidalgo%2C%2011590%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses!2smx!4v1710000000000!5m2!1ses!2smx'
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.7!2d-99.177708!3d19.4284101!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff9dbb94facf%3A0xa5dc7bf9ebf15a61!2sAuraFem%20Health%20Care!5e0!3m2!1ses!2smx!4v1710000000000!5m2!1ses!2smx'
+
+// Enlace del botón «Ver en Google Maps»: la ficha de AuraFem, no una búsqueda
+// por dirección. Abre el consultorio con horarios, reseñas y cómo llegar, en
+// vez de dejar caer un pin sobre una dirección aproximada.
+export const MAPS_LINK = `https://www.google.com/maps/place/AuraFem+Health+Care/@${DIRECCION.lat},${DIRECCION.lng},17z/data=!3m1!4b1!4m6!3m5!1s${DIRECCION.mapsId}!8m2!3d${DIRECCION.lat}!4d${DIRECCION.lng}`
 
 export const DISCLAIMER =
   'La información contenida en esta página web posee fines exclusivamente educativos e informativos y bajo ningún concepto sustituye una valoración médica profesional en consultorio. Para recibir orientación médica adecuada, agenda una consulta formal con la especialista.'
@@ -41,9 +50,9 @@ export const DISCLAIMER =
 // (valoración de Google y pacientes atendidas) más datos verificables del propio
 // sitio. `animar` activa el conteo; sin él, el valor se pinta tal cual.
 export const CIFRAS = [
-  { valor: '4.9', animar: true, label: 'Valoración en Google' },
+  { valor: '5.0', animar: true, label: 'Valoración en Google' },
   { valor: '120', sufijo: '+', animar: true, label: 'Pacientes atendidas' },
-  { valor: '7', animar: true, label: 'Servicios especializados' },
+  { valor: '7', sufijo: '+', animar: true, label: 'Servicios' },
   { valor: 'Minutos', texto: true, label: 'Respuesta por WhatsApp' },
 ]
 
@@ -69,7 +78,7 @@ export const PILARES = [
     icono: 'escudo',
   },
   {
-    titulo: 'Agenda ágil por WhatsApp',
+    titulo: 'Agenda fácilmente por WhatsApp',
     texto:
       'Sin formularios largos ni llamadas en espera. Escribes, revisamos disponibilidad y confirmas tu cita el mismo día.',
     icono: 'reloj',

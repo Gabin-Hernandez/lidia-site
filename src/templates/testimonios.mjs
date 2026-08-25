@@ -43,14 +43,15 @@ import {
 
 const URL = `${DOMAIN}/testimonios/`
 
-// Ficha de encuadre. Solo datos comprobables: el número sale del propio arreglo
-// y las fuentes, de lo que declara cada testimonio.
+// Ficha de encuadre. El total de comentarios y las fuentes ya no se derivan del
+// arreglo: la doctora indicó que además de las reseñas de Google reproducidas
+// aquí tiene más de 80 en Doctoralia, y la ficha resume el respaldo completo,
+// no solo la muestra publicada en esta página.
 function datosClave() {
-  const fuentes = [...new Set(TESTIMONIOS.map((t) => t.fuente).filter(Boolean))]
   return [
-    { label: 'Valoración', valor: '4.9 / 5 en Google' },
-    { label: 'Comentarios', valor: `${TESTIMONIOS.length} publicados` },
-    { label: 'Origen', valor: fuentes.length ? `Reseñas en ${fuentes.join(' y ')}` : 'Pacientes de la consulta' },
+    { label: 'Valoración', valor: '5.0 / 5 en Google' },
+    { label: 'Comentarios', valor: '+ de 80 en Doctoralia' },
+    { label: 'Origen', valor: 'Reseñas en Google y Doctoralia' },
     { label: 'Consultorio', valor: `${DIRECCION.lugar} · Polanco / Anzures` },
   ]
 }

@@ -1,0 +1,102 @@
+{
+  "dra-hero": [
+    900,
+    1211
+  ],
+  "dra-escritorio": [
+    1100,
+    1375
+  ],
+  "dra-de-pie": [
+    1000,
+    1250
+  ],
+  "equipo-aurafem": [
+    1200,
+    800
+  ],
+  "recepcion-aurafem": [
+    1000,
+    1501
+  ],
+  "dra-laptop": [
+    1200,
+    800
+  ],
+  "consulta-ultrasonido": [
+    1600,
+    1067
+  ],
+  "dra-modelo-utero": [
+    1200,
+    800
+  ],
+  "dra-consola-ultrasonido": [
+    1200,
+    800
+  ],
+  "papanicolaou-instrumental": [
+    1200,
+    800
+  ],
+  "papanicolaou-consultorio": [
+    1600,
+    1067
+  ],
+  "papanicolaou-citologia": [
+    1200,
+    800
+  ],
+  "dra-equipo-clinica": [
+    853,
+    1280
+  ],
+  "colposcopio-uso": [
+    853,
+    1280
+  ],
+  "colposcopia-procedimiento": [
+    1600,
+    1067
+  ],
+  "colposcopia-tecnica": [
+    1200,
+    800
+  ],
+  "vph-vacuna": [
+    1200,
+    800
+  ],
+  "vph-vacuna-caja": [
+    1200,
+    800
+  ],
+  "vph-colposcopia": [
+    1600,
+    1067
+  ],
+  "prenatal-equipo": [
+    853,
+    640
+  ],
+  "prenatal-paciente": [
+    1600,
+    1067
+  ],
+  "prenatal-explicacion": [
+    1200,
+    800
+  ],
+  "prenatal-consulta": [
+    1200,
+    800
+  ],
+  "anticonceptivos-metodos": [
+    1200,
+    800
+  ],
+  "anticonceptivos-diu": [
+    1200,
+    800
+  ]
+}

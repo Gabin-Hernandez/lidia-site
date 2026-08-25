@@ -171,7 +171,7 @@ export function pruebaSocial({ claro = false } = {}) {
       <span class="flex items-center gap-1 text-oro-rosa" aria-hidden="true">
         ${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}
       </span>
-      <span><strong class="font-bold ${fuerte}">4.9</strong> en Google</span>
+      <span><strong class="font-bold ${fuerte}">5.0</strong> en Google</span>
       <span aria-hidden="true" class="h-1 w-1 rounded-full ${claro ? 'bg-white/30' : 'bg-marino/25'}"></span>
       <span><strong class="font-bold ${fuerte}">+120</strong> pacientes atendidas</span>
     </div>`
@@ -197,8 +197,9 @@ export function bulletItem(texto) {
 // `montada` la sube para que se monte sobre el hero anterior.
 export function tiraDatos(items, { montada = false } = {}) {
   if (!items?.length) return ''
+  const impar = items.length % 2 === 1
   const celda = (d, i) => `
-        <div class="flex flex-col border-marino/8 px-6 py-7 ${i % 2 === 1 ? 'border-l' : ''} ${
+        <div class="flex flex-col border-marino/8 px-6 py-7 ${impar && i === items.length - 1 ? 'max-md:col-span-2' : ''} ${i % 2 === 1 ? 'border-l' : ''} ${
           i >= 2 ? 'border-t md:border-t-0' : ''
         } md:border-l md:first:border-l-0">
           <dt class="mb-2.5 text-[0.63rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">${d.label}</dt>
@@ -207,7 +208,7 @@ export function tiraDatos(items, { montada = false } = {}) {
   return `
   <section aria-label="Datos clave" class="relative z-20 ${montada ? '-mt-[clamp(60px,8vw,96px)]' : ''}">
     <div class="${CONTAINER}">
-      <dl data-anim-grupo class="grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-marino/8 bg-lino shadow-alta md:grid-cols-4">
+      <dl data-anim-grupo class="grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-marino/8 bg-lino shadow-alta md:grid-cols-[repeat(auto-fit,minmax(9.5rem,1fr))]">
         ${items.map(celda).join('')}
       </dl>
     </div>

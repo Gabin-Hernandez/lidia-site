@@ -58,8 +58,8 @@ const PAD = 'py-[clamp(68px,9vw,130px)]'
 const URL = `${DOMAIN}/conoce/`
 
 // Tríptico del hero y fotos de las secciones editoriales.
-const TRIPTICO = ['colposcopia-4', RETRATO, 'consulta-ginecologica-1']
-const FOTOS_ENFOQUE = ['consulta-ginecologica-3', 'colposcopia-5']
+const TRIPTICO = ['dra-de-pie', RETRATO, 'recepcion-aurafem']
+const FOTOS_ENFOQUE = ['dra-laptop', 'colposcopio-uso']
 
 function conoceSchema() {
   return [
@@ -242,10 +242,10 @@ function especialidades() {
       <div class="mb-[clamp(32px,4.5vw,56px)] grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <span data-anim>${rotulo('En qué puede ayudarte')}</span>
-          ${titulo(`Sus ${acento('especialidades')}`, { clase: `${H2} mt-5 text-marino` })}
+          ${titulo(`Algunos de sus ${acento('servicios')}`, { clase: `${H2} mt-5 text-marino` })}
         </div>
         <p data-anim style="--d:.1s" class="text-[1.2rem] leading-[1.7] text-humo lg:pb-2">
-          Siete servicios que cubren la salud ginecológica en distintas etapas: prevención, diagnóstico, embarazo y seguimiento.
+          Algunos servicios que cubren la salud ginecológica en distintas etapas: prevención, diagnóstico, embarazo y seguimiento.
         </p>
       </div>
       <ol class="list-none">${SERVICES.map(fila).join('\n')}</ol>

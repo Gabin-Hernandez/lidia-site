@@ -9,7 +9,7 @@
 //   cards?       — tarjetas sin número (p. ej. trimestres)
 //   steps?       — tarjetas numeradas del paso a paso (sección ancha)
 
-export const SERVICES = [
+const CATALOGO = [
   {
     slug: 'consulta-ginecologica',
     nombre: 'Consulta ginecológica',
@@ -38,7 +38,7 @@ export const SERVICES = [
     otroDesc: 'Atención médica para valoración, diagnóstico y seguimiento personalizado.',
     datosClave: [
       { label: 'Modalidad', valor: 'Primera vez o seguimiento' },
-      { label: 'Incluye', valor: 'Historial, exploración y receta' },
+      { label: 'Incluye', valor: 'Signos vitales, historial, exploración y receta' },
       { label: 'Frecuencia sugerida', valor: 'Al menos una vez al año' },
       { label: 'Preparación', valor: 'Ropa cómoda y fecha de tu última regla' },
     ],
@@ -46,10 +46,10 @@ export const SERVICES = [
       {
         bg: 'light',
         tag: 'Valoración Médica Integral',
-        title: '¿Qué se revisa en una consulta ginecológica en CDMX?',
+        title: '¿Qué se revisa en una consulta ginecológica?',
         paragraphs: [
-          'La consulta ginecológica es el espacio médico ideal para evaluar la salud reproductiva femenina. Con la Dra. Lidia Chávez, ginecóloga en Polanco, cada sesión se brinda en un ambiente de absoluta confidencialidad, respeto y comunicación clara.',
-          'Se revisan tu historial de salud, ciclo menstrual, anticoncepción y se efectúa una exploración física respetuosa orientada a prevenir o tratar a tiempo cualquier molestia o síntoma pélvico.',
+          'Con la Dra. Lidia Chávez, ginecóloga en Polanco, cada consulta se brinda en un ambiente de absoluta confidencialidad, respeto y comunicación clara.',
+          'Se revisan tu historial de salud y los síntomas que presentes, y se efectúa una exploración física respetuosa orientada a prevenir o tratar a tiempo cualquier molestia o síntoma pélvico.',
         ],
       },
       {
@@ -63,7 +63,7 @@ export const SERVICES = [
           },
           {
             title: 'Consulta de seguimiento',
-            text: 'Monitoreamos tu evolución clínica tras iniciar un tratamiento prescrito, analizamos estudios de laboratorio ordenados y confirmamos la resolución exitosa de tus síntomas.',
+            text: 'Monitoreamos tu evolución clínica tras iniciar un tratamiento prescrito, analizamos estudios de laboratorio solicitados y confirmamos la resolución exitosa de tus síntomas.',
           },
         ],
       },
@@ -85,7 +85,7 @@ export const SERVICES = [
         title: 'Cómo es la consulta paso a paso con la ginecóloga en Polanco',
         steps: [
           { title: 'Agendamiento por WhatsApp', text: 'Contactas al consultorio y confirmamos tu cita de manera inmediata.' },
-          { title: 'Entrevista confidencial', text: 'Plática detallada sobre tus síntomas e historial de salud.' },
+          { title: 'Valoración médica inicial', text: 'Plática detallada sobre tus síntomas e historial de salud.' },
           { title: 'Exploración clínica', text: 'Revisión médica profesional realizada con técnica suave e instrumental estéril.' },
           { title: 'Diagnóstico e indicaciones', text: 'Explicaciones médicas claras y plan de tratamiento personalizado.' },
         ],
@@ -140,7 +140,7 @@ export const SERVICES = [
     confianzaBullet: 'Consulta ginecológica profesional',
     confianzaCta: 'Quiero agendar una consulta',
     otrosTag: 'Atención Integral',
-    otrosIntro: 'Conoce las demás especialidades y estudios preventivos que ofrece la Dra. Lidia Chávez en Polanco, CDMX.',
+    otrosIntro: 'Conoce los demás servicios y estudios preventivos que ofrece la Dra. Lidia Chávez en Polanco, CDMX.',
     ctaTitle: 'Agenda tu consulta ginecológica por WhatsApp',
   },
 
@@ -156,9 +156,9 @@ export const SERVICES = [
     tagline: 'Detección Preventiva Cervical',
     h1: 'Papanicolaou en CDMX',
     heroP:
-      'Si te preguntas dónde hacerse el Papanicolaou con total tranquilidad, la Dra. Lidia Chávez realiza el estudio de <strong>Papanicolaou en CDMX</strong> con máxima higiene y calidez médica en Polanco.',
+      'Si te preguntas dónde hacerte el Papanicolaou con total tranquilidad, la Dra. Lidia Chávez realiza el estudio de <strong>Papanicolaou en CDMX</strong> con máxima higiene y calidez médica en Polanco.',
     heroSubP:
-      'Cuidamos la salud de tu cuello uterino mediante una prueba rápida e indolora. Agenda tu citología en minutos por WhatsApp.',
+      'Cuidamos la salud de tu cuello uterino mediante una prueba rápida e indolora. Agenda tu Papanicolaou o citología en minutos por WhatsApp.',
     procedure: {
       name: 'Papanicolaou',
       description:
@@ -192,7 +192,7 @@ export const SERVICES = [
         title: '¿Cada cuánto tiempo se debe realizar el Papanicolaou?',
         bullets: [
           '<strong>Control anual de rutina:</strong> Se recomienda cada 12 meses desde el inicio de la vida sexual activa o a partir de los 21 años.',
-          '<strong>Seguimiento médico:</strong> Si hubo cambios inflamatorios atípicos previos, se sugiere repetir a los 6 meses.',
+          '<strong>Seguimiento médico:</strong> Si hubo alguna alteración, el seguimiento médico se define de forma individualizada.',
         ],
       },
       {
@@ -200,7 +200,7 @@ export const SERVICES = [
         tag: 'Ubicación e Indicaciones',
         title: '¿Dónde hacerse el Papanicolaou en Polanco y cómo prepararte?',
         paragraphs: [
-          'Si te preguntas <strong>dónde hacerse el Papanicolaou</strong> en Polanco o Anzures, el consultorio de la Dra. Lidia Chávez en Aurafem cuenta con instrumental estéril de un solo uso y un ambiente seguro.',
+          'Si te preguntas <strong>dónde hacerte el Papanicolaou</strong> en Polanco o Anzures, el consultorio de la Dra. Lidia Chávez en Aurafem cuenta con instrumental estéril de un solo uso y un ambiente seguro.',
         ],
         bulletsTitle: 'Preparación previa indispensable:',
         bullets: [
@@ -214,7 +214,7 @@ export const SERVICES = [
         tag: 'Reporte de Laboratorio',
         title: 'Tiempo de entrega de resultados y pasos posteriores',
         paragraphs: [
-          'La muestra se envía a patología y se entrega en pocos días hábiles con una explicación clara de la especialista.',
+          'La muestra se envía a patología y se entrega en pocos días hábiles (de 5 a 7) con una explicación breve de la especialista.',
         ],
       },
       {
@@ -225,7 +225,7 @@ export const SERVICES = [
           { title: 'Cita por WhatsApp', text: 'Agendas fuera de tus días menstruales rápidamente.' },
           { title: 'Preparación en consultorio', text: 'En un espacio privado te explicamos el procedimiento.' },
           { title: 'Toma de muestra suave', text: 'Uso de espéculo estéril y recolección celular en 3 minutos.' },
-          { title: 'Entrega de informe', text: 'Recibes tu resultado patológico procesado con explicación clínica.' },
+          { title: 'Entrega de informe', text: 'Recibes tu resultado patológico con una breve explicación; si tienes dudas, puedes agendar consulta.' },
         ],
       },
     ],
@@ -296,7 +296,7 @@ export const SERVICES = [
     cardDesc:
       'Evaluación altamente especializada del cuello uterino cuando se requiere una revisión visual más profunda.',
     cardAlt: 'Colposcopía en Polanco CDMX',
-    otroDesc: 'Evaluación visual especializada del cuello uterino con equipo de alta precisión.',
+    otroDesc: 'Evaluación visual especializada del tracto genital inferior con equipo de alta precisión.',
     datosClave: [
       { label: 'Indicada tras', valor: 'Papanicolaou alterado o VPH' },
       { label: 'Molestias', valor: 'No genera dolor' },
@@ -307,10 +307,10 @@ export const SERVICES = [
       {
         bg: 'light',
         tag: 'Precisión Diagnóstica',
-        title: '¿Qué es la colposcopía en CDMX y cómo se realiza?',
+        title: '¿Qué es la colposcopía y cómo se realiza?',
         paragraphs: [
-          'La colposcopía es un estudio ginecológico que permite examinar visualmente y en tiempo real el cuello uterino, la vagina y la vulva mediante un colposcopio con lentes de magnificación que permanece fuera del cuerpo.',
-          'Durante la realización de la <strong>colposcopía CDMX</strong>, la ginecóloga aplica soluciones contrastantes (ácido acético y Lugol) que resaltan áreas con tejido alterado o lesiones por VPH, permitiendo identificar su ubicación exacta.',
+          'La colposcopía es un estudio ginecológico que permite examinar visualmente y en tiempo real el cuello uterino, la vagina y la vulva mediante un colposcopio con lentes de magnificación que permite valorar con más precisión la zona a estudiar.',
+          'Durante la realización de la <strong>colposcopía</strong>, la ginecóloga aplica soluciones contrastantes (ácido acético y Lugol) que resaltan áreas con tejido alterado o lesiones por VPH, permitiendo identificar su ubicación exacta.',
         ],
       },
       {
@@ -319,7 +319,7 @@ export const SERVICES = [
         title: '¿Cuándo se indica realizar una colposcopía en Polanco?',
         bullets: [
           '<strong>Papanicolaou alterado:</strong> Reportes citológicos con presencia de células atípicas o displasias.',
-          '<strong>Diagnóstico de VPH:</strong> Detección de serotipos de alto riesgo o verrugas genitales.',
+          '<strong>Diagnóstico de VPH:</strong> Detección de lesiones de bajo o alto grado, o de verrugas genitales.',
           '<strong>Sangrado poscoital:</strong> Presencia de sangrado inusual posterior a relaciones sexuales.',
           '<strong>Seguimiento médico:</strong> Monitoreo posterior a tratamientos cervicales previos.',
         ],
@@ -406,7 +406,7 @@ export const SERVICES = [
     ogAlt: 'Dra. Lidia Chávez - Control Prenatal en CDMX Polanco',
     logoAlt: 'Logo Dra. Lidia Chávez - Control Prenatal en Polanco CDMX',
     waText: 'Hola Dra. Lidia, quiero agendar control prenatal',
-    tagline: 'Seguimiento Maternofetal Continuo',
+    tagline: 'Control y Seguimiento de Embarazo',
     h1: 'Control prenatal en CDMX',
     heroP:
       'Si buscas un <strong>ginecólogo para control prenatal en Polanco</strong> con atención profesional y cálida, el servicio de <strong>control prenatal CDMX</strong> de la Dra. Lidia Chávez te acompaña cuidando el desarrollo saludable de tu bebé.',
@@ -419,13 +419,13 @@ export const SERVICES = [
       specialty: 'Obstetric',
     },
     cardDesc:
-      'Seguimiento médico constante durante el embarazo para cuidar rigurosamente de la salud materna y fetal.',
+      'Seguimiento obstétrico durante y posterior al embarazo para cuidar rigurosamente de la salud materna y fetal.',
     cardAlt: 'Control prenatal en CDMX y Polanco',
     otroDesc: 'Seguimiento médico mes a mes para el bienestar de la mamá y el bebé durante el embarazo.',
     datosClave: [
       { label: 'Inicio ideal', valor: 'Semanas 6 a 8 de gestación' },
       { label: 'Frecuencia', valor: 'Mensual, luego quincenal y semanal' },
-      { label: 'Incluye', valor: 'Ecografía, laboratorios y suplementación' },
+      { label: 'Incluye', valor: 'Rastreo obstétrico (sin reporte) y revisión materna' },
       { label: 'Seguimiento', valor: 'Del primer trimestre al parto' },
     ],
     sections: [
@@ -439,7 +439,7 @@ export const SERVICES = [
         cards: [
           {
             title: 'Primer trimestre (Semanas 1 a 13)',
-            text: 'Confirmación de edad gestacional, ubicación del saco embrionario, fecha probable de parto, laboratorios iniciales y primera ecografía.',
+            text: 'Confirmación de edad gestacional, ubicación del saco embrionario, fecha probable de parto, laboratorios iniciales y ultrasonido de las semanas 11 a 14.',
           },
           {
             title: 'Segundo trimestre (Semanas 14 a 27)',
@@ -458,8 +458,8 @@ export const SERVICES = [
         bullets: [
           '<strong>Pruebas de sangre:</strong> Biometría hemática, química sanguínea, grupo y Rh.',
           '<strong>Examen de orina:</strong> Descarte oportuno de infecciones de vías urinarias.',
-          '<strong>Tamiz de glucosa:</strong> Prevención u orquestación del manejo de diabetes gestacional.',
-          '<strong>Monitoreo ecográfico:</strong> Evaluación de frecuencia cardíaca fetal y placenta.',
+          '<strong>Tamiz de glucosa:</strong> Detección temprana de diabetes gestacional.',
+          '<strong>Monitoreo ecográfico:</strong> Evaluación de peso fetal, frecuencia cardíaca fetal, placenta y líquido amniótico.',
         ],
       },
       {
@@ -469,7 +469,7 @@ export const SERVICES = [
         steps: [
           { title: 'Agendamiento por WhatsApp', text: 'Coordinamos tu cita mensual o quincenal respetando tu agenda.' },
           { title: 'Signos vitales', text: 'Toma de presión arterial y control del incremento de peso.' },
-          { title: 'Revisión clínica y fetal', text: 'Medición del fondo uterino, escucha de latidos y laboratorios.' },
+          { title: 'Revisión clínica y fetal', text: 'Medición del fondo uterino, rastreo obstétrico para revisar al bebé y revisión de laboratorios.' },
           { title: 'Orientación y receta', text: 'Indicación de suplementos médicos y fecha de tu siguiente control.' },
         ],
       },
@@ -478,7 +478,7 @@ export const SERVICES = [
         tag: 'Cuidado Integral',
         title: 'Beneficios del acompañamiento prenatal especializado',
         paragraphs: [
-          'Prevenimos cuadros hipertensivos (preeclampsia), monitoreamos la correcta nutrición materna y te guiamos en los preparativos para el nacimiento.',
+          'Prevención y detección temprana de patologías que pudieran poner en riesgo a la mamá (hipertensión, preeclampsia) y al bebé (restricción de crecimiento). Monitoreamos la correcta nutrición materna y te guiamos en los preparativos para el nacimiento.',
         ],
       },
     ],
@@ -492,7 +492,7 @@ export const SERVICES = [
       },
       {
         q: '¿Cuál es el calendario habitual de visitas con el ginecólogo de control prenatal en Polanco?',
-        a: 'Durante el primer y segundo trimestre las visitas son mensuales. A partir de la semana 28 se vuelven quincenales, y desde la semana 36 son semanales.',
+        a: 'Durante el primer y segundo trimestre las visitas son mensuales. Dependiendo de los factores de riesgo, a partir de la semana 28 se pueden volver quincenales, y desde la semana 36 son semanales.',
       },
       {
         q: '¿Qué estudios son indispensables durante el embarazo?',
@@ -500,7 +500,7 @@ export const SERVICES = [
       },
       {
         q: '¿Qué suplementación médica se prescribe en las consultas prenatales?',
-        a: 'Se prescribe ácido fólico, hierro, calcio, multivitamínicos y omega 3 según la condición clínica individual de cada mamá.',
+        a: 'Se prescribe ácido fólico, hierro y multivitamínicos según la condición clínica individual de cada mamá.',
       },
       {
         q: '¿Cómo puedo agendar mi seguimiento con la Dra. Lidia Chávez?',
@@ -526,7 +526,7 @@ export const SERVICES = [
 
   {
     slug: 'atencion-embarazo',
-    nombre: 'Atención en el embarazo',
+    nombre: 'Orientación anticonceptiva',
     title: 'Ginecólogo para Embarazo Polanco | Dra. Lidia Chávez',
     description:
       'Atención del embarazo en Polanco, CDMX con la Dra. Lidia Chávez. Acompañamiento médico en cada trimestre y señales de alarma. Agenda tu cita por WhatsApp.',
@@ -676,7 +676,7 @@ export const SERVICES = [
       specialty: 'Gynecologic',
     },
     cardDesc:
-      'Información clara, diagnóstico, valoración y seguimiento integral ante el Virus del Papiloma Humano.',
+      'Información clara, valoración, estudios diagnósticos y seguimiento integral en caso de tener virus del papiloma humano.',
     cardAlt: 'Orientación y especialista en VPH Polanco CDMX',
     otroDesc: 'Diagnóstico, vacunación y valoración experta del Virus del Papiloma Humano.',
     datosClave: [
@@ -695,9 +695,10 @@ export const SERVICES = [
           'Para una <strong>especialista en VPH en Polanco</strong>, la detección oportuna incluye:',
         ],
         bullets: [
-          '<strong>Papanicolaou:</strong> Evalúa si existen cambios en la forma celular del cérvix.',
-          '<strong>Colposcopía:</strong> Permite ver la zona exacta de cualquier lesión.',
+          '<strong>Papanicolaou:</strong> Evalúa si existen cambios celulares o lesiones por virus del papiloma humano en el cérvix.',
+          '<strong>Colposcopía:</strong> Permite estudiar el tracto genital inferior y ver la zona exacta de la lesión.',
           '<strong>PCR para VPH:</strong> Determina la presencia de serotipos de alto o bajo riesgo.',
+          '<strong>Biopsia:</strong> Estudio confirmatorio para saber el grado de la lesión.',
         ],
       },
       {
@@ -705,7 +706,7 @@ export const SERVICES = [
         tag: 'Evaluación Directa',
         title: 'Relación entre el VPH y la colposcopía',
         paragraphs: [
-          'La colposcopía permite a la ginecóloga observar directamente si el virus ha provocado alguna lesión en el cuello uterino y definir si requiere seguimiento o tratamiento ambulatorio preventivo.',
+          'La colposcopía permite a la ginecóloga observar directamente si el virus ha provocado alguna lesión en el tracto genital inferior y definir de forma individualizada el seguimiento y el tratamiento.',
         ],
       },
       {
@@ -713,7 +714,7 @@ export const SERVICES = [
         tag: 'Prevención Avanzada',
         title: 'Vacunación contra el VPH y manejo integral',
         paragraphs: [
-          'La vacuna contra el VPH previene lesiones y serotipos oncogénicos. Se recomienda su aplicación tanto en mujeres como en hombres.',
+          'La vacuna contra el VPH disminuye el riesgo de cáncer cervicouterino. Se recomienda su aplicación tanto en mujeres como en hombres.',
         ],
       },
       {
@@ -723,8 +724,8 @@ export const SERVICES = [
         steps: [
           { title: 'Cita confidencial por WhatsApp', text: 'Agendas con discreción y atención oportuna en Polanco.' },
           { title: 'Análisis de antecedentes', text: 'Revisamos tus estudios previos o síntomas actuales.' },
-          { title: 'Examen colposcópico', text: 'Exploración cuidadosa para valorar el tejido cervical.' },
-          { title: 'Plan de manejo', text: 'Definimos si requiere seguimiento o vacunación preventiva.' },
+          { title: 'Examen colposcópico', text: 'Exploración cuidadosa para valorar todo el tracto genital inferior.' },
+          { title: 'Plan de manejo', text: 'Definimos el seguimiento y el tratamiento, y recomendamos la vacunación preventiva en caso de no tenerla.' },
         ],
       },
       {
@@ -732,7 +733,7 @@ export const SERVICES = [
         tag: 'Tranquilidad Médica',
         title: 'Por qué acudir con una especialista en VPH',
         paragraphs: [
-          'Acudir con una especialista capacitada te permite entender que con el seguimiento correcto la inmensa mayoría de las pacientes mantienen una vida totalmente normal.',
+          'Una especialista en VPH puede acompañarte durante el proceso, resolver tus dudas y ayudarte a llevar un seguimiento adecuado. La mayoría de las pacientes pueden continuar con su vida de manera completamente normal.',
         ],
       },
     ],
@@ -742,7 +743,7 @@ export const SERVICES = [
     faqs: [
       {
         q: '¿Qué es el VPH y cómo se contagia?',
-        a: 'El Virus del Papiloma Humano (VPH) es una infección viral muy común transmitida por contacto directo piel con piel durante relaciones sexuales.',
+        a: 'El Virus del Papiloma Humano (VPH) es una infección viral muy común: actualmente es la infección de transmisión sexual más frecuente y se transmite por contacto directo piel con piel durante las relaciones sexuales.',
       },
       {
         q: '¿Cómo detecta una especialista en VPH en Polanco la presencia del virus?',
@@ -750,11 +751,11 @@ export const SERVICES = [
       },
       {
         q: '¿Cuál es la relación entre el VPH y la colposcopía?',
-        a: 'La colposcopía permite ver la ubicación y severidad de las lesiones causadas por el VPH en el cuello uterino.',
+        a: 'La colposcopía permite ver la ubicación y la severidad de las lesiones causadas por el VPH en el tracto genital inferior.',
       },
       {
         q: '¿La vacuna contra el VPH funciona si ya fui diagnosticada?',
-        a: 'Sí. La vacuna protege contra múltiples serotipos no adquiridos previamente y refuerza el sistema inmune.',
+        a: 'Sí. La vacuna protege contra múltiples serotipos no adquiridos previamente y disminuye el riesgo de cáncer cervicouterino.',
       },
       {
         q: '¿Cómo solicitar una cita confidencial sobre VPH en Polanco?',
@@ -806,7 +807,7 @@ export const SERVICES = [
     datosClave: [
       { label: 'Frecuencia', valor: 'Una vez al año' },
       { label: 'Desde', valor: 'Los 21 años o al iniciar vida sexual' },
-      { label: 'Incluye', valor: 'Exploración mamaria, pélvica y citología' },
+      { label: 'Incluye', valor: 'Consulta, exploración mamaria, rastreo pélvico, Papanicolaou y colposcopía' },
       { label: 'Preparación', valor: 'Fuera de tus días de menstruación' },
     ],
     sections: [
@@ -815,14 +816,15 @@ export const SERVICES = [
         tag: 'Cuidado Preventivo',
         title: '¿Qué incluye un chequeo ginecológico anual en CDMX?',
         paragraphs: [
-          'El <strong>chequeo ginecológico anual en CDMX</strong> es una evaluación clínica metódica diseñada para examinar de manera integral el estado de salud del aparato reproductor femenino y las mamas, asegurando que todo funcione adecuadamente.',
+          'El <strong>chequeo ginecológico anual en CDMX</strong> es una evaluación integral que permite conocer, cuidar y dar seguimiento a la salud ginecológica y mamaria, ayudando a identificar oportunamente alteraciones que puedan impactar tu bienestar.',
           'Con la Dra. Lidia Chávez en Polanco, la revisión preventiva abarca de forma clara:',
         ],
         bullets: [
           '<strong>Entrevista e historial de salud:</strong> Revisión de la regularidad menstrual, cambios hormonales, vida sexual y antecedentes familiares.',
           '<strong>Exploración mamaria clínica:</strong> Palpación cuidadosa para identificar nódulos o cambios en el tejido mamario.',
-          '<strong>Exploración pélvica y citología (Papanicolaou):</strong> Toma celular suave para prevención de lesiones cervicales.',
-          '<strong>Orientación anticonceptiva o de fertilidad:</strong> Asesoría médica sobre métodos de barrera, hormonales o planeación de embarazo.',
+          '<strong>Exploración pélvica y genital:</strong> Evaluación para detectar oportunamente alteraciones que puedan impactar tu salud ginecológica.',
+          '<strong>Toma de Papanicolaou y colposcopía:</strong> Estudios para detectar a tiempo lesiones asociadas al virus del papiloma humano.',
+          '<strong>Rastreo pélvico o endovaginal:</strong> Visualización por ultrasonido de útero y ovarios para detectar en etapas tempranas cáncer de ovario y de endometrio.',
         ],
       },
       {
@@ -831,7 +833,7 @@ export const SERVICES = [
         title: 'Por qué no debes esperar a tener síntomas para acudir al ginecólogo',
         paragraphs: [
           'Una de las mayores trampas en la salud femenina es asumir que si no hay dolor o sangrado inusual, todo está perfectamente bien. La realidad médica demuestra que la gran mayoría de las afecciones iniciales del cuello uterino (como las lesiones causadas por el VPH), los miomas pequeños o los cambios quísticos ovarios se desarrollan de manera silenciosa y sin dolor.',
-          'Acudir a tu revisión preventiva anual permite identificar cualquier pequeña variación celular antes de que genere molestias o complicaciones. Esto garantiza tratamientos significativamente más sencillos, menos invasivos y con tasas de éxito total.',
+          'Acudir a tu revisión preventiva anual permite identificar cualquier pequeña alteración antes de que genere molestias o complicaciones. Esto garantiza tratamientos en etapas tempranas, menos invasivos y con mayores tasas de éxito.',
         ],
       },
       {
@@ -851,9 +853,9 @@ export const SERVICES = [
         headerIntro: 'Proceso estructurado en 4 pasos para brindarte total comodidad.',
         steps: [
           { title: 'Cita directa por WhatsApp', text: 'Reservas tu espacio en el consultorio de Polanco en la fecha que más te acomode.' },
-          { title: 'Entrevista médica previa', text: 'Conversamos sobre tu estado de salud, hábitos, medicamentos y dudas actuales.' },
-          { title: 'Valoración clínica', text: 'Exploración física cuidadosa y toma de muestra preventiva con técnica médica suave.' },
-          { title: 'Recomendaciones anuales', text: 'Entrega de indicaciones médicas, resolución de preguntas y plan preventivo personal.' },
+          { title: 'Valoración médica inicial', text: 'Conversamos sobre tu estado de salud, hábitos, medicamentos y dudas actuales.' },
+          { title: 'Valoración clínica', text: 'Exploración física cuidadosa y toma de muestras con técnica médica suave.' },
+          { title: 'Recomendaciones', text: 'Entrega de indicaciones médicas, resolución de preguntas y plan preventivo personal.' },
         ],
       },
       {
@@ -911,6 +913,29 @@ export const SERVICES = [
     ctaTitle: 'Agenda tu revisión ginecológica preventiva por WhatsApp',
   },
 ]
+
+/**
+ * Orden de aparición en el menú, la portada, /conoce/ y «otros servicios». Lo
+ * definió la doctora en el documento de correcciones: primero la consulta y la
+ * revisión preventiva, después los estudios, y al final el seguimiento del
+ * embarazo. Vive aparte del catálogo para poder reordenar la lista sin mover
+ * bloques de cientos de líneas.
+ */
+const ORDEN = [
+  'consulta-ginecologica',
+  'revision-ginecologicapreventiva',
+  'papanicolaou',
+  'colposcopia',
+  'vph',
+  'control-prenatal',
+  'atencion-embarazo',
+]
+
+export const SERVICES = ORDEN.map((slug) => {
+  const s = CATALOGO.find((x) => x.slug === slug)
+  if (!s) throw new Error('ORDEN referencia un servicio inexistente: ' + slug)
+  return s
+})
 
 export function getService(slug) {
   return SERVICES.find((s) => s.slug === slug)

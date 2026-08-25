@@ -124,7 +124,7 @@ function hero() {
 
           <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-lg:justify-center" style="--d:.66s">
             ${btnWa(HOME.waHero, 'wa_click_landing_hero')}
-            ${btnGhost('#servicios', 'Ver especialidades', { icono: 'abajo' })}
+            ${btnGhost('#servicios', 'Ver servicios', { icono: 'abajo' })}
           </div>
 
           <div class="entrada mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 max-lg:justify-center" style="--d:.74s">
@@ -132,7 +132,7 @@ function hero() {
           </div>
 
           <div class="entrada mt-11 flex flex-wrap gap-6 max-lg:justify-center" style="--d:.82s">
-            ${mini('7', 'Especialidades')}
+            ${mini('7+', 'Servicios')}
             ${mini('Aurafem', 'Consultorio')}
             ${mini('CDMX', 'Miguel Hidalgo')}
           </div>
@@ -161,7 +161,7 @@ function hero() {
             <span class="flex items-center justify-center gap-1 text-oro-rosa" aria-hidden="true">
               ${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}
             </span>
-            <span class="mt-1.5 block font-display text-[1.15rem] font-medium leading-none text-marino">4.9</span>
+            <span class="mt-1.5 block font-display text-[1.15rem] font-medium leading-none text-marino">5.0</span>
             <span class="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-humo">Google</span>
           </div>
         </div>
@@ -234,14 +234,14 @@ function serviciosSection() {
     <div class="${CONTAINER}">
       <div class="mb-[clamp(36px,5vw,64px)] grid items-end gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <span data-anim>${rotulo('Especialidades')}</span>
+          <span data-anim>${rotulo('Servicios')}</span>
           ${titulo(`Servicios ${acento('ginecológicos')}`, { clase: `${H2} mt-5 text-marino` })}
         </div>
         <div class="lg:pb-3">
           <p data-anim style="--d:.1s" class="text-[1.22rem] leading-[1.7] text-humo">
             La Dra. Lidia brinda atención ginecológica profesional para distintas etapas y necesidades de la salud femenina.
           </p>
-          <span data-anim style="--d:.16s" class="mt-4 block font-display text-[0.85rem] italic text-oro-rosa-profundo">(${String(SERVICES.length).padStart(2, '0')}) especialidades</span>
+          <span data-anim style="--d:.16s" class="mt-4 block font-display text-[0.85rem] italic text-oro-rosa-profundo">${SERVICES.length}+ servicios</span>
         </div>
       </div>
 

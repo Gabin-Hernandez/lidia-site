@@ -9,6 +9,7 @@ import {
   GTAG_ID,
   LOGO,
   MAPS_EMBED,
+  MAPS_LINK,
   PILARES,
   waLink,
 } from '../data/site.mjs'
@@ -159,7 +160,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
             <div class="min-h-0 overflow-hidden lg:overflow-visible">
               <div class="rounded-[1.75rem] border border-marino/10 bg-lino/95 p-4 shadow-alta backdrop-blur-xl max-lg:mt-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none">
                 <div class="mb-2 flex items-center justify-between px-2.5 max-lg:justify-center">
-                  ${rotulo('Especialidades')}
+                  ${rotulo('Servicios')}
                   <a href="/#servicios" class="text-[0.78rem] font-bold text-marino no-underline transition-colors duration-300 hover:text-oro-rosa-profundo max-lg:hidden">Ver todas</a>
                 </div>
                 <ul class="grid list-none gap-1 lg:grid-cols-2">
@@ -358,7 +359,7 @@ export function pilares() {
           <span class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-marino text-oro-rosa-claro transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">
             ${icono(p.icono, 'h-5 w-5')}
           </span>
-          <h3 class="${H3} relative mb-3 text-marino">${p.titulo}</h3>
+          <h3 class="${H3} relative mb-3 hyphens-auto break-words text-marino">${p.titulo}</h3>
           <p class="relative text-[1.13rem] leading-[1.7] text-humo">${p.texto}</p>
         </article>`
   return `
@@ -405,7 +406,7 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
           </div>
 
           <div data-anim style="--d:.3s" class="absolute -right-2 top-8 rounded-2xl border border-marino/10 bg-lino/90 px-4 py-3 shadow-cristal backdrop-blur-md sm:-right-6">
-            <span class="block font-display text-[1.5rem] font-medium leading-none text-marino">4.9<span class="text-[0.9rem] text-oro-rosa">/5</span></span>
+            <span class="block font-display text-[1.5rem] font-medium leading-none text-marino">5.0<span class="text-[0.9rem] text-oro-rosa">/5</span></span>
             <span class="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-humo">Google</span>
           </div>
         </div>
@@ -472,7 +473,7 @@ export function ubicacion({ waText, waLabel }) {
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
             ${btnWa(waText, waLabel, 'Agendar por WhatsApp')}
             ${btnGhost(
-              `https://www.google.com/maps/search/?api=1&query=${DIRECCION.lat},${DIRECCION.lng}`,
+              MAPS_LINK,
               'Ver en Google Maps',
               { claro: true, icono: 'flechaDiag', externo: true }
             )}

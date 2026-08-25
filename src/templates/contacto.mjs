@@ -20,6 +20,7 @@ import {
   DOCTORA,
   DOMAIN,
   MAPS_EMBED,
+  MAPS_LINK,
   RECORRIDO,
   physicianSchema,
   waLink,
@@ -50,7 +51,6 @@ import {
 
 const PAD = 'py-[clamp(68px,9vw,130px)]'
 const URL = `${DOMAIN}/contacto/`
-const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${DIRECCION.lat},${DIRECCION.lng}`
 
 function contactoSchema() {
   return [

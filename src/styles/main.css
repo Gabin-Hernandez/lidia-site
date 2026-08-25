@@ -652,8 +652,10 @@
 /* --- Vista previa flotante del índice de servicios (desktop) ----------- */
 .preview {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50%;
+  /* Pegada al borde derecho del contenedor (max-w 1280) en pantallas anchas y
+     al borde de la ventana en las estrechas. */
+  right: max(1.5rem, calc(50vw - 32rem));
   z-index: 60;
   width: 19rem;
   aspect-ratio: 4 / 5;
@@ -661,7 +663,7 @@
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  transform: translate3d(-50%, -50%, 0) scale(0.9) rotate(-3deg);
+  transform: translate3d(0, -50%, 0) scale(0.94) rotate(-3deg);
   transition:
     opacity 0.4s var(--ease-suave),
     transform 0.55s var(--ease-suave);
@@ -670,7 +672,7 @@
 }
 .preview[data-activo] {
   opacity: 1;
-  transform: translate3d(-50%, -50%, 0) scale(1) rotate(-2deg);
+  transform: translate3d(0, -50%, 0) scale(1) rotate(-2deg);
 }
 .preview img {
   width: 100%;
@@ -869,7 +871,7 @@
   @supports (animation-timeline: view()) {
     /* La sección se alarga para dar recorrido; la escena se queda fija. */
     html.js .escena {
-      height: 300vh;
+      height: 200vh;
       view-timeline-name: --escena;
     }
 
