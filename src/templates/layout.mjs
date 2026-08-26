@@ -2,6 +2,7 @@
 import { CONSULTORIO, RETRATO_2, img, imgServicio } from '../data/imagenes.mjs'
 import {
   CIFRAS,
+  DATOS_PROFESIONALES,
   DIRECCION,
   DISCLAIMER,
   DOCTORA,
@@ -651,6 +652,8 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
             ${enlace('/contacto/', 'Contacto y citas')}
             ${enlace('/#servicios', 'Todos los servicios')}
+            ${enlace('/aviso-de-privacidad/', 'Aviso de Privacidad')}
+            ${enlace('/politica-de-cookies/', 'Política de Cookies')}
           </ul>
           <address class="mt-7 not-italic text-[1.06rem] leading-[1.7] text-white/60">
             ${DIRECCION.calle}<br>${DIRECCION.municipio}, ${DIRECCION.cp}<br>${DIRECCION.region}, México
@@ -661,16 +664,59 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
 
     <div class="relative">
       <div aria-hidden="true" class="regla-oro opacity-70"></div>
-      <!-- El color va en cada <p>: la regla base de <p> pisa el heredado. -->
-      <div class="${CONTAINER} flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-6">
-        <p class="text-[0.94rem] text-white/70">&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
-        <p class="flex items-center gap-2.5 text-[0.94rem] text-white/70">
-          <span aria-hidden="true" class="text-oro-rosa">✦</span>
-          Ginecóloga en Polanco, Ciudad de México.
-        </p>
+      <div class="${CONTAINER} py-6">
+        <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+          <p class="text-[0.94rem] text-white/70">&copy; 2026 ${DOCTORA.nombreCompleto}. Todos los derechos reservados.</p>
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.88rem] text-white/60">
+            <a href="/aviso-de-privacidad/" class="enlace-linea hover:text-white transition-colors duration-300">Aviso de Privacidad</a>
+            <span aria-hidden="true" class="text-white/20">·</span>
+            <a href="/politica-de-cookies/" class="enlace-linea hover:text-white transition-colors duration-300">Política de Cookies</a>
+          </div>
+          <p class="flex items-center gap-2.5 text-[0.94rem] text-white/70">
+            <span aria-hidden="true" class="text-oro-rosa">✦</span>
+            Ginecóloga en Polanco, Ciudad de México.
+          </p>
+        </div>
+        <div class="mt-4 border-t border-white/8 pt-4">
+          <p class="text-[0.82rem] leading-relaxed text-white/55">
+            ${DATOS_PROFESIONALES}
+          </p>
+        </div>
       </div>
     </div>
   </footer>`
+}
+
+/* ═════════════════════════════════════════════════ banner de cookies ══ */
+
+export function bannerCookies() {
+  return `
+  <!-- Banner de consentimiento de cookies -->
+  <aside id="cookie-banner" role="region" aria-label="Consentimiento de cookies"
+         class="fixed bottom-5 left-5 z-[1500] max-w-[440px] w-[calc(100vw-2.5rem)] rounded-[1.5rem] border border-white/15 bg-noche/95 p-5 text-white shadow-alta backdrop-blur-xl transition-all duration-500 ease-suave translate-y-8 opacity-0 pointer-events-none data-visible:translate-y-0 data-visible:opacity-100 data-visible:pointer-events-auto max-sm:bottom-4 max-sm:left-3 max-sm:w-[calc(100vw-1.5rem)] max-sm:p-4">
+    <div class="flex items-start gap-3.5">
+      <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-oro-rosa/20 text-oro-rosa-claro">
+        ${icono('escudo', 'h-4 w-4')}
+      </span>
+      <div class="min-w-0 flex-1">
+        <p class="text-[0.88rem] font-bold leading-snug text-white">Uso de cookies y privacidad</p>
+        <p class="mt-1 text-[0.82rem] leading-relaxed text-white/75">
+          Este sitio web utiliza cookies técnicas y de análisis para optimizar tu experiencia y medir de forma anónima el tráfico. Conoce más en nuestra
+          <a href="/politica-de-cookies/" class="underline underline-offset-2 hover:text-oro-rosa transition-colors">Política de Cookies</a> y
+          <a href="/aviso-de-privacidad/" class="underline underline-offset-2 hover:text-oro-rosa transition-colors">Aviso de Privacidad</a>.
+        </p>
+      </div>
+    </div>
+    <div class="mt-4 flex items-center justify-end gap-3 border-t border-white/10 pt-3">
+      <a href="/politica-de-cookies/" class="no-underline px-2 py-1.5 text-[0.78rem] font-bold text-white/70 transition-colors hover:text-white">
+        Más información
+      </a>
+      <button type="button" data-cookie-accept
+              class="cursor-pointer rounded-full bg-oro-rosa hover:bg-oro-rosa-oscuro px-5 py-2 text-[0.84rem] font-bold text-white shadow-[0_4px_16px_rgba(216,148,171,0.4)] transition duration-300 ease-suave hover:-translate-y-0.5 active:translate-y-0">
+        Aceptar cookies
+      </button>
+    </div>
+  </aside>`
 }
 
 /* ══════════════════════════════════════════════════════════════ shell ══ */
@@ -683,6 +729,7 @@ ${headHtml}
 </head>
 <body class="grano bg-lino antialiased">
 ${bodyHtml}
+${bannerCookies()}
 </body>
 </html>`
 }

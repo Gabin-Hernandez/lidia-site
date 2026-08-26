@@ -11,6 +11,9 @@ export const DOCTORA = {
   waNumero: '525514767298',
 }
 
+export const DATOS_PROFESIONALES =
+  'Dra. Lidia Estela Chávez Buendía · Médico cirujano y partero – ENMyH-IPN · Cédula profesional 11505335 · Especialidad en Ginecología y Obstetricia – UAEMEX 14321195'
+
 export const DIRECCION = {
   lugar: 'Aurafem',
   calle: 'Cantú 11, Colonia Anzures',
