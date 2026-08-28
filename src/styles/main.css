@@ -653,9 +653,9 @@
 .preview {
   position: fixed;
   top: 50%;
-  /* Pegada al borde derecho del contenedor (max-w 1280) en pantallas anchas y
-     al borde de la ventana en las estrechas. */
-  right: max(1.5rem, calc(50vw - 32rem));
+  /* Se queda en el hueco entre el texto y los botones de la fila, nunca encima
+     de ellos: 11rem es la columna de acciones (WhatsApp + flecha) mas holgura. */
+  right: max(11rem, calc(50vw - 29rem));
   z-index: 60;
   width: 19rem;
   aspect-ratio: 4 / 5;
@@ -674,6 +674,14 @@
   opacity: 1;
   transform: translate3d(0, -50%, 0) scale(1) rotate(-2deg);
 }
+/* Por debajo de 1280px no hay hueco para una tarjeta de 19rem sin tapar el
+   texto o los botones: ahi manda la miniatura que lleva cada fila. */
+@media (max-width: 1279px) {
+  .preview {
+    display: none;
+  }
+}
+
 .preview img {
   width: 100%;
   height: 100%;
@@ -879,6 +887,18 @@
       position: sticky;
       top: 0;
       height: 100svh;
+      /* Geometría del arco pequeño, compartida con el bloque de texto. */
+      --arco-x: 34%;
+      --arco-arriba: 6%;
+      --arco-abajo: 50%;
+    }
+
+    @media (max-width: 900px) {
+      html.js .escena__stage {
+        --arco-x: 15%;
+        --arco-arriba: 5%;
+        --arco-abajo: 54%;
+      }
     }
 
     /* Lo que se anima es la caja del arco, no un recorte sobre la foto: así
@@ -886,9 +906,6 @@
        escena completa en vez de un primerísimo plano. Arranca arriba, que es
        donde caen las caras en estas fotos verticales, y deja abajo el texto. */
     html.js .escena__marco {
-      --arco-x: 34%;
-      --arco-arriba: 7%;
-      --arco-abajo: 45%;
       position: absolute;
       top: var(--arco-arriba);
       right: var(--arco-x);
@@ -901,29 +918,21 @@
       /* Animar la caja recalcula layout en cada fotograma; `contain` acota ese
          recálculo al propio arco y no deja que suba al resto de la página. */
       contain: layout paint;
-      animation: arco-abre linear both;
+      animation: arco-abre cubic-bezier(0.32, 0, 0.24, 1) both;
       animation-timeline: --escena;
-      animation-range: contain 6% contain 48%;
-    }
-
-    @media (max-width: 900px) {
-      html.js .escena__marco {
-        --arco-x: 16%;
-        --arco-arriba: 6%;
-        --arco-abajo: 48%;
-      }
+      animation-range: contain 22% contain 80%;
     }
 
     html.js .escena__img {
       animation: arco-zoom linear both;
       animation-timeline: --escena;
-      animation-range: contain 0% contain 70%;
+      animation-range: contain 0% contain 88%;
     }
 
     html.js .escena__velo {
       animation: arco-velo linear both;
       animation-timeline: --escena;
-      animation-range: contain 24% contain 50%;
+      animation-range: contain 50% contain 82%;
     }
 
     /* Ambos textos ocupan la escena completa y se centran con grid. */
@@ -945,12 +954,38 @@
 
     /* El primer texto vive arriba, sobre el lino; el cierre se centra ya con la
        foto a sangre debajo. */
+    /* El texto aguanta quieto la primera quinta parte del recorrido: es el rato
+       para leerlo. Su salida se solapa lo justo con la apertura del arco, porque
+       en cuanto la foto invade su zona el texto (azul sobre lino) dejaría de
+       leerse. El relleno inferior no sube más: el arco baja hasta el 55% del
+       alto y en ventanas bajas se le encimaría. */
     html.js .escena__texto {
-      align-content: end;
-      padding-bottom: clamp(3.5rem, 9vh, 6.5rem);
+      top: calc(100% - var(--arco-abajo));
+      align-content: center;
+      padding-top: clamp(0.5rem, 2vh, 1.5rem);
+      padding-bottom: clamp(1rem, 3vh, 2rem);
       animation: escena-sale linear both;
       animation-timeline: --escena;
-      animation-range: contain 6% contain 28%;
+      animation-range: contain 20% contain 40%;
+    }
+
+    /* Entrada propia del texto, ligada a cuando la sección cruza la pantalla:
+       sube y aparece en vez de deslizarse plano desde abajo. Va en los hijos y
+       no en el contenedor, que ya tiene su animación de salida. */
+    html.js .escena__texto > * {
+      animation: subir linear both;
+      animation-timeline: view();
+      animation-range: entry 55% entry 96%;
+    }
+
+    html.js .escena__texto .escena__frase {
+      margin-top: 1.1rem;
+      font-size: clamp(1.4rem, 3vw, 2.45rem);
+    }
+
+    html.js .escena__texto .escena__pie {
+      margin-top: 0.9rem;
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
     }
 
     html.js .escena__acento {
@@ -961,16 +996,16 @@
       align-content: center;
       color: #fff;
       opacity: 0;
-      animation: escena-entra linear both;
+      animation: escena-entra cubic-bezier(0.32, 0, 0.24, 1) both;
       animation-timeline: --escena;
-      animation-range: contain 44% contain 68%;
+      animation-range: contain 70% contain 92%;
     }
 
     /* Palabras del cierre: entran encadenadas sobre la misma línea de tiempo. */
     html.js .cinetico[data-cinetico="escena"] .pal > span {
       animation: palabra linear both;
       animation-timeline: --escena;
-      animation-range: contain calc(46% + var(--i) * 1.1%) contain calc(58% + var(--i) * 1.1%);
+      animation-range: contain calc(70% + var(--i) * 0.8%) contain calc(84% + var(--i) * 0.8%);
     }
 
     /* Indicador de avance de la escena. */

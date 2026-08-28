@@ -26,49 +26,64 @@ import sharp from 'sharp'
 import fs from 'fs'
 import path from 'path'
 
-const ORIGEN = 'fotos-originales/FOTOS para Web'
+const ORIGEN = 'fotos-originales'
 const DESTINO = 'public/img/dra'
 
 // [archivo de origen, nombre de salida, ancho, recorte]
 const FOTOS = [
   // Retratos y marca
-  ['eyecatcher.png', 'dra-hero', 900, null],
-  ['EDITADAS/presentacion/7.jpg', 'dra-escritorio', 1100, '4:5'],
-  ['Con bata de pie/IMG_1950.JPG', 'dra-de-pie', 1000, '4:5'],
-  ['Con enfermera/OK.jpg', 'equipo-aurafem', 1200, null],
-  ['Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.16.jpeg', 'recepcion-aurafem', 1000, null],
-  ['Con laptop/OK(3).jpg', 'dra-laptop', 1200, null],
+  ['FOTOS para Web/eyecatcher.png', 'dra-hero', 900, null],
+  ['FOTOS para Web/EDITADAS/presentacion/7.jpg', 'dra-escritorio', 1100, '4:5'],
+  ['FOTOS para Web/Con bata de pie/IMG_1950.JPG', 'dra-de-pie', 1000, '4:5'],
+  ['FOTOS para Web/Con enfermera/OK.jpg', 'equipo-aurafem', 1200, null],
+  ['FOTOS para Web/Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.16.jpeg', 'recepcion-aurafem', 1000, null],
+  ['FOTOS para Web/Con laptop/OK(3).jpg', 'dra-laptop', 1200, null],
 
   // Consulta ginecológica
-  ['Consulta/OK.jpg', 'consulta-ultrasonido', 1600, null],
-  ['Consulta/IMG_2133.JPG', 'dra-modelo-utero', 1200, null],
-  ['Consulta/IMG_2114.JPG', 'dra-consola-ultrasonido', 1200, null],
+  ['FOTOS para Web/Consulta/OK.jpg', 'consulta-ultrasonido', 1600, null],
+  ['FOTOS para Web/Consulta/IMG_2133.JPG', 'dra-modelo-utero', 1200, null],
+  ['FOTOS para Web/Consulta/IMG_2114.JPG', 'dra-consola-ultrasonido', 1200, null],
 
   // Papanicolaou
-  ['EDITADAS/papanicolaou/1.jpg', 'papanicolaou-instrumental', 1200, null],
-  ['Papanicolaou/OK.jpg', 'papanicolaou-consultorio', 1600, null],
-  ['Papanicolaou/IMG_2188.JPG', 'papanicolaou-citologia', 1200, null],
+  ['FOTOS para Web/EDITADAS/papanicolaou/1.jpg', 'papanicolaou-instrumental', 1200, null],
+  ['FOTOS para Web/Papanicolaou/OK.jpg', 'papanicolaou-consultorio', 1600, null],
+  ['FOTOS para Web/Papanicolaou/IMG_2188.JPG', 'papanicolaou-citologia', 1200, null],
 
   // Colposcopía
-  ['Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.55-4.jpeg', 'dra-equipo-clinica', 1000, null],
-  ['Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.55-5.jpeg', 'colposcopio-uso', 1000, null],
-  ['EDITADAS/vph/6.jpg', 'colposcopia-procedimiento', 1600, null],
-  ['EDITADAS/vph/10.jpg', 'colposcopia-tecnica', 1200, null],
+  ['FOTOS para Web/Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.55-4.jpeg', 'dra-equipo-clinica', 1000, null],
+  ['FOTOS para Web/Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.55-5.jpeg', 'colposcopio-uso', 1000, null],
+  ['FOTOS para Web/EDITADAS/vph/6.jpg', 'colposcopia-procedimiento', 1600, null],
+  ['FOTOS para Web/EDITADAS/vph/10.jpg', 'colposcopia-tecnica', 1200, null],
 
   // VPH
-  ['EDITADAS/vph/11.jpg', 'vph-vacuna', 1200, null],
-  ['EDITADAS/vph/1.jpg', 'vph-vacuna-caja', 1200, null],
-  ['EDITADAS/vph/7.jpg', 'vph-colposcopia', 1600, null],
+  ['FOTOS para Web/EDITADAS/vph/11.jpg', 'vph-vacuna', 1200, null],
+  ['FOTOS para Web/EDITADAS/vph/1.jpg', 'vph-vacuna-caja', 1200, null],
+  ['FOTOS para Web/EDITADAS/vph/7.jpg', 'vph-colposcopia', 1600, null],
 
   // Embarazo y control prenatal
-  ['Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.56.jpeg', 'prenatal-equipo', 853, '4:3'],
-  ['EDITADAS/embarazo/2.jpg', 'prenatal-paciente', 1600, null],
-  ['EDITADAS/embarazo/3.jpg', 'prenatal-explicacion', 1200, null],
-  ['Embarazo/OK(1).jpg', 'prenatal-consulta', 1200, null],
+  ['FOTOS para Web/Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.56.jpeg', 'prenatal-equipo', 853, '4:3'],
+  ['FOTOS para Web/EDITADAS/embarazo/2.jpg', 'prenatal-paciente', 1600, null],
+  ['FOTOS para Web/EDITADAS/embarazo/3.jpg', 'prenatal-explicacion', 1200, null],
+  ['FOTOS para Web/Embarazo/OK(1).jpg', 'prenatal-consulta', 1200, null],
 
   // Anticoncepción
-  ['Anticonceptivos/OK(4).jpg', 'anticonceptivos-metodos', 1200, null],
-  ['Anticonceptivos/OK(3).jpg', 'anticonceptivos-diu', 1200, null],
+  ['FOTOS para Web/Anticonceptivos/OK(4).jpg', 'anticonceptivos-metodos', 1200, null],
+  ['FOTOS para Web/Anticonceptivos/OK(3).jpg', 'anticonceptivos-diu', 1200, null],
+
+  // Segunda tanda (documento «AJUSTES_FOTOS_LIDIA»). La clienta eligió estas
+  // por número; 7 y 13 resultaron ser el mismo archivo, de ahí que 13 no
+  // aparezca: la misma foto se usa en el carrusel y en /conoce/, en dos
+  // encuadres distintos.
+  ['Cambios/1.JPG', 'dra-transductor', 900, null],
+  ['Cambios/3.png', 'prenatal-resultado', 900, null],
+  ['Cambios/4.png', 'anticonceptivos-consulta', 900, null],
+  ['Cambios/6.png', 'dra-modelo-utero-sentada', 1200, null],
+  ['Cambios/7.png', 'dra-escritorio-notas', 1200, null],
+  ['Cambios/7.png', 'dra-notas-vertical', 1000, '4:5'],
+  ['Cambios/8.JPG', 'papanicolaou-espejo', 1200, null],
+  ['Cambios/9.png', 'dra-retrato-de-pie', 1200, null],
+  ['Cambios/11.png', 'equipo-sala-espera', 1200, null],
+  ['Cambios/12.png', 'dra-de-pie-consultorio', 1000, '4:5'],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })

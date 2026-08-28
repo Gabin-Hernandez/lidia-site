@@ -1,5 +1,5 @@
 // Bloques compartidos por todas las páginas: head, header, secciones comunes y footer.
-import { CONSULTORIO, RETRATO_2, img, imgServicio } from '../data/imagenes.mjs'
+import { RETRATO_2, img, imgServicio } from '../data/imagenes.mjs'
 import {
   CIFRAS,
   DATOS_PROFESIONALES,
@@ -386,7 +386,6 @@ export function pilares() {
 
 export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
   const retrato = img(RETRATO_2)
-  const espacio = img(CONSULTORIO)
   return `
   <section id="doctora" class="relative scroll-mt-[110px] overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
     <span aria-hidden="true" class="halo -right-32 top-24 h-[28rem] w-[28rem] bg-arena-2/60"></span>
@@ -394,16 +393,11 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
     <div class="${CONTAINER} relative">
       <div class="grid items-center gap-[clamp(40px,6vw,90px)] lg:grid-cols-[0.95fr_1.05fr]">
 
-        <!-- Retrato + foto de consultorio superpuesta -->
+        <!-- Retrato en arco con la insignia de la valoración -->
         <div class="relative mx-auto w-full max-w-[520px]">
           <div data-anim="cortina" class="relative overflow-hidden rounded-t-[14rem] rounded-b-[2rem] bg-arena shadow-alta">
             <img src="${retrato.src}" alt="${escapeAttr(`${DOCTORA.nombreCompleto}, ginecóloga en Polanco CDMX`)}" width="${retrato.w}" height="${retrato.h}" loading="lazy" decoding="async"
                  class="zoom-scroll block aspect-[4/5] w-full object-cover">
-          </div>
-
-          <div data-anim="escalar" style="--d:.2s" class="absolute -bottom-8 -left-4 w-[46%] max-w-[210px] overflow-hidden rounded-[1.25rem] border-4 border-lino bg-arena shadow-flotante sm:-left-10">
-            <img src="${espacio.src}" alt="${escapeAttr(espacio.alt)}" width="${espacio.w}" height="${espacio.h}" loading="lazy" decoding="async"
-                 class="block aspect-square w-full object-cover">
           </div>
 
           <div data-anim style="--d:.3s" class="absolute -right-2 top-8 rounded-2xl border border-marino/10 bg-lino/90 px-4 py-3 shadow-cristal backdrop-blur-md sm:-right-6">

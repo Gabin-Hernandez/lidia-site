@@ -203,7 +203,7 @@ function filaServicio(s, i) {
 
             <!-- Miniatura solo en tablet: en móvil roba ancho al texto y en
                  escritorio ya existe la vista previa que sigue al cursor. -->
-            <span class="hidden h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-arena sm:block lg:hidden">
+            <span class="hidden h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-arena sm:block xl:hidden">
               <img src="${f.src}" alt="" aria-hidden="true" width="${f.w}" height="${f.h}" loading="lazy" decoding="async" class="h-full w-full object-cover">
             </span>
 

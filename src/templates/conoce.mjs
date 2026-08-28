@@ -22,7 +22,7 @@ import {
   FORMACION,
   RECONOCIMIENTOS,
 } from '../data/doctora.mjs'
-import { GALERIA_HOME, RETRATO, img } from '../data/imagenes.mjs'
+import { RETRATO, img } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
 import { DOCTORA, DOMAIN, physicianSchema } from '../data/site.mjs'
 import {
@@ -58,8 +58,10 @@ const PAD = 'py-[clamp(68px,9vw,130px)]'
 const URL = `${DOMAIN}/conoce/`
 
 // Tríptico del hero y fotos de las secciones editoriales.
-const TRIPTICO = ['dra-de-pie', RETRATO, 'recepcion-aurafem']
-const FOTOS_ENFOQUE = ['dra-laptop', 'colposcopio-uso']
+const TRIPTICO = ['dra-de-pie-consultorio', RETRATO, 'recepcion-aurafem']
+const FOTOS_ENFOQUE = ['dra-notas-vertical', 'colposcopio-uso']
+// Unica foto de la seccion «Donde te atiende»: la recepcion, sin gente.
+const FOTO_CONSULTORIO = 'consulta-ginecologica-4'
 
 function conoceSchema() {
   return [
@@ -255,25 +257,11 @@ function especialidades() {
 
 /* ─────────────────────────────────────────────────────────── galería */
 
+// La clienta pidió dejar aquí únicamente la foto del consultorio, sin el pie de
+// foto que llevaba encima. De ahí que sea una sola pieza y no el mosaico de
+// ocho que había: el titular ya dice de qué es la foto.
 function galeria() {
-  // Mosaico escalonado: la primera pieza manda y el resto la acompaña.
-  const tile = (clave, i) => {
-    const f = img(clave)
-    const grande = i === 0
-    return `
-        <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(f.alt)}"
-                aria-label="${escapeAttr(`Ampliar foto: ${f.alt}`)}"
-                class="group relative block cursor-zoom-in overflow-hidden rounded-[1.25rem] bg-arena p-0 transition duration-500 ease-suave hover:shadow-flotante focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo ${
-                  grande ? 'col-span-2 row-span-2' : ''
-                }">
-          <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
-               class="block h-full w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-[1.06]">
-          <span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/90 via-noche/30 to-transparent px-4 pb-3 pt-10 text-left">
-            <span class="block ${grande ? 'text-[0.88rem]' : 'text-[0.74rem]'} font-semibold leading-tight text-white">${f.alt}</span>
-          </span>
-        </button>`
-  }
-
+  const f = img(FOTO_CONSULTORIO)
   return `
   <section class="bg-lino ${PAD}">
     <div class="${CONTAINER}">
@@ -281,14 +269,18 @@ function galeria() {
         <span data-anim>${rotulo('Su consultorio')}</span>
         ${titulo(`Dónde te ${acento('atiende')}`, { clase: `${H2} mt-5 text-marino` })}
         <p data-anim class="mt-6 text-[1.2rem] leading-[1.75] text-humo">
-          Aurafem, en Colonia Anzures, a unos minutos de Polanco. Toca una foto para verla en grande.
+          Aurafem, en Colonia Anzures, a unos minutos de Polanco. Toca la foto para verla en grande.
         </p>
       </div>
-      <div data-anim-grupo class="grid auto-rows-[140px] grid-cols-2 gap-3.5 md:auto-rows-[180px] md:grid-cols-4 md:gap-4">
-        ${GALERIA_HOME.slice(0, 8).map(tile).join('\n')}
-      </div>
+      <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(f.alt)}"
+              aria-label="${escapeAttr(`Ampliar foto: ${f.alt}`)}" data-anim
+              class="group relative mx-auto block w-full max-w-[860px] cursor-zoom-in overflow-hidden rounded-[1.5rem] bg-arena p-0 shadow-suave transition duration-500 ease-suave hover:shadow-flotante focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo">
+        <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+             class="block aspect-[4/3] w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-[1.04]">
+      </button>
     </div>
-  </section>`
+  </section>
+`
 }
 
 /* ─────────────────────────────────────────────────────────── preguntas */

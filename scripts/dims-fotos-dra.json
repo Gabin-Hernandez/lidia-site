@@ -98,5 +98,45 @@
   "anticonceptivos-diu": [
     1200,
     800
+  ],
+  "dra-transductor": [
+    900,
+    600
+  ],
+  "prenatal-resultado": [
+    900,
+    604
+  ],
+  "anticonceptivos-consulta": [
+    900,
+    598
+  ],
+  "dra-modelo-utero-sentada": [
+    1200,
+    802
+  ],
+  "dra-escritorio-notas": [
+    1200,
+    802
+  ],
+  "dra-notas-vertical": [
+    1000,
+    1250
+  ],
+  "papanicolaou-espejo": [
+    1200,
+    800
+  ],
+  "dra-retrato-de-pie": [
+    1200,
+    805
+  ],
+  "equipo-sala-espera": [
+    1200,
+    803
+  ],
+  "dra-de-pie-consultorio": [
+    1000,
+    1250
   ]
 }

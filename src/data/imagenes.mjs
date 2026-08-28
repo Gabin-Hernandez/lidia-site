@@ -341,6 +341,68 @@ const FOTOS_DRA = {
     h: 800,
     alt: 'Dispositivo intrauterino, uno de los métodos anticonceptivos que se colocan en consulta',
   },
+
+  // Segunda tanda: reemplazos que pidió el documento de ajustes de fotos.
+  'dra-transductor': {
+    file: 'dra-transductor.webp',
+    w: 900,
+    h: 600,
+    alt: 'La Dra. Lidia Chávez con el transductor del equipo de ultrasonido',
+  },
+  'prenatal-resultado': {
+    file: 'prenatal-resultado.webp',
+    w: 900,
+    h: 604,
+    alt: 'La Dra. Lidia Chávez entregando el resultado del ultrasonido a una paciente embarazada',
+  },
+  'anticonceptivos-consulta': {
+    file: 'anticonceptivos-consulta.webp',
+    w: 900,
+    h: 598,
+    alt: 'La Dra. Lidia Chávez con los métodos anticonceptivos que se ofrecen en consulta',
+  },
+  'dra-modelo-utero-sentada': {
+    file: 'dra-modelo-utero-sentada.webp',
+    w: 1200,
+    h: 802,
+    alt: 'La Dra. Lidia Chávez con el modelo anatómico del útero en el área de consulta',
+  },
+  'dra-escritorio-notas': {
+    file: 'dra-escritorio-notas.webp',
+    w: 1200,
+    h: 802,
+    alt: 'La Dra. Lidia Chávez tomando notas en el escritorio del consultorio',
+  },
+  'dra-notas-vertical': {
+    file: 'dra-notas-vertical.webp',
+    w: 1000,
+    h: 1250,
+    alt: 'La Dra. Lidia Chávez tomando notas durante la consulta en Aurafem',
+  },
+  'papanicolaou-espejo': {
+    file: 'papanicolaou-espejo.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con el espejo vaginal desechable que se usa en la toma de Papanicolaou',
+  },
+  'dra-retrato-de-pie': {
+    file: 'dra-retrato-de-pie.webp',
+    w: 1200,
+    h: 805,
+    alt: 'Retrato de la Dra. Lidia Chávez de pie en el consultorio',
+  },
+  'equipo-sala-espera': {
+    file: 'equipo-sala-espera.webp',
+    w: 1200,
+    h: 803,
+    alt: 'La Dra. Lidia Chávez y la asistente del consultorio en la sala de espera de Aurafem',
+  },
+  'dra-de-pie-consultorio': {
+    file: 'dra-de-pie-consultorio.webp',
+    w: 1000,
+    h: 1250,
+    alt: 'La Dra. Lidia Chávez de pie en el consultorio de Aurafem',
+  },
 }
 
 /**
@@ -382,14 +444,11 @@ export const CONSULTORIO = 'recepcion-aurafem'
 // material nuevo se recorre el espacio —recepción, equipo, áreas de estudio—
 // en vez de repetir retratos suyos.
 export const GALERIA_HOME = [
-  'recepcion-aurafem',
-  'equipo-aurafem',
-  'consulta-ultrasonido',
-  'dra-consola-ultrasonido',
-  'colposcopio-uso',
-  'dra-equipo-clinica',
-  'prenatal-equipo',
-  'consulta-ginecologica-4',
+  'dra-modelo-utero-sentada',
+  'dra-escritorio-notas',
+  'papanicolaou-espejo',
+  'dra-retrato-de-pie',
+  'equipo-sala-espera',
 ]
 
 /**
@@ -432,7 +491,7 @@ export const SERVICIO_IMG = {
   },
   'revision-ginecologicapreventiva': {
     hero: 'dra-consola-ultrasonido',
-    tarjeta: 'dra-escritorio',
+    tarjeta: 'dra-transductor',
     editorial: ['dra-consola-ultrasonido', 'papanicolaou-instrumental', 'dra-de-pie'],
     // La galería se había quedado en una sola foto al quitar las de quirófano
     // que señaló la doctora; se rellena con material nuevo del consultorio.
@@ -479,7 +538,7 @@ export const SERVICIO_IMG = {
   },
   'control-prenatal': {
     hero: 'prenatal-paciente',
-    tarjeta: 'prenatal-equipo',
+    tarjeta: 'prenatal-resultado',
     editorial: ['prenatal-paciente', 'prenatal-explicacion', 'dra-consola-ultrasonido'],
     galeria: [
       'prenatal-paciente',
@@ -496,7 +555,7 @@ export const SERVICIO_IMG = {
     // La miniatura sí cambia: es la que sale en el menú y en los listados, ya
     // con el rótulo «Orientación anticonceptiva». Un recién nacido ahí no
     // cuadraba con el nombre nuevo.
-    tarjeta: 'anticonceptivos-metodos',
+    tarjeta: 'anticonceptivos-consulta',
     editorial: ['vph-1', 'atencion-embarazo-9', 'atencion-embarazo-10'],
     seccionFoto: {
       'cuidado-gestacional': 'apoyo-acompanamiento-1',
