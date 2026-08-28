@@ -269,15 +269,13 @@ function galeria() {
         <span data-anim>${rotulo('Su consultorio')}</span>
         ${titulo(`Dónde te ${acento('atiende')}`, { clase: `${H2} mt-5 text-marino` })}
         <p data-anim class="mt-6 text-[1.2rem] leading-[1.75] text-humo">
-          Aurafem, en Colonia Anzures, a unos minutos de Polanco. Toca la foto para verla en grande.
+          Aurafem, en Colonia Anzures, a unos minutos de Polanco.
         </p>
       </div>
-      <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(f.alt)}"
-              aria-label="${escapeAttr(`Ampliar foto: ${f.alt}`)}" data-anim
-              class="group relative mx-auto block w-full max-w-[860px] cursor-zoom-in overflow-hidden rounded-[1.5rem] bg-arena p-0 shadow-suave transition duration-500 ease-suave hover:shadow-flotante focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo">
+      <div data-anim class="mx-auto w-full max-w-[860px] overflow-hidden rounded-[1.5rem] bg-arena shadow-suave">
         <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
-             class="block aspect-[4/3] w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-[1.04]">
-      </button>
+             class="block aspect-[4/3] w-full object-cover">
+      </div>
     </div>
   </section>
 `
