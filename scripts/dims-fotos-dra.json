@@ -142,5 +142,9 @@
   "consultorio-colposcopio": [
     1200,
     800
+  ],
+  "papanicolaou-espejo-esteril": [
+    900,
+    1125
   ]
 }

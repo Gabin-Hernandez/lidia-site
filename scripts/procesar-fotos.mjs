@@ -88,6 +88,7 @@ const FOTOS = [
   // Papanicolaou), que la clienta aún no define.
   ['Cambios/5.jpeg', 'dra-recepcion', 1000, '4:5'],
   ['Cambios/10.jpg', 'consultorio-colposcopio', 1200, null],
+  ['Cambios/2.jpg', 'papanicolaou-espejo-esteril', 900, '4:5'],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })

@@ -409,6 +409,12 @@ const FOTOS_DRA = {
     h: 800,
     alt: 'La Dra. Lidia Chávez en el área de exploración, junto al colposcopio',
   },
+  'papanicolaou-espejo-esteril': {
+    file: 'papanicolaou-espejo-esteril.webp',
+    w: 900,
+    h: 1125,
+    alt: 'Espejo vaginal estéril de un solo uso, mostrado por la Dra. Lidia Chávez antes del estudio',
+  },
 }
 
 /**
@@ -506,7 +512,7 @@ export const SERVICIO_IMG = {
   },
   papanicolaou: {
     hero: 'papanicolaou-consultorio',
-    tarjeta: 'papanicolaou-instrumental',
+    tarjeta: 'papanicolaou-espejo-esteril',
     // Se conserva la ilustración de la toma de muestra: explica el
     // procedimiento mejor que una foto posada con el instrumental.
     editorial: ['papanicolaou-instrumental', 'apoyo-papanicolaou-1', 'papanicolaou-citologia'],
