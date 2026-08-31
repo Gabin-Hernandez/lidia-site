@@ -33,7 +33,6 @@ const DESTINO = 'public/img/dra'
 const FOTOS = [
   // Retratos y marca
   ['FOTOS para Web/eyecatcher.png', 'dra-hero', 900, null],
-  ['FOTOS para Web/EDITADAS/presentacion/7.jpg', 'dra-escritorio', 1100, '4:5'],
   ['FOTOS para Web/Con bata de pie/IMG_1950.JPG', 'dra-de-pie', 1000, '4:5'],
   ['FOTOS para Web/Con enfermera/OK.jpg', 'equipo-aurafem', 1200, null],
   ['FOTOS para Web/Clínica Aurafem/WhatsApp Image 2026-08-06 at 15.54.16.jpeg', 'recepcion-aurafem', 1000, null],
@@ -84,6 +83,11 @@ const FOTOS = [
   ['Cambios/9.png', 'dra-retrato-de-pie', 1200, null],
   ['Cambios/11.png', 'equipo-sala-espera', 1200, null],
   ['Cambios/12.png', 'dra-de-pie-consultorio', 1000, '4:5'],
+
+  // Las dos que faltaban de esa tanda. Queda pendiente la 2 (miniatura de
+  // Papanicolaou), que la clienta aún no define.
+  ['Cambios/5.jpeg', 'dra-recepcion', 1000, '4:5'],
+  ['Cambios/10.jpg', 'consultorio-colposcopio', 1200, null],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })

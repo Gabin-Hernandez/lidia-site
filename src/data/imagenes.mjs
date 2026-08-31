@@ -197,12 +197,6 @@ const FOTOS_DRA = {
     h: 1211,
     alt: 'La Dra. Lidia Chávez, ginecóloga en Polanco, en el escritorio de su consultorio',
   },
-  'dra-escritorio': {
-    file: 'dra-escritorio.webp',
-    w: 1100,
-    h: 1375,
-    alt: 'La Dra. Lidia Chávez sentada al escritorio de consulta',
-  },
   'dra-de-pie': {
     file: 'dra-de-pie.webp',
     w: 1000,
@@ -403,6 +397,18 @@ const FOTOS_DRA = {
     h: 1250,
     alt: 'La Dra. Lidia Chávez de pie en el consultorio de Aurafem',
   },
+  'dra-recepcion': {
+    file: 'dra-recepcion.webp',
+    w: 1000,
+    h: 1250,
+    alt: 'La Dra. Lidia Chávez en la recepción de Aurafem, junto al logotipo del consultorio',
+  },
+  'consultorio-colposcopio': {
+    file: 'consultorio-colposcopio.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez en el área de exploración, junto al colposcopio',
+  },
 }
 
 /**
@@ -435,7 +441,7 @@ export function img(clave) {
 
 // Imágenes de marca reutilizadas en toda la navegación.
 export const RETRATO = 'dra-hero'
-export const RETRATO_2 = 'dra-escritorio'
+export const RETRATO_2 = 'dra-recepcion'
 export const CONSULTORIO = 'recepcion-aurafem'
 
 // Fotos del carrusel «El consultorio» de la portada (y del mosaico de /conoce/).
@@ -448,6 +454,7 @@ export const GALERIA_HOME = [
   'dra-escritorio-notas',
   'papanicolaou-espejo',
   'dra-retrato-de-pie',
+  'consultorio-colposcopio',
   'equipo-sala-espera',
 ]
 
