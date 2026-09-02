@@ -11,8 +11,13 @@ export const DOCTORA = {
   waNumero: '525514767298',
 }
 
+// Línea de credenciales del pie. El número de COFEPRIS va sin adjetivos, igual
+// que las cédulas: COFEPRIS regula establecimientos y servicios de salud, no
+// «avala» a un profesional, y la publicidad sanitaria en México se ciñe a lo que
+// dice el documento. Si la doctora precisa de qué trámite es el folio (aviso de
+// funcionamiento, licencia sanitaria), aquí se puede nombrar tal cual.
 export const DATOS_PROFESIONALES =
-  'Dra. Lidia Estela Chávez Buendía · Médico cirujano y partero – ENMyH-IPN · Cédula profesional 11505335 · Especialidad en Ginecología y Obstetricia – UAEMEX 14321195'
+  'Dra. Lidia Estela Chávez Buendía · Médico cirujano y partero – ENMyH-IPN · Cédula profesional 11505335 · Especialidad en Ginecología y Obstetricia – UAEMEX 14321195 · COFEPRIS 2509132002A00307'
 
 export const DIRECCION = {
   lugar: 'Aurafem',
