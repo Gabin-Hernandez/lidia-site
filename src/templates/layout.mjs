@@ -15,6 +15,7 @@ import {
   waLink,
 } from '../data/site.mjs'
 import { SERVICES } from '../data/services.mjs'
+import { ARTICULOS } from '../data/blog.mjs'
 import { TESTIMONIOS, TESTIMONIOS_INTRO } from '../data/testimonios.mjs'
 import {
   CONTAINER,
@@ -197,6 +198,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
           ${megaServicios}
           ${navLink('/conoce/', 'La doctora', 'conoce')}
           ${enlaceTestimonios}
+          ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
           <li class="hidden max-lg:mt-4 max-lg:block">
             ${btnWa(waText, `${waLabel}_movil`, 'Agendar por WhatsApp')}
@@ -643,6 +645,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
           <ul class="grid list-none gap-3">
             ${enlace('/conoce/', 'La doctora')}
             ${TESTIMONIOS.length ? enlace('/testimonios/', 'Testimonios') : ''}
+            ${ARTICULOS.length ? enlace('/blog/', 'Blog') : ''}
             ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
             ${enlace('/contacto/', 'Contacto y citas')}
             ${enlace('/#servicios', 'Todos los servicios')}
