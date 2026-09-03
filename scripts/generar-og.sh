@@ -16,7 +16,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-GAL=public/img/galeria
+GAL=public/img/dra
 OUT=public/og
 ANCHO=1200
 ALTO=630
@@ -67,15 +67,15 @@ tarjeta() {
 }
 
 echo "Generando $OUT/ …"
-tarjeta public/39f0736b-1235-4968-9c70-9ccc6640fa1e.webp "$OUT/home.jpg"
-recorte "$GAL/colposcopia-10.webp"             "$OUT/conoce.jpg"    45
-recorte "$GAL/consulta-ginecologica-4.webp"    "$OUT/contacto.jpg"  45
-recorte "$GAL/consulta-ginecologica-2.webp"    "$OUT/testimonios.jpg" 45
-recorte "$GAL/consulta-ginecologica-1.webp"    "$OUT/consulta-ginecologica.jpg" 45
-recorte "$GAL/papanicolaou-3.webp"             "$OUT/papanicolaou.jpg"      45
-recorte "$GAL/colposcopia-10.webp"             "$OUT/colposcopia.jpg"       45
-recorte "$GAL/papanicolaou-3.webp"             "$OUT/control-prenatal.jpg"  45
-recorte "$GAL/atencion-embarazo-10.webp"       "$OUT/atencion-embarazo.jpg" 45
-recorte "$GAL/atencion-embarazo-1.webp"        "$OUT/vph.jpg"               45
-recorte "$GAL/consulta-ginecologica-3.webp"    "$OUT/revision-ginecologicapreventiva.jpg" 45
+tarjeta "$GAL/dra-hero.webp"                   "$OUT/home.jpg"
+recorte "$GAL/dra-de-pie-consultorio.webp"     "$OUT/conoce.jpg"    35
+recorte "$GAL/recepcion-aurafem.webp"          "$OUT/contacto.jpg"  40
+recorte "$GAL/dra-recepcion.webp"              "$OUT/testimonios.jpg" 35
+recorte "$GAL/consulta-ultrasonido.webp"       "$OUT/consulta-ginecologica.jpg" 45
+recorte "$GAL/papanicolaou-consultorio.webp"   "$OUT/papanicolaou.jpg"      45
+recorte "$GAL/colposcopia-procedimiento.webp"  "$OUT/colposcopia.jpg"       45
+recorte "$GAL/prenatal-paciente.webp"          "$OUT/control-prenatal.jpg"  45
+recorte "public/img/galeria/atencion-embarazo-10.webp" "$OUT/atencion-embarazo.jpg" 45
+recorte "$GAL/vph-colposcopia.webp"            "$OUT/vph.jpg"               45
+recorte "$GAL/dra-consola-ultrasonido.webp"    "$OUT/revision-ginecologicapreventiva.jpg" 45
 echo "Listo."

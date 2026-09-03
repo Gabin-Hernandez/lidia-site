@@ -29,9 +29,11 @@ export const DIRECCION = {
   pais: 'MX',
   lat: 19.4284101,
   lng: -99.177708,
-  // Identificador del lugar en Google Maps (AuraFem Health Care). Es lo que
-  // hace que el mapa y el enlace abran la ficha del consultorio y no una
-  // dirección aproximada.
+  // Nombre con el que el consultorio está dado de alta en Google Maps. No
+  // coincide con `lugar`, que es como se le nombra en el sitio.
+  nombreMaps: 'AuraFem Health Care',
+  // Identificador del lugar en Google Maps. Lo usa el mapa incrustado; el
+  // enlace del botón no, ver abajo.
   mapsId: '0x85d1ff9dbb94facf:0xa5dc7bf9ebf15a61',
 }
 
@@ -39,17 +41,19 @@ export const GTAG_ID = 'AW-18297301316'
 export const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
 
 export const FOTO_DRA = '/img/dra/dra-hero.webp'
-export const FOTO_CONSULTORIO = '/b2be7d1b-d159-43c4-a876-fcba0a17f1d1.webp'
 export const LOGO = '/logo.webp'
-export const WA_ICON = '/img/wa.svg'
 
 export const MAPS_EMBED =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.7!2d-99.177708!3d19.4284101!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff9dbb94facf%3A0xa5dc7bf9ebf15a61!2sAuraFem%20Health%20Care!5e0!3m2!1ses!2smx!4v1710000000000!5m2!1ses!2smx'
 
-// Enlace del botón «Ver en Google Maps»: la ficha de AuraFem, no una búsqueda
-// por dirección. Abre el consultorio con horarios, reseñas y cómo llegar, en
-// vez de dejar caer un pin sobre una dirección aproximada.
-export const MAPS_LINK = `https://www.google.com/maps/place/AuraFem+Health+Care/@${DIRECCION.lat},${DIRECCION.lng},17z/data=!3m1!4b1!4m6!3m5!1s${DIRECCION.mapsId}!8m2!3d${DIRECCION.lat}!4d${DIRECCION.lng}`
+// Enlace del botón «Ver en Google Maps». Es la búsqueda documentada de la API
+// de URLs de Maps (search/?api=1&query=), por nombre y dirección: es la única
+// forma que resuelve a la ficha de AuraFem de manera estable. Antes apuntaba a
+// una URL /maps/place/ con el bloque  de Google reconstruido a mano, y
+// ese bloque es interno: Maps lo rechazaba y abría un mapa vacío.
+export const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${DIRECCION.nombreMaps}, ${DIRECCION.texto}`
+)}`
 
 export const DISCLAIMER =
   'La información contenida en esta página web posee fines exclusivamente educativos e informativos y bajo ningún concepto sustituye una valoración médica profesional en consultorio. Para recibir orientación médica adecuada, agenda una consulta formal con la especialista.'
