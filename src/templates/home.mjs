@@ -11,7 +11,7 @@
 // y tienen URL que compartir. La prueba social de la portada la sostienen el
 // hero (valoración y volumen de pacientes) y la banda de cifras.
 import { DOCTORA, DOMAIN, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
-import { GALERIA_HOME, RETRATO, img, imgServicio } from '../data/imagenes.mjs'
+import { GALERIA_HOME, RETRATO, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
 import {
   bandaCifras,
@@ -338,17 +338,20 @@ function recorrido() {
 /* ─────────────────────────────────────────────────────────── galería */
 
 function galeria() {
-  const fotos = GALERIA_HOME.map(img)
+  const fotos = GALERIA_HOME.map(fotoGaleria)
 
+  // El rótulo sobre la foto es `pie`; el `alt` sigue describiendo la escena
+  // aunque la doctora haya pedido dejar esa foto sin pie visible.
   const tile = (f) => `
-        <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(f.alt)}"
+        <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(f.pie)}" data-alt="${escapeAttr(f.alt)}"
                 aria-label="${escapeAttr(`Ampliar foto: ${f.alt}`)}"
                 class="group relative w-[70vw] shrink-0 cursor-zoom-in overflow-hidden rounded-[1.5rem] bg-arena p-0 shadow-suave transition duration-500 ease-suave hover:shadow-flotante sm:w-[46vw] lg:w-[30rem]">
           <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+               ${f.pos ? `style="object-position:${f.pos}"` : ''}
                class="block aspect-[4/3] w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-105">
-          <span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/85 via-noche/25 to-transparent px-5 pb-4 pt-14 text-left">
-            <span class="block text-[0.86rem] font-semibold leading-tight text-white">${f.alt}</span>
-          </span>
+          ${f.pie ? `<span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/85 via-noche/25 to-transparent px-5 pb-4 pt-14 text-left">
+            <span class="block text-[0.86rem] font-semibold leading-tight text-white">${f.pie}</span>
+          </span>` : ''}
           <span aria-hidden="true" class="absolute right-4 top-4 flex h-10 w-10 scale-75 items-center justify-center rounded-full bg-lino/90 text-marino opacity-0 shadow-cristal transition duration-500 ease-suave group-hover:scale-100 group-hover:opacity-100">
             ${icono('lupa', 'h-4 w-4')}
           </span>

@@ -7,7 +7,7 @@
 //   dibujada al hacer scroll) → preguntas → galería → cifras → la doctora →
 //   servicios relacionados → ubicación → transparencia → cierre.
 import { DOCTORA, DOMAIN, physicianSchema, waLink } from '../data/site.mjs'
-import { RETRATO, SERVICIO_IMG, img, imgServicio } from '../data/imagenes.mjs'
+import { RETRATO, SERVICIO_IMG, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
 import {
   bandaCifras,
@@ -418,20 +418,22 @@ function faqSection(s) {
 // Mosaico asimétrico: dos piezas grandes anclan la retícula y el resto la completa.
 function galeriaSection(s) {
   const destacadas = new Set([0, 5])
-  const fotos = (SERVICIO_IMG[s.slug]?.galeria || []).map(img)
+  const fotos = (SERVICIO_IMG[s.slug]?.galeria || []).map(fotoGaleria)
+  // El rótulo sobre la foto es `pie`; el `alt` sigue describiendo la escena
+  // aunque la doctora haya pedido dejar esa foto sin pie visible.
   const tile = (f, i) => {
-    const caption = f.alt
     const grande = destacadas.has(i)
     return `
-        <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(caption)}" aria-label="${escapeAttr(`Ampliar foto: ${caption}`)}"
+        <button type="button" data-lightbox="${f.src}" data-caption="${escapeAttr(f.pie)}" data-alt="${escapeAttr(f.alt)}" aria-label="${escapeAttr(`Ampliar foto: ${f.alt}`)}"
                 class="group relative block cursor-zoom-in overflow-hidden rounded-[1.25rem] bg-arena p-0 transition duration-500 ease-suave hover:shadow-flotante focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo ${
                   grande ? 'col-span-2 md:row-span-2' : ''
                 }">
-          <img src="${f.src}" alt="${escapeAttr(caption)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+          <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+               ${f.pos ? `style="object-position:${f.pos}"` : ''}
                class="block h-full w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-[1.07]">
-          <span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/90 via-noche/35 to-transparent px-3.5 pb-3 pt-10 text-left">
-            <span class="block ${grande ? 'text-[0.9rem]' : 'text-[0.74rem]'} font-semibold leading-tight text-white">${caption}</span>
-          </span>
+          ${f.pie ? `<span aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/90 via-noche/35 to-transparent px-3.5 pb-3 pt-10 text-left">
+            <span class="block ${grande ? 'text-[0.9rem]' : 'text-[0.74rem]'} font-semibold leading-tight text-white">${f.pie}</span>
+          </span>` : ''}
           <span aria-hidden="true" class="absolute right-3 top-3 flex h-9 w-9 scale-75 items-center justify-center rounded-full bg-lino/90 text-marino opacity-0 shadow-cristal transition duration-500 ease-suave group-hover:scale-100 group-hover:opacity-100">
             ${icono('lupa', 'h-4 w-4')}
           </span>

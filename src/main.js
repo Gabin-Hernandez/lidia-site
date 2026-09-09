@@ -351,6 +351,9 @@ if (disparadores.length) {
   const fotos = disparadores.map((btn) => ({
     src: btn.dataset.lightbox,
     caption: btn.dataset.caption || '',
+    // Hay fotos sin pie visible a petición de la doctora: el visor las muestra
+    // sin rótulo, pero el alt siempre describe la escena.
+    alt: btn.dataset.alt || btn.dataset.caption || '',
   }))
   let indiceFoto = 0
   let focoPrevio = null
@@ -393,7 +396,7 @@ if (disparadores.length) {
     img.style.opacity = '0'
     const foto = fotos[indiceFoto]
     const pintar = () => {
-      img.alt = foto.caption
+      img.alt = foto.alt
       caption.textContent = foto.caption
       counter.textContent = `${indiceFoto + 1} / ${fotos.length}`
       img.style.opacity = '1'

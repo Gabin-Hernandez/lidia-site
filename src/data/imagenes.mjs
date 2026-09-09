@@ -415,6 +415,90 @@ const FOTOS_DRA = {
     h: 1125,
     alt: 'Espejo vaginal estéril de un solo uso, mostrado por la Dra. Lidia Chávez antes del estudio',
   },
+
+  // Tercera tanda: las fotos que pidió el documento «pagina revision 2».
+  'consulta-corazon': {
+    file: 'consulta-corazon.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez formando un corazón con el cable del transductor de ultrasonido',
+  },
+  'dra-laptop-escritorio': {
+    file: 'dra-laptop-escritorio.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez tomando notas en el escritorio del consultorio, junto a la laptop',
+  },
+  'papanicolaou-explicacion': {
+    file: 'papanicolaou-explicacion.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez explicando el procedimiento paso a paso en el área de exploración',
+  },
+  'ultrasonido-pelvico': {
+    file: 'ultrasonido-pelvico.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez junto al equipo de ultrasonido, con un rastreo pélvico en pantalla',
+  },
+  'dra-consola-transductor': {
+    file: 'dra-consola-transductor.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez en la consola del equipo de ultrasonido, con el transductor en la mano',
+  },
+  'colposcopia-laser': {
+    file: 'colposcopia-laser.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez durante un procedimiento bajo colposcopio en el área de exploración',
+  },
+  // El original de 'dra-de-pie' sin recortar a vertical, para la pieza grande
+  // del mosaico: ver la nota en scripts/procesar-fotos.mjs.
+  'dra-de-pie-ancha': {
+    file: 'dra-de-pie-ancha.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez de pie en el área de exploración del consultorio',
+  },
+
+  // Anticoncepción: en el banco pero todavía sin colocar. Esperan al texto de
+  // la página de orientación anticonceptiva, que hoy sigue siendo obstétrico.
+  // Entre paréntesis, la referencia del documento y el pie que pidió la
+  // doctora, para que colocarlas sea directo cuando llegue el contenido.
+  // OKANTC1 → «Pastillas anticonceptivas»
+  'anticonceptivos-pastillas': {
+    file: 'anticonceptivos-pastillas.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con un blíster de pastillas anticonceptivas',
+  },
+  // OKANTC2 → «Dispositivo intrauterino hormonal»
+  'anticonceptivos-diu-hormonal': {
+    file: 'anticonceptivos-diu-hormonal.webp',
+    w: 1200,
+    h: 800,
+    alt: 'Dispositivo intrauterino hormonal montado en su aplicador',
+  },
+  // OKANTC4 → «Colocación de diferentes métodos anticonceptivos». Ojo: la foto
+  // es otro blíster de pastillas, casi igual que OKANTC1. El documento decía
+  // «OKANTC 3 o 4»; si el pie se queda así, conviene pedir la 3.
+  'anticonceptivos-pastillas-2': {
+    file: 'anticonceptivos-pastillas-2.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez mostrando un blíster de pastillas anticonceptivas',
+  },
+  // OKANTC5 → «Preservativo masculino». Llegó nombrada 'OKOK_LAPTOP5.JPG' por
+  // error. Los dos sobres de preservativo son lo que más se ve, pero en la
+  // mano lleva además pastillas, dos aplicadores de DIU y un implante: el alt
+  // los nombra todos porque describe la foto, no el pie que ella eligió.
+  'anticonceptivos-varios': {
+    file: 'anticonceptivos-varios.webp',
+    w: 1200,
+    h: 800,
+    alt: 'La Dra. Lidia Chávez con varios métodos anticonceptivos: preservativos, pastillas, dispositivo intrauterino e implante',
+  },
 }
 
 /**
@@ -425,7 +509,15 @@ const FOTOS_DRA = {
 export function img(clave) {
   const dra = FOTOS_DRA[clave]
   if (dra) {
-    return { src: `/img/dra/${dra.file}`, alt: dra.alt, w: dra.w, h: dra.h, contain: false }
+    return {
+      src: `/img/dra/${dra.file}`,
+      alt: dra.alt,
+      w: dra.w,
+      h: dra.h,
+      contain: false,
+      // Encuadre para los recortes apaisados; sin `pos` manda el centro.
+      pos: dra.pos || '',
+    }
   }
 
   const apoyo = FOTOS_APOYO[clave]
@@ -455,13 +547,20 @@ export const CONSULTORIO = 'recepcion-aurafem'
 // porque la sección afirma mostrar el consultorio de la doctora. Con el
 // material nuevo se recorre el espacio —recepción, equipo, áreas de estudio—
 // en vez de repetir retratos suyos.
+//
+// Los pies los redactó la doctora en la revisión de septiembre de 2026. Van
+// como segundo elemento del par porque describen la foto en esta galería, no
+// en las otras donde se reutiliza la misma imagen; `null` la deja sin pie.
 export const GALERIA_HOME = [
-  'dra-modelo-utero-sentada',
-  'dra-escritorio-notas',
-  'papanicolaou-espejo',
-  'dra-retrato-de-pie',
-  'consultorio-colposcopio',
-  'equipo-sala-espera',
+  ['dra-modelo-utero-sentada', 'Explicación de toma de papanicolaou'],
+  ['consulta-corazon', 'Consulta ginecológica'],
+  ['papanicolaou-espejo', 'Ejemplo de espejo vaginal usado para revisiones ginecológicas'],
+  ['dra-retrato-de-pie', null],
+  ['consultorio-colposcopio', 'Realización de colposcopia'],
+  // Pendiente: aquí, justo antes de la foto con la enfermera, va la foto del
+  // equipo que la doctora pidió agregar (su «imagen 1 o 2»), con el pie
+  // «Equipo médico de AURAFEM» o «Equipo de AURAFEM» según cuál mande.
+  ['equipo-sala-espera', 'Dra. Lidia Chávez con su equipo de enfermería'],
 ]
 
 /**
@@ -493,12 +592,12 @@ export const SERVICIO_IMG = {
     // el único lugar del sitio donde hoy encaja esa serie de fotos.
     seccionFoto: { 'motivos-de-visita': 'anticonceptivos-metodos' },
     galeria: [
-      'consulta-ultrasonido',
-      'dra-laptop',
-      'equipo-aurafem',
-      'recepcion-aurafem',
+      ['consulta-ultrasonido', null],
+      ['dra-laptop', null],
+      ['equipo-aurafem', 'Dra. Lidia Chávez con su equipo de enfermería'],
+      ['recepcion-aurafem', null],
       'consulta-ginecologica-4',
-      'consulta-ginecologica-8',
+      ['consulta-ginecologica-8', 'Material didáctico usado en la consulta'],
       'anticonceptivos-diu',
     ],
   },
@@ -508,7 +607,13 @@ export const SERVICIO_IMG = {
     editorial: ['dra-consola-ultrasonido', 'papanicolaou-instrumental', 'dra-de-pie'],
     // La galería se había quedado en una sola foto al quitar las de quirófano
     // que señaló la doctora; se rellena con material nuevo del consultorio.
-    galeria: ['dra-de-pie', 'dra-laptop', 'equipo-aurafem', 'recepcion-aurafem', 'apoyo-colposcopia-2'],
+    galeria: [
+      ['dra-de-pie-ancha', null],
+      ['dra-laptop-escritorio', null],
+      ['equipo-aurafem', 'Dra. Lidia Chávez con su equipo de enfermería'],
+      ['papanicolaou-explicacion', 'Explicación de toma de muestra de papanicolaou paso a paso'],
+      ['ultrasonido-pelvico', 'Rastreo pélvico/endovaginal realizado en check up plus'],
+    ],
   },
   papanicolaou: {
     hero: 'papanicolaou-consultorio',
@@ -517,9 +622,9 @@ export const SERVICIO_IMG = {
     // procedimiento mejor que una foto posada con el instrumental.
     editorial: ['papanicolaou-instrumental', 'apoyo-papanicolaou-1', 'papanicolaou-citologia'],
     galeria: [
-      'papanicolaou-consultorio',
-      'papanicolaou-citologia',
-      'papanicolaou-instrumental',
+      ['papanicolaou-explicacion', null],
+      ['papanicolaou-citologia', 'Ejemplo de material usado para toma de papanicolaou'],
+      ['dra-consola-transductor', 'Explicación de toma de papanicolaou'],
       'apoyo-papanicolaou-1',
     ],
   },
@@ -528,10 +633,10 @@ export const SERVICIO_IMG = {
     tarjeta: 'colposcopio-uso',
     editorial: ['apoyo-colposcopia-diagrama', 'colposcopio-uso', 'colposcopia-tecnica'],
     galeria: [
-      'colposcopia-procedimiento',
-      'colposcopio-uso',
-      'colposcopia-tecnica',
-      'dra-equipo-clinica',
+      ['colposcopia-procedimiento', 'Tratamiento de condilomas/verrugas con electrofulguración'],
+      ['colposcopio-uso', null],
+      ['colposcopia-laser', 'Tratamiento de condilomas/verrugas con láser'],
+      ['dra-equipo-clinica', null],
       'apoyo-colposcopia-2',
     ],
   },
@@ -541,20 +646,29 @@ export const SERVICIO_IMG = {
     // [1] cae en la sección de vacunación: la doctora pidió cambiar ahí la
     // ilustración de banco por una foto suya con la vacuna.
     editorial: ['apoyo-vph-diagrama', 'vph-vacuna', 'vph-colposcopia'],
+    // Sin `vph-vacuna`: la doctora pidió quitarla de la galería porque repetía
+    // la escena de `vph-vacuna-caja`. Sigue en la tarjeta y en la sección de
+    // vacunación, que es donde tiene sentido.
     galeria: [
-      'atencion-embarazo-1',
-      'vph-vacuna',
-      'vph-vacuna-caja',
-      'vph-colposcopia',
-      'colposcopia-tecnica',
+      ['atencion-embarazo-1', 'Dra. Lidia Chávez con su colega, realizando un procedimiento bajo visión colposcópica'],
+      ['vph-vacuna-caja', 'Vacuna contra virus de papiloma humano'],
+      ['vph-colposcopia', 'Tratamiento de condilomas/verrugas con electrofulguración'],
+      ['colposcopia-tecnica', 'Tratamiento de condilomas/verrugas con láser'],
     ],
   },
   'control-prenatal': {
     hero: 'prenatal-paciente',
+    // Pendiente: es la foto que sigue al cursor en el índice de la portada y
+    // la doctora pidió cambiarla («cambiar imagen de embarazo»). Espera a que
+    // mande cuál quiere en su lugar.
     tarjeta: 'prenatal-resultado',
     editorial: ['prenatal-paciente', 'prenatal-explicacion', 'dra-consola-ultrasonido'],
+    // Pendientes de foto nueva las cuatro últimas, con los pies que dictó la
+    // doctora: «Consulta de control prenatal», sin pie, «Nacimiento por
+    // cesárea» y «Detalle en consulta de revelación de género». Falta además
+    // una foto de nacimiento por parto, antes o después de la de cesárea.
     galeria: [
-      'prenatal-paciente',
+      ['prenatal-paciente', null],
       'prenatal-explicacion',
       'prenatal-consulta',
       'prenatal-equipo',
@@ -563,7 +677,11 @@ export const SERVICIO_IMG = {
   },
   // Sin tocar hasta que llegue el contenido de orientación anticonceptiva: sus
   // fotos son de parto y recién nacidos, del tema que hoy tiene la página.
-  'atencion-embarazo': {
+  // Cuando llegue, las fotos que pidió la doctora son IMAGEN 20 («Consulta de
+  // orientación anticonceptiva»), IMAGEN 38 («Colocación de implante
+  // subdérmico») y la carpeta Anticonceptivos: OKANTC1 pastillas, OKANTC2 DIU
+  // hormonal, OKANTC3 o 4 colocación de métodos, OKANTC5 preservativo.
+  'orientacion-anticonceptiva': {
     hero: 'atencion-embarazo-10',
     // La miniatura sí cambia: es la que sale en el menú y en los listados, ya
     // con el rótulo «Orientación anticonceptiva». Un recién nacido ahí no
@@ -575,14 +693,18 @@ export const SERVICIO_IMG = {
       'prevencion-y-seguridad': 'apoyo-acompanamiento-2',
       proceso: 'apoyo-acompanamiento-3',
     },
+    // La doctora pidió que esta galería deje de ser de parto y recién nacidos
+    // y pase a los métodos anticonceptivos, con estos pies exactos. El texto
+    // largo de la página sigue siendo obstétrico hasta que mande el suyo, así
+    // que de momento galería y texto hablan de temas distintos: es a propósito
+    // y se resuelve cuando llegue el contenido.
+    // Faltan al principio sus IMAGEN 20 («Consulta de orientación
+    // anticonceptiva») e IMAGEN 38 («Colocación de implante subdérmico»).
     galeria: [
-      'vph-1',
-      'revision-ginecologicapreventiva-10',
-      'atencion-embarazo-8',
-      'atencion-embarazo-9',
-      'atencion-embarazo-10',
-      'papanicolaou-1',
-      'revision-ginecologicapreventiva-9',
+      ['anticonceptivos-pastillas', 'Pastillas anticonceptivas'],
+      ['anticonceptivos-diu-hormonal', 'Dispositivo intrauterino hormonal'],
+      ['anticonceptivos-pastillas-2', 'Colocación de diferentes métodos anticonceptivos'],
+      ['anticonceptivos-varios', 'Preservativo masculino'],
     ],
   },
 }
@@ -592,4 +714,17 @@ export function imgServicio(slug, campo) {
   const conf = SERVICIO_IMG[slug]
   const clave = Array.isArray(conf?.[campo]) ? conf[campo][0] : conf?.[campo]
   return img(clave || RETRATO)
+}
+
+/**
+ * Resuelve una entrada de galería. La entrada es la clave del banco, o el par
+ * `[clave, pie]` cuando la doctora pidió un pie distinto solo en esa galería:
+ * `null` la deja sin pie visible y un texto sustituye al alt únicamente como
+ * rótulo. El `alt` nunca se vacía — describe la foto para quien no la ve — así
+ * que ambos datos viajan por separado.
+ */
+export function fotoGaleria(entrada) {
+  const [clave, pie] = Array.isArray(entrada) ? entrada : [entrada, undefined]
+  const f = img(clave)
+  return { ...f, pie: pie === undefined ? f.alt : pie || '' }
 }

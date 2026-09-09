@@ -525,7 +525,7 @@ const CATALOGO = [
   },
 
   {
-    slug: 'atencion-embarazo',
+    slug: 'orientacion-anticonceptiva',
     nombre: 'Orientación anticonceptiva',
     title: 'Ginecólogo para Embarazo Polanco | Dra. Lidia Chávez',
     description:
@@ -533,7 +533,7 @@ const CATALOGO = [
     ogAlt: 'Dra. Lidia Chávez - Ginecólogo para embarazo en Polanco',
     logoAlt: 'Logo Dra. Lidia Chávez - Ginecólogo para Embarazo en Polanco',
     waText: 'Hola Dra. Lidia, quiero información sobre atención en el embarazo',
-    tagline: 'Acompañamiento Gestacional Experto',
+    tagline: 'Salud Sexual y Reproductiva',
     h1: 'Ginecólogo para embarazo en Polanco, CDMX',
     heroP:
       'Si buscas a un <strong>ginecólogo para embarazo en Polanco</strong> que te escuche y vigile paso a paso la salud de tu bebé, la Dra. Lidia Chávez te ofrece un espacio de atención médica confiable y seguro.',
@@ -546,7 +546,7 @@ const CATALOGO = [
       specialty: 'Obstetric',
     },
     cardDesc:
-      'Orientación humana y acompañamiento profesional para guiarte en cada trimestre de tu gestación.',
+      'Asesoría personalizada para elegir el método anticonceptivo que mejor se adapte a tu salud, necesidades y proyecto de vida.',
     cardAlt: 'Atención en el embarazo en Polanco CDMX',
     cardWaText: 'Hola Dra. Lidia, quiero informes sobre atención en el embarazo',
     otroDesc: 'Acompañamiento humano e integral en cada etapa de la gestación.',
@@ -928,7 +928,7 @@ const ORDEN = [
   'colposcopia',
   'vph',
   'control-prenatal',
-  'atencion-embarazo',
+  'orientacion-anticonceptiva',
 ]
 
 export const SERVICES = ORDEN.map((slug) => {

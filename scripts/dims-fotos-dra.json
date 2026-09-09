@@ -146,5 +146,49 @@
   "papanicolaou-espejo-esteril": [
     900,
     1125
+  ],
+  "consulta-corazon": [
+    1200,
+    800
+  ],
+  "dra-laptop-escritorio": [
+    1200,
+    800
+  ],
+  "papanicolaou-explicacion": [
+    1200,
+    800
+  ],
+  "ultrasonido-pelvico": [
+    1200,
+    800
+  ],
+  "dra-consola-transductor": [
+    1200,
+    800
+  ],
+  "colposcopia-laser": [
+    1200,
+    800
+  ],
+  "anticonceptivos-pastillas": [
+    1200,
+    800
+  ],
+  "anticonceptivos-diu-hormonal": [
+    1200,
+    800
+  ],
+  "anticonceptivos-pastillas-2": [
+    1200,
+    800
+  ],
+  "anticonceptivos-varios": [
+    1200,
+    800
+  ],
+  "dra-de-pie-ancha": [
+    1200,
+    800
   ]
 }

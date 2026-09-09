@@ -12,7 +12,7 @@ const PAGINAS = [
   'papanicolaou',
   'colposcopia',
   'control-prenatal',
-  'atencion-embarazo',
+  'orientacion-anticonceptiva',
   'vph',
   'revision-ginecologicapreventiva',
   'conoce',

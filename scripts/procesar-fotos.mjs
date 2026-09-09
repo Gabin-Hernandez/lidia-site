@@ -89,6 +89,33 @@ const FOTOS = [
   ['Cambios/5.jpeg', 'dra-recepcion', 1000, '4:5'],
   ['Cambios/10.jpg', 'consultorio-colposcopio', 1200, null],
   ['Cambios/2.jpg', 'papanicolaou-espejo-esteril', 900, '4:5'],
+
+  // Tercera tanda (documento «pagina revision 2»). La clienta renombró cada
+  // archivo con la referencia literal del documento, de ahí los paréntesis.
+  // Ojo: '(4).JPG' y '(OK(4)).JPG' son el mismo archivo — la doctora citó la
+  // misma foto para Revisión preventiva y para Papanicolaou.
+  ['Revision2/OKc 7.JPG', 'consulta-corazon', 1200, null],
+  ['Revision2/OKOK_LAPTOP.JPG', 'dra-laptop-escritorio', 1200, null],
+  ['Revision2/(4).JPG', 'papanicolaou-explicacion', 1200, null],
+  ['Revision2/(OKC(1)).JPG', 'ultrasonido-pelvico', 1200, null],
+  ['Revision2/(OK (5)).JPG', 'dra-consola-transductor', 1200, null],
+  ['Revision2/(OKVPH(11).JPG', 'colposcopia-laser', 1200, null],
+
+  // Anticoncepción: esperan a que llegue el texto de la página, hoy todavía
+  // de obstetricia. Se procesan ya para tenerlas listas.
+  // 'OKOK_LAPTOP5.JPG' es en realidad la OKANTC5 del documento: la clienta la
+  // nombró mal al copiarla. El archivo se deja con su nombre para no romper la
+  // correspondencia con lo que ella mandó.
+  ['Revision2/OKANTC1.JPG', 'anticonceptivos-pastillas', 1200, null],
+  ['Revision2/OKANTC2.JPG', 'anticonceptivos-diu-hormonal', 1200, null],
+  ['Revision2/OKANTC4.JPG', 'anticonceptivos-pastillas-2', 1200, null],
+  ['Revision2/OKOK_LAPTOP5.JPG', 'anticonceptivos-varios', 1200, null],
+
+  // La misma foto de pie que 'dra-de-pie', pero sin recortar a vertical: la
+  // pieza grande del mosaico es apaisada y, partiendo del 4:5, quedaba
+  // descentrada por mucho que se moviera el el object-position. El original ya
+  // es 3:2 y encuadra a la doctora entera, así que ahí entra casi sin recorte.
+  ['FOTOS para Web/Con bata de pie/IMG_1950.JPG', 'dra-de-pie-ancha', 1200, null],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })
