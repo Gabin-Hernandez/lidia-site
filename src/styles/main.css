@@ -877,9 +877,17 @@
 
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    /* La sección se alarga para dar recorrido; la escena se queda fija. */
+    /* La sección se alarga para dar recorrido; la escena se queda fija.
+       El recorrido fijado es la diferencia con el alto del escenario, así que
+       aquí se declara en píxeles y no en vh: la doctora contó ~17 pulsaciones
+       de la flecha abajo (≈40 px cada una) para pasar la escena, y con 200vh
+       ese tramo eran 100vh enteros — 20 pulsaciones en una pantalla de 800 px,
+       y más aún en un monitor alto. Con 400 px son 10, iguales en cualquier
+       pantalla; este número es la única perilla, subirlo alarga la escena.
+       Además svh casa con el alto real del escenario en móvil, donde vh
+       cuenta la barra del navegador y estiraba el tramo todavía más. */
     html.js .escena {
-      height: 200vh;
+      height: calc(100svh + 400px);
       view-timeline-name: --escena;
     }
 
@@ -1054,7 +1062,7 @@
   to {
     opacity: 0;
     scale: 0.94;
-    filter: blur(7px);
+    filter: blur(3px);
   }
 }
 
@@ -1062,7 +1070,7 @@
   from {
     opacity: 0;
     scale: 1.05;
-    filter: blur(9px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
