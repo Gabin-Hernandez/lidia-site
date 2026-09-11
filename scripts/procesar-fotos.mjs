@@ -116,6 +116,11 @@ const FOTOS = [
   // descentrada por mucho que se moviera el el object-position. El original ya
   // es 3:2 y encuadra a la doctora entera, así que ahí entra casi sin recorte.
   ['FOTOS para Web/Con bata de pie/IMG_1950.JPG', 'dra-de-pie-ancha', 1200, null],
+
+  // Restantes del documento «pagina revision 2»: la foto del equipo para la
+  // portada y la miniatura nueva de control prenatal.
+  ['Restantes/Equipo de Aurafem.png', 'equipo-de-aurafem', 1200, null],
+  ['Restantes/miniatura control prenatal.png', 'prenatal-folleto', 900, null],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })

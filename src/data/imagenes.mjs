@@ -462,6 +462,22 @@ const FOTOS_DRA = {
     alt: 'La Dra. Lidia Chávez de pie en el área de exploración del consultorio',
   },
 
+  // Restantes de la revisión 2, que la clienta mandó aparte.
+  // Casi el mismo disparo que 'equipo-sala-espera' (misma pose, segundos de
+  // diferencia): la doctora la pidió igualmente en la portada, justo antes.
+  'equipo-de-aurafem': {
+    file: 'equipo-de-aurafem.webp',
+    w: 1200,
+    h: 803,
+    alt: 'El equipo de Aurafem: la Dra. Lidia Chávez y la asistente del consultorio en la sala de espera',
+  },
+  'prenatal-folleto': {
+    file: 'prenatal-folleto.webp',
+    w: 900,
+    h: 599,
+    alt: 'La Dra. Lidia Chávez con una paciente embarazada, sosteniendo el folleto del consultorio',
+  },
+
   // Anticoncepción: en el banco pero todavía sin colocar. Esperan al texto de
   // la página de orientación anticonceptiva, que hoy sigue siendo obstétrico.
   // Entre paréntesis, la referencia del documento y el pie que pidió la
@@ -557,9 +573,7 @@ export const GALERIA_HOME = [
   ['papanicolaou-espejo', 'Ejemplo de espejo vaginal usado para revisiones ginecológicas'],
   ['dra-retrato-de-pie', null],
   ['consultorio-colposcopio', 'Realización de colposcopia'],
-  // Pendiente: aquí, justo antes de la foto con la enfermera, va la foto del
-  // equipo que la doctora pidió agregar (su «imagen 1 o 2»), con el pie
-  // «Equipo médico de AURAFEM» o «Equipo de AURAFEM» según cuál mande.
+  ['equipo-de-aurafem', 'Equipo de AURAFEM'],
   ['equipo-sala-espera', 'Dra. Lidia Chávez con su equipo de enfermería'],
 ]
 
@@ -658,10 +672,9 @@ export const SERVICIO_IMG = {
   },
   'control-prenatal': {
     hero: 'prenatal-paciente',
-    // Pendiente: es la foto que sigue al cursor en el índice de la portada y
-    // la doctora pidió cambiarla («cambiar imagen de embarazo»). Espera a que
-    // mande cuál quiere en su lugar.
-    tarjeta: 'prenatal-resultado',
+    // Es la foto que sigue al cursor en el índice de la portada; la doctora
+    // pidió cambiarla en la revisión 2 («cambiar imagen de embarazo»).
+    tarjeta: 'prenatal-folleto',
     editorial: ['prenatal-paciente', 'prenatal-explicacion', 'dra-consola-ultrasonido'],
     // Pendientes de foto nueva las cuatro últimas, con los pies que dictó la
     // doctora: «Consulta de control prenatal», sin pie, «Nacimiento por
