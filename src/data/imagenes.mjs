@@ -478,6 +478,55 @@ const FOTOS_DRA = {
     alt: 'La Dra. Lidia Chávez con una paciente embarazada, sosteniendo el folleto del consultorio',
   },
 
+  // Las «IMAGEN #» que la doctora compartió aparte. Las verticales van en
+  // mosaicos apaisados: donde el centro corta lo importante se sube el encuadre.
+  'anticonceptivos-orientacion': {
+    file: 'anticonceptivos-orientacion.webp',
+    w: 1200,
+    h: 900,
+    alt: 'Paciente con un dispositivo intrauterino en las manos, junto a la presentación de métodos hormonales',
+  },
+  'anticonceptivos-implante': {
+    file: 'anticonceptivos-implante.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez colocando un implante anticonceptivo en el brazo de una paciente',
+    // Centrada, al recorte apaisado le quedaba fuera la cara de la doctora.
+    pos: '50% 25%',
+  },
+  'prenatal-consulta-control': {
+    file: 'prenatal-consulta-control.webp',
+    w: 900,
+    h: 1389,
+    alt: 'La Dra. Lidia Chávez realizando un ultrasonido obstétrico durante la consulta prenatal',
+  },
+  'prenatal-ultrasonido': {
+    file: 'prenatal-ultrasonido.webp',
+    w: 1200,
+    h: 900,
+    alt: 'Ultrasonido obstétrico del bebé en los monitores del consultorio',
+  },
+  'prenatal-cesarea': {
+    file: 'prenatal-cesarea.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez y su equipo en quirófano durante una cesárea',
+  },
+  'prenatal-parto': {
+    file: 'prenatal-parto.webp',
+    w: 900,
+    h: 1200,
+    alt: 'Recién nacido en contacto piel con piel con su madre tras el parto',
+    // El bebé está en el borde superior: centrada, el recorte lo dejaba fuera.
+    pos: '50% 10%',
+  },
+  'prenatal-revelacion-genero': {
+    file: 'prenatal-revelacion-genero.webp',
+    w: 900,
+    h: 1200,
+    alt: 'Tarjeta de revelación de género junto al ultrasonido del bebé en consulta',
+  },
+
   // Anticoncepción: en el banco pero todavía sin colocar. Esperan al texto de
   // la página de orientación anticonceptiva, que hoy sigue siendo obstétrico.
   // Entre paréntesis, la referencia del documento y el pie que pidió la
@@ -676,16 +725,15 @@ export const SERVICIO_IMG = {
     // pidió cambiarla en la revisión 2 («cambiar imagen de embarazo»).
     tarjeta: 'prenatal-folleto',
     editorial: ['prenatal-paciente', 'prenatal-explicacion', 'dra-consola-ultrasonido'],
-    // Pendientes de foto nueva las cuatro últimas, con los pies que dictó la
-    // doctora: «Consulta de control prenatal», sin pie, «Nacimiento por
-    // cesárea» y «Detalle en consulta de revelación de género». Falta además
-    // una foto de nacimiento por parto, antes o después de la de cesárea.
+    // La de parto va justo después de la de cesárea, como pidió la doctora, y
+    // la de revelación de género cierra como pieza grande.
     galeria: [
       ['prenatal-paciente', null],
-      'prenatal-explicacion',
-      'prenatal-consulta',
-      'prenatal-equipo',
-      'dra-consola-ultrasonido',
+      ['prenatal-consulta-control', 'Consulta de control prenatal'],
+      ['prenatal-ultrasonido', null],
+      ['prenatal-cesarea', 'Nacimiento por cesárea'],
+      ['prenatal-parto', 'Nacimiento por parto'],
+      ['prenatal-revelacion-genero', 'Detalle en consulta de revelación de género'],
     ],
   },
   // Sin tocar hasta que llegue el contenido de orientación anticonceptiva: sus
@@ -711,9 +759,9 @@ export const SERVICIO_IMG = {
     // largo de la página sigue siendo obstétrico hasta que mande el suyo, así
     // que de momento galería y texto hablan de temas distintos: es a propósito
     // y se resuelve cuando llegue el contenido.
-    // Faltan al principio sus IMAGEN 20 («Consulta de orientación
-    // anticonceptiva») e IMAGEN 38 («Colocación de implante subdérmico»).
     galeria: [
+      ['anticonceptivos-orientacion', 'Consulta de orientación anticonceptiva'],
+      ['anticonceptivos-implante', 'Colocación de implante subdérmico'],
       ['anticonceptivos-pastillas', 'Pastillas anticonceptivas'],
       ['anticonceptivos-diu-hormonal', 'Dispositivo intrauterino hormonal'],
       ['anticonceptivos-pastillas-2', 'Colocación de diferentes métodos anticonceptivos'],

@@ -198,5 +198,33 @@
   "prenatal-folleto": [
     900,
     599
+  ],
+  "anticonceptivos-orientacion": [
+    1200,
+    900
+  ],
+  "anticonceptivos-implante": [
+    900,
+    1200
+  ],
+  "prenatal-consulta-control": [
+    900,
+    1389
+  ],
+  "prenatal-ultrasonido": [
+    1200,
+    900
+  ],
+  "prenatal-cesarea": [
+    900,
+    1200
+  ],
+  "prenatal-parto": [
+    900,
+    1200
+  ],
+  "prenatal-revelacion-genero": [
+    900,
+    1200
   ]
 }

@@ -121,6 +121,16 @@ const FOTOS = [
   // portada y la miniatura nueva de control prenatal.
   ['Restantes/Equipo de Aurafem.png', 'equipo-de-aurafem', 1200, null],
   ['Restantes/miniatura control prenatal.png', 'prenatal-folleto', 900, null],
+
+  // Las «IMAGEN #» del documento. Llegaron ya reducidas (1600 px como mucho),
+  // así que solo se convierten; las verticales se quedan en 900 de ancho.
+  ['Restantes/IMAGEN 20.jpeg', 'anticonceptivos-orientacion', 1200, null],
+  ['Restantes/IMAGEN 38.jpeg', 'anticonceptivos-implante', 900, null],
+  ['Restantes/IMAGEN 9.jpeg', 'prenatal-consulta-control', 900, null],
+  ['Restantes/IMAGEN 27.jpeg', 'prenatal-ultrasonido', 1200, null],
+  ['Restantes/IMAGEN 41.jpeg', 'prenatal-cesarea', 900, null],
+  ['Restantes/IMAGEN 44.jpeg', 'prenatal-parto', 900, null],
+  ['Restantes/IMAGEN 30.jpeg', 'prenatal-revelacion-genero', 900, null],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })
