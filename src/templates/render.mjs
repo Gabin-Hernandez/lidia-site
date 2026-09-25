@@ -9,10 +9,12 @@ import { renderContacto } from './contacto.mjs'
 import { renderHome } from './home.mjs'
 import { renderPoliticaCookies } from './politica-de-cookies.mjs'
 import { renderService } from './service.mjs'
+import { renderServicios } from './servicios.mjs'
 import { renderTestimonios } from './testimonios.mjs'
 
 const ESTATICAS = {
   home: renderHome,
+  servicios: renderServicios,
   conoce: renderConoce,
   contacto: renderContacto,
   testimonios: renderTestimonios,

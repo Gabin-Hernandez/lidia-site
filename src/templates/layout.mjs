@@ -163,11 +163,21 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
               <div class="rounded-[1.75rem] border border-marino/10 bg-lino/95 p-4 shadow-alta backdrop-blur-xl max-lg:mt-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none">
                 <div class="mb-2 flex items-center justify-between px-2.5 max-lg:justify-center">
                   ${rotulo('Servicios')}
-                  <a href="/#servicios" class="text-[0.78rem] font-bold text-marino no-underline transition-colors duration-300 hover:text-oro-rosa-profundo max-lg:hidden">Ver todas</a>
+                  <a href="/servicios/" class="text-[0.78rem] font-bold text-marino no-underline transition-colors duration-300 hover:text-oro-rosa-profundo max-lg:hidden flex items-center gap-1">
+                    <span>Ver catálogo con precios</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                  </a>
                 </div>
                 <ul class="grid list-none gap-1 lg:grid-cols-2">
                   ${SERVICES.map(megaItem).join('')}
                 </ul>
+                <div class="mt-3 border-t border-marino/10 pt-2.5 px-2.5 flex items-center justify-between text-[0.82rem] max-lg:flex-col max-lg:gap-1.5">
+                  <span class="text-humo">¿Buscas el listado oficial de precios?</span>
+                  <a href="/servicios/" class="font-bold text-marino hover:text-oro-rosa-profundo no-underline inline-flex items-center gap-1">
+                    <span>Ver Catálogo Completo de Servicios ($)</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -195,6 +205,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
 
       <nav class="flex items-center gap-7" aria-label="Principal">
         <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
+          ${navLink('/servicios/', 'Costos y Servicios', 'servicios')}
           ${megaServicios}
           ${navLink('/conoce/', 'La doctora', 'conoce')}
           ${enlaceTestimonios}
@@ -643,6 +654,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
         <nav aria-label="Consultorio">
           <span class="mb-5 block text-[0.65rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">Consultorio</span>
           <ul class="grid list-none gap-3">
+            ${enlace('/servicios/', 'Catálogo de Costos y Servicios')}
             ${enlace('/conoce/', 'La doctora')}
             ${TESTIMONIOS.length ? enlace('/testimonios/', 'Testimonios') : ''}
             ${ARTICULOS.length ? enlace('/blog/', 'Blog') : ''}

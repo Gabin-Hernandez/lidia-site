@@ -696,3 +696,124 @@ if (btnResetCookies) {
   })
 }
 
+/* ═══════════════════════════ 16. Filtros y Buscador de Servicios ════════ */
+
+const serviciosPage = $('[data-servicios-page]')
+
+if (serviciosPage) {
+  const searchInput = $('#servicios-search-input')
+  const searchClear = $('#servicios-search-clear')
+  const chips = $$('[data-cat-filter]')
+  const cards = $$('[data-servicio-card]')
+  const sections = $$('[data-cat-section]')
+  const emptyState = $('#servicios-empty-state')
+  const counterBar = $('#search-counter-bar')
+  const counterText = $('#search-counter-text')
+  const resetBtn = $('#reset-all-filters')
+  const emptyResetBtn = $('#empty-reset-btn')
+
+  let currentCategory = 'todos'
+  let currentSearch = ''
+
+  function applyFilters() {
+    const query = currentSearch.trim().toLowerCase()
+    let visibleCount = 0
+
+    const categoryVisibilities = {}
+
+    cards.forEach((card) => {
+      const cat = card.dataset.cat
+      const searchData = card.dataset.search || ''
+
+      const matchesCat = currentCategory === 'todos' || cat === currentCategory
+      const matchesSearch = !query || searchData.includes(query)
+
+      const visible = matchesCat && matchesSearch
+      card.style.display = visible ? '' : 'none'
+
+      if (visible) {
+        visibleCount++
+        categoryVisibilities[cat] = true
+      }
+    })
+
+    sections.forEach((sec) => {
+      const catName = sec.dataset.catSection
+      const secVisible = !!categoryVisibilities[catName]
+      sec.style.display = secVisible ? '' : 'none'
+    })
+
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none'
+    }
+
+    if (counterBar && counterText) {
+      if (currentCategory !== 'todos' || query !== '') {
+        counterBar.classList.remove('hidden')
+        counterText.textContent = `Mostrando ${visibleCount} ${visibleCount === 1 ? 'servicio' : 'servicios'}${
+          currentCategory !== 'todos' ? ` en "${currentCategory}"` : ''
+        }${query ? ` para "${query}"` : ''}`
+      } else {
+        counterBar.classList.add('hidden')
+      }
+    }
+
+    if (searchClear) {
+      searchClear.style.display = query ? 'block' : 'none'
+    }
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    currentSearch = e.target.value
+    applyFilters()
+  })
+
+  searchClear?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = ''
+      currentSearch = ''
+      applyFilters()
+      searchInput.focus()
+    }
+  })
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.catFilter
+      currentCategory = cat
+
+      chips.forEach((c) => {
+        const isSelected = c.dataset.catFilter === cat
+        if (isSelected) {
+          c.className = 'cat-chip active cursor-pointer rounded-full px-4 py-2 text-[0.84rem] font-bold transition duration-300 bg-marino text-lino shadow-sm'
+        } else {
+          c.className = 'cat-chip cursor-pointer rounded-full border border-marino/15 bg-lino px-4 py-2 text-[0.84rem] font-semibold text-marino transition duration-300 hover:border-marino hover:bg-arena/50'
+        }
+      })
+
+      applyFilters()
+    })
+  })
+
+  const resetAll = () => {
+    currentCategory = 'todos'
+    currentSearch = ''
+    if (searchInput) searchInput.value = ''
+
+    chips.forEach((c) => {
+      const isTodos = c.dataset.catFilter === 'todos'
+      if (isTodos) {
+        c.className = 'cat-chip active cursor-pointer rounded-full px-4 py-2 text-[0.84rem] font-bold transition duration-300 bg-marino text-lino shadow-sm'
+      } else {
+        c.className = 'cat-chip cursor-pointer rounded-full border border-marino/15 bg-lino px-4 py-2 text-[0.84rem] font-semibold text-marino transition duration-300 hover:border-marino hover:bg-arena/50'
+      }
+    })
+
+    applyFilters()
+  }
+
+  resetBtn?.addEventListener('click', resetAll)
+  emptyResetBtn?.addEventListener('click', resetAll)
+}
+
+

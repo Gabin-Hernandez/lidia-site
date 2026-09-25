@@ -21,6 +21,7 @@ const PAGINAS = [
   'aviso-de-privacidad',
   'politica-de-cookies',
   'blog',
+  'servicios',
 ]
 
 const PAGE_RE = /<!--\s*page:([a-z0-9/-]+)\s*-->/
