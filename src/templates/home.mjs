@@ -41,6 +41,7 @@ import {
   rotulo,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 const HOME = {
@@ -123,7 +124,7 @@ function hero() {
           </p>
 
           <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-lg:justify-center" style="--d:.66s">
-            ${btnWa(HOME.waHero, 'wa_click_landing_hero')}
+            ${btnWa(HOME.waHero, 'hero')}
             ${btnGhost('#servicios', 'Ver servicios', { icono: 'abajo' })}
           </div>
 
@@ -215,7 +216,7 @@ function filaServicio(s, i) {
               <p class="mt-2.5 max-w-[62ch] text-[1.08rem] leading-[1.6] text-humo lg:text-[1.14rem]">${s.cardDesc}</p>
             </span>
 
-            <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_landing"
+            <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-service="${waServicio(s.slug)}" data-wa-location="landing"
                aria-label="${escapeAttr(`Agendar ${s.nombre} por WhatsApp`)}"
                class="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-marino/12 text-wsp transition duration-500 ease-suave hover:border-wsp hover:bg-wsp hover:text-white max-lg:hidden">
               ${waIcon(18, 'glifo')}
@@ -251,7 +252,7 @@ function serviciosSection() {
 
       <p class="mt-9 text-center text-[1.02rem] text-humo lg:text-left">
         ¿No sabes cuál necesitas?
-        <a href="${waLink('Hola Dra. Lidia, no sé qué servicio necesito, ¿me orienta?')}" target="_blank" rel="noopener" data-wa-label="wa_click_landing_orientacion"
+        <a href="${waLink('Hola Dra. Lidia, no sé qué servicio necesito, ¿me orienta?')}" target="_blank" rel="noopener" data-wa-location="orientacion"
            class="enlace-linea font-bold text-marino no-underline">Escríbele a la doctora y te orienta.</a>
       </p>
     </div>
@@ -289,7 +290,7 @@ function escena() {
         <h2 class="cinetico escena__frase" data-cinetico="escena">Aquí preguntas sin pena, entiendes cada paso y decides con <em class="escena__acento">información</em>.</h2>
         <p class="escena__pie">Esa es toda la diferencia.</p>
         <div class="escena__cta">
-          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'wa_click_landing_escena', 'Agendar mi revisión')}
+          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'escena', 'Agendar mi revisión')}
         </div>
       </div>
 
@@ -320,7 +321,7 @@ function recorrido() {
             Sin llamadas en espera ni formularios largos: escribes, confirmamos horario y llegas a tu cita con todo claro.
           </p>
           <div data-anim style="--d:.18s" class="mt-9">
-            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'wa_click_landing_recorrido', 'Empezar por WhatsApp')}
+            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'recorrido', 'Empezar por WhatsApp')}
           </div>
         </div>
 
@@ -410,7 +411,6 @@ export function renderHome() {
     escena(),
     doctora({
       waText: HOME.waDoctora,
-      waLabel: 'wa_click_landing_doctora',
       bullet1: 'Consulta ginecológica profesional',
       ctaTexto: 'Quiero agendar una consulta',
     }),
@@ -418,24 +418,22 @@ export function renderHome() {
     bandaCifras(),
     recorrido(),
     galeria(),
-    ubicacion({ waText: HOME.waUbicacion, waLabel: 'wa_click_landing_ubicacion' }),
+    ubicacion({ waText: HOME.waUbicacion }),
     claridad(),
     ctaFinal({
       titulo: 'Agenda tu consulta ginecológica por WhatsApp',
       waText: HOME.waCtaFinal,
-      waLabel: 'wa_click_landing_ctafinal',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: HOME.waHeader,
-      waLabel: 'wa_click_landing_header',
       logoAlt: HOME.logoAltHeader,
       tema: 'claro',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: HOME.waHero, waLabel: 'wa_click_landing_floating' }),
+    floatingWa({ waText: HOME.waHero }),
     footer({ logoAlt: HOME.logoAltFooter }),
   ].join('\n')
 

@@ -10,6 +10,8 @@
  *
  * Todo es aditivo: sin JS la página se ve completa y estática.
  */
+import { GA4_ID } from './data/site.mjs'
+
 const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
 
 const $ = (sel, ctx = document) => ctx.querySelector(sel)
@@ -545,19 +547,45 @@ $$('[data-carrusel]').forEach((bloque) => {
   })
 })
 
-/* ═════════════════════════ 12. Conversiones de WhatsApp ═════════════════ */
+/* ═══════════════════════ 12. Conversiones de WhatsApp y teléfono ════════ */
+
+// Cada clic a WhatsApp manda a GA4 un solo evento, whatsapp_click, y el botón
+// concreto viaja en los parámetros: `service` sale del data-wa-service más
+// cercano (la tarjeta del servicio o, si no, el <body> de la página) y
+// `button_location` del data-wa-location del botón. Se escucha cualquier enlace
+// a wa.me, lleve o no esos atributos, para que ninguno quede sin medir.
+//
+// Aparte va la conversión directa de Google Ads. Cuando whatsapp_click se
+// importe a Ads como conversión principal, esta hay que retirarla (o pasarla a
+// secundaria en Ads) para no contar dos veces cada contacto.
+let ultimoWa = { enlace: null, t: -Infinity }
 
 document.addEventListener('click', (e) => {
-  const enlace = e.target.closest('[data-wa-label]')
-  if (!enlace || typeof gtag !== 'function') return
+  if (typeof gtag !== 'function') return
+  const pagina = { page_location: location.href, page_title: document.title }
+
+  const tel = e.target.closest('a[href^="tel:"]')
+  if (tel) {
+    gtag('event', 'telefono_click', { ...pagina, send_to: GA4_ID })
+    return
+  }
+
+  const wa = e.target.closest('a[href*="wa.me/"]')
+  if (!wa) return
+  // Un doble clic abre WhatsApp igual, pero cuenta como un solo contacto.
+  if (wa === ultimoWa.enlace && e.timeStamp - ultimoWa.t < 1000) return
+  ultimoWa = { enlace: wa, t: e.timeStamp }
+
+  gtag('event', 'whatsapp_click', {
+    service: wa.closest('[data-wa-service]')?.dataset.waService ?? 'general',
+    button_location: wa.dataset.waLocation ?? 'sin_ubicacion',
+    ...pagina,
+    send_to: GA4_ID,
+  })
   gtag('event', 'conversion', {
     send_to: GTAG_CONVERSION,
     value: 1.0,
     currency: 'MXN',
-  })
-  gtag('event', enlace.dataset.waLabel, {
-    event_category: 'WhatsApp',
-    event_label: enlace.dataset.waLabel,
   })
 })
 

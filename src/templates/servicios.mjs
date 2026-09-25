@@ -29,6 +29,7 @@ import {
   slugId,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 export function renderServicios() {
@@ -198,7 +199,7 @@ export function renderServicios() {
 
         <div class="mt-6 border-t border-marino/8 pt-4 flex items-center justify-between gap-3">
           <span class="text-[0.75rem] font-bold uppercase tracking-wider text-humo">${escapeAttr(catNombre)}</span>
-          <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-label="wa_cat_servicio"
+          <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(s.nombre)}" data-wa-location="catalogo"
              class="inline-flex items-center gap-2 rounded-full bg-marino px-4 py-2 text-[0.82rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
             ${waIcon(15, 'glifo')}
             <span>Agendar</span>
@@ -259,7 +260,6 @@ export function renderServicios() {
   const bodyHtml = `
   ${header({
     waText: 'Hola Dra. Lidia, quisiera más información sobre los costos y servicios',
-    waLabel: 'wa_click_servicios_header',
     logoAlt: 'Dra. Lidia Chávez - Servicios y Costos',
     activo: 'servicios',
   })}
@@ -368,7 +368,6 @@ export function renderServicios() {
     ${ctaFinal({
       titulo: `Agenda tu cita o consulta tus dudas por ${acento('WhatsApp')}`,
       waText: 'Hola Dra. Lidia, estuve revisando el catálogo de servicios y quisiera agendar una cita',
-      waLabel: 'wa_click_servicios_cta_final',
       intro:
         'Si tienes alguna duda sobre qué estudio o chequeo es el adecuado para ti, escríbenos directamente por WhatsApp para recibir orientación personalizada.',
     })}
@@ -376,7 +375,6 @@ export function renderServicios() {
 
   ${floatingWa({
     waText: 'Hola Dra. Lidia, me gustaría pedir informes sobre los servicios',
-    waLabel: 'wa_click_servicios_flotante',
   })}
 
   ${footer({ logoAlt: 'Logo Dra. Lidia Chávez - Servicios' })}

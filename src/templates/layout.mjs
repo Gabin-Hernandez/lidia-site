@@ -1,13 +1,14 @@
 // Bloques compartidos por todas las páginas: head, header, secciones comunes y footer.
 import { RETRATO_2, img, imgServicio } from '../data/imagenes.mjs'
 import {
+  ADS_ID,
   CIFRAS,
   DATOS_PROFESIONALES,
   DIRECCION,
   DISCLAIMER,
   DOCTORA,
   DOMAIN,
-  GTAG_ID,
+  GA4_ID,
   LOGO,
   MAPS_EMBED,
   MAPS_LINK,
@@ -31,6 +32,7 @@ import {
   rotulo,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 /* ═══════════════════════════════════════════════════════════════ <head> ══ */
@@ -89,8 +91,8 @@ export function head({
   ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high">` : ''}
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}"></script>
-  <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GTAG_ID}'); </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
+  <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GA4_ID}'); gtag('config', '${ADS_ID}'); </script>
 
   <!-- CSS en el head (render-blocking) para evitar FOUC; el JS solo trae interacción -->
   <link rel="stylesheet" href="/src/styles/main.css">
@@ -106,7 +108,7 @@ export function head({
 
 // `tema`: 'claro' = texto oscuro sobre hero luminoso (home);
 //         'oscuro' = texto blanco sobre hero oscuro (páginas de servicio).
-export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }) {
+export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
   const oscuro = tema === 'oscuro'
   const tono = oscuro ? 'text-white data-solido:text-marino' : 'text-marino'
   // El oro rosa claro solo tiene contraste sobre el azul noche; en cuanto la
@@ -212,11 +214,11 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
           ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
           <li class="hidden max-lg:mt-4 max-lg:block">
-            ${btnWa(waText, `${waLabel}_movil`, 'Agendar por WhatsApp')}
+            ${btnWa(waText, 'header_movil', 'Agendar por WhatsApp')}
           </li>
         </ul>
 
-        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="${waLabel}"
+        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header"
            class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b] lg:flex">
           ${waIcon(18, 'blanco')}
           <span>WhatsApp</span>
@@ -397,7 +399,7 @@ export function pilares() {
 
 /* ════════════════════════════════════════ la doctora / espacio seguro ══ */
 
-export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
+export function doctora({ waText, bullet1, ctaTexto }) {
   const retrato = img(RETRATO_2)
   return `
   <section id="doctora" class="relative scroll-mt-[110px] overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
@@ -437,7 +439,7 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
           </ul>
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4 max-lg:justify-center">
-            ${btnWa(waText, waLabel, ctaTexto)}
+            ${btnWa(waText, 'doctora', ctaTexto)}
           </div>
         </div>
       </div>
@@ -447,7 +449,7 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
 
 /* ═══════════════════════════════════════════════════════════ ubicación ══ */
 
-export function ubicacion({ waText, waLabel }) {
+export function ubicacion({ waText }) {
   const dato = (ic, label, valor) => `
         <li class="flex items-start gap-4">
           <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-oro-rosa-claro">${icono(ic, 'h-4 w-4')}</span>
@@ -479,7 +481,7 @@ export function ubicacion({ waText, waLabel }) {
           </ul>
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
-            ${btnWa(waText, waLabel, 'Agendar por WhatsApp')}
+            ${btnWa(waText, 'ubicacion', 'Agendar por WhatsApp')}
             ${btnGhost(
               MAPS_LINK,
               'Ver en Google Maps',
@@ -534,7 +536,7 @@ export function claridad() {
 
 /* ═════════════════════════════════════════════════════════ cierre CTA ══ */
 
-export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
+export function ctaFinal({ titulo: t, waText, intro }) {
   return `
   <section id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,160px)]">
     <span aria-hidden="true" class="halo left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 bg-oro-rosa/20"></span>
@@ -550,7 +552,7 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
       </p>
 
       <div data-anim style="--d:.2s" class="mt-11 flex flex-col items-center gap-5">
-        ${btnWa(waText, waLabel, 'Agendar ahora por WhatsApp', { grande: true })}
+        ${btnWa(waText, 'ctafinal', 'Agendar ahora por WhatsApp', { grande: true })}
       </div>
     </div>
   </section>`
@@ -558,9 +560,9 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
 
 // `soloDesktop`: en páginas con barra de acción fija en móvil, el botón
 // flotante se oculta ahí para no duplicar el mismo llamado a la acción.
-export function floatingWa({ waText, waLabel, soloDesktop = false }) {
+export function floatingWa({ waText, soloDesktop = false }) {
   return `
-  <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-label="${waLabel}"
+  <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-location="floating"
      class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full bg-wsp text-white shadow-[0_12px_30px_-6px_rgba(37,211,102,0.75)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
     <span aria-hidden="true" class="absolute inset-0 animate-ping rounded-full bg-wsp/40"></span>
     <span class="relative">${waIcon(30, 'glifo')}</span>
@@ -634,7 +636,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             Atención ginecológica profesional y confidencial en ${DIRECCION.lugar}, Col. Anzures, Miguel Hidalgo, CDMX.
           </p>
           <div class="mt-7 flex flex-wrap gap-3">
-            <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-label="wa_click_footer"
+            <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-location="footer"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
               ${waIcon(18, 'blanco')} WhatsApp
             </a>
@@ -730,13 +732,16 @@ export function bannerCookies() {
 
 /* ══════════════════════════════════════════════════════════════ shell ══ */
 
-export function pageShell({ headHtml, bodyHtml }) {
+// `servicio`: el `service` con el que se miden los clics a WhatsApp de la
+// página. Un botón dentro de un elemento con su propio data-wa-service (las
+// tarjetas de servicio) toma el de ese elemento.
+export function pageShell({ headHtml, bodyHtml, servicio = 'general' }) {
   return `<!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
 ${headHtml}
 </head>
-<body class="grano bg-lino antialiased">
+<body class="grano bg-lino antialiased" data-wa-service="${waServicio(servicio)}">
 ${bodyHtml}
 ${bannerCookies()}
 </body>

@@ -176,7 +176,7 @@ function heroServicio(s) {
           <p class="entrada mt-4 max-w-[56ch] text-[1.15rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
 
           <div class="entrada mt-10 flex flex-wrap items-center gap-4" style="--d:.66s">
-            ${btnWa(s.waText, `wa_click_${s.slug}_hero`)}
+            ${btnWa(s.waText, 'hero')}
             ${btnGhost('#proceso', 'Cómo es el proceso', { claro: true, icono: 'abajo' })}
           </div>
 
@@ -361,7 +361,7 @@ function seccionProceso(sec, s, orden) {
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
           ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           <div data-anim class="mt-9">
-            ${btnWa(s.waText, `wa_click_${s.slug}_proceso`, 'Agendar este servicio')}
+            ${btnWa(s.waText, 'proceso', 'Agendar este servicio')}
           </div>
           ${foto ? `<div class="mt-10">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
@@ -400,7 +400,7 @@ function faqSection(s) {
           <div data-anim class="mt-9 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-7">
             <p class="mb-2 font-display text-[1.32rem] font-semibold text-marino">¿No resolvimos tu duda?</p>
             <p class="mb-6 text-[1.1rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
-            <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_faq"
+            <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-location="faq"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
               ${waIcon(18, 'blanco')} Preguntar por WhatsApp
             </a>
@@ -489,7 +489,7 @@ function ctaFija(s) {
         <span class="block truncate font-display text-[1.14rem] font-semibold leading-tight text-marino">${s.nombre}</span>
         <span class="block text-[0.74rem] text-humo">Agenda directo con la especialista</span>
       </span>
-      <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-label="wa_click_${s.slug}_ctafija"
+      <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-location="ctafija"
          class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.88rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)]">
         ${waIcon(18, 'blanco')} Agendar
       </a>
@@ -501,7 +501,6 @@ function ctaFija(s) {
 
 export function renderService(s) {
   const canonical = `${DOMAIN}/${s.slug}/`
-  const waLabel = (pos) => `wa_click_${s.slug}_${pos}`
   const { secciones, nav } = construirIndice(s)
   const ctx = { fotoEditorial: 0, orden: 0 }
 
@@ -526,28 +525,26 @@ export function renderService(s) {
     bandaCifras(),
     doctora({
       waText: s.waText,
-      waLabel: waLabel('doctora'),
       bullet1: s.confianzaBullet,
       ctaTexto: s.confianzaCta,
     }),
     otrosServicios(s),
-    ubicacion({ waText: s.waText, waLabel: waLabel('ubicacion') }),
+    ubicacion({ waText: s.waText }),
     claridad(),
-    ctaFinal({ titulo: s.ctaTitle, waText: s.waText, waLabel: waLabel('ctafinal') }),
+    ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: s.waText,
-      waLabel: waLabel('header'),
       logoAlt: s.logoAlt,
       tema: 'oscuro',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: s.waText, waLabel: waLabel('floating'), soloDesktop: true }),
+    floatingWa({ waText: s.waText, soloDesktop: true }),
     ctaFija(s),
     footer({ logoAlt: s.logoAlt, espacioCtaFija: true }),
   ].join('\n')
 
-  return pageShell({ headHtml, bodyHtml })
+  return pageShell({ headHtml, bodyHtml, servicio: s.slug })
 }

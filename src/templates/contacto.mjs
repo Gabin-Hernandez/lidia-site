@@ -115,7 +115,7 @@ function hero() {
         <p class="entrada mx-auto mt-3 text-[1.2rem] leading-[1.7] text-humo" style="--d:.56s">${CONTACTO.subLead}</p>
 
         <div class="entrada mt-10 flex flex-col items-center gap-5" style="--d:.64s">
-          ${btnWa(CONTACTO.waHero, 'wa_click_contacto_hero', 'Escribir por WhatsApp', { grande: true })}
+          ${btnWa(CONTACTO.waHero, 'hero', 'Escribir por WhatsApp', { grande: true })}
         </div>
 
         <div class="entrada mx-auto mt-12 flex w-fit items-center gap-4 rounded-[1.5rem] border border-marino/8 bg-white/70 px-5 py-4 shadow-cristal backdrop-blur-sm" style="--d:.72s">
@@ -156,7 +156,7 @@ function canales() {
             El camino más corto. Escribes, se revisan los horarios disponibles y se confirma tu cita, normalmente el mismo día.
           </p>
           <div class="relative mt-auto flex flex-col items-start gap-4">
-            ${btnWa(CONTACTO.waHero, 'wa_click_contacto_canal', `Escribir al ${DOCTORA.telefonoDisplay}`)}
+            ${btnWa(CONTACTO.waHero, 'canal', `Escribir al ${DOCTORA.telefonoDisplay}`)}
           </div>
         </article>
 
@@ -167,7 +167,7 @@ function canales() {
           <p class="mb-6 text-[1.14rem] leading-[1.7] text-humo">
             Si prefieres hablar, puedes llamar al mismo número del consultorio.
           </p>
-          <a href="tel:${DOCTORA.telefono}" data-wa-label="tel_click_contacto"
+          <a href="tel:${DOCTORA.telefono}"
              class="mb-2 block font-display text-[clamp(1.3rem,2.6vw,1.7rem)] font-medium tracking-[-0.02em] text-marino no-underline transition-colors duration-400 hover:text-oro-rosa-profundo">
             ${DOCTORA.telefonoDisplay}
           </a>
@@ -215,7 +215,7 @@ function canales() {
 
 function motivos() {
   const tarjeta = (m) => `
-        <a href="${waLink(m.wa)}" target="_blank" rel="noopener" data-wa-label="${m.label}"
+        <a href="${waLink(m.wa)}" target="_blank" rel="noopener" data-wa-location="${m.ubicacion}"
            class="group relative flex flex-col rounded-[1.5rem] border border-marino/8 bg-lino p-6 no-underline transition duration-500 ease-suave hover:-translate-y-1.5 hover:border-oro-rosa/45 hover:shadow-flotante">
           <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-oro-rosa/15 text-oro-rosa-profundo transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">
             ${icono(m.icono, 'h-5 w-5')}
@@ -314,7 +314,7 @@ function comoLlegar() {
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
             ${btnGhost(MAPS_LINK, 'Abrir en Google Maps', { claro: true, icono: 'flechaDiag', externo: true })}
-            ${btnWa('Hola Dra. Lidia, ¿me confirma la dirección del consultorio?', 'wa_click_contacto_direccion', 'Preguntar por la ubicación')}
+            ${btnWa('Hola Dra. Lidia, ¿me confirma la dirección del consultorio?', 'direccion', 'Preguntar por la ubicación')}
           </div>
         </div>
 
@@ -408,14 +408,12 @@ export function renderContacto() {
       titulo: CONTACTO.ctaTitle,
       intro: CONTACTO.ctaIntro,
       waText: CONTACTO.waHero,
-      waLabel: 'wa_click_contacto_ctafinal',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: CONTACTO.waHero,
-      waLabel: 'wa_click_contacto_header',
       logoAlt: CONTACTO.logoAlt,
       tema: 'claro',
       activo: 'contacto',

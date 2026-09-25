@@ -170,14 +170,12 @@ export function renderPoliticaCookies() {
       intro:
         'Si deseas agendar una cita o conocer más sobre los estudios ginecológicos disponibles, escríbenos directamente por WhatsApp.',
       waText: 'Hola Dra. Lidia, quiero agendar una consulta.',
-      waLabel: 'wa_click_cookies_cta',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: 'Hola Dra. Lidia, quiero agendar una consulta.',
-      waLabel: 'wa_click_cookies_header',
       logoAlt: POLITICA_COOKIES.logoAlt,
       tema: 'claro',
       activo: '',
