@@ -105,11 +105,11 @@ function hero() {
         <span class="entrada inline-block">${rotulo(CONTACTO.eyebrow)}</span>
 
         ${titulo(`Agenda tu ${acento('consulta')}`, {
-          tag: 'h1',
-          modo: 'hero',
-          clase:
-            'font-display font-medium text-[clamp(2.4rem,6vw,4.6rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
-        })}
+    tag: 'h1',
+    modo: 'hero',
+    clase:
+      'font-display font-medium text-[clamp(2.4rem,6vw,4.6rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
+  })}
 
         <p class="entrada mx-auto mt-8 max-w-[54ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONTACTO.lead}</p>
         <p class="entrada mx-auto mt-3 text-[1.2rem] leading-[1.7] text-humo" style="--d:.56s">${CONTACTO.subLead}</p>
@@ -145,7 +145,7 @@ function canales() {
         ${titulo(`Tres formas de ${acento('llegar')} a la consulta`, { clase: `${H2} mt-5 text-marino` })}
       </div>
 
-      <div data-anim-grupo class="grid gap-5 lg:grid-cols-[1.25fr_1fr_1fr]">
+      <div data-anim-grupo class="grid gap-5 lg:grid-cols-2">
 
         <!-- WhatsApp: el canal principal, en oscuro para que gane la mirada -->
         <article class="group relative flex flex-col overflow-hidden rounded-[1.5rem] bg-noche p-8 text-white shadow-alta">
@@ -160,27 +160,12 @@ function canales() {
           </div>
         </article>
 
-        <!-- Teléfono -->
-        <article class="group flex flex-col rounded-[1.5rem] border border-marino/8 bg-lino p-8 transition duration-500 ease-suave hover:-translate-y-1.5 hover:border-oro-rosa/40 hover:shadow-flotante">
-          <span class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-marino text-oro-rosa-claro transition duration-500 ease-suave group-hover:bg-oro-rosa group-hover:text-white">${icono('telefono', 'h-5 w-5')}</span>
-          <h3 class="${H3} mb-3 text-marino">Teléfono</h3>
-          <p class="mb-6 text-[1.14rem] leading-[1.7] text-humo">
-            Si prefieres hablar, puedes llamar al mismo número del consultorio.
-          </p>
-          <a href="tel:${DOCTORA.telefono}"
-             class="mb-2 block font-display text-[clamp(1.3rem,2.6vw,1.7rem)] font-medium tracking-[-0.02em] text-marino no-underline transition-colors duration-400 hover:text-oro-rosa-profundo">
-            ${DOCTORA.telefonoDisplay}
-          </a>
-          <span class="mt-auto pt-5 text-[0.82rem] leading-[1.6] text-humo">
-            Es el mismo número de WhatsApp. Si no hay respuesta inmediata, es porque está en consulta.
-          </span>
-        </article>
-
         <!-- Consultorio -->
         <article class="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-marino/8 bg-lino transition duration-500 ease-suave hover:-translate-y-1.5 hover:border-oro-rosa/40 hover:shadow-flotante">
-          <span class="relative block h-36 overflow-hidden bg-arena">
+          <span class="relative block h-64 w-full overflow-hidden bg-arena">
             <img src="${consultorio.src}" alt="${escapeAttr(consultorio.alt)}" width="${consultorio.w}" height="${consultorio.h}" loading="lazy" decoding="async"
-                 class="h-full w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-105">
+     style="object-position: 70% 45%;"
+     class="h-full w-full object-cover transition-transform duration-[900ms] ease-suave group-hover:scale-105">
           </span>
           <span class="flex flex-1 flex-col p-8">
             <h3 class="${H3} mb-3 text-marino">Consultorio</h3>
@@ -193,20 +178,19 @@ function canales() {
         </article>
       </div>
 
-      ${
-        HORARIOS.length
-          ? `<dl data-anim class="mt-8 grid gap-px overflow-hidden rounded-[1.5rem] border border-marino/8 bg-marino/8 sm:grid-cols-${Math.min(HORARIOS.length, 4)}">
+      ${HORARIOS.length
+      ? `<dl data-anim class="mt-8 grid gap-px overflow-hidden rounded-[1.5rem] border border-marino/8 bg-marino/8 sm:grid-cols-${Math.min(HORARIOS.length, 4)}">
         ${HORARIOS.map(
-          (h) => `<div class="bg-lino px-6 py-5 text-center">
+        (h) => `<div class="bg-lino px-6 py-5 text-center">
           <dt class="text-[0.63rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">${h.dias}</dt>
           <dd class="mt-2 font-display text-[1.2rem] font-semibold text-marino">${h.horas}</dd>
         </div>`
-        ).join('')}
+      ).join('')}
       </dl>`
-          : `<p data-anim class="mt-8 rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-lino px-6 py-5 text-center text-[1.1rem] leading-[1.7] text-humo">
+      : `<p data-anim class="mt-8 rounded-[1.5rem] border border-dashed border-oro-rosa/45 bg-lino px-6 py-5 text-center text-[1.1rem] leading-[1.7] text-humo">
         Los horarios de atención se confirman por WhatsApp según la agenda de la semana.
       </p>`
-      }
+    }
     </div>
   </section>`
 }
@@ -235,8 +219,8 @@ function motivos() {
         <div>
           <span data-anim>${rotulo('Mensajes listos')}</span>
           ${titulo(`Elige tu motivo y el mensaje ya va ${acento('escrito')}`, {
-            clase: `${H2} mt-5 text-marino`,
-          })}
+    clase: `${H2} mt-5 text-marino`,
+  })}
         </div>
         <p data-anim style="--d:.1s" class="text-[1.2rem] leading-[1.7] text-humo lg:pb-2">
           Cada tarjeta abre WhatsApp con el mensaje redactado. Puedes editarlo antes de enviarlo o añadir lo que necesites contar.
@@ -301,8 +285,8 @@ function comoLlegar() {
         <div>
           <span data-anim>${rotulo('Cómo llegar', { claro: true })}</span>
           ${titulo(`El consultorio está en ${acento('Anzures', { claro: true })}`, {
-            clase: `${H2} mt-5 text-white`,
-          })}
+    clase: `${H2} mt-5 text-white`,
+  })}
           <p data-anim style="--d:.1s" class="mt-6 max-w-[52ch] text-[1.22rem] leading-[1.75] text-white/70">
             A unos minutos de Polanco y del Bosque de Chapultepec, en la alcaldía Miguel Hidalgo, con acceso desde Cuauhtémoc, Benito Juárez y zonas aledañas.
           </p>

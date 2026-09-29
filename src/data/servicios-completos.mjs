@@ -231,12 +231,6 @@ export const SERVICIOS_DATASET = {
           nombre: "ILE con medicamento (hasta 9.6 semanas) básico",
           incluye: "Consulta de valoración con rastreo (no se entrega reporte)\nMedicamentos.\nOrientación anticonceptiva.",
           costo_regular: 4500.0
-        },
-        {
-          nombre: "ILE de la semana 9.6-12.6 Con anestesia general o sedación",
-          incluye: "El costo varía, ya que al ser un procedimiento que se realiza en ambiente hospitalario, se tiene que tomar en cuenta los honorarios médicos + el hospital, se recomienda primero acudir a una valoración con costo de $1,500 para que se puedan dar orientación y costo aproximado.",
-          costo_regular: null,
-          costo_valoracion_previa: 1500.0
         }
       ]
     },
