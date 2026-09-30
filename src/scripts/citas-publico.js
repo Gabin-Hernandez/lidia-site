@@ -12,9 +12,6 @@ import { API_BASE } from '../data/api.mjs'
 import { MOTIVOS } from '../data/contacto.mjs'
 import { waLink } from '../data/site.mjs'
 
-const raiz = document.getElementById('calendario-citas')
-if (raiz) iniciar(raiz)
-
 const MESES = [
   'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
   'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
@@ -323,3 +320,13 @@ function vistaExito(estado) {
       </a>
     </div>`
 }
+
+/* ══════════════════════════════════════════════════════════════ arranque */
+
+// Al final del archivo a propósito: iniciar() dispara un render síncrono que
+// lee MESES y DIAS_SEMANA. Declarado antes de esas constantes, `const` queda
+// en zona muerta temporal y revienta con "Cannot access before initialization"
+// en cuanto carga el módulo — no es un fallo intermitente, nunca llegó a
+// pintar nada en producción.
+const raiz = document.getElementById('calendario-citas')
+if (raiz) iniciar(raiz)
