@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dralidiachavez.com/sitemap.xml
+Sitemap: https://ginecologalidia.com/sitemap.xml

@@ -1,6 +1,9 @@
 // Datos globales del sitio — única fuente de verdad para constantes compartidas.
 
-export const DOMAIN = 'https://dralidiachavez.com'
+// dralidiachavez.com no resuelve (dominio no registrado o vencido): el sitio
+// vive en ginecologalidia.com desde su despliegue en Hostinger. Canonical,
+// Open Graph, schema.org y el sitemap salen todos de esta constante.
+export const DOMAIN = 'https://ginecologalidia.com'
 
 export const DOCTORA = {
   nombre: 'Dra. Lidia Chávez',

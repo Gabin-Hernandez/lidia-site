@@ -119,13 +119,9 @@ function hero() {
             Atención ginecológica profesional para consulta, revisión preventiva, Papanicolaou, colposcopía, embarazo y control prenatal.
           </p>
 
-          <p class="entrada mt-4 max-w-[52ch] text-[1.2rem] leading-[1.7] text-humo max-lg:mx-auto" style="--d:.58s">
-            Agenda tu consulta con la ${DOCTORA.nombreCompleto} de forma rápida por WhatsApp, sin formularios ni llamadas en espera.
-          </p>
-
           <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-lg:justify-center" style="--d:.66s">
             ${btnWa(HOME.waHero, 'hero')}
-            ${btnGhost('#servicios', 'Ver servicios', { icono: 'abajo' })}
+            ${btnGhost('/servicios/', 'Ver servicios y precios')}
           </div>
 
           <div class="entrada mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 max-lg:justify-center" style="--d:.74s">
