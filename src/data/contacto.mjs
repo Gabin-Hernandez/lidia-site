@@ -6,8 +6,11 @@
  * consulta es WhatsApp, así que la página lo convierte en el camino principal y
  * lo hace lo más corto posible con mensajes ya redactados por motivo.
  *
- * `HORARIOS` se queda vacío hasta contar con el horario real de atención;
- * mientras tanto la página dice lo único cierto: que se confirma por WhatsApp.
+ * `HORARIOS` refleja el horario semanal que la doctora gestiona desde
+ * /admin/ (ver hostinger/api/horarios.php). Es una copia estática para esta
+ * página: si cambia el horario en el panel, hay que actualizarla aquí y
+ * volver a desplegar — el sitio público no llama a la API para no depender
+ * de ella en una página que no necesita datos en vivo.
  */
 
 export const CONTACTO = {
@@ -75,8 +78,11 @@ export const MOTIVOS = [
   },
 ]
 
-// Horario de atención. Formato: { dias, horas }. Vacío hasta confirmarlo.
-export const HORARIOS = []
+// Horario de atención. Formato: { dias, horas }.
+export const HORARIOS = [
+  { dias: 'Lunes a viernes', horas: '9:00–14:00 y 16:00–19:00' },
+  { dias: 'Sábado', horas: '9:00–13:00' },
+]
 
 // Qué conviene llevar a la cita (sale de las preguntas frecuentes del sitio).
 export const ANTES_DE_TU_CITA = [

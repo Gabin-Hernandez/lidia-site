@@ -7,10 +7,24 @@
 // La columna de lectura es estrecha a propósito (unos 68 caracteres): es texto
 // largo y médico, y se lee mejor en medida corta que a todo el ancho.
 import { ARTICULOS, BLOG, minutosLectura, waArticulo } from '../data/blog.mjs'
+import { SERVICES } from '../data/services.mjs'
 import { DOCTORA, DOMAIN, physicianSchema } from '../data/site.mjs'
 import { claridad, floatingWa, footer, head, header, pageShell } from './layout.mjs'
 import { fichaArticulo } from './blog.mjs'
 import { CONTAINER, acento, btnGhost, btnWa, escapeAttr, icono, rotulo, titulo } from './ui.mjs'
+
+// Enlaces internos hacia las páginas de servicio, pedidos para todo artículo
+// del blog. Sin orientación anticonceptiva a propósito: su contenido hoy sigue
+// siendo de embarazo (pendiente de revisión), así que enlazarla desde el blog
+// solo confundiría a quien la visite.
+const SERVICIOS_RELACIONADOS = [
+  'consulta-ginecologica',
+  'vph',
+  'control-prenatal',
+  'papanicolaou',
+  'colposcopia',
+  'revision-ginecologicapreventiva',
+]
 
 const ANCHO = 'mx-auto max-w-[980px]'
 const PROSA = ANCHO
@@ -123,11 +137,47 @@ function bloque(b) {
       <p data-anim class="${PROSA} mt-6 hyphens-auto text-justify text-[1.14rem] leading-[1.8] text-tinta">${b.texto}</p>`
 }
 
+// Aviso breve a la mitad del artículo: el cierre de siempre queda al final,
+// pero quien no llega hasta ahí también ve una invitación a agendar.
+function ctaIntermedio(a) {
+  return `
+      <div data-anim class="${PROSA} mt-[clamp(40px,5vw,64px)] flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] border border-oro-rosa/25 bg-arena/40 px-[clamp(20px,3vw,32px)] py-6">
+        <p class="font-display text-[1.05rem] font-semibold text-marino">¿Quieres revisar tu caso? Agenda una consulta.</p>
+        ${btnWa(waArticulo(a), 'articulo_medio')}
+      </div>`
+}
+
 function cuerpo(a) {
+  const mitad = Math.ceil(a.bloques.length / 2)
+  const primeraMitad = a.bloques.slice(0, mitad).map(bloque).join('\n')
+  const segundaMitad = a.bloques.slice(mitad).map(bloque).join('\n')
   return `
   <section class="bg-lino pb-[clamp(48px,6vw,80px)]">
     <div class="${CONTAINER}">
-      ${a.bloques.map(bloque).join('\n')}
+      ${primeraMitad}
+      ${segundaMitad ? ctaIntermedio(a) : ''}
+      ${segundaMitad}
+    </div>
+  </section>`
+}
+
+// Enlaces internos hacia los servicios, pedidos para todo artículo del blog.
+function enlacesServicios() {
+  const relacionados = SERVICES.filter((s) => SERVICIOS_RELACIONADOS.includes(s.slug))
+  return `
+  <section aria-label="Servicios relacionados" class="border-t border-marino/8 bg-arena/25 py-[clamp(40px,5vw,64px)]">
+    <div class="${CONTAINER}">
+      <div class="${PROSA}">
+        <span class="mb-4 block text-[0.68rem] font-bold uppercase tracking-[0.25em] text-oro-rosa-profundo">Servicios relacionados</span>
+        <ul class="flex flex-wrap gap-2.5">
+          ${relacionados
+            .map(
+              (s) => `<li><a href="/${s.slug}/"
+                class="inline-flex items-center gap-1.5 rounded-full border border-marino/15 bg-lino px-4 py-2 text-[0.85rem] font-semibold text-marino no-underline transition duration-300 hover:border-oro-rosa hover:text-oro-rosa-profundo">${s.nombre}</a></li>`
+            )
+            .join('\n          ')}
+        </ul>
+      </div>
     </div>
   </section>`
 }
@@ -142,7 +192,7 @@ function cierre(a) {
         <span class="block">${rotulo('Siguiente paso')}</span>
         <p class="mt-5 text-[clamp(1.15rem,2vw,1.35rem)] font-medium leading-[1.6] text-marino">${a.ctaIntro}</p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-          ${btnWa(waArticulo(a), 'articulo', 'Agendar mi valoración')}
+          ${btnWa(waArticulo(a), 'articulo')}
           ${btnGhost('/contacto/', 'Ver formas de contacto')}
         </div>
       </div>
@@ -223,7 +273,7 @@ export function renderArticulo(a) {
     preload: a.portada,
   })
 
-  const main = [hero(a), cuerpo(a), cierre(a), notaYFuentes(a), otros(a), claridad()].join('\n')
+  const main = [hero(a), cuerpo(a), cierre(a), enlacesServicios(), notaYFuentes(a), otros(a), claridad()].join('\n')
 
   const bodyHtml = [
     header({

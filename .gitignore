@@ -1,6 +1,11 @@
 node_modules/
 dist/
+out/
 .DS_Store
 backup/
 fotos-originales/
 docs/
+
+# Credenciales de la API de citas: viven sólo en Hostinger, nunca en git.
+hostinger/api/config.php
+hostinger/*.zip

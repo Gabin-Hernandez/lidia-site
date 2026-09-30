@@ -19,6 +19,7 @@ import {
   head,
   header,
   pageShell,
+  testimonios,
   ubicacion,
 } from './layout.mjs'
 import {
@@ -79,6 +80,8 @@ function serviceSchema(s) {
 }
 
 // Asigna a cada sección un id único y estable, y devuelve el índice de navegación.
+// `s.landingCompacta` quita del índice lo que esa versión de la página no pinta
+// (ver renderService): hoy sólo la galería.
 function construirIndice(s) {
   const usados = new Set()
   const secciones = s.sections.map((sec) => {
@@ -92,7 +95,7 @@ function construirIndice(s) {
   const nav = [
     ...secciones.map((sec) => ({ id: sec.id, label: sec.tag })),
     { id: 'preguntas', label: 'Preguntas' },
-    { id: 'galeria', label: 'Galería' },
+    ...(s.landingCompacta ? [] : [{ id: 'galeria', label: 'Galería' }]),
   ]
   return { secciones, nav }
 }
@@ -361,7 +364,7 @@ function seccionProceso(sec, s, orden) {
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
           ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           <div data-anim class="mt-9">
-            ${btnWa(s.waText, 'proceso', 'Agendar este servicio')}
+            ${btnWa(s.waText, 'proceso', `Agendar ${s.nombre} por WhatsApp`)}
           </div>
           ${foto ? `<div class="mt-10">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
@@ -515,24 +518,43 @@ export function renderService(s) {
     preload: imgServicio(s.slug, 'hero').src,
   })
 
-  const main = [
-    heroServicio(s),
-    tiraDatos(s.datosClave, { montada: true }),
-    navInterna(nav),
-    ...secciones.map((sec) => contentSection(sec, s, ctx)),
-    faqSection(s),
-    galeriaSection(s),
-    bandaCifras(),
-    doctora({
-      waText: s.waText,
-      bullet1: s.confianzaBullet,
-      ctaTexto: s.confianzaCta,
-    }),
-    otrosServicios(s),
-    ubicacion({ waText: s.waText }),
-    claridad(),
-    ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
-  ].join('\n')
+  // Landing compacta: hoy sólo consulta-ginecologica (ver services.mjs), por
+  // ser la página de destino de Google Ads. Orden pedido por la doctora:
+  // hero → datos clave/precio → confianza → contenido (revisión, proceso) →
+  // ubicación → FAQ → cierre. Se quitan la galería, la banda de cifras, el
+  // bloque "la doctora" y "otros servicios": repiten prueba social y trato
+  // humano que ya están en el hero y en la nueva sección de confianza, y
+  // alargan la página que debe convertir tráfico pagado más rápido.
+  const main = s.landingCompacta
+    ? [
+        heroServicio(s),
+        tiraDatos(s.datosClave, { montada: true }),
+        navInterna(nav),
+        testimonios({ limite: 3 }),
+        ...secciones.map((sec) => contentSection(sec, s, ctx)),
+        ubicacion({ waText: s.waText }),
+        faqSection(s),
+        claridad(),
+        ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
+      ].join('\n')
+    : [
+        heroServicio(s),
+        tiraDatos(s.datosClave, { montada: true }),
+        navInterna(nav),
+        ...secciones.map((sec) => contentSection(sec, s, ctx)),
+        faqSection(s),
+        galeriaSection(s),
+        bandaCifras(),
+        doctora({
+          waText: s.waText,
+          bullet1: s.confianzaBullet,
+          ctaTexto: s.confianzaCta,
+        }),
+        otrosServicios(s),
+        ubicacion({ waText: s.waText }),
+        claridad(),
+        ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
+      ].join('\n')
 
   const bodyHtml = [
     header({

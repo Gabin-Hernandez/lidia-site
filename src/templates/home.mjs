@@ -119,13 +119,9 @@ function hero() {
             Atención ginecológica profesional para consulta, revisión preventiva, Papanicolaou, colposcopía, embarazo y control prenatal.
           </p>
 
-          <p class="entrada mt-4 max-w-[52ch] text-[1.2rem] leading-[1.7] text-humo max-lg:mx-auto" style="--d:.58s">
-            Agenda tu consulta con la ${DOCTORA.nombreCompleto} de forma rápida por WhatsApp, sin formularios ni llamadas en espera.
-          </p>
-
           <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-lg:justify-center" style="--d:.66s">
             ${btnWa(HOME.waHero, 'hero')}
-            ${btnGhost('#servicios', 'Ver servicios', { icono: 'abajo' })}
+            ${btnGhost('/servicios/', 'Ver servicios y precios')}
           </div>
 
           <div class="entrada mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 max-lg:justify-center" style="--d:.74s">
@@ -290,7 +286,7 @@ function escena() {
         <h2 class="cinetico escena__frase" data-cinetico="escena">Aquí preguntas sin pena, entiendes cada paso y decides con <em class="escena__acento">información</em>.</h2>
         <p class="escena__pie">Esa es toda la diferencia.</p>
         <div class="escena__cta">
-          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'escena', 'Agendar mi revisión')}
+          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'escena')}
         </div>
       </div>
 
@@ -321,7 +317,7 @@ function recorrido() {
             Sin llamadas en espera ni formularios largos: escribes, confirmamos horario y llegas a tu cita con todo claro.
           </p>
           <div data-anim style="--d:.18s" class="mt-9">
-            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'recorrido', 'Empezar por WhatsApp')}
+            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'recorrido')}
           </div>
         </div>
 
@@ -412,7 +408,6 @@ export function renderHome() {
     doctora({
       waText: HOME.waDoctora,
       bullet1: 'Consulta ginecológica profesional',
-      ctaTexto: 'Quiero agendar una consulta',
     }),
     pilares(),
     bandaCifras(),

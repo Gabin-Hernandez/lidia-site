@@ -1,9 +1,12 @@
 // Punto de entrada del renderizado estático: resuelve un id de página a su HTML.
 import { getArticulo } from '../data/blog.mjs'
 import { getService } from '../data/services.mjs'
+import { render404 } from './404.mjs'
+import { renderAdmin } from './admin.mjs'
 import { renderArticulo } from './articulo.mjs'
 import { renderAvisoPrivacidad } from './aviso-de-privacidad.mjs'
 import { renderBlog } from './blog.mjs'
+import { renderCitas } from './citas.mjs'
 import { renderConoce } from './conoce.mjs'
 import { renderContacto } from './contacto.mjs'
 import { renderHome } from './home.mjs'
@@ -19,6 +22,9 @@ const ESTATICAS = {
   contacto: renderContacto,
   testimonios: renderTestimonios,
   blog: renderBlog,
+  citas: renderCitas,
+  admin: renderAdmin,
+  404: render404,
   'aviso-de-privacidad': renderAvisoPrivacidad,
   'politica-de-cookies': renderPoliticaCookies,
 }
