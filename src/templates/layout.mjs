@@ -52,6 +52,7 @@ export function head({
   ogImage = '/og/home.jpg',
   schema,
   preload,
+  noindex = false,
 }) {
   const imagen = `${DOMAIN}${ogImage}`
   return `
@@ -59,7 +60,7 @@ export function head({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
   <meta name="description" content="${escapeAttr(description)}">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="robots" content="${noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}">
   <meta name="theme-color" content="#fbf7f4">
   <link rel="canonical" href="${canonical}">
   <link rel="icon" href="${LOGO}" type="image/webp">
@@ -200,6 +201,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
           ${enlaceTestimonios}
           ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
+          ${navLink('/citas/', 'Agenda en línea', 'citas')}
           <li class="hidden max-lg:mt-4 max-lg:block">
             ${btnWa(waText, `${waLabel}_movil`, 'Agendar por WhatsApp')}
           </li>
@@ -648,6 +650,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             ${ARTICULOS.length ? enlace('/blog/', 'Blog') : ''}
             ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
             ${enlace('/contacto/', 'Contacto y citas')}
+            ${enlace('/citas/', 'Agenda en línea')}
             ${enlace('/#servicios', 'Todos los servicios')}
             ${enlace('/aviso-de-privacidad/', 'Aviso de Privacidad')}
             ${enlace('/politica-de-cookies/', 'Política de Cookies')}

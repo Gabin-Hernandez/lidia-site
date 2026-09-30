@@ -696,3 +696,10 @@ if (btnResetCookies) {
   })
 }
 
+/* ═══════════════════════ 16. Agendador de citas (carga bajo demanda) ═════ */
+
+// Import dinámico: el JS del calendario público y el del panel de administración
+// sólo pesan en las dos páginas que los usan, no en el resto del sitio.
+if ($('#calendario-citas')) import('./scripts/citas-publico.js')
+if ($('#panel-admin')) import('./scripts/admin-panel.js')
+

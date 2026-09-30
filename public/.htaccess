@@ -1,0 +1,17 @@
+# Sitio estático de la Dra. Lidia Chávez en Hostinger (Apache / LiteSpeed).
+#
+# Vite copia este archivo tal cual de public/ a dist/ al compilar; se sube
+# junto con el resto de dist/ a public_html. La carpeta api/ trae su propio
+# .htaccess (ver hostinger/README.md).
+
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_headers.c>
+    # El HTML cambia con cada despliegue: que el navegador pregunte siempre si
+    # hay versión nueva. Los JS y CSS con hash en el nombre (assets/) se
+    # cachean solos.
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+</IfModule>

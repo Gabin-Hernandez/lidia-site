@@ -18,6 +18,8 @@ const PAGINAS = [
   'conoce',
   'testimonios',
   'contacto',
+  'citas',
+  'admin',
   'aviso-de-privacidad',
   'politica-de-cookies',
   'blog',

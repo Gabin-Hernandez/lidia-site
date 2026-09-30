@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "articulos": "node scripts/importar-articulos.mjs",
-    "fotos": "node scripts/procesar-fotos.mjs"
+    "fotos": "node scripts/procesar-fotos.mjs",
+    "desplegar": "vite build && powershell -ExecutionPolicy Bypass -File hostinger/empaquetar.ps1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
