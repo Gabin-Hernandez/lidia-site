@@ -377,8 +377,13 @@ function iniciar(raiz, cajaUsuario) {
 
     const btnQuitarBloqueo = ev.target.closest('[data-quitar-bloqueo]')
     if (btnQuitarBloqueo) return quitarBloqueo(Number(btnQuitarBloqueo.dataset.quitarBloqueo))
+  })
 
-    if (ev.target.closest('[data-salir]')) return salir()
+  // El botón «Salir» vive en #panel-usuario (la cabecera), no dentro de
+  // #panel-admin: la delegación de arriba nunca lo alcanza porque el clic no
+  // burbujea por raiz. Necesita su propio listener.
+  cajaUsuario.addEventListener('click', (ev) => {
+    if (ev.target.closest('[data-salir]')) salir()
   })
 
   raiz.addEventListener('change', (ev) => {
