@@ -10,6 +10,8 @@
  *
  * Todo es aditivo: sin JS la página se ve completa y estática.
  */
+import { GA4_ID } from './data/site.mjs'
+
 const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
 
 const $ = (sel, ctx = document) => ctx.querySelector(sel)
@@ -545,19 +547,45 @@ $$('[data-carrusel]').forEach((bloque) => {
   })
 })
 
-/* ═════════════════════════ 12. Conversiones de WhatsApp ═════════════════ */
+/* ═══════════════════════ 12. Conversiones de WhatsApp y teléfono ════════ */
+
+// Cada clic a WhatsApp manda a GA4 un solo evento, whatsapp_click, y el botón
+// concreto viaja en los parámetros: `service` sale del data-wa-service más
+// cercano (la tarjeta del servicio o, si no, el <body> de la página) y
+// `button_location` del data-wa-location del botón. Se escucha cualquier enlace
+// a wa.me, lleve o no esos atributos, para que ninguno quede sin medir.
+//
+// Aparte va la conversión directa de Google Ads. Cuando whatsapp_click se
+// importe a Ads como conversión principal, esta hay que retirarla (o pasarla a
+// secundaria en Ads) para no contar dos veces cada contacto.
+let ultimoWa = { enlace: null, t: -Infinity }
 
 document.addEventListener('click', (e) => {
-  const enlace = e.target.closest('[data-wa-label]')
-  if (!enlace || typeof gtag !== 'function') return
+  if (typeof gtag !== 'function') return
+  const pagina = { page_location: location.href, page_title: document.title }
+
+  const tel = e.target.closest('a[href^="tel:"]')
+  if (tel) {
+    gtag('event', 'telefono_click', { ...pagina, send_to: GA4_ID })
+    return
+  }
+
+  const wa = e.target.closest('a[href*="wa.me/"]')
+  if (!wa) return
+  // Un doble clic abre WhatsApp igual, pero cuenta como un solo contacto.
+  if (wa === ultimoWa.enlace && e.timeStamp - ultimoWa.t < 1000) return
+  ultimoWa = { enlace: wa, t: e.timeStamp }
+
+  gtag('event', 'whatsapp_click', {
+    service: wa.closest('[data-wa-service]')?.dataset.waService ?? 'general',
+    button_location: wa.dataset.waLocation ?? 'sin_ubicacion',
+    ...pagina,
+    send_to: GA4_ID,
+  })
   gtag('event', 'conversion', {
     send_to: GTAG_CONVERSION,
     value: 1.0,
     currency: 'MXN',
-  })
-  gtag('event', enlace.dataset.waLabel, {
-    event_category: 'WhatsApp',
-    event_label: enlace.dataset.waLabel,
   })
 })
 
@@ -696,7 +724,127 @@ if (btnResetCookies) {
   })
 }
 
-/* ═══════════════════════ 16. Agendador de citas (carga bajo demanda) ═════ */
+/* ═══════════════════════════ 16. Filtros y Buscador de Servicios ════════ */
+
+const serviciosPage = $('[data-servicios-page]')
+
+if (serviciosPage) {
+  const searchInput = $('#servicios-search-input')
+  const searchClear = $('#servicios-search-clear')
+  const chips = $$('[data-cat-filter]')
+  const cards = $$('[data-servicio-card]')
+  const sections = $$('[data-cat-section]')
+  const emptyState = $('#servicios-empty-state')
+  const counterBar = $('#search-counter-bar')
+  const counterText = $('#search-counter-text')
+  const resetBtn = $('#reset-all-filters')
+  const emptyResetBtn = $('#empty-reset-btn')
+
+  let currentCategory = 'todos'
+  let currentSearch = ''
+
+  function applyFilters() {
+    const query = currentSearch.trim().toLowerCase()
+    let visibleCount = 0
+
+    const categoryVisibilities = {}
+
+    cards.forEach((card) => {
+      const cat = card.dataset.cat
+      const searchData = card.dataset.search || ''
+
+      const matchesCat = currentCategory === 'todos' || cat === currentCategory
+      const matchesSearch = !query || searchData.includes(query)
+
+      const visible = matchesCat && matchesSearch
+      card.style.display = visible ? '' : 'none'
+
+      if (visible) {
+        visibleCount++
+        categoryVisibilities[cat] = true
+      }
+    })
+
+    sections.forEach((sec) => {
+      const catName = sec.dataset.catSection
+      const secVisible = !!categoryVisibilities[catName]
+      sec.style.display = secVisible ? '' : 'none'
+    })
+
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none'
+    }
+
+    if (counterBar && counterText) {
+      if (currentCategory !== 'todos' || query !== '') {
+        counterBar.classList.remove('hidden')
+        counterText.textContent = `Mostrando ${visibleCount} ${visibleCount === 1 ? 'servicio' : 'servicios'}${
+          currentCategory !== 'todos' ? ` en "${currentCategory}"` : ''
+        }${query ? ` para "${query}"` : ''}`
+      } else {
+        counterBar.classList.add('hidden')
+      }
+    }
+
+    if (searchClear) {
+      searchClear.style.display = query ? 'block' : 'none'
+    }
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    currentSearch = e.target.value
+    applyFilters()
+  })
+
+  searchClear?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = ''
+      currentSearch = ''
+      applyFilters()
+      searchInput.focus()
+    }
+  })
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.catFilter
+      currentCategory = cat
+
+      chips.forEach((c) => {
+        const isSelected = c.dataset.catFilter === cat
+        if (isSelected) {
+          c.className = 'cat-chip active cursor-pointer rounded-full px-4 py-2 text-[0.84rem] font-bold transition duration-300 bg-marino text-lino shadow-sm'
+        } else {
+          c.className = 'cat-chip cursor-pointer rounded-full border border-marino/15 bg-lino px-4 py-2 text-[0.84rem] font-semibold text-marino transition duration-300 hover:border-marino hover:bg-arena/50'
+        }
+      })
+
+      applyFilters()
+    })
+  })
+
+  const resetAll = () => {
+    currentCategory = 'todos'
+    currentSearch = ''
+    if (searchInput) searchInput.value = ''
+
+    chips.forEach((c) => {
+      const isTodos = c.dataset.catFilter === 'todos'
+      if (isTodos) {
+        c.className = 'cat-chip active cursor-pointer rounded-full px-4 py-2 text-[0.84rem] font-bold transition duration-300 bg-marino text-lino shadow-sm'
+      } else {
+        c.className = 'cat-chip cursor-pointer rounded-full border border-marino/15 bg-lino px-4 py-2 text-[0.84rem] font-semibold text-marino transition duration-300 hover:border-marino hover:bg-arena/50'
+      }
+    })
+
+    applyFilters()
+  }
+
+  resetBtn?.addEventListener('click', resetAll)
+  emptyResetBtn?.addEventListener('click', resetAll)
+}
+
+/* ═══════════════════════ 17. Agendador de citas (carga bajo demanda) ═════ */
 
 // Import dinámico: el JS del calendario público y el del panel de administración
 // sólo pesan en las dos páginas que los usan, no en el resto del sitio.

@@ -430,7 +430,7 @@ const FOTOS_DRA = {
     alt: 'La Dra. Lidia Chávez tomando notas en el escritorio del consultorio, junto a la laptop',
   },
   'papanicolaou-explicacion': {
-    file: 'papanicolaou-explicacion.webp',
+    file: 'okp-4.png',
     w: 1200,
     h: 800,
     alt: 'La Dra. Lidia Chávez explicando el procedimiento paso a paso en el área de exploración',
@@ -442,13 +442,13 @@ const FOTOS_DRA = {
     alt: 'La Dra. Lidia Chávez junto al equipo de ultrasonido, con un rastreo pélvico en pantalla',
   },
   'dra-consola-transductor': {
-    file: 'dra-consola-transductor.webp',
+    file: 'okc-5.png',
     w: 1200,
     h: 800,
     alt: 'La Dra. Lidia Chávez en la consola del equipo de ultrasonido, con el transductor en la mano',
   },
   'colposcopia-laser': {
-    file: 'colposcopia-laser.webp',
+    file: 'okvp-11.png',
     w: 1200,
     h: 800,
     alt: 'La Dra. Lidia Chávez durante un procedimiento bajo colposcopio en el área de exploración',
@@ -466,7 +466,7 @@ const FOTOS_DRA = {
   // Casi el mismo disparo que 'equipo-sala-espera' (misma pose, segundos de
   // diferencia): la doctora la pidió igualmente en la portada, justo antes.
   'equipo-de-aurafem': {
-    file: 'equipo-de-aurafem.webp',
+    file: 'OKC-1.png',
     w: 1200,
     h: 803,
     alt: 'El equipo de Aurafem: la Dra. Lidia Chávez y la asistente del consultorio en la sala de espera',
@@ -549,7 +549,7 @@ const FOTOS_DRA = {
   // es otro blíster de pastillas, casi igual que OKANTC1. El documento decía
   // «OKANTC 3 o 4»; si el pie se queda así, conviene pedir la 3.
   'anticonceptivos-pastillas-2': {
-    file: 'anticonceptivos-pastillas-2.webp',
+    file: 'okat-4.png',
     w: 1200,
     h: 800,
     alt: 'La Dra. Lidia Chávez mostrando un blíster de pastillas anticonceptivas',
@@ -559,7 +559,7 @@ const FOTOS_DRA = {
   // mano lleva además pastillas, dos aplicadores de DIU y un implante: el alt
   // los nombra todos porque describe la foto, no el pie que ella eligió.
   'anticonceptivos-varios': {
-    file: 'anticonceptivos-varios.webp',
+    file: 'okat-5.png',
     w: 1200,
     h: 800,
     alt: 'La Dra. Lidia Chávez con varios métodos anticonceptivos: preservativos, pastillas, dispositivo intrauterino e implante',

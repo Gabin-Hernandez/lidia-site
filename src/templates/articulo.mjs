@@ -142,7 +142,7 @@ function cierre(a) {
         <span class="block">${rotulo('Siguiente paso')}</span>
         <p class="mt-5 text-[clamp(1.15rem,2vw,1.35rem)] font-medium leading-[1.6] text-marino">${a.ctaIntro}</p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-          ${btnWa(waArticulo(a), `wa_click_blog_${a.id}`, 'Agendar mi valoración')}
+          ${btnWa(waArticulo(a), 'articulo', 'Agendar mi valoración')}
           ${btnGhost('/contacto/', 'Ver formas de contacto')}
         </div>
       </div>
@@ -228,13 +228,12 @@ export function renderArticulo(a) {
   const bodyHtml = [
     header({
       waText: waArticulo(a),
-      waLabel: `wa_click_blog_${a.id}_header`,
       logoAlt: BLOG.logoAlt,
       tema: 'claro',
       activo: 'blog',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: waArticulo(a), waLabel: `wa_click_blog_${a.id}_floating` }),
+    floatingWa({ waText: waArticulo(a) }),
     footer({ logoAlt: `${DOCTORA.nombre} - Ginecóloga en Polanco CDMX` }),
   ].join('\n')
 

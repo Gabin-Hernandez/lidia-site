@@ -81,7 +81,7 @@ function hero() {
         <p class="entrada mx-auto mt-8 max-w-[58ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${BLOG.lead}</p>
 
         <div class="entrada mt-9 flex flex-wrap items-center justify-center gap-4" style="--d:.66s">
-          ${btnWa(BLOG.waHero, 'wa_click_blog_hero')}
+          ${btnWa(BLOG.waHero, 'hero')}
           ${btnGhost('/conoce/', 'Conocer a la doctora')}
         </div>
 
@@ -178,7 +178,6 @@ export function renderBlog() {
     ctaFinal({
       titulo: BLOG.ctaTitle,
       waText: BLOG.waHero,
-      waLabel: 'wa_click_blog_ctafinal',
       intro:
         'Un artículo puede orientarte, pero cada caso es distinto. Escríbele a la Dra. Lidia Chávez para revisar el tuyo.',
     }),
@@ -187,13 +186,12 @@ export function renderBlog() {
   const bodyHtml = [
     header({
       waText: BLOG.waHero,
-      waLabel: 'wa_click_blog_header',
       logoAlt: escapeAttr(BLOG.logoAlt),
       tema: 'claro',
       activo: 'blog',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: BLOG.waHero, waLabel: 'wa_click_blog_floating' }),
+    floatingWa({ waText: BLOG.waHero }),
     footer({ logoAlt: `${DOCTORA.nombre} - Ginecóloga en Polanco CDMX` }),
   ].join('\n')
 

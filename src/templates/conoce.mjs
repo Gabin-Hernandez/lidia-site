@@ -139,7 +139,7 @@ function hero() {
         <p class="entrada mx-auto mt-4 max-w-[56ch] text-[1.2rem] leading-[1.7] text-humo" style="--d:.58s">${CONOCE.subLead}</p>
 
         <div class="entrada mt-10 flex flex-wrap items-center justify-center gap-4" style="--d:.66s">
-          ${btnWa(CONOCE.waHero, 'wa_click_conoce_hero')}
+          ${btnWa(CONOCE.waHero, 'hero')}
           ${btnGhost('/contacto/', 'Ver formas de contacto')}
         </div>
 
@@ -327,25 +327,23 @@ export function renderConoce() {
     galeria(),
     preguntas(),
     testimonios({ limite: 3, verTodos: true }),
-    ubicacion({ waText: CONOCE.waHero, waLabel: 'wa_click_conoce_ubicacion' }),
+    ubicacion({ waText: CONOCE.waHero }),
     claridad(),
     ctaFinal({
       titulo: CONOCE.ctaTitle,
       waText: CONOCE.waCierre,
-      waLabel: 'wa_click_conoce_ctafinal',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: CONOCE.waHero,
-      waLabel: 'wa_click_conoce_header',
       logoAlt: CONOCE.logoAlt,
       tema: 'claro',
       activo: 'conoce',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: CONOCE.waHero, waLabel: 'wa_click_conoce_floating' }),
+    floatingWa({ waText: CONOCE.waHero }),
     footer({ logoAlt: `${DOCTORA.nombre} - Ginecóloga en Polanco CDMX` }),
   ].join('\n')
 

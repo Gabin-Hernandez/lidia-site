@@ -134,13 +134,20 @@ export function acento(texto, { claro = false } = {}) {
 const BTN_BASE =
   'group/btn relative inline-flex items-center justify-center gap-3 rounded-full font-bold no-underline transition-[background-color,color,box-shadow,border-color] duration-500 ease-suave'
 
-// Botón principal de WhatsApp.
-export function btnWa(waText, label, texto = 'Agendar por WhatsApp', { grande = false } = {}) {
+// Valor del parámetro `service` de whatsapp_click: el slug o nombre en
+// snake_case sin acentos ('consulta-ginecologica' → 'consulta_ginecologica').
+export function waServicio(texto) {
+  return slugId(texto).replaceAll('-', '_')
+}
+
+// Botón principal de WhatsApp. `ubicacion` es el `button_location` con el que
+// se mide el clic (ver «Clics a WhatsApp» en main.js).
+export function btnWa(waText, ubicacion, texto = 'Agendar por WhatsApp', { grande = false } = {}) {
   const medida = grande
     ? 'px-9 py-[18px] text-[1.05rem]'
     : 'px-7 py-3.5 text-[0.95rem]'
   return `
-    <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="${label}"
+    <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="${ubicacion}"
        class="${BTN_BASE} ${medida} magnetico brillo bg-wsp text-white shadow-[0_12px_28px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1fbe5b] hover:shadow-[0_18px_38px_-8px_rgba(37,211,102,0.65)]">
       ${waIcon(grande ? 24 : 20, 'blanco')}
       <span>${texto}</span>

@@ -37,8 +37,10 @@ export const DIRECCION = {
   mapsId: '0x85d1ff9dbb94facf:0xa5dc7bf9ebf15a61',
 }
 
-export const GTAG_ID = 'AW-18297301316'
-export const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
+// Propiedad de GA4 y cuenta de Google Ads. Las dos se configuran en el mismo
+// gtag.js (ver head() en layout.mjs).
+export const GA4_ID = 'G-J7MCYYV1TB'
+export const ADS_ID = 'AW-18297301316'
 
 export const FOTO_DRA = '/img/dra/dra-hero.webp'
 export const LOGO = '/logo.webp'

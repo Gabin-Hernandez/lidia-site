@@ -193,14 +193,12 @@ export function renderCitas() {
       titulo: '¿Prefieres agendar por WhatsApp?',
       intro: 'Escríbele directamente a la Dra. Lidia Chávez si prefieres revisar tu horario por mensaje.',
       waText: 'Hola Dra. Lidia, quiero agendar una consulta.',
-      waLabel: 'wa_click_citas_ctafinal',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: 'Hola Dra. Lidia, quiero agendar una consulta.',
-      waLabel: 'wa_click_citas_header',
       logoAlt: CITAS.logoAlt,
       tema: 'claro',
       activo: 'citas',
@@ -209,5 +207,5 @@ export function renderCitas() {
     footer({ logoAlt: `${DOCTORA.nombre} - Ginecóloga en Polanco CDMX` }),
   ].join('\n')
 
-  return pageShell({ headHtml, bodyHtml })
+  return pageShell({ headHtml, bodyHtml, servicio: 'citas' })
 }
