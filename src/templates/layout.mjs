@@ -206,6 +206,9 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
         <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
       </button>
 
+      <!-- Sin enlace a /citas/: la doctora pidió ocultar la agenda en línea hasta que
+           cumpla lo que pide (disponibilidad y duración por servicio, confirmación
+           automática, recordatorios, reprogramación desde la paciente). -->
       <nav class="flex items-center gap-7" aria-label="Principal">
         <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
           ${navLink('/servicios/', 'Costos y Servicios', 'servicios')}
@@ -214,9 +217,8 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
           ${enlaceTestimonios}
           ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
-          ${navLink('/citas/', 'Agenda en línea', 'citas')}
           <li class="hidden max-lg:mt-4 max-lg:block">
-            ${btnWa(waText, 'header_movil', 'Agendar por WhatsApp')}
+            ${btnWa(waText, 'header_movil')}
           </li>
         </ul>
 
@@ -483,7 +485,7 @@ export function ubicacion({ waText }) {
           </ul>
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
-            ${btnWa(waText, 'ubicacion', 'Agendar por WhatsApp')}
+            ${btnWa(waText, 'ubicacion')}
             ${btnGhost(
               MAPS_LINK,
               'Ver en Google Maps',
@@ -554,7 +556,7 @@ export function ctaFinal({ titulo: t, waText, intro }) {
       </p>
 
       <div data-anim style="--d:.2s" class="mt-11 flex flex-col items-center gap-5">
-        ${btnWa(waText, 'ctafinal', 'Agendar ahora por WhatsApp', { grande: true })}
+        ${btnWa(waText, 'ctafinal', 'Ver horarios por WhatsApp', { grande: true })}
       </div>
     </div>
   </section>`
@@ -664,7 +666,6 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             ${ARTICULOS.length ? enlace('/blog/', 'Blog') : ''}
             ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
             ${enlace('/contacto/', 'Contacto y citas')}
-            ${enlace('/citas/', 'Agenda en línea')}
             ${enlace('/#servicios', 'Todos los servicios')}
             ${enlace('/aviso-de-privacidad/', 'Aviso de Privacidad')}
             ${enlace('/politica-de-cookies/', 'Política de Cookies')}

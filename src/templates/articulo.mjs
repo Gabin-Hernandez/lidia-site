@@ -142,7 +142,7 @@ function cierre(a) {
         <span class="block">${rotulo('Siguiente paso')}</span>
         <p class="mt-5 text-[clamp(1.15rem,2vw,1.35rem)] font-medium leading-[1.6] text-marino">${a.ctaIntro}</p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-          ${btnWa(waArticulo(a), 'articulo', 'Agendar mi valoración')}
+          ${btnWa(waArticulo(a), 'articulo')}
           ${btnGhost('/contacto/', 'Ver formas de contacto')}
         </div>
       </div>

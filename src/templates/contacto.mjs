@@ -114,9 +114,8 @@ function hero() {
         <p class="entrada mx-auto mt-8 max-w-[54ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONTACTO.lead}</p>
         <p class="entrada mx-auto mt-3 text-[1.2rem] leading-[1.7] text-humo" style="--d:.56s">${CONTACTO.subLead}</p>
 
-        <div class="entrada mt-10 flex flex-wrap items-center justify-center gap-4" style="--d:.64s">
-          ${btnWa(CONTACTO.waHero, 'hero', 'Escribir por WhatsApp', { grande: true })}
-          ${btnGhost('/citas/', 'Ver calendario y agendar en línea')}
+        <div class="entrada mt-10 flex flex-col items-center gap-5" style="--d:.64s">
+          ${btnWa(CONTACTO.waHero, 'hero', 'Ver horarios por WhatsApp', { grande: true })}
         </div>
 
         <div class="entrada mx-auto mt-12 flex w-fit items-center gap-4 rounded-[1.5rem] border border-marino/8 bg-white/70 px-5 py-4 shadow-cristal backdrop-blur-sm" style="--d:.72s">

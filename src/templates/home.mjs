@@ -290,7 +290,7 @@ function escena() {
         <h2 class="cinetico escena__frase" data-cinetico="escena">Aquí preguntas sin pena, entiendes cada paso y decides con <em class="escena__acento">información</em>.</h2>
         <p class="escena__pie">Esa es toda la diferencia.</p>
         <div class="escena__cta">
-          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'escena', 'Agendar mi revisión')}
+          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'escena')}
         </div>
       </div>
 
@@ -321,7 +321,7 @@ function recorrido() {
             Sin llamadas en espera ni formularios largos: escribes, confirmamos horario y llegas a tu cita con todo claro.
           </p>
           <div data-anim style="--d:.18s" class="mt-9">
-            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'recorrido', 'Empezar por WhatsApp')}
+            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'recorrido')}
           </div>
         </div>
 
@@ -412,7 +412,6 @@ export function renderHome() {
     doctora({
       waText: HOME.waDoctora,
       bullet1: 'Consulta ginecológica profesional',
-      ctaTexto: 'Quiero agendar una consulta',
     }),
     pilares(),
     bandaCifras(),

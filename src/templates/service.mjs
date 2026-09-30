@@ -361,7 +361,7 @@ function seccionProceso(sec, s, orden) {
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
           ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           <div data-anim class="mt-9">
-            ${btnWa(s.waText, 'proceso', 'Agendar este servicio')}
+            ${btnWa(s.waText, 'proceso', `Agendar ${s.nombre} por WhatsApp`)}
           </div>
           ${foto ? `<div class="mt-10">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>

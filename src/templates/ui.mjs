@@ -142,7 +142,7 @@ export function waServicio(texto) {
 
 // Botón principal de WhatsApp. `ubicacion` es el `button_location` con el que
 // se mide el clic (ver «Clics a WhatsApp» en main.js).
-export function btnWa(waText, ubicacion, texto = 'Agendar por WhatsApp', { grande = false } = {}) {
+export function btnWa(waText, ubicacion, texto = 'Ver horarios por WhatsApp', { grande = false } = {}) {
   const medida = grande
     ? 'px-9 py-[18px] text-[1.05rem]'
     : 'px-7 py-3.5 text-[0.95rem]'

@@ -18,7 +18,7 @@ const CATALOGO = [
       'Consulta ginecológica en Polanco y CDMX con la Dra. Lidia Chávez. Valoración integral de primera vez y seguimiento. Agenda tu cita médica fácil por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Consulta Ginecológica en Polanco CDMX',
     logoAlt: 'Logo Dra. Lidia Chávez - Ginecóloga en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero agendar una consulta ginecológica',
+    waText: 'Hola, quiero agendar una consulta ginecológica con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Atención Médica Especializada',
     h1: 'Consulta ginecológica en Polanco, CDMX',
     heroP:
@@ -138,7 +138,7 @@ const CATALOGO = [
       'Atención humana en Aurafem Polanco',
     ],
     confianzaBullet: 'Consulta ginecológica profesional',
-    confianzaCta: 'Quiero agendar una consulta',
+    confianzaCta: 'Agendar consulta ginecológica por WhatsApp',
     otrosTag: 'Atención Integral',
     otrosIntro: 'Conoce los demás servicios y estudios preventivos que ofrece la Dra. Lidia Chávez en Polanco, CDMX.',
     ctaTitle: 'Agenda tu consulta ginecológica por WhatsApp',
@@ -152,7 +152,7 @@ const CATALOGO = [
       'Papanicolaou en CDMX y Polanco con la Dra. Lidia Chávez. Detección oportuna, preparación clara y entrega rápida de resultados. Agenda tu cita por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Papanicolaou en CDMX Polanco',
     logoAlt: 'Logo Dra. Lidia Chávez - Papanicolaou en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero agendar un Papanicolaou',
+    waText: 'Hola, quiero agendar un Papanicolaou con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Detección Preventiva Cervical',
     h1: 'Papanicolaou en CDMX',
     heroP:
@@ -267,7 +267,7 @@ const CATALOGO = [
       'Cuidado preventivo anual para mujeres',
     ],
     confianzaBullet: 'Estudio citológico riguroso y profesional',
-    confianzaCta: 'Quiero agendar mi Papanicolaou',
+    confianzaCta: 'Agendar Papanicolaou por WhatsApp',
     ctaTitle: 'Agenda tu Papanicolaou por WhatsApp',
   },
 
@@ -279,7 +279,7 @@ const CATALOGO = [
       'Colposcopía en Polanco y CDMX con la Dra. Lidia Chávez. Diagnóstico de alta precisión ante Papanicolaou alterado o VPH. Agenda tu consulta hoy por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Colposcopía en Polanco CDMX',
     logoAlt: 'Logo Dra. Lidia Chávez - Colposcopía en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero agendar una colposcopía',
+    waText: 'Hola, quiero agendar una colposcopía con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Evaluación Visual Especializada',
     h1: 'Colposcopía en Polanco, CDMX',
     heroP:
@@ -393,7 +393,7 @@ const CATALOGO = [
       'Atención colposcópica profesional y ética',
     ],
     confianzaBullet: 'Estudio colposcópico especializado',
-    confianzaCta: 'Quiero agendar mi colposcopía',
+    confianzaCta: 'Agendar colposcopía por WhatsApp',
     ctaTitle: 'Agenda tu colposcopía por WhatsApp',
   },
 
@@ -405,7 +405,7 @@ const CATALOGO = [
       'Control prenatal en CDMX y Polanco con la Dra. Lidia Chávez. Monitoreo materno-fetal por trimestre, estudios y ecografía. Agenda tu cita médica por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Control Prenatal en CDMX Polanco',
     logoAlt: 'Logo Dra. Lidia Chávez - Control Prenatal en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero agendar control prenatal',
+    waText: 'Hola, quiero agendar mi control prenatal con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Control y Seguimiento de Embarazo',
     h1: 'Control prenatal en CDMX',
     heroP:
@@ -520,7 +520,7 @@ const CATALOGO = [
       'Acompañamiento cercano para mamás',
     ],
     confianzaBullet: 'Seguimiento maternofetal profesional',
-    confianzaCta: 'Quiero agendar mi control prenatal',
+    confianzaCta: 'Agendar control prenatal por WhatsApp',
     ctaTitle: 'Agenda tu control prenatal por WhatsApp',
   },
 
@@ -662,7 +662,7 @@ const CATALOGO = [
       'Especialista en VPH en Polanco y CDMX, Dra. Lidia Chávez. Diagnóstico confidencial, colposcopía, vacunación y seguimiento. Agenda tu consulta por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Especialista en VPH Polanco CDMX',
     logoAlt: 'Logo Dra. Lidia Chávez - Especialista en VPH en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero orientación sobre VPH',
+    waText: 'Hola, quiero agendar una valoración sobre VPH con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Atención Especializada y Confidencial',
     h1: 'VPH en CDMX: Orientación y Colposcopía',
     heroP:
@@ -775,7 +775,7 @@ const CATALOGO = [
       'Tranquilidad médica con la Dra. Lidia Chávez',
     ],
     confianzaBullet: 'Orientación y colposcopía profesional',
-    confianzaCta: 'Quiero orientación por WhatsApp',
+    confianzaCta: 'Agendar valoración de VPH por WhatsApp',
     ctaTitle: 'Agenda tu consulta sobre VPH por WhatsApp',
   },
 
@@ -787,7 +787,7 @@ const CATALOGO = [
       'Chequeo ginecológico anual en CDMX y Polanco con la Dra. Lidia Chávez. Valoración preventiva integral pélvica y mamaria. Agenda tu cita hoy por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Chequeo Ginecológico Anual en CDMX Polanco',
     logoAlt: 'Logo Dra. Lidia Chávez - Chequeo Ginecológico Anual en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero agendar una revisión ginecológica preventiva',
+    waText: 'Hola, quiero agendar mi revisión ginecológica preventiva con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Prevención y Tranquilidad',
     h1: 'Chequeo ginecológico anual en CDMX',
     heroP:
@@ -909,7 +909,7 @@ const CATALOGO = [
       'Valoración médica experta con la Dra. Lidia',
     ],
     confianzaBullet: 'Chequeo preventivo profesional',
-    confianzaCta: 'Quiero agendar mi revisión preventiva',
+    confianzaCta: 'Agendar revisión preventiva por WhatsApp',
     ctaTitle: 'Agenda tu revisión ginecológica preventiva por WhatsApp',
   },
 ]
