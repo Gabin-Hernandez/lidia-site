@@ -24,7 +24,7 @@ const CATALOGO = [
     heroP:
       'Si buscas una ginecóloga en Polanco que combine rigor médico con trato humano, la consulta ginecológica en CDMX con la Dra. Lidia Chávez brinda la máxima tranquilidad para cuidar de tu salud reproductiva.',
     heroSubP:
-      'Ofrecemos valoración médica personalizada para citas de primera vez o seguimiento continuo en Aurafem (Polanco / Anzures). Reserva tu cita por WhatsApp.',
+      'Valoración médica personalizada para citas de primera vez o seguimiento continuo, en un ambiente profesional, confidencial y sin juicios en Aurafem (Polanco / Anzures).',
     procedure: {
       name: 'Consulta ginecológica',
       description:
@@ -36,12 +36,16 @@ const CATALOGO = [
       'Atención médica para valoración, orientación y seguimiento personalizado de la salud ginecológica.',
     cardAlt: 'Consulta ginecológica en Polanco CDMX',
     otroDesc: 'Atención médica para valoración, diagnóstico y seguimiento personalizado.',
+    // `Precio` sin cifra a propósito: la doctora tiene que confirmar primero si
+    // "$999 MXN" sigue vigente (ver documento de ajustes). En cuanto lo
+    // confirme, cambia este valor por el precio real.
     datosClave: [
+      { label: 'Precio', valor: 'Infórmate por WhatsApp' },
       { label: 'Modalidad', valor: 'Primera vez o seguimiento' },
       { label: 'Incluye', valor: 'Signos vitales, historial, exploración y receta' },
-      { label: 'Frecuencia sugerida', valor: 'Al menos una vez al año' },
       { label: 'Preparación', valor: 'Ropa cómoda y fecha de tu última regla' },
     ],
+    landingCompacta: true,
     sections: [
       {
         bg: 'light',
@@ -88,15 +92,6 @@ const CATALOGO = [
           { title: 'Valoración médica inicial', text: 'Plática detallada sobre tus síntomas e historial de salud.' },
           { title: 'Exploración clínica', text: 'Revisión médica profesional realizada con técnica suave e instrumental estéril.' },
           { title: 'Diagnóstico e indicaciones', text: 'Explicaciones médicas claras y plan de tratamiento personalizado.' },
-        ],
-      },
-      {
-        bg: 'light',
-        tag: 'Detalles del Servicio',
-        title: 'Qué incluye y cómo prepararte para tu cita ginecológica',
-        paragraphs: [
-          'La consulta incluye elaboración de expediente, exploración clínica pélvica/mamaria y prescripción médica personalizada.',
-          'Se recomienda acudir con ropa cómoda y tener en mente la fecha de tu última regla.',
         ],
       },
     ],
