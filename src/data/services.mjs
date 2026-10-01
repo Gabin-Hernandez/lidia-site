@@ -546,7 +546,7 @@ const CATALOGO = [
       'Orientación anticonceptiva en Polanco y CDMX con la Dra. Lidia Chávez. DIU, implante, pastillas y más, elegidos para ti. Agenda tu consulta por WhatsApp.',
     ogAlt: 'Dra. Lidia Chávez - Orientación anticonceptiva en Polanco CDMX',
     logoAlt: 'Logo Dra. Lidia Chávez - Orientación Anticonceptiva en Polanco CDMX',
-    waText: 'Hola Dra. Lidia, quiero agendar una consulta de orientación anticonceptiva',
+    waText: 'Hola, quiero agendar una consulta de orientación anticonceptiva con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Salud Sexual y Reproductiva',
     h1: 'Orientación anticonceptiva en Polanco, CDMX',
     heroP:
@@ -688,7 +688,7 @@ const CATALOGO = [
       'Preservativo masculino',
     ],
     confianzaBullet: 'Orientación anticonceptiva profesional',
-    confianzaCta: 'Quiero mi orientación anticonceptiva',
+    confianzaCta: 'Agendar orientación anticonceptiva por WhatsApp',
     ctaTitle: 'Agenda tu orientación anticonceptiva por WhatsApp',
   },
 
