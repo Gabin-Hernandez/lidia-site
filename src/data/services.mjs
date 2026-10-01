@@ -704,9 +704,9 @@ const CATALOGO = [
     tagline: 'Atención Especializada y Confidencial',
     h1: 'VPH en CDMX: Orientación y Colposcopía',
     heroP:
-      'Si requieres asesoría médica, diagnóstico oportuno o seguimiento por <strong>VPH en CDMX</strong>, acudir con una <strong>especialista en VPH en Polanco</strong> como la Dra. Lidia Chávez te garantiza información científica clara y sin estigmas.',
+      'Si buscas asesoría médica, diagnóstico oportuno o seguimiento por <strong>VPH en CDMX</strong>, con una <strong>especialista en VPH en Polanco</strong> como la Dra. Lidia Chávez recibes información científica clara y sin estigmas.',
     heroSubP:
-      'Ofrecemos consulta de valoración, colposcopía y vacunación en Aurafem (Polanco / Anzures). Agenda tu cita confidencial por WhatsApp.',
+      'Tener VPH es frecuente y, en la mayoría de los casos, el sistema inmune lo elimina por sí solo. La valoración sirve para saber en qué punto estás y darle seguimiento, en Aurafem (Polanco / Anzures).',
     procedure: {
       name: 'Orientación sobre VPH',
       description:
@@ -717,11 +717,13 @@ const CATALOGO = [
       'Información clara, valoración, estudios diagnósticos y seguimiento integral en caso de tener virus del papiloma humano.',
     cardAlt: 'Orientación y especialista en VPH Polanco CDMX',
     otroDesc: 'Diagnóstico, vacunación y valoración experta del Virus del Papiloma Humano.',
+    // La doctora pidió que esta página priorice valoración confidencial,
+    // explicación clara y seguimiento, en ese orden, y que no se lea alarmista.
     datosClave: [
-      { label: 'Diagnóstico', valor: 'Papanicolaou, colposcopía y PCR' },
-      { label: 'Prevención', valor: 'Vacunación disponible' },
       { label: 'Atención', valor: 'Confidencial y sin estigmas' },
+      { label: 'Diagnóstico', valor: 'Papanicolaou, colposcopía y PCR' },
       { label: 'Seguimiento', valor: 'Según los hallazgos de tu valoración' },
+      { label: 'Prevención', valor: 'Vacunación disponible' },
     ],
     sections: [
       {

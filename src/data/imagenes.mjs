@@ -101,9 +101,9 @@ const FOTOS_APOYO = {
     contain: true,
   },
   'apoyo-colposcopia-diagrama': {
-    file: 'colposcopia-diagrama.png',
-    w: 2816,
-    h: 1536,
+    file: 'colposcopia-diagrama.webp',
+    w: 2000,
+    h: 1091,
     alt: 'Diagrama informativo de la anatomía y el procedimiento de colposcopía',
     // Panorámico con texto en los bordes: recortarlo a 4:5 (como el resto de
     // fotos editoriales) le cortaría las etiquetas. Debe verse completo.
