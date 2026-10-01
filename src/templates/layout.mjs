@@ -155,7 +155,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
           <div class="flex items-center justify-center gap-0.5">
             <a href="/#servicios" class="relative block px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium">Servicios</a>
             <button type="button" data-dropdown-btn aria-expanded="false" aria-controls="mega-servicios" aria-label="Abrir submenú de servicios"
-                    class="cursor-pointer p-1.5 text-current transition duration-500 ease-suave group-data-open:rotate-180 lg:group-hover:rotate-180">
+                    class="cursor-pointer p-3 text-current transition duration-500 ease-suave group-data-open:rotate-180 lg:p-1.5 lg:group-hover:rotate-180">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
           </div>
