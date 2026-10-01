@@ -401,6 +401,46 @@ export function getServiciosDestacados() {
   })
 }
 
+/**
+ * Qué entrada del catálogo le corresponde a cada página de servicio.
+ *
+ * Las páginas de /<slug>/ y el catálogo de /servicios/ hablaban de lo mismo con
+ * precios separados; aquí se enlazan para que haya una sola fuente. `desde`
+ * marca los servicios cuyo precio es el punto de entrada de una gama (los check
+ * ups arrancan en el Básico), para no dar por cerrado un precio que varía.
+ */
+const CATALOGO_POR_SLUG = {
+  'consulta-ginecologica': { categoria: 'CONSULTA', nombre: 'Primera vez' },
+  papanicolaou: { categoria: 'CONSULTA', nombre: 'Consulta + Papanicolaou' },
+  colposcopia: { categoria: 'CONSULTA', nombre: 'Consulta + colposcopia' },
+  'control-prenatal': { categoria: 'CONSULTA', nombre: 'Consulta de Control Prenatal' },
+  'orientacion-anticonceptiva': { categoria: 'CONSULTA', nombre: 'Orientación anticonceptiva' },
+  'revision-ginecologicapreventiva': { categoria: 'CHECK UP', nombre: 'Check up Básico', desde: true },
+}
+
+/** Precio ya formateado de la página de servicio `slug`, o null si no tiene. */
+export function precioDeServicio(slug) {
+  const ref = CATALOGO_POR_SLUG[slug]
+  if (!ref) return null
+  const cat = SERVICIOS_DATASET.categorias.find((c) => c.nombre === ref.categoria)
+  const servicio = cat?.servicios.find((s) => s.nombre === ref.nombre)
+  if (!servicio) {
+    throw new Error(`Precio no encontrado en el catálogo: ${ref.categoria} / ${ref.nombre}`)
+  }
+  const precio = formatPrecio(precioVigente(servicio))
+  return ref.desde ? `Desde ${precio}` : precio
+}
+
+/** Los check ups del catálogo, para la página de revisión preventiva. */
+export function getCheckUps() {
+  const cat = SERVICIOS_DATASET.categorias.find((c) => c.nombre === 'CHECK UP')
+  return (cat?.servicios ?? []).map((s) => ({
+    nombre: s.nombre,
+    incluye: s.incluye,
+    precio: formatPrecio(precioVigente(s)),
+  }))
+}
+
 export function getEstadisticasServicios() {
   const totalCategorias = SERVICIOS_DATASET.categorias.length
   let totalServicios = 0

@@ -6,6 +6,7 @@
 //   contenido (editorial con foto fija / checklist / tarjetas / línea de tiempo
 //   dibujada al hacer scroll) → preguntas → galería → cifras → la doctora →
 //   servicios relacionados → ubicación → transparencia → cierre.
+import { getCheckUps, precioDeServicio } from '../data/servicios-completos.mjs'
 import { DOCTORA, DOMAIN, physicianSchema, waLink } from '../data/site.mjs'
 import { RETRATO, SERVICIO_IMG, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
@@ -40,6 +41,7 @@ import {
   tiraDatos,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 // Desplazamiento al saltar a un ancla: cabecera fija (76px) + subnav (~54px).
@@ -179,8 +181,15 @@ function heroServicio(s) {
           <p class="entrada mt-4 max-w-[56ch] text-[1.15rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
 
           <div class="entrada mt-10 flex flex-wrap items-center gap-4" style="--d:.66s">
+            ${
+              // En la página de check up el primer llamado es a ver las
+              // modalidades con su precio, como pidió la doctora: es una página
+              // de producto, y elegir modalidad va antes que escribir.
+              s.mostrarCheckUps
+                ? btnGhost('#opciones-check-up', 'Ver opciones de check up', { claro: true, icono: 'abajo' })
+                : btnGhost('#proceso', 'Cómo es el proceso', { claro: true, icono: 'abajo' })
+            }
             ${btnWa(s.waText, 'hero')}
-            ${btnGhost('#proceso', 'Cómo es el proceso', { claro: true, icono: 'abajo' })}
           </div>
 
           <div class="entrada mt-8 flex flex-wrap items-center gap-x-5 gap-y-3" style="--d:.74s">
@@ -389,6 +398,51 @@ function contentSection(sec, s, ctx) {
   return seccionEditorial(sec, s, idx, idx % 2 === 1, orden)
 }
 
+/* ═══════════════════════════════════════════════ opciones de check up ══ */
+
+/**
+ * Las modalidades de check up con su precio, para que la página se lea como un
+ * producto y no como un artículo. Salen del catálogo de /servicios/, igual que
+ * el precio de la tira de datos, para no tener dos listas de precios.
+ *
+ * Se muestran las cinco que existen hoy. El documento de ajustes nombraba
+ * cuatro (Básico, Plus, VPH y Menopausia) y no mencionaba la de adolescentes,
+ * que sí está en el catálogo con su precio: esconderla aquí, en la página que
+ * habla precisamente de los check ups, dejaría fuera un servicio real.
+ */
+function seccionCheckUps(s) {
+  const tarjeta = (c) => {
+    const waMsg = `Hola, quiero agendar el ${c.nombre} con la Dra. Lidia. ¿Qué horarios tienen disponibles?`
+    return `
+        <article class="group flex flex-col rounded-[1.5rem] border border-marino/10 bg-lino p-6 shadow-sm transition duration-400 ease-suave hover:-translate-y-1 hover:border-oro-rosa/50 hover:shadow-flotante">
+          <h3 class="font-display text-[1.15rem] font-semibold leading-snug text-marino">${escapeAttr(c.nombre)}</h3>
+          ${c.precio ? `<p class="mt-2.5 font-display text-[1.6rem] font-bold leading-none text-marino">${c.precio}<span class="ml-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-humo">MXN</span></p>` : ''}
+          ${c.incluye ? `<p class="mt-4 flex-1 text-[0.95rem] leading-relaxed text-humo">${escapeAttr(String(c.incluye).replace(/\n/g, ' · '))}</p>` : '<span class="flex-1"></span>'}
+          <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(c.nombre)}" data-wa-location="opciones_checkup"
+             class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-marino px-5 py-2.5 text-[0.85rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
+            ${waIcon(16, 'glifo')}
+            <span>Agendar por WhatsApp</span>
+          </a>
+        </article>`
+  }
+
+  return `
+  <section id="opciones-check-up" class="${SCROLL_MT} bg-arena/30 ${PAD}">
+    <div class="${CONTAINER}">
+      <div class="mb-[clamp(30px,4vw,52px)] max-w-[680px]">
+        <span data-anim>${rotulo('Elige tu modalidad')}</span>
+        ${titulo(`Opciones de ${acento('check up')} y sus precios`, { clase: `${H2} mt-5 text-marino` })}
+        <p data-anim class="mt-6 text-[1.18rem] leading-[1.7] text-humo">
+          Todas se realizan en una sola visita a Aurafem, en Polanco / Anzures.
+        </p>
+      </div>
+      <div data-anim-grupo class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        ${getCheckUps().map(tarjeta).join('\n')}
+      </div>
+    </div>
+  </section>`
+}
+
 /* ══════════════════════════════════════════════ preguntas y galería ══ */
 
 function faqSection(s) {
@@ -507,6 +561,12 @@ export function renderService(s) {
   const { secciones, nav } = construirIndice(s)
   const ctx = { fotoEditorial: 0, orden: 0 }
 
+  // El precio encabeza la tira de datos, como pidió la doctora, y sale del
+  // catálogo de /servicios/ para que no haya dos precios distintos del mismo
+  // servicio en el sitio.
+  const precio = precioDeServicio(s.slug)
+  const datosClave = precio ? [{ label: 'Precio', valor: precio }, ...s.datosClave] : s.datosClave
+
   const headHtml = head({
     title: s.title,
     description: s.description,
@@ -528,8 +588,9 @@ export function renderService(s) {
   const main = s.landingCompacta
     ? [
         heroServicio(s),
-        tiraDatos(s.datosClave, { montada: true }),
+        tiraDatos(datosClave, { montada: true }),
         navInterna(nav),
+        s.mostrarCheckUps ? seccionCheckUps(s) : '',
         testimonios({ limite: 3 }),
         ...secciones.map((sec) => contentSection(sec, s, ctx)),
         ubicacion({ waText: s.waText }),
@@ -539,7 +600,7 @@ export function renderService(s) {
       ].join('\n')
     : [
         heroServicio(s),
-        tiraDatos(s.datosClave, { montada: true }),
+        tiraDatos(datosClave, { montada: true }),
         navInterna(nav),
         ...secciones.map((sec) => contentSection(sec, s, ctx)),
         faqSection(s),

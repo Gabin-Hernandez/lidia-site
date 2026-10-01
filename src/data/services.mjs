@@ -55,11 +55,8 @@ const CATALOGO = [
       'Atención médica para valoración, orientación y seguimiento personalizado de la salud ginecológica.',
     cardAlt: 'Consulta ginecológica en Polanco CDMX',
     otroDesc: 'Atención médica para valoración, diagnóstico y seguimiento personalizado.',
-    // `Precio` sin cifra a propósito: la doctora tiene que confirmar primero si
-    // "$999 MXN" sigue vigente (ver documento de ajustes). En cuanto lo
-    // confirme, cambia este valor por el precio real.
+    // El precio lo antepone service.mjs desde el catálogo de /servicios/.
     datosClave: [
-      { label: 'Precio', valor: 'Infórmate por WhatsApp' },
       { label: 'Modalidad', valor: 'Primera vez o seguimiento' },
       { label: 'Incluye', valor: 'Signos vitales, historial, exploración y receta' },
       { label: 'Preparación', valor: 'Ropa cómoda y fecha de tu última regla' },
@@ -168,11 +165,11 @@ const CATALOGO = [
     logoAlt: 'Logo Dra. Lidia Chávez - Papanicolaou en Polanco CDMX',
     waText: 'Hola, quiero agendar un Papanicolaou con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Detección Preventiva Cervical',
-    h1: 'Papanicolaou en CDMX',
+    h1: 'Papanicolaou en Polanco, CDMX',
     heroP:
       'Si te preguntas dónde hacerte el Papanicolaou con total tranquilidad, la Dra. Lidia Chávez realiza el estudio de <strong>Papanicolaou en CDMX</strong> con máxima higiene y calidez médica en Polanco.',
     heroSubP:
-      'Cuidamos la salud de tu cuello uterino mediante una prueba rápida e indolora. Agenda tu Papanicolaou o citología en minutos por WhatsApp.',
+      'Prueba preventiva realizada en consultorio, con atención profesional y confidencial. Rápida e indolora.',
     procedure: {
       name: 'Papanicolaou',
       description:
@@ -190,6 +187,7 @@ const CATALOGO = [
       { label: 'Frecuencia', valor: 'Cada 12 meses' },
       { label: 'Preparación', valor: 'Sin regla y sin óvulos 48 h antes' },
     ],
+    landingCompacta: true,
     sections: [
       {
         bg: 'light',
@@ -317,6 +315,7 @@ const CATALOGO = [
       { label: 'Biopsia', valor: 'Solo si se observa zona atípica' },
       { label: 'Preparación', valor: 'Sin sangrado y sin óvulos 48 h antes' },
     ],
+    landingCompacta: true,
     sections: [
       {
         bg: 'light',
@@ -339,6 +338,16 @@ const CATALOGO = [
         ],
       },
       {
+        bg: 'light',
+        tag: 'Indicaciones Previas',
+        title: 'Preparación recomendada antes de tu colposcopía',
+        bullets: [
+          'Agendar sin sangrado menstrual activo.',
+          'No colocar cremas u óvulos vaginales 48 horas antes.',
+          'Suspender relaciones sexuales 24 a 48 horas previas.',
+        ],
+      },
+      {
         bg: 'gray',
         tag: 'Respuestas Claras',
         title: '¿La colposcopía duele? ¿En qué consiste la biopsia?',
@@ -356,16 +365,6 @@ const CATALOGO = [
           { title: 'Revisión de estudios', text: 'En consultorio analizamos tus citologías o laboratorios previos.' },
           { title: 'Inspección óptica', text: 'Evaluación colposcópica directa con soluciones de contraste visual.' },
           { title: 'Reporte e indicación', text: 'Explicación inmediata de las imágenes observadas y plan médico.' },
-        ],
-      },
-      {
-        bg: 'light',
-        tag: 'Indicaciones Previas',
-        title: 'Preparación recomendada antes de tu colposcopía',
-        bullets: [
-          'Agendar sin sangrado menstrual activo.',
-          'No colocar cremas u óvulos vaginales 48 horas antes.',
-          'Suspender relaciones sexuales 24 a 48 horas previas.',
         ],
       },
     ],
@@ -421,11 +420,11 @@ const CATALOGO = [
     logoAlt: 'Logo Dra. Lidia Chávez - Control Prenatal en Polanco CDMX',
     waText: 'Hola, quiero agendar mi control prenatal con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Control y Seguimiento de Embarazo',
-    h1: 'Control prenatal en CDMX',
+    h1: 'Control prenatal en Polanco, CDMX',
     heroP:
       'Si buscas un <strong>ginecólogo para control prenatal en Polanco</strong> con atención profesional y cálida, el servicio de <strong>control prenatal CDMX</strong> de la Dra. Lidia Chávez te acompaña cuidando el desarrollo saludable de tu bebé.',
     heroSubP:
-      'Ofrecemos monitoreo médico personalizado en Aurafem (Polanco / Anzures, CDMX). Agenda tu cita por WhatsApp.',
+      'Seguimiento médico durante el embarazo, con revisión materna y fetal, en Aurafem (Polanco / Anzures, CDMX).',
     procedure: {
       name: 'Control prenatal',
       description:
@@ -442,6 +441,7 @@ const CATALOGO = [
       { label: 'Incluye', valor: 'Rastreo obstétrico (sin reporte) y revisión materna' },
       { label: 'Seguimiento', valor: 'Del primer trimestre al parto' },
     ],
+    landingCompacta: true,
     sections: [
       {
         bg: 'light',
@@ -848,6 +848,8 @@ const CATALOGO = [
       { label: 'Incluye', valor: 'Consulta, exploración mamaria, rastreo pélvico, Papanicolaou y colposcopía' },
       { label: 'Preparación', valor: 'Fuera de tus días de menstruación' },
     ],
+    landingCompacta: true,
+    mostrarCheckUps: true,
     sections: [
       {
         bg: 'light',
