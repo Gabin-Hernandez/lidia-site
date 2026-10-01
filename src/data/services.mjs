@@ -9,6 +9,25 @@
 //   cards?       — tarjetas sin número (p. ej. trimestres)
 //   steps?       — tarjetas numeradas del paso a paso (sección ancha)
 
+import { SERVICIOS_DATASET, formatPrecio } from './servicios-completos.mjs'
+
+// Los precios de la página de orientación anticonceptiva salen del catálogo
+// oficial de /servicios/, para que las dos páginas no puedan contradecirse.
+// `nombre` es el principio del nombre en el catálogo (el de Kyleena es largo).
+const SERVICIOS_CATALOGO = SERVICIOS_DATASET.categorias.flatMap((c) => c.servicios)
+
+function precio(nombre) {
+  const s = SERVICIOS_CATALOGO.find((x) => x.nombre.startsWith(nombre))
+  if (!s) throw new Error('El catálogo no tiene el servicio: ' + nombre)
+  return s
+}
+
+function mxn(nombre, campo = 'costo_regular') {
+  const monto = formatPrecio(precio(nombre)[campo])
+  if (!monto) throw new Error(`El servicio «${nombre}» no tiene ${campo}`)
+  return monto
+}
+
 const CATALOGO = [
   {
     slug: 'consulta-ginecologica',
@@ -522,131 +541,155 @@ const CATALOGO = [
   {
     slug: 'orientacion-anticonceptiva',
     nombre: 'Orientación anticonceptiva',
-    title: 'Ginecólogo para Embarazo Polanco | Dra. Lidia Chávez',
+    title: 'Orientación Anticonceptiva Polanco CDMX | Dra. Lidia Chávez',
     description:
-      'Atención del embarazo en Polanco, CDMX con la Dra. Lidia Chávez. Acompañamiento médico en cada trimestre y señales de alarma. Agenda tu cita por WhatsApp.',
-    ogAlt: 'Dra. Lidia Chávez - Ginecólogo para embarazo en Polanco',
-    logoAlt: 'Logo Dra. Lidia Chávez - Ginecólogo para Embarazo en Polanco',
-    waText: 'Hola Dra. Lidia, quiero información sobre atención en el embarazo',
+      'Orientación anticonceptiva en Polanco y CDMX con la Dra. Lidia Chávez. DIU, implante, pastillas y más, elegidos para ti. Agenda tu consulta por WhatsApp.',
+    ogAlt: 'Dra. Lidia Chávez - Orientación anticonceptiva en Polanco CDMX',
+    logoAlt: 'Logo Dra. Lidia Chávez - Orientación Anticonceptiva en Polanco CDMX',
+    waText: 'Hola Dra. Lidia, quiero agendar una consulta de orientación anticonceptiva',
     tagline: 'Salud Sexual y Reproductiva',
-    h1: 'Ginecólogo para embarazo en Polanco, CDMX',
+    h1: 'Orientación anticonceptiva en Polanco, CDMX',
     heroP:
-      'Si buscas a un <strong>ginecólogo para embarazo en Polanco</strong> que te escuche y vigile paso a paso la salud de tu bebé, la Dra. Lidia Chávez te ofrece un espacio de atención médica confiable y seguro.',
+      'Si quieres elegir un <strong>método anticonceptivo</strong> que de verdad se adapte a ti, la consulta de orientación anticonceptiva con la Dra. Lidia Chávez te explica cada opción (DIU, implante, pastillas y más) con información clara y sin presión.',
     heroSubP:
-      'Ofrecemos consulta de atención integral de embarazo en Aurafem (Polanco y Anzures, CDMX). Reserva tu cita fácil por WhatsApp.',
+      'Atención confidencial y sin juicios en Aurafem (Polanco / Anzures, CDMX). Reserva tu cita por WhatsApp.',
     procedure: {
-      name: 'Atención en el embarazo',
+      name: 'Orientación anticonceptiva',
       description:
-        'Acompañamiento médico profesional durante la gestación, resolución de dudas y detección temprana de señales de alarma.',
-      specialty: 'Obstetric',
+        'Consulta médica para elegir el método anticonceptivo más adecuado según tu salud, tu edad y tus planes de embarazo, con colocación de DIU e implante subdérmico en consultorio.',
+      specialty: 'Gynecologic',
     },
     cardDesc:
       'Asesoría personalizada para elegir el método anticonceptivo que mejor se adapte a tu salud, necesidades y proyecto de vida.',
-    cardAlt: 'Atención en el embarazo en Polanco CDMX',
-    cardWaText: 'Hola Dra. Lidia, quiero informes sobre atención en el embarazo',
-    otroDesc: 'Acompañamiento humano e integral en cada etapa de la gestación.',
+    cardAlt: 'Orientación anticonceptiva en Polanco CDMX',
+    cardWaText: 'Hola Dra. Lidia, quiero informes sobre orientación anticonceptiva',
+    otroDesc: 'Te ayudamos a elegir el método anticonceptivo ideal para tu salud y tu proyecto de vida.',
     datosClave: [
-      { label: 'Acompañamiento', valor: 'En los tres trimestres' },
-      { label: 'Incluye', valor: 'Revisión ecográfica y plan de bienestar' },
-      { label: 'Tercer trimestre', valor: 'Quincenal y semanal desde la 36' },
-      { label: 'Señales de alarma', valor: 'Orientación y valoración oportuna' },
+      { label: 'Métodos', valor: 'DIU, implante, pastillas y más' },
+      { label: 'Consulta', valor: `${mxn('Orientación anticonceptiva')} MXN` },
+      { label: 'En consultorio', valor: 'Colocación de DIU e implante' },
+      { label: 'Incluye', valor: 'Valoración y orientación personalizada' },
     ],
     sections: [
       {
         bg: 'light',
-        tag: 'Cuidado Gestacional',
-        title: 'Acompañamiento médico continuo en cada trimestre',
+        tag: 'Métodos Disponibles',
+        title: '¿Qué método anticonceptivo puedes elegir?',
         paragraphs: [
-          'Contar con la asesoría de una especialista experimentada como tu <strong>ginecólogo para embarazo en Polanco</strong> te permite afrontar los cambios gestacionales con plena tranquilidad.',
-          'La atención médica se estructura de manera progresiva para monitorear el desarrollo del bebé:',
+          'No existe un método que sea el mejor para todas. El adecuado es el que se ajusta a tu salud, a tu etapa de vida y a lo que esperas de él. En la consulta se te explican las opciones para que decidas con información clara.',
+          'El preservativo es el único método que además protege contra infecciones de transmisión sexual, así que también se comenta en consulta y puede combinarse con cualquiera de los demás.',
         ],
         cards: [
           {
-            title: 'Primer trimestre',
-            text: 'Confirmación del embarazo por ecografía, manejo de náuseas o fatiga, suplementación folática y prevención de riesgos iniciales.',
+            title: 'DIU: con o sin hormonas',
+            text: 'Dispositivo en forma de T que se coloca dentro del útero en el consultorio. Hay opciones sin hormonas (cobre y plata) y hormonales (Kyleena y Mirena, de unos 5 años de duración). Se retira cuando tú lo decidas.',
           },
           {
-            title: 'Segundo trimestre',
-            text: 'Evaluación del crecimiento anatómico fetal, función placentaria, presión arterial y orientación nutricional materna.',
+            title: 'Implante subdérmico',
+            text: 'Varilla delgada y flexible que se coloca bajo la piel del brazo. Libera hormona de forma continua y protege alrededor de 3 años, sin tener que recordar nada. Se retira cuando quieras.',
           },
           {
-            title: 'Tercer trimestre',
-            text: 'Monitoreo estrecho de la presentación fetal, líquido amniótico, salud placentaria y preparación del plan de nacimiento.',
+            title: 'Pastillas, parche, anillo e inyección',
+            text: 'Métodos hormonales que requieren constancia: pastillas (diarias), parche (semanal), anillo vaginal (mensual) e inyección. Se explica cómo funciona cada uno y se receta el que mejor se ajuste a tu salud y a tus hábitos.',
           },
         ],
       },
       {
         bg: 'white',
-        tag: 'Prevención y Seguridad',
-        title: 'Señales de alarma que requieren valoración médica urgente',
+        tag: 'Motivos de Visita',
+        title: 'Motivos frecuentes para pedir una orientación anticonceptiva',
         bullets: [
-          '<strong>Sangrado vaginal:</strong> Cualquier pérdida de sangre vaginal en cualquier mes gestacional.',
-          '<strong>Dolor abdominal o pélvico:</strong> Cólicos intensos o dolor punzante en vientre bajo.',
-          '<strong>Pérdida de líquido:</strong> Salida inusual de fluido claro por la vagina antes de tiempo.',
-          '<strong>Síntomas hipertensivos:</strong> Dolor de cabeza severo, zumbido de oídos o visión de destellos.',
-          '<strong>Disminución de movimientos:</strong> Percepción de que el bebé se mueve menos de lo habitual.',
+          '<strong>Quieres empezar a usar un método:</strong> por primera vez, al iniciar tu vida sexual o después de una pausa.',
+          '<strong>Tu método actual no te convence:</strong> te causa molestias, sangrados irregulares o se te olvida con frecuencia.',
+          '<strong>Buscas algo de larga duración:</strong> un DIU o un implante para despreocuparte durante años.',
+          '<strong>Acabas de tener un bebé:</strong> quieres elegir un método compatible con el posparto y la lactancia.',
+          '<strong>Quieres cambiar o retirar tu DIU o implante:</strong> o dejar el método porque planeas un embarazo.',
         ],
       },
       {
         bg: 'gray',
-        tag: 'Paso a Paso',
-        title: 'Tu consulta de atención de embarazo en Polanco',
-        steps: [
-          { title: 'Cita directa por WhatsApp', text: 'Agendas tu horario en el consultorio de Polanco sin intermediarios.' },
-          { title: 'Revisión de síntomas', text: 'Platicamos sobre tus dudas físicas y evaluamos tus análisis recientes.' },
-          { title: 'Evaluación maternofetal', text: 'Valoración de presión, peso, crecimiento del vientre y revisión ecográfica.' },
-          { title: 'Plan de bienestar', text: 'Indicaciones médicas claras, receta y fecha de tu siguiente revisión.' },
+        tag: 'Tu Consulta',
+        title: '¿Qué incluye la consulta de orientación anticonceptiva?',
+        paragraphs: [
+          'Es una consulta sin prisas, pensada para que elijas tú con toda la información. La Dra. Lidia Chávez revisa tu historial de salud (presión arterial, migrañas, antecedentes familiares, medicamentos y si fumas) porque algunos métodos no son adecuados en ciertas condiciones. También platican sobre tu ciclo menstrual, el método que usas hoy y tus planes de embarazo.',
+          'Con esa información se te explican las opciones que sí son buenas para ti, cómo funcionan, qué tan efectivas son y qué molestias pueden causar. Si eliges pastillas u otro método hormonal, sales con tu indicación y tu receta. Si eliges DIU o implante, se coordina su colocación en el consultorio. Y si prefieres pensarlo con calma, también está bien.',
         ],
       },
       {
         bg: 'white',
-        tag: 'Servicios Incluidos',
-        title: 'Beneficios de la atención médica de embarazo',
+        tag: 'Paso a Paso',
+        title: 'Tu orientación anticonceptiva en Polanco paso a paso',
+        steps: [
+          { title: 'Agenda por WhatsApp', text: 'Escribes al consultorio y eliges el día y la hora que mejor te acomoden.' },
+          { title: 'Platicamos de ti', text: 'Revisamos tu historial, tu ciclo, el método que usas (si tienes uno) y tus planes de embarazo.' },
+          { title: 'Conoces tus opciones', text: 'Te explicamos cómo funciona cada método, su efectividad, sus ventajas y sus posibles molestias.' },
+          { title: 'Eliges y te indicamos cómo seguir', text: 'Decides tu método; si es de prescripción sales con tu receta, y si es DIU o implante coordinamos su colocación.' },
+        ],
+      },
+      {
+        bg: 'light',
+        tag: 'Costos Claros',
+        title: '¿Cuánto cuesta la consulta y la colocación del método?',
         paragraphs: [
-          'La Dra. Lidia Chávez prioriza el parto seguro, el acompañamiento respetuoso y la resolución pronta de inquietudes gestacionales.',
+          `La consulta de orientación anticonceptiva cuesta <strong>${mxn('Orientación anticonceptiva')} MXN</strong>${
+            precio('Orientación anticonceptiva').costo_promocion
+              ? ` (promoción actual: <strong>${mxn('Orientación anticonceptiva', 'costo_promocion')} MXN</strong>)`
+              : ''
+          }.`,
+          'La colocación o el retiro de un DIU o de un implante se cobra aparte y <strong>no incluye la consulta</strong>. Consulta el detalle completo en el <a href="/servicios/#cat-metodos-anticonceptivos" class="font-semibold text-oro-rosa-profundo hover:underline">catálogo de Costos y Servicios</a>.',
+        ],
+        bulletsTitle: 'Costo de colocación y retiro (sin consulta):',
+        bullets: [
+          `<strong>DIU de cobre:</strong> ${mxn('DIU de cobre')}`,
+          `<strong>DIU de plata:</strong> ${mxn('DIU de plata')}`,
+          `<strong>DIU Kyleena:</strong> ${mxn('DIU Kyleena')} (se solicita con 7 días de anticipación y se aparta con un anticipo)`,
+          `<strong>DIU Mirena:</strong> ${mxn('DIU Mirena')}`,
+          `<strong>Implante subdérmico:</strong> ${mxn('Implante Subdérmico')}`,
+          `<strong>Retiro de DIU:</strong> ${mxn('Retiro de DIU')} (${mxn('Retiro de DIU', 'costo_con_anestesia_local')} con anestesia local)`,
+          `<strong>Retiro de implante:</strong> ${mxn('Retiro de implante')}`,
         ],
       },
     ],
-    faqBg: 'light',
+    faqBg: 'white',
     faqTag: 'Preguntas Frecuentes',
-    faqTitle: 'Dudas comunes sobre la atención del embarazo',
+    faqTitle: 'Dudas comunes sobre los métodos anticonceptivos',
     faqs: [
       {
-        q: '¿Cuáles son las señales de alarma durante el embarazo que exigen valoración médica urgente?',
-        a: 'Son señales de alarma: sangrado vaginal, dolor abdominal o pélvico severo, dolor de cabeza con zumbidos o luces, fiebre, pérdida de líquido y disminución en los movimientos fetales.',
+        q: '¿Cuál es el mejor método anticonceptivo?',
+        a: 'No hay uno mejor para todas. El ideal depende de tu salud, tu edad, si has tenido hijos, si quieres embarazarte pronto o más adelante y de con cuál te sientes más cómoda. El DIU y el implante están entre los más efectivos porque no dependen de recordar una toma diaria, pero en consulta se revisan todas las opciones para elegir la tuya.',
       },
       {
-        q: '¿Por qué elegir a la Dra. Lidia Chávez como tu ginecólogo para embarazo en Polanco?',
-        a: 'Porque ofrece un acompañamiento continuo con rigor científico, ecografía médica y trato empático y respetuoso en cada trimestre de tu gestación.',
+        q: '¿Puedo usar DIU o implante si aún no he tenido hijos?',
+        a: 'Sí. En la mayoría de los casos son opciones seguras también para mujeres que no han tenido hijos, y tu fertilidad regresa al retirarlos. Antes de recomendarlos se valora tu caso en particular.',
       },
       {
-        q: '¿Cómo se manejan los síntomas frecuentes del embarazo como náuseas y acidez?',
-        a: 'En cada consulta se evalúa la intensidad sintomática, prescribiendo ajustes nutricionales, descanso y medicamentos seguros autorizados en la gestación.',
+        q: '¿Duele la colocación del DIU o del implante?',
+        a: 'Es una molestia breve. Con el DIU puedes sentir un cólico parecido al menstrual durante la colocación, que suele durar unos minutos; el implante se coloca en el brazo con anestesia local. Antes del procedimiento se te explica qué esperar para que llegues con tranquilidad.',
       },
       {
-        q: '¿Con qué frecuencia debo acudir a consulta en el último trimestre?',
-        a: 'A partir de la semana 28 las visitas son quincenales, y desde la semana 36 son semanales para vigilar la madurez del bebé y placenta.',
+        q: '¿Los anticonceptivos afectan mi fertilidad futura?',
+        a: 'No. Al suspender la mayoría de los métodos tu fertilidad regresa y puedes embarazarte; con el DIU y el implante basta con retirarlos. Si planeas un embarazo, cuéntaselo a la doctora para elegir un método que se ajuste a tus tiempos.',
       },
       {
-        q: '¿Cómo agendar la primera consulta de atención de embarazo en Polanco?',
-        a: 'La coordinación es inmediata por WhatsApp. Agendamos tu espacio en el consultorio de Aurafem en Polanco / Anzures rápidamente.',
+        q: 'Tuve un descuido, ¿qué puedo hacer?',
+        a: 'La anticoncepción de emergencia sirve para casos puntuales (condón roto, pastillas olvidadas o una relación sin protección) y es más efectiva mientras más pronto se use, idealmente en las primeras 72 horas. No sustituye a un método regular. Escríbenos lo antes posible por WhatsApp para orientarte.',
+      },
+      {
+        q: '¿Cuánto cuesta la consulta y qué incluye?',
+        a: `La consulta de orientación anticonceptiva cuesta ${mxn('Orientación anticonceptiva')} MXN e incluye la valoración de tu historial y la orientación personalizada. La colocación del DIU o del implante se cobra aparte; puedes ver todos los costos en la página de Costos y Servicios.`,
       },
     ],
     galeria: [
-      'Acompañamiento médico en la gestación',
-      'Resolución de dudas sobre síntomas comunes',
-      'Monitoreo de frecuencia cardíaca fetal',
-      'Orientación sobre señales de alarma gestacional',
-      'Preparación para el plan de parto',
-      'Evaluación del bienestar materno en el 3er trimestre',
-      'Atención médica cálida en Aurafem Polanco',
-      'Consulta gestacional de alta confianza',
-      'Monitoreo ecográfico del bebé',
-      'Seguimiento médico seguro y sin prisas',
+      'Consulta de orientación anticonceptiva',
+      'Colocación de implante subdérmico',
+      'Pastillas anticonceptivas',
+      'Dispositivo intrauterino hormonal',
+      'Distintos métodos anticonceptivos',
+      'Preservativo masculino',
     ],
-    confianzaBullet: 'Acompañamiento materno profesional',
-    confianzaCta: 'Quiero consultar sobre mi embarazo',
-    ctaTitle: 'Agenda tu atención de embarazo por WhatsApp',
+    confianzaBullet: 'Orientación anticonceptiva profesional',
+    confianzaCta: 'Quiero mi orientación anticonceptiva',
+    ctaTitle: 'Agenda tu orientación anticonceptiva por WhatsApp',
   },
 
   {

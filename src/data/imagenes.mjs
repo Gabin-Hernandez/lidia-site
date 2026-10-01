@@ -527,10 +527,8 @@ const FOTOS_DRA = {
     alt: 'Tarjeta de revelación de género junto al ultrasonido del bebé en consulta',
   },
 
-  // Anticoncepción: en el banco pero todavía sin colocar. Esperan al texto de
-  // la página de orientación anticonceptiva, que hoy sigue siendo obstétrico.
-  // Entre paréntesis, la referencia del documento y el pie que pidió la
-  // doctora, para que colocarlas sea directo cuando llegue el contenido.
+  // Anticoncepción (galería de /orientacion-anticonceptiva/). Entre
+  // paréntesis, la referencia del documento y el pie que pidió la doctora.
   // OKANTC1 → «Pastillas anticonceptivas»
   'anticonceptivos-pastillas': {
     file: 'anticonceptivos-pastillas.webp',
@@ -736,29 +734,19 @@ export const SERVICIO_IMG = {
       ['prenatal-revelacion-genero', 'Detalle en consulta de revelación de género'],
     ],
   },
-  // Sin tocar hasta que llegue el contenido de orientación anticonceptiva: sus
-  // fotos son de parto y recién nacidos, del tema que hoy tiene la página.
-  // Cuando llegue, las fotos que pidió la doctora son IMAGEN 20 («Consulta de
-  // orientación anticonceptiva»), IMAGEN 38 («Colocación de implante
-  // subdérmico») y la carpeta Anticonceptivos: OKANTC1 pastillas, OKANTC2 DIU
-  // hormonal, OKANTC3 o 4 colocación de métodos, OKANTC5 preservativo.
+  // Fotos pedidas por la doctora: IMAGEN 20 («Consulta de orientación
+  // anticonceptiva»), IMAGEN 38 («Colocación de implante subdérmico») y la
+  // carpeta Anticonceptivos (OKANTC1 pastillas, OKANTC2 DIU hormonal, OKANTC4 y
+  // OKANTC5 métodos y preservativo).
   'orientacion-anticonceptiva': {
-    hero: 'atencion-embarazo-10',
-    // La miniatura sí cambia: es la que sale en el menú y en los listados, ya
-    // con el rótulo «Orientación anticonceptiva». Un recién nacido ahí no
-    // cuadraba con el nombre nuevo.
+    hero: 'anticonceptivos-metodos',
+    // Miniatura del menú y de los listados, con el rótulo «Orientación
+    // anticonceptiva».
     tarjeta: 'anticonceptivos-consulta',
-    editorial: ['vph-1', 'atencion-embarazo-9', 'atencion-embarazo-10'],
-    seccionFoto: {
-      'cuidado-gestacional': 'apoyo-acompanamiento-1',
-      'prevencion-y-seguridad': 'apoyo-acompanamiento-2',
-      proceso: 'apoyo-acompanamiento-3',
-    },
-    // La doctora pidió que esta galería deje de ser de parto y recién nacidos
-    // y pase a los métodos anticonceptivos, con estos pies exactos. El texto
-    // largo de la página sigue siendo obstétrico hasta que mande el suyo, así
-    // que de momento galería y texto hablan de temas distintos: es a propósito
-    // y se resuelve cuando llegue el contenido.
+    // Van en las secciones de texto largo en este orden; recortadas a 4:5.
+    editorial: ['anticonceptivos-pastillas', 'anticonceptivos-implante', 'anticonceptivos-diu'],
+    seccionFoto: { 'motivos-de-visita': 'anticonceptivos-orientacion' },
+    // Los pies son los que pidió la doctora, tal cual.
     galeria: [
       ['anticonceptivos-orientacion', 'Consulta de orientación anticonceptiva'],
       ['anticonceptivos-implante', 'Colocación de implante subdérmico'],
