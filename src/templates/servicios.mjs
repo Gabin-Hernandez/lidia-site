@@ -1,5 +1,11 @@
 // Plantilla de la página completa de Servicios y Costos oficiales (/servicios/).
-import { SERVICIOS_DATASET, formatPrecio, getEstadisticasServicios } from '../data/servicios-completos.mjs'
+import {
+  SERVICIOS_DATASET,
+  formatPrecio,
+  getEstadisticasServicios,
+  getServiciosDestacados,
+  precioVigente,
+} from '../data/servicios-completos.mjs'
 import {
   DATOS_PROFESIONALES,
   DIRECCION,
@@ -61,9 +67,7 @@ export function renderServicios() {
   // Renderizado de las tarjetas de servicio
   const renderServicioCard = (s, catNombre) => {
     const sId = slugId(`${catNombre}-${s.nombre}`)
-    const tienePromo = s.costo_promocion !== null && s.costo_promocion !== undefined
-    const precioReg = formatPrecio(s.costo_regular)
-    const precioPromo = formatPrecio(s.costo_promocion)
+    const precioReg = formatPrecio(precioVigente(s))
 
     // Detalle de inclusiones
     let incluyeHtml = ''
@@ -150,14 +154,7 @@ export function renderServicios() {
 
     // Bloque visual de precio principal
     let precioBloque = ''
-    if (tienePromo) {
-      precioBloque = `
-        <div class="flex items-baseline gap-2.5">
-          <span class="text-[0.95rem] font-semibold text-humo line-through">${precioReg}</span>
-          <span class="font-display text-[1.45rem] font-bold text-marino">${precioPromo}</span>
-          <span class="rounded-full bg-oro-rosa-profundo px-2.5 py-0.5 text-[0.68rem] font-bold uppercase tracking-wider text-white shadow-sm">Promoción</span>
-        </div>`
-    } else if (precioReg) {
+    if (precioReg) {
       precioBloque = `
         <div class="flex items-baseline gap-2">
           <span class="font-display text-[1.4rem] font-bold text-marino">${precioReg}</span>
@@ -206,6 +203,52 @@ export function renderServicios() {
           </a>
         </div>
       </article>`
+  }
+
+  /**
+   * Bloque superior con los seis servicios que la doctora pidió destacar.
+   *
+   * Sin `data-servicio-card` ni `data-cat-section` a propósito: esos atributos
+   * los usa el buscador para esconder y mostrar tarjetas, y estas deben quedar
+   * siempre visibles. Cada una lleva al detalle completo de su categoría.
+   */
+  const bloqueDestacados = () => {
+    const tarjeta = (s) => {
+      const precio = formatPrecio(precioVigente(s))
+      const anclaId = slugId(`${s.categoria}-${s.nombre}`)
+      const waMsg = `Hola Dra. Lidia, me interesa agendar: ${s.etiqueta}. ¿Qué horarios tienen disponibles?`
+      const resumen = s.incluye ? String(s.incluye).split('\n')[0].trim() : ''
+
+      return `
+        <article class="group flex flex-col rounded-[1.25rem] border border-marino/10 bg-lino p-5 shadow-sm transition duration-400 ease-suave hover:-translate-y-1 hover:border-oro-rosa/50 hover:shadow-flotante">
+          <h3 class="font-display text-[1.08rem] font-semibold leading-snug text-marino">${escapeAttr(s.etiqueta)}</h3>
+          ${precio ? `<p class="mt-2 font-display text-[1.5rem] font-bold leading-none text-marino">${precio}<span class="ml-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-humo">MXN</span></p>` : ''}
+          ${resumen ? `<p class="mt-3 text-[0.85rem] leading-relaxed text-humo">${escapeAttr(resumen)}</p>` : ''}
+          <div class="mt-5 flex items-center gap-3 border-t border-marino/8 pt-4">
+            <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(s.etiqueta)}" data-wa-location="destacados"
+               class="inline-flex items-center gap-2 rounded-full bg-marino px-4 py-2 text-[0.82rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
+              ${waIcon(15, 'glifo')}
+              <span>Agendar</span>
+            </a>
+            <a href="#${anclaId}" class="text-[0.8rem] font-semibold text-humo no-underline transition-colors hover:text-marino">Ver detalle</a>
+          </div>
+        </article>`
+    }
+
+    return `
+    <section aria-labelledby="mas-solicitados" class="border-b border-marino/12 bg-arena/20 py-[clamp(36px,5vw,56px)]">
+      <div class="${CONTAINER}">
+        <div class="mb-6 text-center">
+          <span data-anim>${rotulo('Lo que más piden')}</span>
+          <h2 id="mas-solicitados" class="mt-4 font-display text-[clamp(1.5rem,3vw,2.1rem)] font-semibold tracking-tight text-marino">
+            Servicios más solicitados
+          </h2>
+        </div>
+        <div data-anim-grupo class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          ${getServiciosDestacados().map(tarjeta).join('\n')}
+        </div>
+      </div>
+    </section>`
   }
 
   // Renderizado de las secciones de categoría
@@ -298,6 +341,8 @@ export function renderServicios() {
         </div>
       </div>
     </section>
+
+    ${bloqueDestacados()}
 
     <!-- Buscador y Filtros (Estático) -->
     <section class="border-b border-marino/12 bg-arena/30 py-7">

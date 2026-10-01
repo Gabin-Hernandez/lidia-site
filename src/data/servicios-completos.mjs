@@ -356,6 +356,51 @@ export function formatPrecio(monto) {
   }).format(monto)
 }
 
+/**
+ * Precio que se le cobra hoy a la paciente.
+ *
+ * Varios servicios traen `costo_promocion` además del regular, y la página los
+ * pintaba con el regular tachado y una etiqueta «Promoción». La doctora
+ * confirmó que no hay promociones vigentes y que los precios del archivo son
+ * los actuales, así que el precio promocional es sencillamente el precio: se
+ * muestra solo, sin tachado ni etiqueta. (El documento de ajustes pide, además,
+ * que toda promoción lleve fecha de vigencia; no hay ninguna.)
+ *
+ * Si en el futuro vuelve a haber una promoción real, con su vigencia, este es
+ * el único punto que hay que cambiar.
+ */
+export function precioVigente(s) {
+  return s.costo_promocion ?? s.costo_regular
+}
+
+/**
+ * Los seis servicios que la doctora pidió destacar arriba del catálogo, en el
+ * orden en que los listó. Se identifican por categoría y nombre exactos del
+ * dataset para que un cambio de nombre salte en el build y no en silencio.
+ */
+export const SERVICIOS_DESTACADOS = [
+  { categoria: 'CONSULTA', nombre: 'Primera vez', etiqueta: 'Primera consulta' },
+  { categoria: 'CHECK UP', nombre: 'Check up Básico', etiqueta: 'Check up Básico' },
+  { categoria: 'CHECK UP', nombre: 'Check up Plus', etiqueta: 'Check up Plus' },
+  { categoria: 'CONSULTA', nombre: 'Consulta + Papanicolaou', etiqueta: 'Papanicolaou' },
+  { categoria: 'CONSULTA', nombre: 'Consulta + colposcopia', etiqueta: 'Colposcopía' },
+  { categoria: 'CONSULTA', nombre: 'Consulta de Control Prenatal', etiqueta: 'Control prenatal' },
+]
+
+/** Resuelve SERVICIOS_DESTACADOS contra el dataset. Falla si un nombre dejó de existir. */
+export function getServiciosDestacados() {
+  return SERVICIOS_DESTACADOS.map((d) => {
+    const cat = SERVICIOS_DATASET.categorias.find((c) => c.nombre === d.categoria)
+    const servicio = cat?.servicios.find((s) => s.nombre === d.nombre)
+    if (!servicio) {
+      throw new Error(
+        `Servicio destacado no encontrado en el catálogo: ${d.categoria} / ${d.nombre}`
+      )
+    }
+    return { ...servicio, categoria: d.categoria, etiqueta: d.etiqueta }
+  })
+}
+
 export function getEstadisticasServicios() {
   const totalCategorias = SERVICIOS_DATASET.categorias.length
   let totalServicios = 0
