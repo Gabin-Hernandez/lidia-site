@@ -89,7 +89,7 @@ function hero(a) {
           tag: 'h1',
           modo: 'hero',
           clase:
-            'font-display font-medium text-[clamp(2rem,4.6vw,3.4rem)] leading-[1.08] tracking-[-0.03em] text-marino mt-6',
+            'font-display font-medium text-[clamp(2rem,4.6vw,3.4rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-6',
         })}
 
         <p class="entrada mt-7 text-[clamp(1.2rem,2vw,1.35rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${a.lead}</p>
@@ -244,7 +244,7 @@ function otros(a) {
           <span data-anim>${rotulo('Sigue leyendo')}</span>
           ${titulo(`Otros ${acento('artículos')}`, {
             clase:
-              'font-display font-medium text-[clamp(1.7rem,3.4vw,2.6rem)] leading-[1.06] tracking-[-0.025em] text-marino mt-5',
+              'font-display font-medium text-[clamp(1.7rem,3.4vw,2.6rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-5',
           })}
         </div>
         ${btnGhost('/blog/', 'Ver todo el blog')}

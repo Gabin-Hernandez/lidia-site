@@ -703,10 +703,23 @@ if (bannerCookiesEl) {
     }, 350)
   }
 
-  btnAceptarCookies?.addEventListener('click', () => {
+  const aceptar = () => {
     setCookieConsent(COOKIE_ACCEPTED)
     bannerCookiesEl.removeAttribute('data-visible')
-  })
+    window.removeEventListener('scroll', alDesplazar)
+  }
+  // El aviso dice «al seguir navegando las aceptas»: pasado medio alto de
+  // pantalla, o al abrir WhatsApp, se da por aceptado y deja de estorbar.
+  const alDesplazar = () => {
+    if (window.scrollY > window.innerHeight * 0.5) aceptar()
+  }
+  btnAceptarCookies?.addEventListener('click', aceptar)
+  if (getCookieConsent() !== COOKIE_ACCEPTED) {
+    window.addEventListener('scroll', alDesplazar, { passive: true })
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('a[href*="wa.me/"]')) aceptar()
+    })
+  }
 }
 
 if (btnResetCookies) {

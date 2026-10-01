@@ -88,8 +88,9 @@ export function head({
   <meta name="twitter:image" content="${imagen}">
   <meta name="twitter:image:alt" content="${escapeAttr(ogAlt)}">
 
-  <!-- Tipografías oficiales locales: Against (display) + Champagne & Limousines (texto) -->
   ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high">` : ''}
+  <!-- Roboto, alojada localmente; se precarga la normal (la cursiva carga al usarse) -->
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/roboto-latin-wght-normal.woff2" crossorigin>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
@@ -191,20 +192,30 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
 
   <header data-cabecera
           class="group/cab fixed inset-x-0 top-0 z-[1000] ${tono} transition-[background-color,transform,box-shadow] duration-500 ease-suave data-solido:bg-lino/85 data-solido:shadow-[0_1px_0_rgba(29,61,97,0.09)] data-solido:backdrop-blur-xl data-oculta:-translate-y-full">
-    <div class="${CONTAINER} relative flex items-center justify-between gap-6 py-4">
+    <div class="${CONTAINER} relative flex items-center justify-between gap-3 py-4 sm:gap-6">
       <a href="/" class="relative z-[1010] flex items-center gap-3 no-underline text-current">
         <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="eager" class="h-11 w-11 rounded-full object-cover ring-1 ring-oro-rosa/70 ring-offset-2 ring-offset-transparent">
         <span class="leading-none">
-          <span class="block font-display text-[1.02rem] font-semibold tracking-[-0.01em] text-current">${DOCTORA.nombre}</span>
-          <span class="mt-1 block text-[0.6rem] font-bold uppercase tracking-[0.25em] ${tonoRotulo}">${DOCTORA.subtitulo}</span>
+          <span class="block whitespace-nowrap font-display text-[1.02rem] font-semibold tracking-[-0.01em] text-current">${DOCTORA.nombre}</span>
+          <span class="mt-1 block whitespace-nowrap text-[0.6rem] font-bold uppercase tracking-[0.25em] ${tonoRotulo} max-sm:text-[0.54rem] max-sm:tracking-[0.1em]">${DOCTORA.subtitulo}</span>
         </span>
       </a>
 
-      <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px] lg:hidden" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
-        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:translate-y-[6px] group-aria-expanded:rotate-45"></span>
-        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:opacity-0"></span>
-        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
-      </button>
+      <!-- En móvil el WhatsApp vive junto al menú y no dentro de él: es la única
+           acción que busca quien llega desde un anuncio, y así se ve desde la
+           primera pantalla sin abrir nada. -->
+      <div class="flex items-center gap-2.5 lg:hidden">
+        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header_movil_barra" aria-label="Escríbenos por WhatsApp"
+           class="flex h-10 items-center gap-2 rounded-full bg-wsp px-3 text-[0.82rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-300 active:scale-95 min-[400px]:px-4">
+          ${waIcon(20, 'blanco')}
+          <span class="max-[399px]:sr-only">WhatsApp</span>
+        </a>
+        <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px]" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+          <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:translate-y-[6px] group-aria-expanded:rotate-45"></span>
+          <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:opacity-0"></span>
+          <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
+        </button>
+      </div>
 
       <!-- Sin enlace a /citas/: la doctora pidió ocultar la agenda en línea hasta que
            cumpla lo que pide (disponibilidad y duración por servicio, confirmación
@@ -239,14 +250,25 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
 
 export function bandaCifras() {
   // El valor real vive en el DOM: si el JS no corre, la cifra se ve igual.
+  // La cifra va en un bloque de altura fija y pegada abajo, así la que es texto
+  // («Mismo día», más chica) comparte línea base con los números y las
+  // etiquetas de las cuatro celdas arrancan a la misma altura.
   const celda = (c) => `
-        <div class="relative min-w-0 px-5 py-10 text-center">
-          <span class="block font-display font-medium leading-none tracking-[-0.03em] text-white ${
-            c.texto ? 'text-[clamp(1.5rem,3vw,2.2rem)]' : 'text-[clamp(2.4rem,5vw,3.6rem)]'
+        <div class="relative min-w-0 px-5 py-11 text-center">
+          <span class="flex min-h-[clamp(2.4rem,5vw,3.6rem)] items-end justify-center font-display font-medium leading-[1.05] tracking-[-0.02em] text-white ${
+            c.texto ? 'text-[clamp(1.6rem,2.7vw,2.1rem)] md:whitespace-nowrap' : 'text-[clamp(2.4rem,5vw,3.6rem)]'
           }">
             ${c.animar ? `<span data-contador>${c.valor}</span>` : c.valor}${c.sufijo || ''}
           </span>
-          <span class="mt-3 block text-[0.7rem] font-bold uppercase leading-relaxed tracking-[0.18em] text-oro-rosa-claro">${c.label}</span>
+          ${
+            c.estrellas
+              ? `<span aria-hidden="true" class="mt-3 flex justify-center gap-1 text-oro-rosa-claro">${Array(5)
+                  .fill(icono('estrella', 'h-4 w-4'))
+                  .join('')}</span>`
+              : ''
+          }
+          <span class="mt-4 block text-[1.05rem] font-semibold leading-snug text-oro-rosa-claro">${c.label}</span>
+          ${c.detalle ? `<span class="mx-auto mt-1.5 block max-w-[22ch] text-[0.9rem] leading-snug text-white/65">${c.detalle}</span>` : ''}
         </div>`
   return `
   <section aria-label="Cifras de la consulta" class="relative overflow-hidden bg-noche">
@@ -271,7 +293,11 @@ export function bandaCifras() {
 //
 // `limite`   reduce la lista a n testimonios repartidos (0 = todos).
 // `verTodos` añade el enlace a /testimonios/ junto al encabezado.
-export function testimonios({ limite = 0, verTodos = false } = {}) {
+// `breves`   en vez de repartir, toma los n más cortos que aún dicen algo
+//            (100 caracteres o más): en una landing se leen de un vistazo.
+// `waText`   cierra el bloque con un botón de WhatsApp: recién leídas las
+//            opiniones es buen momento para pedir horario.
+export function testimonios({ limite = 0, verTodos = false, breves = false, waText = '' } = {}) {
   if (!TESTIMONIOS.length) return ''
 
   // El adelanto no corta por la cabeza: el orden del arreglo está pensado para
@@ -280,8 +306,17 @@ export function testimonios({ limite = 0, verTodos = false } = {}) {
   // salen las cabezas de columna, que están escogidas para verse parejas.
   const n = Math.min(limite || TESTIMONIOS.length, TESTIMONIOS.length)
   const paso = Math.max(1, Math.floor(TESTIMONIOS.length / n))
-  const lista =
-    n === TESTIMONIOS.length
+  const elegidos = breves
+    ? new Set(
+        [...TESTIMONIOS]
+          .filter((t) => t.texto.length >= 100)
+          .sort((a, b) => a.texto.length - b.texto.length)
+          .slice(0, n)
+      )
+    : null
+  const lista = elegidos
+    ? TESTIMONIOS.filter((t) => elegidos.has(t))
+    : n === TESTIMONIOS.length
       ? TESTIMONIOS
       : Array.from({ length: n }, (_, i) => TESTIMONIOS[i * paso])
 
@@ -366,6 +401,14 @@ export function testimonios({ limite = 0, verTodos = false } = {}) {
           )
           .join('\n')}
       </div>
+      ${
+        waText
+          ? `<div data-anim class="mt-[clamp(32px,4.5vw,56px)] flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-center max-sm:[&>a:first-child]:w-full">
+        ${btnWa(waText, 'testimonios', 'Quiero agendar mi cita')}
+        <a href="/testimonios/" class="text-[0.95rem] font-semibold text-marino underline underline-offset-4 hover:text-oro-rosa-profundo">Leer más opiniones</a>
+      </div>`
+          : ''
+      }
     </div>
   </section>`
 }
@@ -549,7 +592,7 @@ export function ctaFinal({ titulo: t, waText, intro }) {
     <div class="${CONTAINER} relative text-center">
       <span data-anim class="inline-block">${rotulo('Agenda tu cita')}</span>
       ${titulo(t, {
-        clase: 'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-6 mx-auto max-w-[16ch]',
+        clase: 'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-6 mx-auto max-w-[16ch]',
       })}
       <p data-anim style="--d:.12s" class="mx-auto mt-7 max-w-[54ch] text-[1.26rem] leading-[1.75] text-humo">
         ${intro || 'Escríbele directamente a la Dra. Lidia Chávez para revisar fechas disponibles, horarios de atención y resolver tus dudas de forma rápida.'}
@@ -705,30 +748,23 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
 /* ═════════════════════════════════════════════════ banner de cookies ══ */
 
 export function bannerCookies() {
+  // Tira delgada bajo la cabecera, no tarjeta abajo: abajo tapaba el botón de
+  // WhatsApp del hero, la barra fija de «Agendar» y el botón flotante, justo en
+  // la primera pantalla de quien llega desde Google Ads. El aviso es
+  // informativo (gtag carga igual), así que seguir navegando cuenta como
+  // aceptarlo: main.js la cierra sola al hacer scroll o al ir a WhatsApp.
   return `
-  <!-- Banner de consentimiento de cookies -->
-  <aside id="cookie-banner" role="region" aria-label="Consentimiento de cookies"
-         class="fixed bottom-5 left-5 z-[1500] max-w-[440px] w-[calc(100vw-2.5rem)] rounded-[1.5rem] border border-white/15 bg-noche/95 p-5 text-white shadow-alta backdrop-blur-xl transition-all duration-500 ease-suave translate-y-8 opacity-0 pointer-events-none data-visible:translate-y-0 data-visible:opacity-100 data-visible:pointer-events-auto max-sm:bottom-4 max-sm:left-3 max-sm:w-[calc(100vw-1.5rem)] max-sm:p-4">
-    <div class="flex items-start gap-3.5">
-      <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-oro-rosa/20 text-oro-rosa-claro">
-        ${icono('escudo', 'h-4 w-4')}
-      </span>
-      <div class="min-w-0 flex-1">
-        <p class="text-[0.88rem] font-bold leading-snug text-white">Uso de cookies y privacidad</p>
-        <p class="mt-1 text-[0.82rem] leading-relaxed text-white/75">
-          Este sitio web utiliza cookies técnicas y de análisis para optimizar tu experiencia y medir de forma anónima el tráfico. Conoce más en nuestra
-          <a href="/politica-de-cookies/" class="underline underline-offset-2 hover:text-oro-rosa transition-colors">Política de Cookies</a> y
-          <a href="/aviso-de-privacidad/" class="underline underline-offset-2 hover:text-oro-rosa transition-colors">Aviso de Privacidad</a>.
-        </p>
-      </div>
-    </div>
-    <div class="mt-4 flex items-center justify-end gap-3 border-t border-white/10 pt-3">
-      <a href="/politica-de-cookies/" class="no-underline px-2 py-1.5 text-[0.78rem] font-bold text-white/70 transition-colors hover:text-white">
-        Más información
-      </a>
+  <!-- Aviso de cookies -->
+  <aside id="cookie-banner" role="region" aria-label="Aviso de cookies"
+         class="fixed inset-x-0 top-[var(--alto-cabecera,76px)] z-[1500] border-b border-white/10 bg-noche/95 text-white backdrop-blur-xl transition-all duration-500 ease-suave -translate-y-2 opacity-0 pointer-events-none data-visible:translate-y-0 data-visible:opacity-100 data-visible:pointer-events-auto">
+    <div class="${CONTAINER} flex items-center gap-3 py-2.5">
+      <p class="min-w-0 flex-1 text-[0.8rem] leading-snug text-white/80">
+        Usamos cookies para medir visitas. Al seguir navegando las aceptas.
+        <a href="/politica-de-cookies/" class="whitespace-nowrap underline underline-offset-2 hover:text-oro-rosa-claro transition-colors">Más información</a>
+      </p>
       <button type="button" data-cookie-accept
-              class="cursor-pointer rounded-full bg-oro-rosa hover:bg-oro-rosa-oscuro px-5 py-2 text-[0.84rem] font-bold text-white shadow-[0_4px_16px_rgba(216,148,171,0.4)] transition duration-300 ease-suave hover:-translate-y-0.5 active:translate-y-0">
-        Aceptar cookies
+              class="shrink-0 cursor-pointer rounded-full border border-white/25 px-4 py-1.5 text-[0.8rem] font-bold text-white transition duration-300 ease-suave hover:bg-white hover:text-marino">
+        Entendido
       </button>
     </div>
   </aside>`

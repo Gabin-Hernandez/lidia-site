@@ -78,7 +78,7 @@ function hero() {
           tag: 'h1',
           modo: 'hero',
           clase:
-            'font-display font-medium text-[clamp(2.3rem,5.6vw,4.2rem)] leading-[1.03] tracking-[-0.03em] text-marino mt-7',
+            'font-display font-medium text-[clamp(2.3rem,5.6vw,4.2rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-7',
         })}
 
         <p class="entrada mx-auto mt-7 max-w-[54ch] text-[1.22rem] leading-[1.7] text-humo" style="--d:.5s">${CITAS.lead}</p>

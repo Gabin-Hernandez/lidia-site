@@ -108,7 +108,7 @@ function hero() {
     tag: 'h1',
     modo: 'hero',
     clase:
-      'font-display font-medium text-[clamp(2.4rem,6vw,4.6rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
+      'font-display font-medium text-[clamp(2.4rem,6vw,4.6rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-7',
   })}
 
         <p class="entrada mx-auto mt-8 max-w-[54ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${CONTACTO.lead}</p>

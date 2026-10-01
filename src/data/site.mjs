@@ -1,5 +1,7 @@
 // Datos globales del sitio — única fuente de verdad para constantes compartidas.
 
+import { getEstadisticasServicios } from './servicios-completos.mjs'
+
 // dralidiachavez.com no resuelve (dominio no registrado o vencido): el sitio
 // vive en ginecologalidia.com desde su despliegue en Hostinger. Canonical,
 // Open Graph, schema.org y el sitemap salen todos de esta constante.
@@ -12,6 +14,10 @@ export const DOCTORA = {
   telefono: '+525514767298',
   telefonoDisplay: '55 1476 7298',
   waNumero: '525514767298',
+  // Dato del equipo de la doctora (septiembre de 2026). Sale en la banda de
+  // cifras, el hero de los servicios y la fila de prueba social: al cumplir
+  // otro año se cambia solo aquí.
+  aniosExperiencia: 8,
 }
 
 // Línea de credenciales del pie. El número de COFEPRIS va sin adjetivos, igual
@@ -42,6 +48,12 @@ export const DIRECCION = {
 
 // Propiedad de GA4 y cuenta de Google Ads. Las dos se configuran en el mismo
 // gtag.js (ver head() en layout.mjs).
+// Precios en las páginas de servicio y en el inicio. Apagados mientras la
+// campaña de Google Ads busca volumen de leads: el costo se pregunta por
+// WhatsApp, y esa pregunta ya es un contacto. El catálogo de /servicios/ los
+// sigue mostrando. Para volver a enseñarlos basta con cambiarlo a `true`.
+export const MOSTRAR_PRECIOS = false
+
 export const GA4_ID = 'G-J7MCYYV1TB'
 export const ADS_ID = 'AW-18297301316'
 
@@ -63,14 +75,45 @@ export const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${enco
 export const DISCLAIMER =
   'La información contenida en esta página web posee fines exclusivamente educativos e informativos y bajo ningún concepto sustituye una valoración médica profesional en consultorio. Para recibir orientación médica adecuada, agenda una consulta formal con la especialista.'
 
-// Cifras de la banda de confianza. Solo afirmaciones que el sitio ya sostenía
-// (valoración de Google y pacientes atendidas) más datos verificables del propio
-// sitio. `animar` activa el conteo; sin él, el valor se pinta tal cual.
+// Cifras de la banda de confianza: la valoración de Google, los años de
+// experiencia, el catálogo de /servicios/ y la confirmación de cita por
+// WhatsApp el mismo día (ver FAQ_DOCTORA). La valoración va siempre como «5/5»
+// o «5 de 5»: un «5.0» suelto se lee como reprobado en la escala escolar de 10.
+// Las «120+ pacientes» se quitaron porque como cifra suena a poco.
+// Cada una lleva la cifra, qué es (`label`) y qué significa para la paciente
+// (`detalle`). `animar` activa el conteo; sin él, el valor se pinta tal cual.
+const { totalServicios } = getEstadisticasServicios()
+
 export const CIFRAS = [
-  { valor: '5.0', animar: true, label: 'Valoración en Google' },
-  { valor: '120', sufijo: '+', animar: true, label: 'Pacientes atendidas' },
-  { valor: '7', sufijo: '+', animar: true, label: 'Servicios' },
-  { valor: 'Minutos', texto: true, label: 'Respuesta por WhatsApp' },
+  {
+    valor: '5',
+    sufijo: '/5',
+    animar: true,
+    estrellas: true,
+    label: 'Calificación en Google',
+    detalle: 'Según las opiniones de nuestras pacientes',
+  },
+  {
+    valor: String(DOCTORA.aniosExperiencia),
+    animar: true,
+    label: 'Años de experiencia',
+    detalle: 'Acompañando a mujeres en cada etapa de su vida',
+  },
+  {
+    // Redondeado a la decena de abajo para que no quede viejo si el catálogo
+    // gana o pierde un servicio.
+    valor: String(Math.floor(totalServicios / 10) * 10),
+    sufijo: '+',
+    animar: true,
+    label: 'Servicios y estudios',
+    detalle: 'Consultas, procedimientos, laboratorio y ultrasonido',
+  },
+  {
+    valor: 'Mismo día',
+    texto: true,
+    label: 'Respuesta por WhatsApp',
+    detalle: 'Confirmamos tu cita sin esperas',
+  },
 ]
 
 // Los cuatro pilares de la propuesta de atención. Se usan en la home y dan

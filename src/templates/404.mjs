@@ -36,7 +36,7 @@ export function render404() {
           tag: 'h1',
           modo: 'hero',
           clase:
-            'font-display font-medium text-[clamp(2.2rem,5.6vw,4rem)] leading-[1.04] tracking-[-0.03em] text-marino mt-7',
+            'font-display font-medium text-[clamp(2.2rem,5.6vw,4rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-7',
         })}
 
         <p class="entrada mx-auto mt-7 max-w-[48ch] text-[1.2rem] leading-[1.7] text-humo" style="--d:.5s">

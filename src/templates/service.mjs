@@ -7,7 +7,7 @@
 //   dibujada al hacer scroll) → preguntas → galería → cifras → la doctora →
 //   servicios relacionados → ubicación → transparencia → cierre.
 import { getCheckUps, precioDeServicio } from '../data/servicios-completos.mjs'
-import { DOCTORA, DOMAIN, physicianSchema, waLink } from '../data/site.mjs'
+import { DOCTORA, DOMAIN, MOSTRAR_PRECIOS, physicianSchema, waLink } from '../data/site.mjs'
 import { RETRATO, SERVICIO_IMG, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
 import {
@@ -138,7 +138,7 @@ function marcoFoto(f, { orden = 0, alto = 'aspect-[4/5]' } = {}) {
 
 /* ══════════════════════════════════════════════════════════════ hero ══ */
 
-function heroServicio(s) {
+function heroServicio(s, precio) {
   const f = imgServicio(s.slug, 'hero')
   const retrato = img(RETRATO)
   const crumb = (href, texto) =>
@@ -156,7 +156,7 @@ function heroServicio(s) {
     <span aria-hidden="true" class="halo -left-32 top-10 h-[26rem] w-[26rem] bg-oro-rosa/12"></span>
 
     <div class="${CONTAINER} relative pb-[clamp(96px,12vw,150px)] pt-[clamp(108px,14vh,150px)]">
-      <nav aria-label="Ruta de navegación" class="entrada mb-9">
+      <nav aria-label="Ruta de navegación" class="entrada mb-9 max-sm:hidden">
         <ol class="flex list-none flex-wrap items-center gap-2 text-[0.8rem]">
           ${crumb('/', 'Inicio')}
           <li aria-hidden="true" class="text-white/25">/</li>
@@ -174,31 +174,40 @@ function heroServicio(s) {
             tag: 'h1',
             modo: 'hero',
             clase:
-              'font-display font-medium text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.02] tracking-[-0.03em] text-white mt-6 max-w-[18ch]',
+              'font-display font-medium text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.1] tracking-[-0.02em] text-white mt-6 max-w-[18ch]',
           })}
 
           <p class="entrada mt-7 max-w-[58ch] text-[clamp(1.2rem,2.04vw,1.37rem)] font-medium leading-[1.65] text-white/85 [&_strong]:font-bold [&_strong]:text-oro-rosa-claro" style="--d:.5s">${s.heroP}</p>
-          <p class="entrada mt-4 max-w-[56ch] text-[1.15rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
+          <!-- En móvil se omite: alarga el hero y empuja el botón de WhatsApp fuera de
+               la primera pantalla. Lo esencial ya está en el párrafo de arriba. -->
+          <p class="entrada mt-4 max-w-[56ch] text-[1.15rem] leading-[1.7] text-white/60 max-sm:hidden" style="--d:.58s">${s.heroSubP}</p>
 
-          <div class="entrada mt-10 flex flex-wrap items-center gap-4" style="--d:.66s">
+          <!-- WhatsApp primero (y a todo lo ancho en móvil): es la conversión de la
+               campaña. El botón secundario queda detrás para quien aún no decide. -->
+          <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-sm:mt-7 max-sm:[&>a]:w-full" style="--d:.66s">
+            ${btnWa(s.waText, 'hero', undefined, { grande: true })}
             ${
-              // En la página de check up el primer llamado es a ver las
+              // En la página de check up el segundo llamado es a ver las
               // modalidades con su precio, como pidió la doctora: es una página
               // de producto, y elegir modalidad va antes que escribir.
               s.mostrarCheckUps
                 ? btnGhost('#opciones-check-up', 'Ver opciones de check up', { claro: true, icono: 'abajo' })
                 : btnGhost('#proceso', 'Cómo es el proceso', { claro: true, icono: 'abajo' })
             }
-            ${btnWa(s.waText, 'hero')}
           </div>
+          <p class="entrada mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.95rem] text-white/70" style="--d:.7s">
+            ${precio ? `<span>Precio: <strong class="font-bold text-white">${precio} MXN</strong></span><span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/30"></span>` : ''}
+            <span>Te respondemos el mismo día</span>
+            ${precio ? '' : '<span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/30"></span><span>Pregunta sin compromiso</span>'}
+          </p>
 
           <div class="entrada mt-8 flex flex-wrap items-center gap-x-5 gap-y-3" style="--d:.74s">
             <span class="flex items-center gap-1.5 text-[1.03rem] text-white/70">
               <span class="text-oro-rosa-claro" aria-hidden="true">${icono('estrella', 'h-3.5 w-3.5')}</span>
-              <strong class="font-bold text-white">5.0</strong> en Google
+              <strong class="font-bold text-white">5 de 5</strong> en Google
             </span>
             <span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/25"></span>
-            <span class="text-[1.03rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>
+            <span class="text-[1.03rem] text-white/70"><strong class="font-bold text-white">${DOCTORA.aniosExperiencia} años</strong> de experiencia</span>
           </div>
         </div>
 
@@ -210,7 +219,8 @@ function heroServicio(s) {
             <span class="min-w-0">
               <span class="block text-[0.62rem] font-bold uppercase tracking-[0.22em] text-oro-rosa-claro">Te atiende</span>
               <span class="mt-1.5 block font-display text-[1.05rem] font-semibold leading-tight text-white">${DOCTORA.nombre}</span>
-              <span class="mt-1 block text-[0.78rem] text-white/60">Ginecología y Colposcopía · Polanco</span>
+              <span class="mt-1 block text-[0.78rem] text-white/60">Gineco obstetra y colposcopista · Polanco</span>
+              <span class="mt-0.5 block text-[0.72rem] text-white/45">Cédula de especialidad 14321195</span>
             </span>
           </div>
         </div>
@@ -221,7 +231,9 @@ function heroServicio(s) {
 
 /* ═════════════════════════════════ datos clave + navegación interna ══ */
 
-function navInterna(nav) {
+// `soloEscritorio`: en las landings de Ads se oculta en móvil, donde se suma a
+// la cabecera y a la barra de «Agendar» y deja poca pantalla para el contenido.
+function navInterna(nav, { soloEscritorio = false } = {}) {
   const item = (n, i) => `
         <li class="shrink-0">
           <a href="#${n.id}" data-spy-link="${n.id}" ${i === 0 ? 'aria-current="true" data-activo' : ''}
@@ -229,7 +241,7 @@ function navInterna(nav) {
         </li>`
   return `
   <nav aria-label="Secciones de esta página" data-subnav
-       class="sticky top-[var(--alto-cabecera)] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl transition-[top] duration-500 ease-suave">
+       class="${soloEscritorio ? 'max-lg:hidden ' : ''}sticky top-[var(--alto-cabecera)] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl transition-[top] duration-500 ease-suave">
     <div class="${CONTAINER}">
       <ul class="flex list-none items-center gap-1.5 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         ${nav.map(item).join('')}
@@ -310,9 +322,17 @@ function seccionChecklist(sec, s, orden) {
           ${sec.bulletsTitle ? `<p data-anim class="mt-7 font-display text-[1.26rem] font-semibold text-marino">${sec.bulletsTitle}</p>` : ''}
           ${foto ? `<div class="mt-9">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
-        <ul data-anim-grupo class="list-none self-start">
-          ${sec.bullets.map(fila).join('\n')}
-        </ul>
+        <div class="self-start">
+          <ul data-anim-grupo class="list-none">
+            ${sec.bullets.map(fila).join('\n')}
+          </ul>
+          <!-- Tras leer la lista, la paciente suele reconocerse en un punto: ahí
+               va el siguiente llamado, sin obligarla a volver al hero. -->
+          <div data-anim class="mt-8 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-6 max-sm:[&>a]:w-full">
+            <p class="mb-4 text-[1.08rem] leading-[1.6] text-humo">¿Te identificas con alguno de estos puntos? Escríbenos y te orientamos sobre tu caso.</p>
+            ${btnWa(s.waText, `lista_${sec.id}`)}
+          </div>
+        </div>
       </div>
     </div>
   </section>`
@@ -416,7 +436,7 @@ function seccionCheckUps(s) {
     return `
         <article class="group flex flex-col rounded-[1.5rem] border border-marino/10 bg-lino p-6 shadow-sm transition duration-400 ease-suave hover:-translate-y-1 hover:border-oro-rosa/50 hover:shadow-flotante">
           <h3 class="font-display text-[1.15rem] font-semibold leading-snug text-marino">${escapeAttr(c.nombre)}</h3>
-          ${c.precio ? `<p class="mt-2.5 font-display text-[1.6rem] font-bold leading-none text-marino">${c.precio}<span class="ml-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-humo">MXN</span></p>` : ''}
+          ${MOSTRAR_PRECIOS && c.precio ? `<p class="mt-2.5 font-display text-[1.6rem] font-bold leading-none text-marino">${c.precio}<span class="ml-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-humo">MXN</span></p>` : ''}
           ${c.incluye ? `<p class="mt-4 flex-1 text-[0.95rem] leading-relaxed text-humo">${escapeAttr(String(c.incluye).replace(/\n/g, ' · '))}</p>` : '<span class="flex-1"></span>'}
           <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(c.nombre)}" data-wa-location="opciones_checkup"
              class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-marino px-5 py-2.5 text-[0.85rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
@@ -543,8 +563,8 @@ function ctaFija(s) {
        class="fixed inset-x-0 bottom-0 z-[900] translate-y-full border-t border-marino/10 bg-lino/95 px-4 py-3 shadow-[0_-10px_30px_-10px_rgba(11,28,44,0.25)] backdrop-blur-xl transition-transform duration-500 ease-suave lg:hidden data-visible:translate-y-0">
     <div class="flex items-center gap-3">
       <span class="min-w-0 flex-1">
-        <span class="block truncate font-display text-[1.14rem] font-semibold leading-tight text-marino">${s.nombre}</span>
-        <span class="block text-[0.74rem] text-humo">Agenda directo con la especialista</span>
+        <span class="block truncate font-display text-[1rem] font-semibold leading-tight text-marino min-[400px]:text-[1.1rem]">${s.nombre}</span>
+        <span class="block text-[0.74rem] text-humo">Te respondemos el mismo día</span>
       </span>
       <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-location="ctafija"
          class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.88rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)]">
@@ -564,8 +584,14 @@ export function renderService(s) {
   // El precio encabeza la tira de datos, como pidió la doctora, y sale del
   // catálogo de /servicios/ para que no haya dos precios distintos del mismo
   // servicio en el sitio.
-  const precio = precioDeServicio(s.slug)
-  const datosClave = precio ? [{ label: 'Precio', valor: precio }, ...s.datosClave] : s.datosClave
+  // Con MOSTRAR_PRECIOS apagado la celda se queda, pero invita a preguntar: la
+  // pregunta por el costo también es un contacto por WhatsApp.
+  const precio = MOSTRAR_PRECIOS ? precioDeServicio(s.slug) : null
+  const datosClave = precio
+    ? [{ label: 'Precio', valor: precio }, ...s.datosClave]
+    : precioDeServicio(s.slug)
+      ? [{ label: 'Precio', valor: 'Infórmate por WhatsApp' }, ...s.datosClave]
+      : s.datosClave
 
   const headHtml = head({
     title: s.title,
@@ -587,11 +613,11 @@ export function renderService(s) {
   // alargan la página que debe convertir tráfico pagado más rápido.
   const main = s.landingCompacta
     ? [
-        heroServicio(s),
+        heroServicio(s, precio),
         tiraDatos(datosClave, { montada: true }),
-        navInterna(nav),
+        navInterna(nav, { soloEscritorio: true }),
         s.mostrarCheckUps ? seccionCheckUps(s) : '',
-        testimonios({ limite: 3 }),
+        testimonios({ limite: 3, breves: true, waText: s.waText }),
         ...secciones.map((sec) => contentSection(sec, s, ctx)),
         ubicacion({ waText: s.waText }),
         faqSection(s),
@@ -599,7 +625,7 @@ export function renderService(s) {
         ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
       ].join('\n')
     : [
-        heroServicio(s),
+        heroServicio(s, precio),
         tiraDatos(datosClave, { montada: true }),
         navInterna(nav),
         ...secciones.map((sec) => contentSection(sec, s, ctx)),

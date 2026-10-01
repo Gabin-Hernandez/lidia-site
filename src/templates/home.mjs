@@ -10,9 +10,10 @@
 // y alargaban un recorrido que ya es largo; como página aparte se leen enteros
 // y tienen URL que compartir. La prueba social de la portada la sostienen el
 // hero (valoración y volumen de pacientes) y la banda de cifras.
-import { DOCTORA, DOMAIN, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
+import { DOCTORA, DOMAIN, MOSTRAR_PRECIOS, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
 import { GALERIA_HOME, RETRATO, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
+import { precioDeServicio } from '../data/servicios-completos.mjs'
 import {
   bandaCifras,
   claridad,
@@ -121,15 +122,22 @@ function hero() {
 
           <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-lg:justify-center" style="--d:.66s">
             ${btnWa(HOME.waHero, 'hero')}
-            ${btnGhost('/servicios/', 'Ver servicios y precios')}
+            ${btnGhost('#servicios', 'Ver servicios', { icono: 'abajo' })}
           </div>
+          <p class="entrada mt-4 text-[0.95rem] text-humo" style="--d:.7s">Te respondemos el mismo día por WhatsApp</p>
 
           <div class="entrada mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 max-lg:justify-center" style="--d:.74s">
             ${pruebaSocial()}
           </div>
 
           <div class="entrada mt-11 flex flex-wrap gap-6 max-lg:justify-center" style="--d:.82s">
-            ${mini('7+', 'Servicios')}
+            ${
+              // Con precios: el de la consulta, que dice más que «7+ servicios».
+              // Sin precios (campaña de leads) se omite y quedan los otros dos.
+              MOSTRAR_PRECIOS && precioDeServicio('consulta-ginecologica')
+                ? mini(precioDeServicio('consulta-ginecologica'), 'Consulta')
+                : ''
+            }
             ${mini('Aurafem', 'Consultorio')}
             ${mini('CDMX', 'Miguel Hidalgo')}
           </div>
@@ -158,7 +166,7 @@ function hero() {
             <span class="flex items-center justify-center gap-1 text-oro-rosa" aria-hidden="true">
               ${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}
             </span>
-            <span class="mt-1.5 block text-[1.35rem] font-bold leading-none tracking-[0.01em] text-marino">5.0</span>
+            <span class="mt-1.5 block text-[1.35rem] font-bold leading-none tracking-[0.01em] text-marino">5.0<span class="text-[0.85rem] text-oro-rosa">/5</span></span>
             <span class="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-humo">Google</span>
           </div>
         </div>

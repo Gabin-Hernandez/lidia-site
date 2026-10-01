@@ -10,6 +10,7 @@
 //   steps?       — tarjetas numeradas del paso a paso (sección ancha)
 
 import { SERVICIOS_DATASET, formatPrecio } from './servicios-completos.mjs'
+import { MOSTRAR_PRECIOS } from './site.mjs'
 
 // Los precios de la página de orientación anticonceptiva salen del catálogo
 // oficial de /servicios/, para que las dos páginas no puedan contradecirse.
@@ -114,7 +115,25 @@ const CATALOGO = [
     faqBg: 'white',
     faqTag: 'Resuelve tus Dudas',
     faqTitle: 'Preguntas frecuentes sobre la consulta ginecológica en CDMX',
+    // Precio y forma de agendar van primero: son las dos dudas que más frenan
+    // a quien llega desde un anuncio. Los montos salen del catálogo.
     faqs: [
+      {
+        q: '¿Cuánto cuesta la consulta ginecológica?',
+        // Sin precios, la respuesta lleva a WhatsApp: preguntar el costo ya es
+        // un contacto (ver MOSTRAR_PRECIOS en site.mjs).
+        a: MOSTRAR_PRECIOS
+          ? `La consulta de primera vez cuesta ${
+              precio('Primera vez').costo_promocion
+                ? `${mxn('Primera vez', 'costo_promocion')} MXN en promoción (precio regular ${mxn('Primera vez')} MXN)`
+                : `${mxn('Primera vez')} MXN`
+            } y la de seguimiento ${mxn('Subsecuente')} MXN. Los demás costos están en la página de Costos y Servicios.`
+          : 'Escríbenos por WhatsApp y te compartimos el costo de la consulta y las promociones vigentes, junto con los horarios disponibles. Preguntar no te compromete a nada.',
+      },
+      {
+        q: '¿Cómo agendo mi cita?',
+        a: 'Escríbenos por WhatsApp al 55 1476 7298. Te compartimos los horarios disponibles y confirmamos tu cita, normalmente el mismo día.',
+      },
       {
         q: '¿Cada cuánto debo agendar una consulta ginecológica en CDMX?',
         a: 'Se recomienda acudir a una consulta ginecológica en CDMX al menos una vez al año como medida preventiva, o de forma inmediata si presentas dolor pélvico o alteraciones menstruales.',
@@ -566,7 +585,6 @@ const CATALOGO = [
     otroDesc: 'Te ayudamos a elegir el método anticonceptivo ideal para tu salud y tu proyecto de vida.',
     datosClave: [
       { label: 'Métodos', valor: 'DIU, implante, pastillas y más' },
-      { label: 'Consulta', valor: `${mxn('Orientación anticonceptiva')} MXN` },
       { label: 'En consultorio', valor: 'Colocación de DIU e implante' },
       { label: 'Incluye', valor: 'Valoración y orientación personalizada' },
     ],
@@ -626,29 +644,34 @@ const CATALOGO = [
           { title: 'Eliges y te indicamos cómo seguir', text: 'Decides tu método; si es de prescripción sales con tu receta, y si es DIU o implante coordinamos su colocación.' },
         ],
       },
-      {
-        bg: 'light',
-        tag: 'Costos Claros',
-        title: '¿Cuánto cuesta la consulta y la colocación del método?',
-        paragraphs: [
-          `La consulta de orientación anticonceptiva cuesta <strong>${mxn('Orientación anticonceptiva')} MXN</strong>${
-            precio('Orientación anticonceptiva').costo_promocion
-              ? ` (promoción actual: <strong>${mxn('Orientación anticonceptiva', 'costo_promocion')} MXN</strong>)`
-              : ''
-          }.`,
-          'La colocación o el retiro de un DIU o de un implante se cobra aparte y <strong>no incluye la consulta</strong>. Consulta el detalle completo en el <a href="/servicios/#cat-metodos-anticonceptivos" class="font-semibold text-oro-rosa-profundo hover:underline">catálogo de Costos y Servicios</a>.',
-        ],
-        bulletsTitle: 'Costo de colocación y retiro (sin consulta):',
-        bullets: [
-          `<strong>DIU de cobre:</strong> ${mxn('DIU de cobre')}`,
-          `<strong>DIU de plata:</strong> ${mxn('DIU de plata')}`,
-          `<strong>DIU Kyleena:</strong> ${mxn('DIU Kyleena')} (se solicita con 7 días de anticipación y se aparta con un anticipo)`,
-          `<strong>DIU Mirena:</strong> ${mxn('DIU Mirena')}`,
-          `<strong>Implante subdérmico:</strong> ${mxn('Implante Subdérmico')}`,
-          `<strong>Retiro de DIU:</strong> ${mxn('Retiro de DIU')} (${mxn('Retiro de DIU', 'costo_con_anestesia_local')} con anestesia local)`,
-          `<strong>Retiro de implante:</strong> ${mxn('Retiro de implante')}`,
-        ],
-      },
+      // La lista de costos solo se muestra con MOSTRAR_PRECIOS (site.mjs).
+      ...(MOSTRAR_PRECIOS
+        ? [
+          {
+            bg: 'light',
+            tag: 'Costos Claros',
+            title: '¿Cuánto cuesta la consulta y la colocación del método?',
+            paragraphs: [
+              `La consulta de orientación anticonceptiva cuesta <strong>${mxn('Orientación anticonceptiva')} MXN</strong>${
+                precio('Orientación anticonceptiva').costo_promocion
+                  ? ` (promoción actual: <strong>${mxn('Orientación anticonceptiva', 'costo_promocion')} MXN</strong>)`
+                  : ''
+              }.`,
+              'La colocación o el retiro de un DIU o de un implante se cobra aparte y <strong>no incluye la consulta</strong>. Consulta el detalle completo en el <a href="/servicios/#cat-metodos-anticonceptivos" class="font-semibold text-oro-rosa-profundo hover:underline">catálogo de Costos y Servicios</a>.',
+            ],
+            bulletsTitle: 'Costo de colocación y retiro (sin consulta):',
+            bullets: [
+              `<strong>DIU de cobre:</strong> ${mxn('DIU de cobre')}`,
+              `<strong>DIU de plata:</strong> ${mxn('DIU de plata')}`,
+              `<strong>DIU Kyleena:</strong> ${mxn('DIU Kyleena')} (se solicita con 7 días de anticipación y se aparta con un anticipo)`,
+              `<strong>DIU Mirena:</strong> ${mxn('DIU Mirena')}`,
+              `<strong>Implante subdérmico:</strong> ${mxn('Implante Subdérmico')}`,
+              `<strong>Retiro de DIU:</strong> ${mxn('Retiro de DIU')} (${mxn('Retiro de DIU', 'costo_con_anestesia_local')} con anestesia local)`,
+              `<strong>Retiro de implante:</strong> ${mxn('Retiro de implante')}`,
+            ],
+          },
+          ]
+        : []),
     ],
     faqBg: 'white',
     faqTag: 'Preguntas Frecuentes',
@@ -676,7 +699,9 @@ const CATALOGO = [
       },
       {
         q: '¿Cuánto cuesta la consulta y qué incluye?',
-        a: `La consulta de orientación anticonceptiva cuesta ${mxn('Orientación anticonceptiva')} MXN e incluye la valoración de tu historial y la orientación personalizada. La colocación del DIU o del implante se cobra aparte; puedes ver todos los costos en la página de Costos y Servicios.`,
+        a: MOSTRAR_PRECIOS
+          ? `La consulta de orientación anticonceptiva cuesta ${mxn('Orientación anticonceptiva')} MXN e incluye la valoración de tu historial y la orientación personalizada. La colocación del DIU o del implante se cobra aparte; puedes ver todos los costos en la página de Costos y Servicios.`
+          : 'Escríbenos por WhatsApp y te compartimos el costo de la consulta y de la colocación del método que te interese. La consulta incluye la valoración de tu historial y la orientación personalizada.',
       },
     ],
     galeria: [

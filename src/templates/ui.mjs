@@ -1,6 +1,6 @@
 // Átomos de UI compartidos (Tailwind). Cada helper devuelve un string de HTML.
 import { imgServicio } from '../data/imagenes.mjs'
-import { waLink } from '../data/site.mjs'
+import { DOCTORA, waLink } from '../data/site.mjs'
 
 /* ───────────────────────────────────────────────── retículas y tipografía */
 
@@ -8,9 +8,9 @@ export const CONTAINER = 'w-full max-w-[1280px] mx-auto px-5 sm:px-7 lg:px-10'
 
 // Escala display. La Fraunces es variable: a mayor tamaño, menos tracking.
 export const H1 =
-  'font-display font-medium text-[clamp(2.5rem,6.4vw,5rem)] leading-[0.98] tracking-[-0.03em]'
+  'font-display font-medium text-[clamp(2.5rem,6.4vw,5rem)] leading-[1.1] tracking-[-0.02em]'
 export const H2 =
-  'font-display font-medium text-[clamp(1.95rem,4.4vw,3.4rem)] leading-[1.04] tracking-[-0.025em]'
+  'font-display font-medium text-[clamp(1.95rem,4.4vw,3.4rem)] leading-[1.1] tracking-[-0.02em]'
 export const H3 = 'font-display font-semibold text-[clamp(1.38rem,2.28vw,1.74rem)] leading-[1.2]'
 
 export const SECTION_BG = {
@@ -169,7 +169,7 @@ export function btnGhost(href, texto, { claro = false, icono: ic = 'flecha', ext
 
 /* ───────────────────────────────────────────── distintivos y microcopys */
 
-// Fila de prueba social: estrellas + valoración + volumen de pacientes.
+// Fila de prueba social: estrellas + valoración + años de experiencia.
 export function pruebaSocial({ claro = false } = {}) {
   const base = claro ? 'text-white/70' : 'text-humo'
   const fuerte = claro ? 'text-white' : 'text-marino'
@@ -178,9 +178,9 @@ export function pruebaSocial({ claro = false } = {}) {
       <span class="flex items-center gap-1 text-oro-rosa" aria-hidden="true">
         ${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}
       </span>
-      <span><strong class="font-bold ${fuerte}">5.0</strong> en Google</span>
+      <span><strong class="font-bold ${fuerte}">5 de 5</strong> en Google</span>
       <span aria-hidden="true" class="h-1 w-1 rounded-full ${claro ? 'bg-white/30' : 'bg-marino/25'}"></span>
-      <span><strong class="font-bold ${fuerte}">+120</strong> pacientes atendidas</span>
+      <span><strong class="font-bold ${fuerte}">${DOCTORA.aniosExperiencia} años</strong> de experiencia</span>
     </div>`
 }
 

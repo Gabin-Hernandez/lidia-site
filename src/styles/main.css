@@ -14,47 +14,26 @@
 @import "tailwindcss" source(none);
 @source "../";
 
-/* --- Declaración de Fuentes Oficiales de Marca --- */
+/* --- Tipografía ---
+   Roboto en todo el sitio (títulos y texto). Sustituyó a Against y Champagne &
+   Limousines porque costaban lectura, sobre todo en celular y con el texto
+   pequeño. Es la versión variable (peso 100–900 en un solo archivo, subconjunto
+   latino, que cubre el español completo), alojada aquí para no depender de
+   Google Fonts. La cursiva se usa en los acentos de los títulos. */
 @font-face {
-  font-family: 'Against';
+  font-family: 'Roboto';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/against%20regular.otf') format('opentype'),
-       url('/fonts/against%20regular.ttf') format('truetype');
+  src: url('/fonts/roboto-latin-wght-normal.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Against';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/against%20regular.otf') format('opentype'),
-       url('/fonts/against%20regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Champagne & Limousines';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/Champagne%20&%20Limousines.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Champagne & Limousines';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/Champagne%20&%20Limousines%20Bold.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Champagne & Limousines';
+  font-family: 'Roboto';
   font-style: italic;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/Champagne%20&%20Limousines%20Italic.ttf') format('truetype');
+  src: url('/fonts/roboto-latin-wght-italic.woff2') format('woff2');
 }
 
 /* ------------------------------------------------------------------ 1. Tokens */
@@ -85,8 +64,8 @@
 
   --color-wsp: #25d366;
 
-  --font-sans: "Champagne & Limousines", "Champagne &amp; Limousines", "Century Gothic", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Against", Didot, "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 
   --ease-suave: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-entrada: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -808,8 +787,8 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(1.75rem, 4.4vw, 3.4rem);
-  line-height: 1.1;
-  letter-spacing: -0.025em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
