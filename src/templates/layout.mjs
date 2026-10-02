@@ -54,6 +54,8 @@ export function head({
   ogImage = '/og/home.jpg',
   schema,
   preload,
+  // `preloadMedia`: precarga la imagen solo en las pantallas donde se muestra.
+  preloadMedia = '',
   noindex = false,
 }) {
   const imagen = `${DOMAIN}${ogImage}`
@@ -88,7 +90,7 @@ export function head({
   <meta name="twitter:image" content="${imagen}">
   <meta name="twitter:image:alt" content="${escapeAttr(ogAlt)}">
 
-  ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high">` : ''}
+  ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high"${preloadMedia ? ` media="${preloadMedia}"` : ''}>` : ''}
   <!-- Roboto, alojada localmente; se precarga la normal (la cursiva carga al usarse) -->
   <link rel="preload" as="font" type="font/woff2" href="/fonts/roboto-latin-wght-normal.woff2" crossorigin>
 
@@ -191,7 +193,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
   <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[2100] focus:rounded-full focus:bg-marino focus:px-5 focus:py-3 focus:text-[0.9rem] focus:font-bold focus:text-lino">Saltar al contenido</a>
 
   <header data-cabecera
-          class="group/cab fixed inset-x-0 top-0 z-[1000] ${tono} transition-[background-color,transform,box-shadow] duration-500 ease-suave data-solido:bg-lino/85 data-solido:shadow-[0_1px_0_rgba(29,61,97,0.09)] data-solido:backdrop-blur-xl data-oculta:-translate-y-full">
+          class="group/cab fixed inset-x-0 top-0 z-[1000] ${tono} transition-[background-color,transform,box-shadow] duration-500 ease-suave data-solido:bg-lino/85 data-solido:shadow-[0_1px_0_rgba(29,61,97,0.09)] data-solido:backdrop-blur-xl">
     <div class="${CONTAINER} relative flex items-center justify-between gap-3 py-4 sm:gap-6">
       <a href="/" class="relative z-[1010] flex items-center gap-3 no-underline text-current">
         <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="eager" class="h-11 w-11 rounded-full object-cover ring-1 ring-oro-rosa/70 ring-offset-2 ring-offset-transparent">
@@ -599,7 +601,7 @@ export function ctaFinal({ titulo: t, waText, intro }) {
       </p>
 
       <div data-anim style="--d:.2s" class="mt-11 flex flex-col items-center gap-5">
-        ${btnWa(waText, 'ctafinal', 'Ver horarios por WhatsApp', { grande: true })}
+        ${btnWa(waText, 'ctafinal', 'Agenda por WhatsApp', { grande: true })}
       </div>
     </div>
   </section>`
@@ -622,7 +624,7 @@ export function floatingWa({ waText, soloDesktop = false }) {
  * Arcos concéntricos en línea: el gesto del arco de las escenas reducido a
  * trazo. `n` arcos que nacen de la misma base, separados por `paso`.
  */
-function arcos({ n = 4, paso = 46, base = 400, clase = '' } = {}) {
+export function arcos({ n = 4, paso = 46, base = 400, clase = '' } = {}) {
   const cx = 200
   const pierna = 118 // tramo recto antes de que abra la curva
   const paths = Array.from({ length: n }, (_, i) => {

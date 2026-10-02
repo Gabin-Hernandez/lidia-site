@@ -626,7 +626,9 @@ export const GALERIA_HOME = [
 
 /**
  * Por servicio:
- *   hero      — fondo a sangre del encabezado
+ *   hero      — foto del encabezado, enmarcada en el arco de la marca
+ *   heroPos   — su object-position dentro del arco (vertical 4:5): las fotos
+ *               son horizontales y la doctora casi nunca está al centro
  *   tarjeta   — miniatura del índice, del megamenú y de «otros servicios»
  *   editorial — fotos de las secciones de texto largo (en orden de aparición)
  *   galeria   — mosaico de la página
@@ -647,6 +649,7 @@ export const GALERIA_HOME = [
 export const SERVICIO_IMG = {
   'consulta-ginecologica': {
     hero: 'consulta-ultrasonido',
+    heroPos: '50% 30%',
     tarjeta: 'dra-modelo-utero',
     editorial: ['dra-modelo-utero', 'dra-laptop', 'consulta-ginecologica-8'],
     // La sección de motivos de visita menciona la asesoría anticonceptiva; es
@@ -664,6 +667,7 @@ export const SERVICIO_IMG = {
   },
   'revision-ginecologicapreventiva': {
     hero: 'dra-consola-ultrasonido',
+    heroPos: '62% 30%',
     tarjeta: 'dra-transductor',
     editorial: ['dra-consola-ultrasonido', 'papanicolaou-instrumental', 'dra-de-pie'],
     // La galería se había quedado en una sola foto al quitar las de quirófano
@@ -678,6 +682,7 @@ export const SERVICIO_IMG = {
   },
   papanicolaou: {
     hero: 'papanicolaou-consultorio',
+    heroPos: '62% 30%',
     tarjeta: 'papanicolaou-espejo-esteril',
     // Se conserva la ilustración de la toma de muestra: explica el
     // procedimiento mejor que una foto posada con el instrumental.
@@ -691,6 +696,7 @@ export const SERVICIO_IMG = {
   },
   colposcopia: {
     hero: 'colposcopia-procedimiento',
+    heroPos: '28% 30%',
     tarjeta: 'colposcopio-uso',
     editorial: ['apoyo-colposcopia-diagrama', 'colposcopio-uso', 'colposcopia-tecnica'],
     galeria: [
@@ -703,6 +709,7 @@ export const SERVICIO_IMG = {
   },
   vph: {
     hero: 'vph-colposcopia',
+    heroPos: '30% 30%',
     tarjeta: 'vph-vacuna',
     // [1] cae en la sección de vacunación: la doctora pidió cambiar ahí la
     // ilustración de banco por una foto suya con la vacuna.
@@ -719,6 +726,7 @@ export const SERVICIO_IMG = {
   },
   'control-prenatal': {
     hero: 'prenatal-paciente',
+    heroPos: '38% 30%',
     // Es la foto que sigue al cursor en el índice de la portada; la doctora
     // pidió cambiarla en la revisión 2 («cambiar imagen de embarazo»).
     tarjeta: 'prenatal-folleto',
@@ -740,6 +748,7 @@ export const SERVICIO_IMG = {
   // OKANTC5 métodos y preservativo).
   'orientacion-anticonceptiva': {
     hero: 'anticonceptivos-metodos',
+    heroPos: '56% 30%',
     // Miniatura del menú y de los listados, con el rótulo «Orientación
     // anticonceptiva».
     tarjeta: 'anticonceptivos-consulta',

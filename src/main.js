@@ -96,60 +96,23 @@ const cabecera = $('[data-cabecera]')
 const barraProgreso = $('[data-progreso]')
 
 if (cabecera) {
-  // Umbrales de intención: comparar con el fotograma anterior hace parpadear la
-  // barra, porque la inercia del trackpad manda muchos eventos de 1-2px y basta
-  // uno "hacia arriba" para revelarla. Acumulamos recorrido por sentido y solo
-  // cambiamos de estado al superar el umbral; un microrrebote no cuenta.
-  const ESCONDER = 64
-  const MOSTRAR = 28
+  // La cabecera queda siempre visible (el botón de WhatsApp vive en ella); al
+  // bajar solo pasa a fondo sólido. Histéresis en el umbral: rebotando
+  // alrededor de él, el fondo con blur entraba y salía.
   const SOLIDO_ON = 24
   const SOLIDO_OFF = 8
 
-  let ultimoY = window.scrollY
-  let acumulado = 0
-  let oculta = false
   let solido = false
   let enCola = false
 
   const actualizarCabecera = () => {
     enCola = false
     const y = Math.max(0, window.scrollY)
-    const d = y - ultimoY
-    ultimoY = y
-
-    // Histéresis también aquí: rebotando alrededor del umbral, el fondo con
-    // blur entraba y salía.
     const nuevoSolido = solido ? y > SOLIDO_OFF : y > SOLIDO_ON
     if (nuevoSolido !== solido) {
       solido = nuevoSolido
       cabecera.toggleAttribute('data-solido', solido)
     }
-
-    // Cerca del inicio siempre visible.
-    if (y <= 420) {
-      acumulado = 0
-      if (oculta) {
-        oculta = false
-        cabecera.removeAttribute('data-oculta')
-        document.documentElement.removeAttribute('data-cabecera-oculta')
-      }
-      return
-    }
-
-    if (d === 0) return
-    // Al cambiar de sentido se reinicia el recorrido acumulado.
-    if (d > 0 !== acumulado > 0) acumulado = 0
-    acumulado += d
-
-    const siguiente = oculta ? acumulado > -MOSTRAR : acumulado > ESCONDER
-    if (siguiente === oculta) return
-
-    oculta = siguiente
-    acumulado = 0
-    cabecera.toggleAttribute('data-oculta', oculta)
-    // Espejo en <html> para que lo pegajoso de debajo (la subnav de servicios)
-    // se ancle sin un `:has()` que invalide estilos en toda la página.
-    document.documentElement.toggleAttribute('data-cabecera-oculta', oculta)
   }
 
   const alScroll = () => {

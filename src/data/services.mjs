@@ -41,10 +41,10 @@ const CATALOGO = [
     waText: 'Hola, quiero agendar una consulta ginecológica con la Dra. Lidia. ¿Qué horarios tienen disponibles?',
     tagline: 'Atención Médica Especializada',
     h1: 'Consulta ginecológica en Polanco, CDMX',
+    // Hero: una frase y tres beneficios. Lo largo vive en las secciones.
     heroP:
-      'Si buscas una ginecóloga en Polanco que combine rigor médico con trato humano, la consulta ginecológica en CDMX con la Dra. Lidia Chávez brinda la máxima tranquilidad para cuidar de tu salud reproductiva.',
-    heroSubP:
-      'Valoración médica personalizada para citas de primera vez o seguimiento continuo, en un ambiente profesional, confidencial y sin juicios en Aurafem (Polanco / Anzures).',
+      'Una consulta sin prisas, con explicaciones claras y trato sin juicios, para tu primera vez o tu seguimiento.',
+    heroPuntos: ['Primera vez o seguimiento', 'Exploración y receta incluidas', 'Confidencial y sin juicios'],
     procedure: {
       name: 'Consulta ginecológica',
       description:
@@ -186,9 +186,8 @@ const CATALOGO = [
     tagline: 'Detección Preventiva Cervical',
     h1: 'Papanicolaou en Polanco, CDMX',
     heroP:
-      'Si te preguntas dónde hacerte el Papanicolaou con total tranquilidad, la Dra. Lidia Chávez realiza el estudio de <strong>Papanicolaou en CDMX</strong> con máxima higiene y calidez médica en Polanco.',
-    heroSubP:
-      'Prueba preventiva realizada en consultorio, con atención profesional y confidencial. Rápida e indolora.',
+      'Detecta a tiempo cualquier alteración del cuello uterino con un estudio rápido, sin dolor y con instrumental estéril.',
+    heroPuntos: ['Toma en unos 3 minutos', 'Resultados en 5 a 7 días hábiles', 'Instrumental de un solo uso'],
     procedure: {
       name: 'Papanicolaou',
       description:
@@ -314,9 +313,8 @@ const CATALOGO = [
     tagline: 'Evaluación Visual Especializada',
     h1: 'Colposcopía en Polanco, CDMX',
     heroP:
-      'Si cuentas con un reporte de Papanicolaou alterado o requerimiento de valoración por VPH, realizar una colposcopía en Polanco con la Dra. Lidia Chávez te brinda la precisión clínica necesaria.',
-    heroSubP:
-      'Ofrecemos diagnóstico de alta definición con colposcopio médico en Aurafem (Polanco / Anzures, CDMX). Agenda tu cita fácil por WhatsApp.',
+      'Si tu Papanicolaou salió alterado o tienes VPH, la colposcopía muestra con precisión qué pasa y qué sigue.',
+    heroPuntos: ['No genera dolor', 'Resultado explicado en consulta', 'Biopsia solo si hace falta'],
     procedure: {
       name: 'Colposcopía',
       description:
@@ -441,9 +439,8 @@ const CATALOGO = [
     tagline: 'Control y Seguimiento de Embarazo',
     h1: 'Control prenatal en Polanco, CDMX',
     heroP:
-      'Si buscas un <strong>ginecólogo para control prenatal en Polanco</strong> con atención profesional y cálida, el servicio de <strong>control prenatal CDMX</strong> de la Dra. Lidia Chávez te acompaña cuidando el desarrollo saludable de tu bebé.',
-    heroSubP:
-      'Seguimiento médico durante el embarazo, con revisión materna y fetal, en Aurafem (Polanco / Anzures, CDMX).',
+      'Seguimiento de tu embarazo de principio a fin, con rastreo del bebé en cada consulta y explicaciones claras.',
+    heroPuntos: ['Rastreo del bebé en cada cita', 'Del primer trimestre al parto', 'Estudios y suplementos indicados'],
     procedure: {
       name: 'Control prenatal',
       description:
@@ -569,9 +566,8 @@ const CATALOGO = [
     tagline: 'Salud Sexual y Reproductiva',
     h1: 'Orientación anticonceptiva en Polanco, CDMX',
     heroP:
-      'Si quieres elegir un <strong>método anticonceptivo</strong> que de verdad se adapte a ti, la consulta de orientación anticonceptiva con la Dra. Lidia Chávez te explica cada opción (DIU, implante, pastillas y más) con información clara y sin presión.',
-    heroSubP:
-      'Atención confidencial y sin juicios en Aurafem (Polanco / Anzures, CDMX). Reserva tu cita por WhatsApp.',
+      'Elige el método anticonceptivo que de verdad se adapta a ti, con información clara y sin presión.',
+    heroPuntos: ['DIU, implante, pastillas y más', 'Colocación en consultorio', 'Confidencial y sin juicios'],
     procedure: {
       name: 'Orientación anticonceptiva',
       description:
@@ -729,9 +725,8 @@ const CATALOGO = [
     tagline: 'Atención Especializada y Confidencial',
     h1: 'VPH en CDMX: Orientación y Colposcopía',
     heroP:
-      'Si buscas asesoría médica, diagnóstico oportuno o seguimiento por <strong>VPH en CDMX</strong>, con una <strong>especialista en VPH en Polanco</strong> como la Dra. Lidia Chávez recibes información científica clara y sin estigmas.',
-    heroSubP:
-      'Tener VPH es frecuente y, en la mayoría de los casos, el sistema inmune lo elimina por sí solo. La valoración sirve para saber en qué punto estás y darle seguimiento, en Aurafem (Polanco / Anzures).',
+      'Diagnóstico, seguimiento y vacuna contra el VPH, con información clara y sin estigmas.',
+    heroPuntos: ['Papanicolaou, colposcopía y PCR', 'Vacuna disponible', 'Atención confidencial'],
     procedure: {
       name: 'Orientación sobre VPH',
       description:
@@ -856,9 +851,8 @@ const CATALOGO = [
     tagline: 'Prevención y Tranquilidad',
     h1: 'Chequeo ginecológico anual en CDMX',
     heroP:
-      'La prevención es la mejor inversión en tu salud. Realizar un <strong>chequeo ginecológico anual en CDMX</strong> con la Dra. Lidia Chávez te garantiza una valoración integral, profesional y sin dolor en la zona de Polanco.',
-    heroSubP:
-      'Cuidamos de ti en un ambiente médico seguro, privado y empático en las instalaciones de Aurafem. Reserva tu cita preventiva fácil por WhatsApp.',
+      'Revisa tu salud ginecológica y mamaria una vez al año, antes de que aparezcan síntomas.',
+    heroPuntos: ['Papanicolaou y colposcopía', 'Exploración mamaria', 'Varias modalidades de check up'],
     procedure: {
       name: 'Revisión ginecológica preventiva',
       description:

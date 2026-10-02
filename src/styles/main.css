@@ -86,13 +86,6 @@
     --alto-cabecera: 76px;
   }
 
-  /* Cuando el encabezado se esconde al bajar, deja de ocupar sitio: lo que
-     está pegado debajo sube con él en vez de dejar un hueco. El atributo lo
-     pone el JS junto con `data-oculta` del propio encabezado. */
-  html[data-cabecera-oculta] {
-    --alto-cabecera: 0px;
-  }
-
   body {
     font-family: var(--font-sans);
     color: var(--color-tinta);
