@@ -785,7 +785,6 @@ ${headHtml}
 </head>
 <body class="grano bg-lino antialiased" data-wa-service="${waServicio(servicio)}">
 ${bodyHtml}
-${bannerCookies()}
 </body>
 </html>`
 }

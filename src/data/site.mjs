@@ -56,6 +56,7 @@ export const MOSTRAR_PRECIOS = false
 
 export const GA4_ID = 'G-J7MCYYV1TB'
 export const ADS_ID = 'AW-18297301316'
+export const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
 
 export const FOTO_DRA = '/img/dra/dra-hero.webp'
 export const LOGO = '/logo.webp'
