@@ -6,8 +6,11 @@
  * consulta es WhatsApp, así que la página lo convierte en el camino principal y
  * lo hace lo más corto posible con mensajes ya redactados por motivo.
  *
- * `HORARIOS` se queda vacío hasta contar con el horario real de atención;
- * mientras tanto la página dice lo único cierto: que se confirma por WhatsApp.
+ * `HORARIOS` refleja el horario semanal que la doctora gestiona desde
+ * /admin/ (ver hostinger/api/horarios.php). Es una copia estática para esta
+ * página: si cambia el horario en el panel, hay que actualizarla aquí y
+ * volver a desplegar — el sitio público no llama a la API para no depender
+ * de ella en una página que no necesita datos en vivo.
  */
 
 export const CONTACTO = {
@@ -35,48 +38,51 @@ export const MOTIVOS = [
     titulo: 'Primera consulta',
     texto: 'Nunca has ido o quieres retomar tu revisión.',
     wa: 'Hola Dra. Lidia, quiero agendar mi primera consulta ginecológica.',
-    label: 'wa_click_contacto_primera',
+    ubicacion: 'motivo_primera',
     icono: 'corazon',
   },
   {
     titulo: 'Revisión anual',
     texto: 'Chequeo preventivo de rutina.',
     wa: 'Hola Dra. Lidia, quiero agendar mi revisión ginecológica anual.',
-    label: 'wa_click_contacto_revision',
+    ubicacion: 'motivo_revision',
     icono: 'escudo',
   },
   {
     titulo: 'Papanicolaou o colposcopía',
     texto: 'Estudio preventivo o valoración por resultado alterado.',
     wa: 'Hola Dra. Lidia, quiero agendar un Papanicolaou o una colposcopía.',
-    label: 'wa_click_contacto_estudios',
+    ubicacion: 'motivo_estudios',
     icono: 'lupa',
   },
   {
     titulo: 'Embarazo y control prenatal',
     texto: 'Seguimiento del embarazo o primera cita prenatal.',
     wa: 'Hola Dra. Lidia, estoy embarazada y quiero agendar mi control prenatal.',
-    label: 'wa_click_contacto_prenatal',
+    ubicacion: 'motivo_prenatal',
     icono: 'reloj',
   },
   {
     titulo: 'Resultado o síntoma',
     texto: 'Tienes un estudio que revisar o una molestia reciente.',
     wa: 'Hola Dra. Lidia, tengo un resultado de estudio y quiero una valoración.',
-    label: 'wa_click_contacto_resultado',
+    ubicacion: 'motivo_resultado',
     icono: 'documento',
   },
   {
     titulo: 'No sé qué necesito',
     texto: 'Cuéntale qué te pasa y te orienta sobre el servicio adecuado.',
     wa: 'Hola Dra. Lidia, no sé qué servicio necesito, ¿me orienta?',
-    label: 'wa_click_contacto_orientacion',
+    ubicacion: 'motivo_orientacion',
     icono: 'chat',
   },
 ]
 
-// Horario de atención. Formato: { dias, horas }. Vacío hasta confirmarlo.
-export const HORARIOS = []
+// Horario de atención. Formato: { dias, horas }.
+export const HORARIOS = [
+  { dias: 'Lunes a viernes', horas: '9:00–14:00 y 16:00–19:00' },
+  { dias: 'Sábado', horas: '9:00–13:00' },
+]
 
 // Qué conviene llevar a la cita (sale de las preguntas frecuentes del sitio).
 export const ANTES_DE_TU_CITA = [

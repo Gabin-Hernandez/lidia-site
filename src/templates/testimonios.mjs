@@ -104,14 +104,14 @@ function hero() {
           tag: 'h1',
           modo: 'hero',
           clase:
-            'font-display font-medium text-[clamp(2.3rem,5.8vw,4.5rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-7',
+            'font-display font-medium text-[clamp(2.3rem,5.8vw,4.5rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-7',
         })}
 
         <p class="entrada mx-auto mt-8 max-w-[56ch] text-[clamp(1.26rem,2.28vw,1.44rem)] font-medium leading-[1.65] text-tinta" style="--d:.5s">${TESTIMONIOS_PAGINA.lead}</p>
         <p class="entrada mx-auto mt-4 max-w-[54ch] text-[1.2rem] leading-[1.7] text-humo" style="--d:.58s">${TESTIMONIOS_PAGINA.subLead}</p>
 
         <div class="entrada mt-9 flex flex-wrap items-center justify-center gap-4" style="--d:.66s">
-          ${btnWa(TESTIMONIOS_PAGINA.waHero, 'wa_click_testimonios_hero')}
+          ${btnWa(TESTIMONIOS_PAGINA.waHero, 'hero')}
           ${btnGhost('/conoce/', 'Conocer a la doctora')}
         </div>
 
@@ -175,20 +175,18 @@ export function renderTestimonios() {
     ctaFinal({
       titulo: TESTIMONIOS_PAGINA.ctaTitle,
       waText: TESTIMONIOS_PAGINA.waCierre,
-      waLabel: 'wa_click_testimonios_ctafinal',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: TESTIMONIOS_PAGINA.waHero,
-      waLabel: 'wa_click_testimonios_header',
       logoAlt: TESTIMONIOS_PAGINA.logoAlt,
       tema: 'claro',
       activo: 'testimonios',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: TESTIMONIOS_PAGINA.waHero, waLabel: 'wa_click_testimonios_floating' }),
+    floatingWa({ waText: TESTIMONIOS_PAGINA.waHero }),
     footer({ logoAlt: `${DOCTORA.nombre} - Ginecóloga en Polanco CDMX` }),
   ].join('\n')
 

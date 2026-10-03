@@ -1,0 +1,39 @@
+# Sitio estático de la Dra. Lidia Chávez en Hostinger (Apache / LiteSpeed).
+#
+# Vite copia este archivo tal cual de public/ a dist/ al compilar; se sube
+# junto con el resto de dist/ a public_html. La carpeta api/ trae su propio
+# .htaccess (ver hostinger/README.md).
+
+Options -Indexes
+DirectoryIndex index.html
+
+# Página de error propia, en español y con salida hacia el sitio. Sin esto,
+# Hostinger sirve su plantilla genérica en inglés.
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # www y sin www servían las dos el sitio entero (contenido duplicado para
+    # Google). Se fija la versión sin www, que es la de los canonical.
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# Agenda en línea temporalmente oculta: la doctora pidió no exponerla a
+# pacientes (sobre todo de Google Ads) hasta que cumpla lo que pide —
+# disponibilidad y duración por servicio, confirmación automática,
+# recordatorios y reprogramación desde la paciente. La página sigue
+# compilada y el panel de administración (/admin/) sigue funcionando con
+# normalidad; sólo se redirige la entrada pública. Quitar esta regla cuando
+# la agenda esté lista para publicarse.
+Redirect 302 /citas/ /contacto/
+
+<IfModule mod_headers.c>
+    # El HTML cambia con cada despliegue: que el navegador pregunte siempre si
+    # hay versión nueva. Los JS y CSS con hash en el nombre (assets/) se
+    # cachean solos.
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+</IfModule>

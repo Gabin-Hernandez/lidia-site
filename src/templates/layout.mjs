@@ -1,6 +1,7 @@
 // Bloques compartidos por todas las páginas: head, header, secciones comunes y footer.
 import { RETRATO_2, img, imgServicio } from '../data/imagenes.mjs'
 import {
+  ADS_ID,
   CIFRAS,
   DATOS_PROFESIONALES,
   DIRECCION,
@@ -8,7 +9,6 @@ import {
   DOCTORA,
   DOMAIN,
   GA4_ID,
-  GTAG_ID,
   LOGO,
   MAPS_EMBED,
   MAPS_LINK,
@@ -32,6 +32,7 @@ import {
   rotulo,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 /* ═══════════════════════════════════════════════════════════════ <head> ══ */
@@ -53,6 +54,9 @@ export function head({
   ogImage = '/og/home.jpg',
   schema,
   preload,
+  // `preloadMedia`: precarga la imagen solo en las pantallas donde se muestra.
+  preloadMedia = '',
+  noindex = false,
 }) {
   const imagen = `${DOMAIN}${ogImage}`
   return `
@@ -60,7 +64,7 @@ export function head({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
   <meta name="description" content="${escapeAttr(description)}">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="robots" content="${noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}">
   <meta name="theme-color" content="#fbf7f4">
   <link rel="canonical" href="${canonical}">
   <link rel="icon" href="${LOGO}" type="image/webp">
@@ -86,12 +90,13 @@ export function head({
   <meta name="twitter:image" content="${imagen}">
   <meta name="twitter:image:alt" content="${escapeAttr(ogAlt)}">
 
-  <!-- Tipografías oficiales locales: Against (display) + Champagne & Limousines (texto) -->
-  ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high">` : ''}
+  ${preload ? `<link rel="preload" as="image" href="${preload}" fetchpriority="high"${preloadMedia ? ` media="${preloadMedia}"` : ''}>` : ''}
+  <!-- Roboto, alojada localmente; se precarga la normal (la cursiva carga al usarse) -->
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/roboto-latin-wght-normal.woff2" crossorigin>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
-  <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GA4_ID}'); gtag('config', '${GTAG_ID}'); </script>
+  <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GA4_ID}'); gtag('config', '${ADS_ID}'); </script>
 
   <!-- CSS en el head (render-blocking) para evitar FOUC; el JS solo trae interacción -->
   <link rel="stylesheet" href="/src/styles/main.css">
@@ -107,7 +112,7 @@ export function head({
 
 // `tema`: 'claro' = texto oscuro sobre hero luminoso (home);
 //         'oscuro' = texto blanco sobre hero oscuro (páginas de servicio).
-export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }) {
+export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
   const oscuro = tema === 'oscuro'
   const tono = oscuro ? 'text-white data-solido:text-marino' : 'text-marino'
   // El oro rosa claro solo tiene contraste sobre el azul noche; en cuanto la
@@ -153,7 +158,7 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
           <div class="flex items-center justify-center gap-0.5">
             <a href="/#servicios" class="relative block px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium">Servicios</a>
             <button type="button" data-dropdown-btn aria-expanded="false" aria-controls="mega-servicios" aria-label="Abrir submenú de servicios"
-                    class="cursor-pointer p-1.5 text-current transition duration-500 ease-suave group-data-open:rotate-180 lg:group-hover:rotate-180">
+                    class="cursor-pointer p-3 text-current transition duration-500 ease-suave group-data-open:rotate-180 lg:p-1.5 lg:group-hover:rotate-180">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
           </div>
@@ -164,11 +169,21 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
               <div class="rounded-[1.75rem] border border-marino/10 bg-lino/95 p-4 shadow-alta backdrop-blur-xl max-lg:mt-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none">
                 <div class="mb-2 flex items-center justify-between px-2.5 max-lg:justify-center">
                   ${rotulo('Servicios')}
-                  <a href="/#servicios" class="text-[0.78rem] font-bold text-marino no-underline transition-colors duration-300 hover:text-oro-rosa-profundo max-lg:hidden">Ver todas</a>
+                  <a href="/servicios/" class="text-[0.78rem] font-bold text-marino no-underline transition-colors duration-300 hover:text-oro-rosa-profundo max-lg:hidden flex items-center gap-1">
+                    <span>Ver catálogo con precios</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                  </a>
                 </div>
                 <ul class="grid list-none gap-1 lg:grid-cols-2">
                   ${SERVICES.map(megaItem).join('')}
                 </ul>
+                <div class="mt-3 border-t border-marino/10 pt-2.5 px-2.5 flex items-center justify-between text-[0.82rem] max-lg:flex-col max-lg:gap-1.5">
+                  <span class="text-humo">¿Buscas el listado oficial de precios?</span>
+                  <a href="/servicios/" class="font-bold text-marino hover:text-oro-rosa-profundo no-underline inline-flex items-center gap-1">
+                    <span>Ver Catálogo Completo de Servicios ($)</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -178,35 +193,49 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
   <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[2100] focus:rounded-full focus:bg-marino focus:px-5 focus:py-3 focus:text-[0.9rem] focus:font-bold focus:text-lino">Saltar al contenido</a>
 
   <header data-cabecera
-          class="group/cab fixed inset-x-0 top-0 z-[1000] ${tono} transition-[background-color,transform,box-shadow] duration-500 ease-suave data-solido:bg-lino/85 data-solido:shadow-[0_1px_0_rgba(29,61,97,0.09)] data-solido:backdrop-blur-xl data-oculta:-translate-y-full">
-    <div class="${CONTAINER} relative flex items-center justify-between gap-6 py-4">
+          class="group/cab fixed inset-x-0 top-0 z-[1000] ${tono} transition-[background-color,transform,box-shadow] duration-500 ease-suave data-solido:bg-lino/85 data-solido:shadow-[0_1px_0_rgba(29,61,97,0.09)] data-solido:backdrop-blur-xl">
+    <div class="${CONTAINER} relative flex items-center justify-between gap-3 py-4 sm:gap-6">
       <a href="/" class="relative z-[1010] flex items-center gap-3 no-underline text-current">
         <img src="${LOGO}" alt="${escapeAttr(logoAlt)}" width="640" height="641" loading="eager" class="h-11 w-11 rounded-full object-cover ring-1 ring-oro-rosa/70 ring-offset-2 ring-offset-transparent">
         <span class="leading-none">
-          <span class="block font-display text-[1.02rem] font-semibold tracking-[-0.01em] text-current">${DOCTORA.nombre}</span>
-          <span class="mt-1 block text-[0.6rem] font-bold uppercase tracking-[0.25em] ${tonoRotulo}">${DOCTORA.subtitulo}</span>
+          <span class="block whitespace-nowrap font-display text-[1.02rem] font-semibold tracking-[-0.01em] text-current">${DOCTORA.nombre}</span>
+          <span class="mt-1 block whitespace-nowrap text-[0.6rem] font-bold uppercase tracking-[0.25em] ${tonoRotulo} max-sm:text-[0.54rem] max-sm:tracking-[0.1em]">${DOCTORA.subtitulo}</span>
         </span>
       </a>
 
-      <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px] lg:hidden" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
-        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:translate-y-[6px] group-aria-expanded:rotate-45"></span>
-        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:opacity-0"></span>
-        <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
-      </button>
+      <!-- En móvil el WhatsApp vive junto al menú y no dentro de él: es la única
+           acción que busca quien llega desde un anuncio, y así se ve desde la
+           primera pantalla sin abrir nada. -->
+      <div class="flex items-center gap-2.5 lg:hidden">
+        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header_movil_barra" aria-label="Escríbenos por WhatsApp"
+           class="flex h-10 items-center gap-2 rounded-full bg-wsp px-3 text-[0.82rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-300 active:scale-95 min-[400px]:px-4">
+          ${waIcon(20, 'blanco')}
+          <span class="max-[399px]:sr-only">WhatsApp</span>
+        </a>
+        <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px]" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+          <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:translate-y-[6px] group-aria-expanded:rotate-45"></span>
+          <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:opacity-0"></span>
+          <span class="block h-px w-6 bg-current transition duration-500 ease-suave group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
+        </button>
+      </div>
 
+      <!-- Sin enlace a /citas/: la doctora pidió ocultar la agenda en línea hasta que
+           cumpla lo que pide (disponibilidad y duración por servicio, confirmación
+           automática, recordatorios, reprogramación desde la paciente). -->
       <nav class="flex items-center gap-7" aria-label="Principal">
         <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
+          ${navLink('/servicios/', 'Costos y Servicios', 'servicios')}
           ${megaServicios}
           ${navLink('/conoce/', 'La doctora', 'conoce')}
           ${enlaceTestimonios}
           ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
           <li class="hidden max-lg:mt-4 max-lg:block">
-            ${btnWa(waText, `${waLabel}_movil`, 'Agendar por WhatsApp')}
+            ${btnWa(waText, 'header_movil')}
           </li>
         </ul>
 
-        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="${waLabel}"
+        <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header"
            class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b] lg:flex">
           ${waIcon(18, 'blanco')}
           <span>WhatsApp</span>
@@ -223,14 +252,25 @@ export function header({ waText, waLabel, logoAlt, tema = 'claro', activo = '' }
 
 export function bandaCifras() {
   // El valor real vive en el DOM: si el JS no corre, la cifra se ve igual.
+  // La cifra va en un bloque de altura fija y pegada abajo, así la que es texto
+  // («Mismo día», más chica) comparte línea base con los números y las
+  // etiquetas de las cuatro celdas arrancan a la misma altura.
   const celda = (c) => `
-        <div class="relative min-w-0 px-5 py-10 text-center">
-          <span class="block font-display font-medium leading-none tracking-[-0.03em] text-white ${
-            c.texto ? 'text-[clamp(1.5rem,3vw,2.2rem)]' : 'text-[clamp(2.4rem,5vw,3.6rem)]'
+        <div class="relative min-w-0 px-5 py-11 text-center">
+          <span class="flex min-h-[clamp(2.4rem,5vw,3.6rem)] items-end justify-center font-display font-medium leading-[1.05] tracking-[-0.02em] text-white ${
+            c.texto ? 'text-[clamp(1.6rem,2.7vw,2.1rem)] md:whitespace-nowrap' : 'text-[clamp(2.4rem,5vw,3.6rem)]'
           }">
             ${c.animar ? `<span data-contador>${c.valor}</span>` : c.valor}${c.sufijo || ''}
           </span>
-          <span class="mt-3 block text-[0.7rem] font-bold uppercase leading-relaxed tracking-[0.18em] text-oro-rosa-claro">${c.label}</span>
+          ${
+            c.estrellas
+              ? `<span aria-hidden="true" class="mt-3 flex justify-center gap-1 text-oro-rosa-claro">${Array(5)
+                  .fill(icono('estrella', 'h-4 w-4'))
+                  .join('')}</span>`
+              : ''
+          }
+          <span class="mt-4 block text-[1.05rem] font-semibold leading-snug text-oro-rosa-claro">${c.label}</span>
+          ${c.detalle ? `<span class="mx-auto mt-1.5 block max-w-[22ch] text-[0.9rem] leading-snug text-white/65">${c.detalle}</span>` : ''}
         </div>`
   return `
   <section aria-label="Cifras de la consulta" class="relative overflow-hidden bg-noche">
@@ -255,7 +295,11 @@ export function bandaCifras() {
 //
 // `limite`   reduce la lista a n testimonios repartidos (0 = todos).
 // `verTodos` añade el enlace a /testimonios/ junto al encabezado.
-export function testimonios({ limite = 0, verTodos = false } = {}) {
+// `breves`   en vez de repartir, toma los n más cortos que aún dicen algo
+//            (100 caracteres o más): en una landing se leen de un vistazo.
+// `waText`   cierra el bloque con un botón de WhatsApp: recién leídas las
+//            opiniones es buen momento para pedir horario.
+export function testimonios({ limite = 0, verTodos = false, breves = false, waText = '' } = {}) {
   if (!TESTIMONIOS.length) return ''
 
   // El adelanto no corta por la cabeza: el orden del arreglo está pensado para
@@ -264,8 +308,17 @@ export function testimonios({ limite = 0, verTodos = false } = {}) {
   // salen las cabezas de columna, que están escogidas para verse parejas.
   const n = Math.min(limite || TESTIMONIOS.length, TESTIMONIOS.length)
   const paso = Math.max(1, Math.floor(TESTIMONIOS.length / n))
-  const lista =
-    n === TESTIMONIOS.length
+  const elegidos = breves
+    ? new Set(
+        [...TESTIMONIOS]
+          .filter((t) => t.texto.length >= 100)
+          .sort((a, b) => a.texto.length - b.texto.length)
+          .slice(0, n)
+      )
+    : null
+  const lista = elegidos
+    ? TESTIMONIOS.filter((t) => elegidos.has(t))
+    : n === TESTIMONIOS.length
       ? TESTIMONIOS
       : Array.from({ length: n }, (_, i) => TESTIMONIOS[i * paso])
 
@@ -350,6 +403,14 @@ export function testimonios({ limite = 0, verTodos = false } = {}) {
           )
           .join('\n')}
       </div>
+      ${
+        waText
+          ? `<div data-anim class="mt-[clamp(32px,4.5vw,56px)] flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-center max-sm:[&>a:first-child]:w-full">
+        ${btnWa(waText, 'testimonios', 'Quiero agendar mi cita')}
+        <a href="/testimonios/" class="text-[0.95rem] font-semibold text-marino underline underline-offset-4 hover:text-oro-rosa-profundo">Leer más opiniones</a>
+      </div>`
+          : ''
+      }
     </div>
   </section>`
 }
@@ -387,7 +448,7 @@ export function pilares() {
 
 /* ════════════════════════════════════════ la doctora / espacio seguro ══ */
 
-export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
+export function doctora({ waText, bullet1, ctaTexto }) {
   const retrato = img(RETRATO_2)
   return `
   <section id="doctora" class="relative scroll-mt-[110px] overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
@@ -427,7 +488,7 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
           </ul>
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4 max-lg:justify-center">
-            ${btnWa(waText, waLabel, ctaTexto)}
+            ${btnWa(waText, 'doctora', ctaTexto)}
           </div>
         </div>
       </div>
@@ -437,7 +498,7 @@ export function doctora({ waText, waLabel, bullet1, ctaTexto }) {
 
 /* ═══════════════════════════════════════════════════════════ ubicación ══ */
 
-export function ubicacion({ waText, waLabel }) {
+export function ubicacion({ waText }) {
   const dato = (ic, label, valor) => `
         <li class="flex items-start gap-4">
           <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-oro-rosa-claro">${icono(ic, 'h-4 w-4')}</span>
@@ -469,7 +530,7 @@ export function ubicacion({ waText, waLabel }) {
           </ul>
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
-            ${btnWa(waText, waLabel, 'Agendar por WhatsApp')}
+            ${btnWa(waText, 'ubicacion')}
             ${btnGhost(
               MAPS_LINK,
               'Ver en Google Maps',
@@ -524,7 +585,7 @@ export function claridad() {
 
 /* ═════════════════════════════════════════════════════════ cierre CTA ══ */
 
-export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
+export function ctaFinal({ titulo: t, waText, intro }) {
   return `
   <section id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,160px)]">
     <span aria-hidden="true" class="halo left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 bg-oro-rosa/20"></span>
@@ -533,14 +594,14 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
     <div class="${CONTAINER} relative text-center">
       <span data-anim class="inline-block">${rotulo('Agenda tu cita')}</span>
       ${titulo(t, {
-        clase: 'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.02] tracking-[-0.03em] text-marino mt-6 mx-auto max-w-[16ch]',
+        clase: 'font-display font-medium text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.1] tracking-[-0.02em] text-marino mt-6 mx-auto max-w-[16ch]',
       })}
       <p data-anim style="--d:.12s" class="mx-auto mt-7 max-w-[54ch] text-[1.26rem] leading-[1.75] text-humo">
         ${intro || 'Escríbele directamente a la Dra. Lidia Chávez para revisar fechas disponibles, horarios de atención y resolver tus dudas de forma rápida.'}
       </p>
 
       <div data-anim style="--d:.2s" class="mt-11 flex flex-col items-center gap-5">
-        ${btnWa(waText, waLabel, 'Agendar ahora por WhatsApp', { grande: true })}
+        ${btnWa(waText, 'ctafinal', 'Agenda por WhatsApp', { grande: true })}
       </div>
     </div>
   </section>`
@@ -548,9 +609,9 @@ export function ctaFinal({ titulo: t, waText, waLabel, intro }) {
 
 // `soloDesktop`: en páginas con barra de acción fija en móvil, el botón
 // flotante se oculta ahí para no duplicar el mismo llamado a la acción.
-export function floatingWa({ waText, waLabel, soloDesktop = false }) {
+export function floatingWa({ waText, soloDesktop = false }) {
   return `
-  <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-label="${waLabel}"
+  <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-location="floating"
      class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full bg-wsp text-white shadow-[0_12px_30px_-6px_rgba(37,211,102,0.75)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
     <span aria-hidden="true" class="absolute inset-0 animate-ping rounded-full bg-wsp/40"></span>
     <span class="relative">${waIcon(30, 'glifo')}</span>
@@ -563,7 +624,7 @@ export function floatingWa({ waText, waLabel, soloDesktop = false }) {
  * Arcos concéntricos en línea: el gesto del arco de las escenas reducido a
  * trazo. `n` arcos que nacen de la misma base, separados por `paso`.
  */
-function arcos({ n = 4, paso = 46, base = 400, clase = '' } = {}) {
+export function arcos({ n = 4, paso = 46, base = 400, clase = '' } = {}) {
   const cx = 200
   const pierna = 118 // tramo recto antes de que abra la curva
   const paths = Array.from({ length: n }, (_, i) => {
@@ -624,7 +685,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             Atención ginecológica profesional y confidencial en ${DIRECCION.lugar}, Col. Anzures, Miguel Hidalgo, CDMX.
           </p>
           <div class="mt-7 flex flex-wrap gap-3">
-            <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-label="wa_click_footer"
+            <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-location="footer"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
               ${waIcon(18, 'blanco')} WhatsApp
             </a>
@@ -644,6 +705,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
         <nav aria-label="Consultorio">
           <span class="mb-5 block text-[0.65rem] font-bold uppercase tracking-[0.25em] text-oro-rosa">Consultorio</span>
           <ul class="grid list-none gap-3">
+            ${enlace('/servicios/', 'Catálogo de Costos y Servicios')}
             ${enlace('/conoce/', 'La doctora')}
             ${TESTIMONIOS.length ? enlace('/testimonios/', 'Testimonios') : ''}
             ${ARTICULOS.length ? enlace('/blog/', 'Blog') : ''}
@@ -685,15 +747,43 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
   </footer>`
 }
 
+/* ═════════════════════════════════════════════════ banner de cookies ══ */
+
+export function bannerCookies() {
+  // Tira delgada bajo la cabecera, no tarjeta abajo: abajo tapaba el botón de
+  // WhatsApp del hero, la barra fija de «Agendar» y el botón flotante, justo en
+  // la primera pantalla de quien llega desde Google Ads. El aviso es
+  // informativo (gtag carga igual), así que seguir navegando cuenta como
+  // aceptarlo: main.js la cierra sola al hacer scroll o al ir a WhatsApp.
+  return `
+  <!-- Aviso de cookies -->
+  <aside id="cookie-banner" role="region" aria-label="Aviso de cookies"
+         class="fixed inset-x-0 top-[var(--alto-cabecera,76px)] z-[1500] border-b border-white/10 bg-noche/95 text-white backdrop-blur-xl transition-all duration-500 ease-suave -translate-y-2 opacity-0 pointer-events-none data-visible:translate-y-0 data-visible:opacity-100 data-visible:pointer-events-auto">
+    <div class="${CONTAINER} flex items-center gap-3 py-2.5">
+      <p class="min-w-0 flex-1 text-[0.8rem] leading-snug text-white/80">
+        Usamos cookies para medir visitas. Al seguir navegando las aceptas.
+        <a href="/politica-de-cookies/" class="whitespace-nowrap underline underline-offset-2 hover:text-oro-rosa-claro transition-colors">Más información</a>
+      </p>
+      <button type="button" data-cookie-accept
+              class="shrink-0 cursor-pointer rounded-full border border-white/25 px-4 py-1.5 text-[0.8rem] font-bold text-white transition duration-300 ease-suave hover:bg-white hover:text-marino">
+        Entendido
+      </button>
+    </div>
+  </aside>`
+}
+
 /* ══════════════════════════════════════════════════════════════ shell ══ */
 
-export function pageShell({ headHtml, bodyHtml }) {
+// `servicio`: el `service` con el que se miden los clics a WhatsApp de la
+// página. Un botón dentro de un elemento con su propio data-wa-service (las
+// tarjetas de servicio) toma el de ese elemento.
+export function pageShell({ headHtml, bodyHtml, servicio = 'general' }) {
   return `<!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
 ${headHtml}
 </head>
-<body class="grano bg-lino antialiased">
+<body class="grano bg-lino antialiased" data-wa-service="${waServicio(servicio)}">
 ${bodyHtml}
 </body>
 </html>`

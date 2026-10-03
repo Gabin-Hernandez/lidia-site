@@ -75,7 +75,7 @@ recorte "$GAL/consulta-ultrasonido.webp"       "$OUT/consulta-ginecologica.jpg" 
 recorte "$GAL/papanicolaou-consultorio.webp"   "$OUT/papanicolaou.jpg"      45
 recorte "$GAL/colposcopia-procedimiento.webp"  "$OUT/colposcopia.jpg"       45
 recorte "$GAL/prenatal-paciente.webp"          "$OUT/control-prenatal.jpg"  45
-recorte "public/img/galeria/atencion-embarazo-10.webp" "$OUT/atencion-embarazo.jpg" 45
+recorte "$GAL/anticonceptivos-metodos.webp"         "$OUT/orientacion-anticonceptiva.jpg" 30
 recorte "$GAL/vph-colposcopia.webp"            "$OUT/vph.jpg"               45
 recorte "$GAL/dra-consola-ultrasonido.webp"    "$OUT/revision-ginecologicapreventiva.jpg" 45
 echo "Listo."

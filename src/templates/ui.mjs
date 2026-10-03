@@ -1,6 +1,6 @@
 // Átomos de UI compartidos (Tailwind). Cada helper devuelve un string de HTML.
 import { imgServicio } from '../data/imagenes.mjs'
-import { waLink } from '../data/site.mjs'
+import { DOCTORA, waLink } from '../data/site.mjs'
 
 /* ───────────────────────────────────────────────── retículas y tipografía */
 
@@ -8,9 +8,9 @@ export const CONTAINER = 'w-full max-w-[1280px] mx-auto px-5 sm:px-7 lg:px-10'
 
 // Escala display. La Fraunces es variable: a mayor tamaño, menos tracking.
 export const H1 =
-  'font-display font-medium text-[clamp(2.5rem,6.4vw,5rem)] leading-[0.98] tracking-[-0.03em]'
+  'font-display font-medium text-[clamp(2.5rem,6.4vw,5rem)] leading-[1.1] tracking-[-0.02em]'
 export const H2 =
-  'font-display font-medium text-[clamp(1.95rem,4.4vw,3.4rem)] leading-[1.04] tracking-[-0.025em]'
+  'font-display font-medium text-[clamp(1.95rem,4.4vw,3.4rem)] leading-[1.1] tracking-[-0.02em]'
 export const H3 = 'font-display font-semibold text-[clamp(1.38rem,2.28vw,1.74rem)] leading-[1.2]'
 
 export const SECTION_BG = {
@@ -134,13 +134,20 @@ export function acento(texto, { claro = false } = {}) {
 const BTN_BASE =
   'group/btn relative inline-flex items-center justify-center gap-3 rounded-full font-bold no-underline transition-[background-color,color,box-shadow,border-color] duration-500 ease-suave'
 
-// Botón principal de WhatsApp.
-export function btnWa(waText, label, texto = 'Agendar por WhatsApp', { grande = false } = {}) {
+// Valor del parámetro `service` de whatsapp_click: el slug o nombre en
+// snake_case sin acentos ('consulta-ginecologica' → 'consulta_ginecologica').
+export function waServicio(texto) {
+  return slugId(texto).replaceAll('-', '_')
+}
+
+// Botón principal de WhatsApp. `ubicacion` es el `button_location` con el que
+// se mide el clic (ver «Clics a WhatsApp» en main.js).
+export function btnWa(waText, ubicacion, texto = 'Agenda por WhatsApp', { grande = false } = {}) {
   const medida = grande
     ? 'px-9 py-[18px] text-[1.05rem]'
     : 'px-7 py-3.5 text-[0.95rem]'
   return `
-    <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="${label}"
+    <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="${ubicacion}"
        class="${BTN_BASE} ${medida} magnetico brillo bg-wsp text-white shadow-[0_12px_28px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1fbe5b] hover:shadow-[0_18px_38px_-8px_rgba(37,211,102,0.65)]">
       ${waIcon(grande ? 24 : 20, 'blanco')}
       <span>${texto}</span>
@@ -162,7 +169,7 @@ export function btnGhost(href, texto, { claro = false, icono: ic = 'flecha', ext
 
 /* ───────────────────────────────────────────── distintivos y microcopys */
 
-// Fila de prueba social: estrellas + valoración + volumen de pacientes.
+// Fila de prueba social: estrellas + valoración + años de experiencia.
 export function pruebaSocial({ claro = false } = {}) {
   const base = claro ? 'text-white/70' : 'text-humo'
   const fuerte = claro ? 'text-white' : 'text-marino'
@@ -171,9 +178,9 @@ export function pruebaSocial({ claro = false } = {}) {
       <span class="flex items-center gap-1 text-oro-rosa" aria-hidden="true">
         ${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}${icono('estrella', 'h-3.5 w-3.5')}
       </span>
-      <span><strong class="font-bold ${fuerte}">5.0</strong> en Google</span>
+      <span><strong class="font-bold ${fuerte}">5 de 5</strong> en Google</span>
       <span aria-hidden="true" class="h-1 w-1 rounded-full ${claro ? 'bg-white/30' : 'bg-marino/25'}"></span>
-      <span><strong class="font-bold ${fuerte}">+120</strong> pacientes atendidas</span>
+      <span><strong class="font-bold ${fuerte}">${DOCTORA.aniosExperiencia} años</strong> de experiencia</span>
     </div>`
 }
 

@@ -121,14 +121,12 @@ export function renderAvisoPrivacidad() {
       intro:
         'Si tienes dudas sobre el tratamiento de tus datos o deseas agendar tu consulta médica en Polanco, contáctanos por WhatsApp.',
       waText: 'Hola Dra. Lidia, tengo una consulta sobre sus servicios médicos.',
-      waLabel: 'wa_click_privacidad_cta',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: 'Hola Dra. Lidia, quiero agendar una consulta.',
-      waLabel: 'wa_click_privacidad_header',
       logoAlt: AVISO_PRIVACIDAD.logoAlt,
       tema: 'claro',
       activo: '',

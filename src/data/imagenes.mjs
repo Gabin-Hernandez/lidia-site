@@ -101,9 +101,9 @@ const FOTOS_APOYO = {
     contain: true,
   },
   'apoyo-colposcopia-diagrama': {
-    file: 'colposcopia-diagrama.png',
-    w: 2816,
-    h: 1536,
+    file: 'colposcopia-diagrama.webp',
+    w: 2000,
+    h: 1091,
     alt: 'Diagrama informativo de la anatomía y el procedimiento de colposcopía',
     // Panorámico con texto en los bordes: recortarlo a 4:5 (como el resto de
     // fotos editoriales) le cortaría las etiquetas. Debe verse completo.
@@ -432,7 +432,7 @@ const FOTOS_DRA = {
   'papanicolaou-explicacion': {
     file: 'papanicolaou-explicacion.webp',
     w: 1200,
-    h: 800,
+    h: 799,
     alt: 'La Dra. Lidia Chávez explicando el procedimiento paso a paso en el área de exploración',
   },
   'ultrasonido-pelvico': {
@@ -444,13 +444,13 @@ const FOTOS_DRA = {
   'dra-consola-transductor': {
     file: 'dra-consola-transductor.webp',
     w: 1200,
-    h: 800,
+    h: 799,
     alt: 'La Dra. Lidia Chávez en la consola del equipo de ultrasonido, con el transductor en la mano',
   },
   'colposcopia-laser': {
     file: 'colposcopia-laser.webp',
     w: 1200,
-    h: 800,
+    h: 799,
     alt: 'La Dra. Lidia Chávez durante un procedimiento bajo colposcopio en el área de exploración',
   },
   // El original de 'dra-de-pie' sin recortar a vertical, para la pieza grande
@@ -468,7 +468,7 @@ const FOTOS_DRA = {
   'equipo-de-aurafem': {
     file: 'equipo-de-aurafem.webp',
     w: 1200,
-    h: 803,
+    h: 799,
     alt: 'El equipo de Aurafem: la Dra. Lidia Chávez y la asistente del consultorio en la sala de espera',
   },
   'prenatal-folleto': {
@@ -527,10 +527,8 @@ const FOTOS_DRA = {
     alt: 'Tarjeta de revelación de género junto al ultrasonido del bebé en consulta',
   },
 
-  // Anticoncepción: en el banco pero todavía sin colocar. Esperan al texto de
-  // la página de orientación anticonceptiva, que hoy sigue siendo obstétrico.
-  // Entre paréntesis, la referencia del documento y el pie que pidió la
-  // doctora, para que colocarlas sea directo cuando llegue el contenido.
+  // Anticoncepción (galería de /orientacion-anticonceptiva/). Entre
+  // paréntesis, la referencia del documento y el pie que pidió la doctora.
   // OKANTC1 → «Pastillas anticonceptivas»
   'anticonceptivos-pastillas': {
     file: 'anticonceptivos-pastillas.webp',
@@ -551,7 +549,7 @@ const FOTOS_DRA = {
   'anticonceptivos-pastillas-2': {
     file: 'anticonceptivos-pastillas-2.webp',
     w: 1200,
-    h: 800,
+    h: 799,
     alt: 'La Dra. Lidia Chávez mostrando un blíster de pastillas anticonceptivas',
   },
   // OKANTC5 → «Preservativo masculino». Llegó nombrada 'OKOK_LAPTOP5.JPG' por
@@ -561,7 +559,7 @@ const FOTOS_DRA = {
   'anticonceptivos-varios': {
     file: 'anticonceptivos-varios.webp',
     w: 1200,
-    h: 800,
+    h: 799,
     alt: 'La Dra. Lidia Chávez con varios métodos anticonceptivos: preservativos, pastillas, dispositivo intrauterino e implante',
   },
 }
@@ -628,7 +626,9 @@ export const GALERIA_HOME = [
 
 /**
  * Por servicio:
- *   hero      — fondo a sangre del encabezado
+ *   hero      — foto del encabezado, enmarcada en el arco de la marca
+ *   heroPos   — su object-position dentro del arco (vertical 4:5): las fotos
+ *               son horizontales y la doctora casi nunca está al centro
  *   tarjeta   — miniatura del índice, del megamenú y de «otros servicios»
  *   editorial — fotos de las secciones de texto largo (en orden de aparición)
  *   galeria   — mosaico de la página
@@ -649,6 +649,7 @@ export const GALERIA_HOME = [
 export const SERVICIO_IMG = {
   'consulta-ginecologica': {
     hero: 'consulta-ultrasonido',
+    heroPos: '50% 30%',
     tarjeta: 'dra-modelo-utero',
     editorial: ['dra-modelo-utero', 'dra-laptop', 'consulta-ginecologica-8'],
     // La sección de motivos de visita menciona la asesoría anticonceptiva; es
@@ -666,6 +667,7 @@ export const SERVICIO_IMG = {
   },
   'revision-ginecologicapreventiva': {
     hero: 'dra-consola-ultrasonido',
+    heroPos: '62% 30%',
     tarjeta: 'dra-transductor',
     editorial: ['dra-consola-ultrasonido', 'papanicolaou-instrumental', 'dra-de-pie'],
     // La galería se había quedado en una sola foto al quitar las de quirófano
@@ -680,6 +682,7 @@ export const SERVICIO_IMG = {
   },
   papanicolaou: {
     hero: 'papanicolaou-consultorio',
+    heroPos: '62% 30%',
     tarjeta: 'papanicolaou-espejo-esteril',
     // Se conserva la ilustración de la toma de muestra: explica el
     // procedimiento mejor que una foto posada con el instrumental.
@@ -693,6 +696,7 @@ export const SERVICIO_IMG = {
   },
   colposcopia: {
     hero: 'colposcopia-procedimiento',
+    heroPos: '28% 30%',
     tarjeta: 'colposcopio-uso',
     editorial: ['apoyo-colposcopia-diagrama', 'colposcopio-uso', 'colposcopia-tecnica'],
     galeria: [
@@ -705,6 +709,7 @@ export const SERVICIO_IMG = {
   },
   vph: {
     hero: 'vph-colposcopia',
+    heroPos: '30% 30%',
     tarjeta: 'vph-vacuna',
     // [1] cae en la sección de vacunación: la doctora pidió cambiar ahí la
     // ilustración de banco por una foto suya con la vacuna.
@@ -721,6 +726,7 @@ export const SERVICIO_IMG = {
   },
   'control-prenatal': {
     hero: 'prenatal-paciente',
+    heroPos: '38% 30%',
     // Es la foto que sigue al cursor en el índice de la portada; la doctora
     // pidió cambiarla en la revisión 2 («cambiar imagen de embarazo»).
     tarjeta: 'prenatal-folleto',
@@ -736,29 +742,20 @@ export const SERVICIO_IMG = {
       ['prenatal-revelacion-genero', 'Detalle en consulta de revelación de género'],
     ],
   },
-  // Sin tocar hasta que llegue el contenido de orientación anticonceptiva: sus
-  // fotos son de parto y recién nacidos, del tema que hoy tiene la página.
-  // Cuando llegue, las fotos que pidió la doctora son IMAGEN 20 («Consulta de
-  // orientación anticonceptiva»), IMAGEN 38 («Colocación de implante
-  // subdérmico») y la carpeta Anticonceptivos: OKANTC1 pastillas, OKANTC2 DIU
-  // hormonal, OKANTC3 o 4 colocación de métodos, OKANTC5 preservativo.
+  // Fotos pedidas por la doctora: IMAGEN 20 («Consulta de orientación
+  // anticonceptiva»), IMAGEN 38 («Colocación de implante subdérmico») y la
+  // carpeta Anticonceptivos (OKANTC1 pastillas, OKANTC2 DIU hormonal, OKANTC4 y
+  // OKANTC5 métodos y preservativo).
   'orientacion-anticonceptiva': {
-    hero: 'atencion-embarazo-10',
-    // La miniatura sí cambia: es la que sale en el menú y en los listados, ya
-    // con el rótulo «Orientación anticonceptiva». Un recién nacido ahí no
-    // cuadraba con el nombre nuevo.
+    hero: 'anticonceptivos-metodos',
+    heroPos: '56% 30%',
+    // Miniatura del menú y de los listados, con el rótulo «Orientación
+    // anticonceptiva».
     tarjeta: 'anticonceptivos-consulta',
-    editorial: ['vph-1', 'atencion-embarazo-9', 'atencion-embarazo-10'],
-    seccionFoto: {
-      'cuidado-gestacional': 'apoyo-acompanamiento-1',
-      'prevencion-y-seguridad': 'apoyo-acompanamiento-2',
-      proceso: 'apoyo-acompanamiento-3',
-    },
-    // La doctora pidió que esta galería deje de ser de parto y recién nacidos
-    // y pase a los métodos anticonceptivos, con estos pies exactos. El texto
-    // largo de la página sigue siendo obstétrico hasta que mande el suyo, así
-    // que de momento galería y texto hablan de temas distintos: es a propósito
-    // y se resuelve cuando llegue el contenido.
+    // Van en las secciones de texto largo en este orden; recortadas a 4:5.
+    editorial: ['anticonceptivos-pastillas', 'anticonceptivos-implante', 'anticonceptivos-diu'],
+    seccionFoto: { 'motivos-de-visita': 'anticonceptivos-orientacion' },
+    // Los pies son los que pidió la doctora, tal cual.
     galeria: [
       ['anticonceptivos-orientacion', 'Consulta de orientación anticonceptiva'],
       ['anticonceptivos-implante', 'Colocación de implante subdérmico'],

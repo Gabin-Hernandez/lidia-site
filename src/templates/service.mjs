@@ -6,10 +6,12 @@
 //   contenido (editorial con foto fija / checklist / tarjetas / línea de tiempo
 //   dibujada al hacer scroll) → preguntas → galería → cifras → la doctora →
 //   servicios relacionados → ubicación → transparencia → cierre.
-import { DOCTORA, DOMAIN, physicianSchema, waLink } from '../data/site.mjs'
+import { getCheckUps, precioDeServicio } from '../data/servicios-completos.mjs'
+import { DOCTORA, DOMAIN, MOSTRAR_PRECIOS, physicianSchema, waLink } from '../data/site.mjs'
 import { RETRATO, SERVICIO_IMG, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
 import {
+  arcos,
   bandaCifras,
   claridad,
   ctaFinal,
@@ -19,6 +21,7 @@ import {
   head,
   header,
   pageShell,
+  testimonios,
   ubicacion,
 } from './layout.mjs'
 import {
@@ -39,6 +42,7 @@ import {
   tiraDatos,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 // Desplazamiento al saltar a un ancla: cabecera fija (76px) + subnav (~54px).
@@ -79,6 +83,8 @@ function serviceSchema(s) {
 }
 
 // Asigna a cada sección un id único y estable, y devuelve el índice de navegación.
+// `s.landingCompacta` quita del índice lo que esa versión de la página no pinta
+// (ver renderService): hoy sólo la galería.
 function construirIndice(s) {
   const usados = new Set()
   const secciones = s.sections.map((sec) => {
@@ -92,7 +98,7 @@ function construirIndice(s) {
   const nav = [
     ...secciones.map((sec) => ({ id: sec.id, label: sec.tag })),
     { id: 'preguntas', label: 'Preguntas' },
-    { id: 'galeria', label: 'Galería' },
+    ...(s.landingCompacta ? [] : [{ id: 'galeria', label: 'Galería' }]),
   ]
   return { secciones, nav }
 }
@@ -133,72 +139,135 @@ function marcoFoto(f, { orden = 0, alto = 'aspect-[4/5]' } = {}) {
 
 /* ══════════════════════════════════════════════════════════════ hero ══ */
 
-function heroServicio(s) {
+// Titular del hero: la ubicación final («en Polanco, CDMX») baja a su propia
+// línea en oro rosa, para que se lea de un golpe qué es y dónde. Los titulares
+// que no terminan en la ubicación (el de VPH) se quedan tal cual.
+function tituloHero(h1) {
+  const m = h1.match(/^(.*?)\s+(en (?:Polanco, )?CDMX)$/)
+  return m ? `${m[1]} <em class="block font-light italic text-oro-rosa">${m[2]}</em>` : h1
+}
+
+/**
+ * Hero de servicio. Es lo primero que ve quien llega desde un anuncio, así que
+ * cada pieza tiene un trabajo:
+ *   · la cara de la doctora (pastilla de arriba y foto en el arco) da confianza
+ *     antes de leer nada;
+ *   · titular corto con el dónde resaltado, una frase y tres beneficios;
+ *   · WhatsApp como acción principal, grande y a todo lo ancho en móvil;
+ *   · cifras visibles sin hacer scroll.
+ * En móvil la foto grande se omite: la pastilla con el retrato ya pone la cara
+ * y así el botón y las cifras caben en la primera pantalla.
+ */
+function heroServicio(s, precio) {
   const f = imgServicio(s.slug, 'hero')
+  const pos = SERVICIO_IMG[s.slug]?.heroPos || '50% 30%'
   const retrato = img(RETRATO)
-  const crumb = (href, texto) =>
-    `<li><a href="${href}" class="text-white/60 no-underline transition-colors duration-400 hover:text-white">${texto}</a></li>`
+  const estrellas = (clase) =>
+    Array.from({ length: 5 }, () => icono('estrella', clase)).join('')
+
+  const punto = (t) => `
+            <li class="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1.5 pl-2 pr-3.5 text-[0.86rem] font-medium text-white/90">
+              <span class="flex h-5 w-5 items-center justify-center rounded-full bg-oro-rosa/25 text-oro-rosa">${icono('check', 'h-3 w-3')}</span>${t}
+            </li>`
+
+  const cifra = (valor, etiqueta, extra = '') => `
+            <div class="min-w-0 px-3 py-4 text-center sm:px-5 sm:text-left lg:[@media(max-height:860px)]:py-3">
+              <span class="block whitespace-nowrap text-[clamp(1.35rem,2.3vw,1.75rem)] font-bold leading-none tracking-[-0.02em] text-white">${valor}</span>
+              ${extra}
+              <span class="mt-1.5 block text-[0.78rem] leading-snug text-white/60">${etiqueta}</span>
+            </div>`
 
   return `
-  <section class="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-noche text-white">
-    <!-- Fondo a sangre con velo para asegurar contraste del texto -->
-    <div aria-hidden="true" class="absolute inset-0 -z-10">
-      <img src="${f.src}" alt="" width="${f.w}" height="${f.h}" loading="eager" fetchpriority="high" decoding="async"
-           class="h-full w-full object-cover object-center opacity-45">
-      <span class="absolute inset-0 bg-gradient-to-t from-noche via-noche/88 to-noche/65"></span>
-      <span class="absolute inset-0 bg-gradient-to-r from-noche/85 via-transparent to-transparent"></span>
-    </div>
-    <span aria-hidden="true" class="halo -left-32 top-10 h-[26rem] w-[26rem] bg-oro-rosa/12"></span>
+  <section class="relative isolate overflow-hidden bg-noche text-white">
+    <!-- Atmósfera: dos halos de la paleta y los arcos de la marca detrás de la foto -->
+    <span aria-hidden="true" class="halo -left-40 -top-32 -z-10 h-[34rem] w-[34rem] bg-oro-rosa/20"></span>
+    <span aria-hidden="true" class="halo -right-24 bottom-0 -z-10 h-[30rem] w-[30rem] bg-marino-claro/35"></span>
+    <span aria-hidden="true" class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-noche to-transparent"></span>
 
-    <div class="${CONTAINER} relative pb-[clamp(96px,12vw,150px)] pt-[clamp(108px,14vh,150px)]">
-      <nav aria-label="Ruta de navegación" class="entrada mb-9">
-        <ol class="flex list-none flex-wrap items-center gap-2 text-[0.8rem]">
-          ${crumb('/', 'Inicio')}
-          <li aria-hidden="true" class="text-white/25">/</li>
-          ${crumb('/#servicios', 'Servicios')}
-          <li aria-hidden="true" class="text-white/25">/</li>
-          <li class="font-semibold text-oro-rosa-claro" aria-current="page">${s.nombre}</li>
-        </ol>
-      </nav>
+    <div class="${CONTAINER} relative grid items-center gap-[clamp(40px,5vw,88px)] pb-[clamp(108px,12vw,150px)] pt-[clamp(104px,13vh,148px)] lg:min-h-[min(100svh,920px)] lg:grid-cols-[1.1fr_0.9fr] lg:[@media(max-height:860px)]:pt-[96px]">
 
-      <div class="grid items-end gap-[clamp(32px,5vw,72px)] lg:grid-cols-[1.15fr_0.85fr]">
-        <div>
-          <span class="entrada inline-block" style="--d:.06s">${rotulo(s.tagline, { claro: true })}</span>
+      <div class="min-w-0">
+        <!-- Quién atiende, con su cara, antes que cualquier otra cosa -->
+        <span class="entrada inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.07] py-1.5 pl-1.5 pr-4 backdrop-blur-md" style="--d:.05s">
+          <img src="${retrato.src}" alt="" aria-hidden="true" width="${retrato.w}" height="${retrato.h}" loading="eager" decoding="async"
+               class="h-8 w-8 rounded-full object-cover object-top ring-2 ring-oro-rosa/60">
+          <span class="text-[0.85rem] leading-tight text-white/85">
+            <strong class="font-semibold text-white">${DOCTORA.nombre}</strong>
+            <span class="text-white/55"> · Gineco obstetra</span>
+          </span>
+        </span>
 
-          ${titulo(s.h1, {
-            tag: 'h1',
-            modo: 'hero',
-            clase:
-              'font-display font-medium text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.02] tracking-[-0.03em] text-white mt-6 max-w-[18ch]',
-          })}
+        ${titulo(tituloHero(s.h1), {
+          tag: 'h1',
+          modo: 'hero',
+          clase:
+            // En laptops de poca altura (≈768 px) el titular baja de tamaño para
+            // quedar en dos líneas y que las cifras sigan a la vista.
+            'mt-6 font-display text-[clamp(2.3rem,5.4vw,4.5rem)] font-bold leading-[1.04] tracking-[-0.03em] text-white lg:[@media(max-height:860px)]:text-[3.25rem]',
+        })}
 
-          <p class="entrada mt-7 max-w-[58ch] text-[clamp(1.2rem,2.04vw,1.37rem)] font-medium leading-[1.65] text-white/85 [&_strong]:font-bold [&_strong]:text-oro-rosa-claro" style="--d:.5s">${s.heroP}</p>
-          <p class="entrada mt-4 max-w-[56ch] text-[1.15rem] leading-[1.7] text-white/60" style="--d:.58s">${s.heroSubP}</p>
+        <p class="entrada mt-6 max-w-[46ch] text-[clamp(1.1rem,1.6vw,1.28rem)] leading-[1.6] text-white/75" style="--d:.45s">${s.heroP}</p>
 
-          <div class="entrada mt-10 flex flex-wrap items-center gap-4" style="--d:.66s">
-            ${btnWa(s.waText, `wa_click_${s.slug}_hero`)}
-            ${btnGhost('#proceso', 'Cómo es el proceso', { claro: true, icono: 'abajo' })}
-          </div>
+        <ul class="entrada mt-6 flex list-none flex-wrap gap-2" style="--d:.55s">
+          ${(s.heroPuntos || []).map(punto).join('')}
+        </ul>
 
-          <div class="entrada mt-8 flex flex-wrap items-center gap-x-5 gap-y-3" style="--d:.74s">
-            <span class="flex items-center gap-1.5 text-[1.03rem] text-white/70">
-              <span class="text-oro-rosa-claro" aria-hidden="true">${icono('estrella', 'h-3.5 w-3.5')}</span>
-              <strong class="font-bold text-white">5.0</strong> en Google
-            </span>
-            <span aria-hidden="true" class="h-1 w-1 rounded-full bg-white/25"></span>
-            <span class="text-[1.03rem] text-white/70"><strong class="font-bold text-white">+120</strong> pacientes atendidas</span>
+        <!-- WhatsApp primero (y a todo lo ancho en móvil): es la conversión de la
+             campaña. El secundario queda como enlace discreto. -->
+        <div class="entrada mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 max-sm:[&>a:first-child]:w-full" style="--d:.65s">
+          ${btnWa(s.waText, 'hero', undefined, { grande: true })}
+          <a href="${s.mostrarCheckUps ? '#opciones-check-up' : '#proceso'}" class="group inline-flex items-center gap-2 text-[0.95rem] font-semibold text-white/80 no-underline transition-colors hover:text-white max-sm:mx-auto">
+            ${s.mostrarCheckUps ? 'Ver opciones de check up' : 'Cómo es la consulta'}
+            <span class="transition-transform duration-300 group-hover:translate-y-0.5">${icono('abajo', 'h-4 w-4')}</span>
+          </a>
+        </div>
+        ${
+          precio
+            ? `<p class="entrada mt-4 text-[0.92rem] text-white/65" style="--d:.7s">Precio: <strong class="font-semibold text-white">${precio} MXN</strong></p>`
+            : ''
+        }
+
+        <!-- Cifras a la vista, sin scroll -->
+        <div class="entrada mt-9 lg:[@media(max-height:860px)]:mt-7 grid max-w-[560px] grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-md" style="--d:.78s">
+          ${cifra(
+            '5/5',
+            'en Google',
+            `<span aria-hidden="true" class="mt-1.5 flex justify-center gap-0.5 text-oro-rosa sm:justify-start">${estrellas('h-3 w-3')}</span>`
+          )}
+          ${cifra(`${DOCTORA.aniosExperiencia} años`, 'de experiencia')}
+          ${cifra('Mismo día', 'te respondemos')}
+        </div>
+      </div>
+
+      <!-- Foto en el arco de la marca, con dos tarjetas flotantes (solo escritorio) -->
+      <div class="entrada relative mx-auto w-full max-w-[460px] max-lg:hidden" style="--d:.3s">
+        ${arcos({ n: 4, paso: 44, clase: '-inset-x-16 -top-10 h-[calc(100%+5rem)] w-[calc(100%+8rem)] text-oro-rosa/30' })}
+        <div class="relative overflow-hidden rounded-t-full rounded-b-[2rem] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.65)] ring-1 ring-white/10">
+          <!-- El <source> vacío evita que el celular descargue una foto que ahí no se muestra -->
+          <picture>
+            <source media="(max-width: 1023px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+            <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="eager" fetchpriority="high" decoding="async"
+                 class="block aspect-[4/5] w-full object-cover" style="object-position:${pos}">
+          </picture>
+          <span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-noche/70 to-transparent"></span>
+        </div>
+
+        <div class="marco-flota absolute -left-12 top-[18%]" style="--flota-d:.4s">
+          <div class="rounded-2xl border border-white/15 bg-noche/75 px-4 py-3 shadow-cristal backdrop-blur-xl">
+            <span aria-hidden="true" class="flex gap-0.5 text-oro-rosa">${estrellas('h-3.5 w-3.5')}</span>
+            <span class="mt-1.5 block text-[1.5rem] font-bold leading-none text-white">5.0<span class="text-[0.85rem] font-medium text-white/55">/5</span></span>
+            <span class="mt-1 block text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/60">Google</span>
           </div>
         </div>
 
-        <!-- Ficha de la especialista -->
-        <div class="entrada lg:justify-self-end" style="--d:.4s">
-          <div class="flex items-center gap-4 rounded-[1.5rem] border border-white/12 bg-white/8 p-4 shadow-cristal backdrop-blur-xl">
+        <div class="marco-flota absolute -right-10 bottom-[9%]" style="--flota-d:1.3s">
+          <div class="flex items-center gap-3 rounded-2xl border border-white/15 bg-noche/75 p-3 pr-5 shadow-cristal backdrop-blur-xl">
             <img src="${retrato.src}" alt="" aria-hidden="true" width="${retrato.w}" height="${retrato.h}" loading="lazy" decoding="async"
-                 class="h-16 w-16 shrink-0 rounded-2xl object-cover ring-1 ring-oro-rosa/50">
-            <span class="min-w-0">
-              <span class="block text-[0.62rem] font-bold uppercase tracking-[0.22em] text-oro-rosa-claro">Te atiende</span>
-              <span class="mt-1.5 block font-display text-[1.05rem] font-semibold leading-tight text-white">${DOCTORA.nombre}</span>
-              <span class="mt-1 block text-[0.78rem] text-white/60">Ginecología y Colposcopía · Polanco</span>
+                 class="h-12 w-12 shrink-0 rounded-xl object-cover object-top">
+            <span class="leading-tight">
+              <span class="block text-[0.62rem] font-bold uppercase tracking-[0.2em] text-oro-rosa">Te atiende</span>
+              <span class="mt-1 block text-[0.98rem] font-semibold text-white">${DOCTORA.nombre}</span>
+              <span class="mt-0.5 block text-[0.72rem] text-white/55">Cédula de especialidad 14321195</span>
             </span>
           </div>
         </div>
@@ -209,7 +278,9 @@ function heroServicio(s) {
 
 /* ═════════════════════════════════ datos clave + navegación interna ══ */
 
-function navInterna(nav) {
+// `soloEscritorio`: en las landings de Ads se oculta en móvil, donde se suma a
+// la cabecera y a la barra de «Agendar» y deja poca pantalla para el contenido.
+function navInterna(nav, { soloEscritorio = false } = {}) {
   const item = (n, i) => `
         <li class="shrink-0">
           <a href="#${n.id}" data-spy-link="${n.id}" ${i === 0 ? 'aria-current="true" data-activo' : ''}
@@ -217,7 +288,7 @@ function navInterna(nav) {
         </li>`
   return `
   <nav aria-label="Secciones de esta página" data-subnav
-       class="sticky top-[var(--alto-cabecera)] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl transition-[top] duration-500 ease-suave">
+       class="${soloEscritorio ? 'max-lg:hidden ' : ''}sticky top-[var(--alto-cabecera)] z-40 mt-[clamp(40px,6vw,72px)] border-y border-marino/8 bg-lino/88 backdrop-blur-xl transition-[top] duration-500 ease-suave">
     <div class="${CONTAINER}">
       <ul class="flex list-none items-center gap-1.5 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         ${nav.map(item).join('')}
@@ -298,9 +369,17 @@ function seccionChecklist(sec, s, orden) {
           ${sec.bulletsTitle ? `<p data-anim class="mt-7 font-display text-[1.26rem] font-semibold text-marino">${sec.bulletsTitle}</p>` : ''}
           ${foto ? `<div class="mt-9">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
-        <ul data-anim-grupo class="list-none self-start">
-          ${sec.bullets.map(fila).join('\n')}
-        </ul>
+        <div class="self-start">
+          <ul data-anim-grupo class="list-none">
+            ${sec.bullets.map(fila).join('\n')}
+          </ul>
+          <!-- Tras leer la lista, la paciente suele reconocerse en un punto: ahí
+               va el siguiente llamado, sin obligarla a volver al hero. -->
+          <div data-anim class="mt-8 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-6 max-sm:[&>a]:w-full">
+            <p class="mb-4 text-[1.08rem] leading-[1.6] text-humo">¿Te identificas con alguno de estos puntos? Escríbenos y te orientamos sobre tu caso.</p>
+            ${btnWa(s.waText, `lista_${sec.id}`)}
+          </div>
+        </div>
       </div>
     </div>
   </section>`
@@ -361,7 +440,7 @@ function seccionProceso(sec, s, orden) {
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
           ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           <div data-anim class="mt-9">
-            ${btnWa(s.waText, `wa_click_${s.slug}_proceso`, 'Agendar este servicio')}
+            ${btnWa(s.waText, 'proceso', `Agendar ${s.nombre} por WhatsApp`)}
           </div>
           ${foto ? `<div class="mt-10">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
@@ -386,6 +465,51 @@ function contentSection(sec, s, ctx) {
   return seccionEditorial(sec, s, idx, idx % 2 === 1, orden)
 }
 
+/* ═══════════════════════════════════════════════ opciones de check up ══ */
+
+/**
+ * Las modalidades de check up con su precio, para que la página se lea como un
+ * producto y no como un artículo. Salen del catálogo de /servicios/, igual que
+ * el precio de la tira de datos, para no tener dos listas de precios.
+ *
+ * Se muestran las cinco que existen hoy. El documento de ajustes nombraba
+ * cuatro (Básico, Plus, VPH y Menopausia) y no mencionaba la de adolescentes,
+ * que sí está en el catálogo con su precio: esconderla aquí, en la página que
+ * habla precisamente de los check ups, dejaría fuera un servicio real.
+ */
+function seccionCheckUps(s) {
+  const tarjeta = (c) => {
+    const waMsg = `Hola, quiero agendar el ${c.nombre} con la Dra. Lidia. ¿Qué horarios tienen disponibles?`
+    return `
+        <article class="group flex flex-col rounded-[1.5rem] border border-marino/10 bg-lino p-6 shadow-sm transition duration-400 ease-suave hover:-translate-y-1 hover:border-oro-rosa/50 hover:shadow-flotante">
+          <h3 class="font-display text-[1.15rem] font-semibold leading-snug text-marino">${escapeAttr(c.nombre)}</h3>
+          ${MOSTRAR_PRECIOS && c.precio ? `<p class="mt-2.5 font-display text-[1.6rem] font-bold leading-none text-marino">${c.precio}<span class="ml-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-humo">MXN</span></p>` : ''}
+          ${c.incluye ? `<p class="mt-4 flex-1 text-[0.95rem] leading-relaxed text-humo">${escapeAttr(String(c.incluye).replace(/\n/g, ' · '))}</p>` : '<span class="flex-1"></span>'}
+          <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(c.nombre)}" data-wa-location="opciones_checkup"
+             class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-marino px-5 py-2.5 text-[0.85rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
+            ${waIcon(16, 'glifo')}
+            <span>Agendar por WhatsApp</span>
+          </a>
+        </article>`
+  }
+
+  return `
+  <section id="opciones-check-up" class="${SCROLL_MT} bg-arena/30 ${PAD}">
+    <div class="${CONTAINER}">
+      <div class="mb-[clamp(30px,4vw,52px)] max-w-[680px]">
+        <span data-anim>${rotulo('Elige tu modalidad')}</span>
+        ${titulo(`Opciones de ${acento('check up')} y sus precios`, { clase: `${H2} mt-5 text-marino` })}
+        <p data-anim class="mt-6 text-[1.18rem] leading-[1.7] text-humo">
+          Todas se realizan en una sola visita a Aurafem, en Polanco / Anzures.
+        </p>
+      </div>
+      <div data-anim-grupo class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        ${getCheckUps().map(tarjeta).join('\n')}
+      </div>
+    </div>
+  </section>`
+}
+
 /* ══════════════════════════════════════════════ preguntas y galería ══ */
 
 function faqSection(s) {
@@ -400,7 +524,7 @@ function faqSection(s) {
           <div data-anim class="mt-9 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-7">
             <p class="mb-2 font-display text-[1.32rem] font-semibold text-marino">¿No resolvimos tu duda?</p>
             <p class="mb-6 text-[1.1rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
-            <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_faq"
+            <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-location="faq"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
               ${waIcon(18, 'blanco')} Preguntar por WhatsApp
             </a>
@@ -486,10 +610,10 @@ function ctaFija(s) {
        class="fixed inset-x-0 bottom-0 z-[900] translate-y-full border-t border-marino/10 bg-lino/95 px-4 py-3 shadow-[0_-10px_30px_-10px_rgba(11,28,44,0.25)] backdrop-blur-xl transition-transform duration-500 ease-suave lg:hidden data-visible:translate-y-0">
     <div class="flex items-center gap-3">
       <span class="min-w-0 flex-1">
-        <span class="block truncate font-display text-[1.14rem] font-semibold leading-tight text-marino">${s.nombre}</span>
-        <span class="block text-[0.74rem] text-humo">Agenda directo con la especialista</span>
+        <span class="block truncate font-display text-[1rem] font-semibold leading-tight text-marino min-[400px]:text-[1.1rem]">${s.nombre}</span>
+        <span class="block text-[0.74rem] text-humo">Te respondemos el mismo día</span>
       </span>
-      <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-label="wa_click_${s.slug}_ctafija"
+      <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-location="ctafija"
          class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.88rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)]">
         ${waIcon(18, 'blanco')} Agendar
       </a>
@@ -501,9 +625,20 @@ function ctaFija(s) {
 
 export function renderService(s) {
   const canonical = `${DOMAIN}/${s.slug}/`
-  const waLabel = (pos) => `wa_click_${s.slug}_${pos}`
   const { secciones, nav } = construirIndice(s)
   const ctx = { fotoEditorial: 0, orden: 0 }
+
+  // El precio encabeza la tira de datos, como pidió la doctora, y sale del
+  // catálogo de /servicios/ para que no haya dos precios distintos del mismo
+  // servicio en el sitio.
+  // Con MOSTRAR_PRECIOS apagado la celda se queda, pero invita a preguntar: la
+  // pregunta por el costo también es un contacto por WhatsApp.
+  const precio = MOSTRAR_PRECIOS ? precioDeServicio(s.slug) : null
+  const datosClave = precio
+    ? [{ label: 'Precio', valor: precio }, ...s.datosClave]
+    : precioDeServicio(s.slug)
+      ? [{ label: 'Precio', valor: 'Infórmate por WhatsApp' }, ...s.datosClave]
+      : s.datosClave
 
   const headHtml = head({
     title: s.title,
@@ -514,40 +649,59 @@ export function renderService(s) {
     ogImage: `/og/${s.slug}.jpg`,
     schema: serviceSchema(s),
     preload: imgServicio(s.slug, 'hero').src,
+    preloadMedia: '(min-width: 1024px)',
   })
 
-  const main = [
-    heroServicio(s),
-    tiraDatos(s.datosClave, { montada: true }),
-    navInterna(nav),
-    ...secciones.map((sec) => contentSection(sec, s, ctx)),
-    faqSection(s),
-    galeriaSection(s),
-    bandaCifras(),
-    doctora({
-      waText: s.waText,
-      waLabel: waLabel('doctora'),
-      bullet1: s.confianzaBullet,
-      ctaTexto: s.confianzaCta,
-    }),
-    otrosServicios(s),
-    ubicacion({ waText: s.waText, waLabel: waLabel('ubicacion') }),
-    claridad(),
-    ctaFinal({ titulo: s.ctaTitle, waText: s.waText, waLabel: waLabel('ctafinal') }),
-  ].join('\n')
+  // Landing compacta: hoy sólo consulta-ginecologica (ver services.mjs), por
+  // ser la página de destino de Google Ads. Orden pedido por la doctora:
+  // hero → datos clave/precio → confianza → contenido (revisión, proceso) →
+  // ubicación → FAQ → cierre. Se quitan la galería, la banda de cifras, el
+  // bloque "la doctora" y "otros servicios": repiten prueba social y trato
+  // humano que ya están en el hero y en la nueva sección de confianza, y
+  // alargan la página que debe convertir tráfico pagado más rápido.
+  const main = s.landingCompacta
+    ? [
+        heroServicio(s, precio),
+        tiraDatos(datosClave, { montada: true }),
+        navInterna(nav, { soloEscritorio: true }),
+        s.mostrarCheckUps ? seccionCheckUps(s) : '',
+        testimonios({ limite: 3, breves: true, waText: s.waText }),
+        ...secciones.map((sec) => contentSection(sec, s, ctx)),
+        ubicacion({ waText: s.waText }),
+        faqSection(s),
+        claridad(),
+        ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
+      ].join('\n')
+    : [
+        heroServicio(s, precio),
+        tiraDatos(datosClave, { montada: true }),
+        navInterna(nav),
+        ...secciones.map((sec) => contentSection(sec, s, ctx)),
+        faqSection(s),
+        galeriaSection(s),
+        bandaCifras(),
+        doctora({
+          waText: s.waText,
+          bullet1: s.confianzaBullet,
+          ctaTexto: s.confianzaCta,
+        }),
+        otrosServicios(s),
+        ubicacion({ waText: s.waText }),
+        claridad(),
+        ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
+      ].join('\n')
 
   const bodyHtml = [
     header({
       waText: s.waText,
-      waLabel: waLabel('header'),
       logoAlt: s.logoAlt,
       tema: 'oscuro',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: s.waText, waLabel: waLabel('floating'), soloDesktop: true }),
+    floatingWa({ waText: s.waText, soloDesktop: true }),
     ctaFija(s),
     footer({ logoAlt: s.logoAlt, espacioCtaFija: true }),
   ].join('\n')
 
-  return pageShell({ headHtml, bodyHtml })
+  return pageShell({ headHtml, bodyHtml, servicio: s.slug })
 }

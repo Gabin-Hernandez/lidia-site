@@ -10,9 +10,10 @@
 // y alargaban un recorrido que ya es largo; como página aparte se leen enteros
 // y tienen URL que compartir. La prueba social de la portada la sostienen el
 // hero (valoración y volumen de pacientes) y la banda de cifras.
-import { DOCTORA, DOMAIN, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
+import { DOCTORA, DOMAIN, MOSTRAR_PRECIOS, RECORRIDO, physicianSchema, waLink } from '../data/site.mjs'
 import { GALERIA_HOME, RETRATO, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
+import { precioDeServicio } from '../data/servicios-completos.mjs'
 import {
   bandaCifras,
   claridad,
@@ -41,6 +42,7 @@ import {
   rotulo,
   titulo,
   waIcon,
+  waServicio,
 } from './ui.mjs'
 
 const HOME = {
@@ -118,21 +120,24 @@ function hero() {
             Atención ginecológica profesional para consulta, revisión preventiva, Papanicolaou, colposcopía, embarazo y control prenatal.
           </p>
 
-          <p class="entrada mt-4 max-w-[52ch] text-[1.2rem] leading-[1.7] text-humo max-lg:mx-auto" style="--d:.58s">
-            Agenda tu consulta con la ${DOCTORA.nombreCompleto} de forma rápida por WhatsApp, sin formularios ni llamadas en espera.
-          </p>
-
           <div class="entrada mt-9 flex flex-wrap items-center gap-4 max-lg:justify-center" style="--d:.66s">
-            ${btnWa(HOME.waHero, 'wa_click_landing_hero')}
+            ${btnWa(HOME.waHero, 'hero')}
             ${btnGhost('#servicios', 'Ver servicios', { icono: 'abajo' })}
           </div>
+          <p class="entrada mt-4 text-[0.95rem] text-humo" style="--d:.7s">Te respondemos el mismo día por WhatsApp</p>
 
           <div class="entrada mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 max-lg:justify-center" style="--d:.74s">
             ${pruebaSocial()}
           </div>
 
           <div class="entrada mt-11 flex flex-wrap gap-6 max-lg:justify-center" style="--d:.82s">
-            ${mini('7+', 'Servicios')}
+            ${
+              // Con precios: el de la consulta, que dice más que «7+ servicios».
+              // Sin precios (campaña de leads) se omite y quedan los otros dos.
+              MOSTRAR_PRECIOS && precioDeServicio('consulta-ginecologica')
+                ? mini(precioDeServicio('consulta-ginecologica'), 'Consulta')
+                : ''
+            }
             ${mini('Aurafem', 'Consultorio')}
             ${mini('CDMX', 'Miguel Hidalgo')}
           </div>
@@ -161,7 +166,7 @@ function hero() {
             <span class="flex items-center justify-center gap-1 text-oro-rosa" aria-hidden="true">
               ${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}${icono('estrella', 'h-3 w-3')}
             </span>
-            <span class="mt-1.5 block text-[1.35rem] font-bold leading-none tracking-[0.01em] text-marino">5.0</span>
+            <span class="mt-1.5 block text-[1.35rem] font-bold leading-none tracking-[0.01em] text-marino">5.0<span class="text-[0.85rem] text-oro-rosa">/5</span></span>
             <span class="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-humo">Google</span>
           </div>
         </div>
@@ -215,7 +220,7 @@ function filaServicio(s, i) {
               <p class="mt-2.5 max-w-[62ch] text-[1.08rem] leading-[1.6] text-humo lg:text-[1.14rem]">${s.cardDesc}</p>
             </span>
 
-            <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-label="wa_click_${s.slug}_landing"
+            <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-service="${waServicio(s.slug)}" data-wa-location="landing"
                aria-label="${escapeAttr(`Agendar ${s.nombre} por WhatsApp`)}"
                class="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-marino/12 text-wsp transition duration-500 ease-suave hover:border-wsp hover:bg-wsp hover:text-white max-lg:hidden">
               ${waIcon(18, 'glifo')}
@@ -251,7 +256,7 @@ function serviciosSection() {
 
       <p class="mt-9 text-center text-[1.02rem] text-humo lg:text-left">
         ¿No sabes cuál necesitas?
-        <a href="${waLink('Hola Dra. Lidia, no sé qué servicio necesito, ¿me orienta?')}" target="_blank" rel="noopener" data-wa-label="wa_click_landing_orientacion"
+        <a href="${waLink('Hola Dra. Lidia, no sé qué servicio necesito, ¿me orienta?')}" target="_blank" rel="noopener" data-wa-location="orientacion"
            class="enlace-linea font-bold text-marino no-underline">Escríbele a la doctora y te orienta.</a>
       </p>
     </div>
@@ -289,7 +294,7 @@ function escena() {
         <h2 class="cinetico escena__frase" data-cinetico="escena">Aquí preguntas sin pena, entiendes cada paso y decides con <em class="escena__acento">información</em>.</h2>
         <p class="escena__pie">Esa es toda la diferencia.</p>
         <div class="escena__cta">
-          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'wa_click_landing_escena', 'Agendar mi revisión')}
+          ${btnWa('Hola Dra. Lidia, quiero agendar mi revisión ginecológica.', 'escena')}
         </div>
       </div>
 
@@ -320,7 +325,7 @@ function recorrido() {
             Sin llamadas en espera ni formularios largos: escribes, confirmamos horario y llegas a tu cita con todo claro.
           </p>
           <div data-anim style="--d:.18s" class="mt-9">
-            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'wa_click_landing_recorrido', 'Empezar por WhatsApp')}
+            ${btnWa('Hola Dra. Lidia, quiero agendar una consulta.', 'recorrido')}
           </div>
         </div>
 
@@ -410,32 +415,28 @@ export function renderHome() {
     escena(),
     doctora({
       waText: HOME.waDoctora,
-      waLabel: 'wa_click_landing_doctora',
       bullet1: 'Consulta ginecológica profesional',
-      ctaTexto: 'Quiero agendar una consulta',
     }),
     pilares(),
     bandaCifras(),
     recorrido(),
     galeria(),
-    ubicacion({ waText: HOME.waUbicacion, waLabel: 'wa_click_landing_ubicacion' }),
+    ubicacion({ waText: HOME.waUbicacion }),
     claridad(),
     ctaFinal({
       titulo: 'Agenda tu consulta ginecológica por WhatsApp',
       waText: HOME.waCtaFinal,
-      waLabel: 'wa_click_landing_ctafinal',
     }),
   ].join('\n')
 
   const bodyHtml = [
     header({
       waText: HOME.waHeader,
-      waLabel: 'wa_click_landing_header',
       logoAlt: HOME.logoAltHeader,
       tema: 'claro',
     }),
     `<main id="contenido">${main}</main>`,
-    floatingWa({ waText: HOME.waHero, waLabel: 'wa_click_landing_floating' }),
+    floatingWa({ waText: HOME.waHero }),
     footer({ logoAlt: HOME.logoAltFooter }),
   ].join('\n')
 

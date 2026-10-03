@@ -18,9 +18,12 @@ const PAGINAS = [
   'conoce',
   'testimonios',
   'contacto',
+  'citas',
+  'admin',
   'aviso-de-privacidad',
   'politica-de-cookies',
   'blog',
+  'servicios',
 ]
 
 const PAGE_RE = /<!--\s*page:([a-z0-9/-]+)\s*-->/
@@ -102,6 +105,9 @@ export default defineConfig({
     rollupOptions: {
       input: Object.fromEntries([
         ['home', resolve(root, 'index.html')],
+        // Archivo suelto en la raíz, no carpeta: Apache la sirve con
+        // `ErrorDocument 404 /404.html` (ver public/.htaccess).
+        ['404', resolve(root, '404.html')],
         ...[...PAGINAS, ...ARTICULOS].map((slug) => [slug, resolve(root, `${slug}/index.html`)]),
       ]),
     },

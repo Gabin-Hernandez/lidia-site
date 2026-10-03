@@ -1,0 +1,36 @@
+# Configuración de Apache para la API. Se sube junto al resto de archivos.
+
+# PHP necesita PATH_INFO para saber qué ruta se ha pedido.
+AcceptPathInfo On
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Apache no siempre pasa la cabecera Authorization a PHP en hosting
+    # compartido. Aquí se vuelve a poner, que si no el token nunca llega.
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Todo a index.php, conservando la ruta pedida en PATH_INFO.
+    # La primera condición evita que la regla se aplique a sí misma en bucle.
+    RewriteCond %{REQUEST_URI} !/index\.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+</IfModule>
+
+# config.php lleva la contraseña de la base de datos y la del panel: nadie debe
+# poder pedirlo por HTTP. PHP sigue pudiendo incluirlo, esto sólo bloquea el
+# acceso desde fuera.
+<Files "config.php">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# Sin listados de directorio.
+Options -Indexes

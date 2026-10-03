@@ -29,11 +29,15 @@ export const CONOCE = {
 }
 
 // Ficha rápida. Solo afirmaciones sostenidas por el material de la doctora.
+// Las cédulas son las mismas que ya se publican en el pie de página
+// (DATOS_PROFESIONALES, en site.mjs); aquí se repiten arriba porque la doctora
+// pidió que la página de «Conoce» las muestre desde el inicio, no solo al pie.
 export const CREDENCIALES = [
   { label: 'Especialidad', valor: 'Gineco obstetricia' },
+  { label: 'Cédula profesional', valor: '11505335' },
+  { label: 'Cédula de especialidad', valor: '14321195' },
   { label: 'Alta especialidad', valor: 'Colposcopía y patología del tracto genital inferior' },
   { label: 'Diplomado', valor: 'Menopausia' },
-  { label: 'Consulta', valor: 'Ginecológica y obstétrica' },
   { label: 'Consultorio', valor: 'Aurafem · Polanco / Anzures' },
 ]
 
