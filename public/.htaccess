@@ -20,15 +20,6 @@ ErrorDocument 404 /404.html
     RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 </IfModule>
 
-# Agenda en línea temporalmente oculta: la doctora pidió no exponerla a
-# pacientes (sobre todo de Google Ads) hasta que cumpla lo que pide —
-# disponibilidad y duración por servicio, confirmación automática,
-# recordatorios y reprogramación desde la paciente. La página sigue
-# compilada y el panel de administración (/admin/) sigue funcionando con
-# normalidad; sólo se redirige la entrada pública. Quitar esta regla cuando
-# la agenda esté lista para publicarse.
-Redirect 302 /citas/ /contacto/
-
 <IfModule mod_headers.c>
     # El HTML cambia con cada despliegue: que el navegador pregunte siempre si
     # hay versión nueva. Los JS y CSS con hash en el nombre (assets/) se
