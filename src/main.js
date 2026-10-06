@@ -12,7 +12,7 @@
  */
 import { GA4_ID } from './data/site.mjs'
 
-const GTAG_CONVERSION = 'AW-18297301316/OBhzCLm2tcocEMTS6pRE'
+const GTAG_CONVERSION = 'AW-18297301316/g9X6CL6i4c8cEMTS6pRE'
 
 const $ = (sel, ctx = document) => ctx.querySelector(sel)
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)]
@@ -533,7 +533,7 @@ document.addEventListener('click', (e) => {
     return
   }
 
-  const wa = e.target.closest('a[href*="wa.me/"]')
+  const wa = e.target.closest('a[href*="wa.me/"], a[href*="api.whatsapp.com"]')
   if (!wa) return
   // Un doble clic abre WhatsApp igual, pero cuenta como un solo contacto.
   if (wa === ultimoWa.enlace && e.timeStamp - ultimoWa.t < 1000) return
@@ -545,10 +545,10 @@ document.addEventListener('click', (e) => {
     ...pagina,
     send_to: GA4_ID,
   })
+  // beacon: el envío sobrevive a que WhatsApp se abra en la misma pestaña.
   gtag('event', 'conversion', {
     send_to: GTAG_CONVERSION,
-    value: 1.0,
-    currency: 'MXN',
+    transport_type: 'beacon',
   })
 })
 
