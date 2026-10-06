@@ -219,9 +219,6 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
         </button>
       </div>
 
-      <!-- Sin enlace a /citas/: la doctora pidió ocultar la agenda en línea hasta que
-           cumpla lo que pide (disponibilidad y duración por servicio, confirmación
-           automática, recordatorios, reprogramación desde la paciente). -->
       <nav class="flex items-center gap-7" aria-label="Principal">
         <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
           ${navLink('/servicios/', 'Costos y Servicios', 'servicios')}
@@ -230,6 +227,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
           ${enlaceTestimonios}
           ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
+          ${navLink('/citas/', 'Agenda en línea', 'citas')}
           <li class="hidden max-lg:mt-4 max-lg:block">
             ${btnWa(waText, 'header_movil')}
           </li>
@@ -711,6 +709,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
             ${ARTICULOS.length ? enlace('/blog/', 'Blog') : ''}
             ${enlace('/contacto/#comollegar', 'Ubicación y acceso')}
             ${enlace('/contacto/', 'Contacto y citas')}
+            ${enlace('/citas/', 'Agenda en línea')}
             ${enlace('/#servicios', 'Todos los servicios')}
             ${enlace('/aviso-de-privacidad/', 'Aviso de Privacidad')}
             ${enlace('/politica-de-cookies/', 'Política de Cookies')}
@@ -785,7 +784,6 @@ ${headHtml}
 </head>
 <body class="grano bg-lino antialiased" data-wa-service="${waServicio(servicio)}">
 ${bodyHtml}
-${bannerCookies()}
 </body>
 </html>`
 }

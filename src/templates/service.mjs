@@ -98,7 +98,7 @@ function construirIndice(s) {
   const nav = [
     ...secciones.map((sec) => ({ id: sec.id, label: sec.tag })),
     { id: 'preguntas', label: 'Preguntas' },
-    ...(s.landingCompacta ? [] : [{ id: 'galeria', label: 'Galería' }]),
+    { id: 'galeria', label: 'Galería' },
   ]
   return { secciones, nav }
 }
@@ -669,6 +669,8 @@ export function renderService(s) {
         ...secciones.map((sec) => contentSection(sec, s, ctx)),
         ubicacion({ waText: s.waText }),
         faqSection(s),
+        galeriaSection(s),
+        bandaCifras(),
         claridad(),
         ctaFinal({ titulo: s.ctaTitle, waText: s.waText }),
       ].join('\n')
