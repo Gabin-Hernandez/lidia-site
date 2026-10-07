@@ -898,9 +898,3 @@ if (serviciosPage) {
   emptyResetBtn?.addEventListener('click', resetAll)
 }
 
-/* ═══════════════════════ 17. Agendador de citas (carga bajo demanda) ═════ */
-
-// Import dinámico: el JS del panel de administración sólo pesa en /admin/.
-// El calendario público ya no tiene JS propio: es el widget de Doctoralia.
-if ($('#panel-admin')) import('./scripts/admin-panel.js')
-
