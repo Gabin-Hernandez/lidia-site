@@ -6,7 +6,7 @@
 // estático: hero, cómo funciona y preguntas.
 import { CITAS, DOCTORALIA, FAQ_CITAS, PASOS_CITA } from '../data/citas.mjs'
 import { RETRATO, img } from '../data/imagenes.mjs'
-import { DOCTORA, DOMAIN, physicianSchema } from '../data/site.mjs'
+import { DIRECCION, DOCTORA, DOMAIN, MAPS_LINK, physicianSchema } from '../data/site.mjs'
 import {
   claridad,
   ctaFinal,
@@ -22,6 +22,7 @@ import {
   btnWa,
   escapeAttr,
   faqItem,
+  icono,
   rotulo,
   titulo,
 } from './ui.mjs'
@@ -99,21 +100,68 @@ function hero() {
 /* ─────────────────────────────────────── calendario (widget Doctoralia) */
 
 function calendario() {
-  // Código oficial del widget de Doctoralia, tipo «big_with_calendar». Su
-  // script (platform.docplanner.com) busca el enlace .zl-url y lo cambia por
-  // el iframe con la agenda; si el script no carga, queda el enlace al
-  // perfil, que sigue sirviendo para agendar.
+  // Dos columnas en escritorio: a la izquierda lo que la paciente quiere saber
+  // antes de reservar, con el estilo del sitio; a la derecha el widget de
+  // Doctoralia. El widget tiene un ancho fijo de tipo móvil (su opción
+  // `fullwidth` no lo estira) y no se le puede dar estilo por dentro, así que
+  // la anchura de la sección la pone el panel. Va sin caja propia a
+  // propósito: su fondo es transparente y, al desplegar «Mostrar más horas»,
+  // crece su iframe; dentro de una tarjeta blanca eso se veía como un hueco.
+  // Por lo mismo el panel no es sticky: al replegar las horas el iframe no
+  // vuelve a encoger, y un panel fijo se iba deslizando solo por ese alto vacío.
+  //
+  // Código oficial del widget, tipo «big_with_calendar». Su script
+  // (platform.docplanner.com) busca el enlace .zl-url y lo cambia por el
+  // iframe con la agenda; si el script no carga, queda el enlace al perfil.
+  const ventaja = (ic, t, d) => `
+            <li class="flex gap-4">
+              <span aria-hidden="true" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-oro-rosa/12 text-oro-rosa-profundo">${icono(ic, 'h-5 w-5')}</span>
+              <span>
+                <span class="block text-[1.05rem] font-semibold text-marino">${t}</span>
+                <span class="mt-1 block text-[0.98rem] leading-[1.6] text-humo">${d}</span>
+              </span>
+            </li>`
+  const retrato = img(RETRATO)
+  const mapa = `<a href="${MAPS_LINK}" target="_blank" rel="noopener" class="font-semibold text-marino underline decoration-marino/25 underline-offset-2 hover:decoration-marino">Ver en el mapa</a>`
   return `
   <section class="bg-arena/40 ${PAD}">
     <div class="${CONTAINER}">
-      <div class="mx-auto flex max-w-[460px] justify-center overflow-hidden rounded-[1.75rem] border border-marino/8 bg-white p-[clamp(10px,2vw,20px)] shadow-alta">
-        <a id="zl-url" class="zl-url" href="${DOCTORALIA.perfil}" rel="nofollow"
-           data-zlw-doctor="${DOCTORALIA.slug}" data-zlw-type="big_with_calendar"
-           data-zlw-opinion="false" data-zlw-hide-branding="true" data-zlw-saas-only="false"
-           data-zlw-expand-calendar="true" data-zlw-a11y-title="Calendario de citas de la Dra. Lidia Chávez">
-          Ver horarios y agendar con la Dra. Lidia Chávez en Doctoralia
-        </a>
-        <script>!function($_x,_s,id){var js,fjs=$_x.getElementsByTagName(_s)[0];if(!$_x.getElementById(id)){js=$_x.createElement(_s);js.id=id;js.src="https://platform.docplanner.com/js/widget.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","zl-widget-s");</script>
+      <div class="mx-auto grid max-w-[1120px] items-start gap-[clamp(32px,5vw,72px)] lg:grid-cols-[1fr_420px]">
+
+        <div class="rounded-[1.75rem] border border-marino/8 bg-lino p-[clamp(24px,4vw,48px)] shadow-suave">
+          <div class="flex items-center gap-4">
+            <img src="${retrato.src}" alt="" aria-hidden="true" width="${retrato.w}" height="${retrato.h}" loading="lazy" decoding="async"
+                 class="h-16 w-16 shrink-0 rounded-2xl object-cover ring-1 ring-oro-rosa/50">
+            <span>
+              <span class="block text-[0.62rem] font-bold uppercase tracking-[0.22em] text-oro-rosa-profundo">Te atiende</span>
+              <span class="mt-1 block font-display text-[1.3rem] font-semibold leading-tight text-marino">${DOCTORA.nombre}</span>
+              <span class="mt-0.5 block text-[0.92rem] text-humo">Ginecología y colposcopía</span>
+            </span>
+          </div>
+
+          <ul class="mt-8 grid gap-7 border-t border-marino/8 pt-8 sm:grid-cols-2">
+            ${ventaja('check', 'Confirmación al momento', 'Recibes un correo con todos los detalles en cuanto reservas.')}
+            ${ventaja('reloj', 'Recordatorio antes de tu cita', 'Para que no se te pase, con opción de cambiar la hora si lo necesitas.')}
+            ${ventaja('mapa', `${DIRECCION.lugar}, ${DIRECCION.calle}`, `${DIRECCION.municipio}, ${DIRECCION.region}. ${mapa}`)}
+            ${ventaja('escudo', 'Presencial o en línea', 'En el calendario elige «Dirección» para el consultorio o «En línea» para videoconsulta.')}
+          </ul>
+
+          <div class="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-arena/60 px-6 py-5">
+            <p class="max-w-[34ch] text-[0.98rem] leading-[1.55] text-humo">¿No encuentras un horario que te acomode? A veces hay espacios de última hora.</p>
+            ${btnWa('Hola Dra. Lidia, quiero agendar una cita y no encontré un horario en el calendario.', 'citas_calendario', 'Escribir por WhatsApp')}
+          </div>
+        </div>
+
+        <div class="mx-auto w-full max-w-[420px]">
+          <a id="zl-url" class="zl-url" href="${DOCTORALIA.perfil}" rel="nofollow"
+             data-zlw-doctor="${DOCTORALIA.slug}" data-zlw-type="big_with_calendar"
+             data-zlw-opinion="false" data-zlw-hide-branding="true" data-zlw-saas-only="false"
+             data-zlw-expand-calendar="true" data-zlw-a11y-title="Calendario de citas de la Dra. Lidia Chávez">
+            Ver horarios y agendar con la Dra. Lidia Chávez en Doctoralia
+          </a>
+          <script>!function($_x,_s,id){var js,fjs=$_x.getElementsByTagName(_s)[0];if(!$_x.getElementById(id)){js=$_x.createElement(_s);js.id=id;js.src="https://platform.docplanner.com/js/widget.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","zl-widget-s");</script>
+        </div>
+
       </div>
     </div>
   </section>`
