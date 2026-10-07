@@ -234,7 +234,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
         </ul>
 
         <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header"
-           class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b] lg:flex">
+           class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233] lg:flex">
           ${waIcon(18, 'blanco')}
           <span>WhatsApp</span>
         </a>
@@ -297,7 +297,7 @@ export function bandaCifras() {
 //            (100 caracteres o más): en una landing se leen de un vistazo.
 // `waText`   cierra el bloque con un botón de WhatsApp: recién leídas las
 //            opiniones es buen momento para pedir horario.
-export function testimonios({ limite = 0, verTodos = false, breves = false, waText = '' } = {}) {
+export function testimonios({ limite = 0, verTodos = false, breves = false, waText = '', cta = 'Quiero agendar mi cita' } = {}) {
   if (!TESTIMONIOS.length) return ''
 
   // El adelanto no corta por la cabeza: el orden del arreglo está pensado para
@@ -404,7 +404,7 @@ export function testimonios({ limite = 0, verTodos = false, breves = false, waTe
       ${
         waText
           ? `<div data-anim class="mt-[clamp(32px,4.5vw,56px)] flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-center max-sm:[&>a:first-child]:w-full">
-        ${btnWa(waText, 'testimonios', 'Quiero agendar mi cita')}
+        ${btnWa(waText, 'testimonios', cta)}
         <a href="/testimonios/" class="text-[0.95rem] font-semibold text-marino underline underline-offset-4 hover:text-oro-rosa-profundo">Leer más opiniones</a>
       </div>`
           : ''
@@ -496,7 +496,7 @@ export function doctora({ waText, bullet1, ctaTexto }) {
 
 /* ═══════════════════════════════════════════════════════════ ubicación ══ */
 
-export function ubicacion({ waText }) {
+export function ubicacion({ waText, cta }) {
   const dato = (ic, label, valor) => `
         <li class="flex items-start gap-4">
           <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-oro-rosa-claro">${icono(ic, 'h-4 w-4')}</span>
@@ -528,7 +528,7 @@ export function ubicacion({ waText }) {
           </ul>
 
           <div data-anim style="--d:.2s" class="mt-10 flex flex-wrap items-center gap-4">
-            ${btnWa(waText, 'ubicacion')}
+            ${btnWa(waText, 'ubicacion', cta)}
             ${btnGhost(
               MAPS_LINK,
               'Ver en Google Maps',
@@ -684,7 +684,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
           </p>
           <div class="mt-7 flex flex-wrap gap-3">
             <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-location="footer"
-               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
+               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233]">
               ${waIcon(18, 'blanco')} WhatsApp
             </a>
             <a href="tel:${DOCTORA.telefono}" class="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:border-white hover:bg-white/10">

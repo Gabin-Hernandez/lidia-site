@@ -10,6 +10,7 @@ import { getCheckUps, precioDeServicio } from '../data/servicios-completos.mjs'
 import { DOCTORA, DOMAIN, MOSTRAR_PRECIOS, physicianSchema, waLink } from '../data/site.mjs'
 import { RETRATO, SERVICIO_IMG, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
+import { bloqueDra, cierreConsulta, heroConsulta, paraMi, queEsperar } from './landing-consulta.mjs'
 import {
   arcos,
   bandaCifras,
@@ -377,7 +378,7 @@ function seccionChecklist(sec, s, orden) {
                va el siguiente llamado, sin obligarla a volver al hero. -->
           <div data-anim class="mt-8 rounded-[1.5rem] border border-oro-rosa/30 bg-lino p-6 max-sm:[&>a]:w-full">
             <p class="mb-4 text-[1.08rem] leading-[1.6] text-humo">¿Te identificas con alguno de estos puntos? Escríbenos y te orientamos sobre tu caso.</p>
-            ${btnWa(s.waText, `lista_${sec.id}`)}
+            ${btnWa(s.waText, `lista_${sec.id}`, s.ctaWa)}
           </div>
         </div>
       </div>
@@ -440,7 +441,7 @@ function seccionProceso(sec, s, orden) {
           ${titulo(sec.title, { clase: `${H2} mt-5 text-marino` })}
           ${sec.headerIntro ? `<p data-anim class="mt-6 max-w-[46ch] text-[1.2rem] leading-[1.75] text-humo">${sec.headerIntro}</p>` : ''}
           <div data-anim class="mt-9">
-            ${btnWa(s.waText, 'proceso', `Agendar ${s.nombre} por WhatsApp`)}
+            ${btnWa(s.waText, 'proceso', s.ctaWa || `Agendar ${s.nombre} por WhatsApp`)}
           </div>
           ${foto ? `<div class="mt-10">${marcoFoto(foto, { orden, alto: 'aspect-[4/3]' })}</div>` : ''}
         </div>
@@ -525,8 +526,8 @@ function faqSection(s) {
             <p class="mb-2 font-display text-[1.32rem] font-semibold text-marino">¿No resolvimos tu duda?</p>
             <p class="mb-6 text-[1.1rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
             <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-location="faq"
-               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#1fbe5b]">
-              ${waIcon(18, 'blanco')} Preguntar por WhatsApp
+               class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233]">
+              ${waIcon(18, 'blanco')} ${s.ctaWa || 'Preguntar por WhatsApp'}
             </a>
           </div>
         </div>
@@ -604,7 +605,7 @@ function otrosServicios(s) {
 }
 
 // Barra de acción fija en móvil: aparece al dejar atrás el hero.
-function ctaFija(s) {
+function ctaFija(s, { boton = 'Agendar' } = {}) {
   return `
   <div data-cta-fija aria-hidden="true"
        class="fixed inset-x-0 bottom-0 z-[900] translate-y-full border-t border-marino/10 bg-lino/95 px-4 py-3 shadow-[0_-10px_30px_-10px_rgba(11,28,44,0.25)] backdrop-blur-xl transition-transform duration-500 ease-suave lg:hidden data-visible:translate-y-0">
@@ -615,7 +616,7 @@ function ctaFija(s) {
       </span>
       <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-location="ctafija"
          class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.88rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)]">
-        ${waIcon(18, 'blanco')} Agendar
+        ${waIcon(18, 'blanco')} ${boton}
       </a>
     </div>
   </div>`
@@ -659,7 +660,27 @@ export function renderService(s) {
   // bloque "la doctora" y "otros servicios": repiten prueba social y trato
   // humano que ya están en el hero y en la nueva sección de confianza, y
   // alargan la página que debe convertir tráfico pagado más rápido.
-  const main = s.landingCompacta
+  // Consulta ginecológica tiene su propia landing, según el brief «Ajustes de
+  // conversión» (ver landing-consulta.mjs): primero lo que convierte (hero con
+  // un solo botón, para quién es, qué esperar, la doctora) y después lo
+  // explicativo y de SEO. Sin navegación interna, galería, cifras ni bloque de
+  // claridad: compiten con el botón de WhatsApp. Los testimonios van al final,
+  // antes del cierre, como pidió la clienta.
+  const esConsulta = s.slug === 'consulta-ginecologica'
+  const main = esConsulta
+    ? [
+        heroConsulta(s),
+        paraMi(s),
+        queEsperar(s),
+        bloqueDra(s),
+        tiraDatos(datosClave),
+        ...secciones.map((sec) => contentSection(sec, s, ctx)),
+        ubicacion({ waText: s.waText, cta: s.ctaWa }),
+        faqSection(s),
+        testimonios({ limite: 3, breves: true, waText: s.waText, cta: s.ctaWa }),
+        cierreConsulta(s),
+      ].join('\n')
+    : s.landingCompacta
     ? [
         heroServicio(s, precio),
         tiraDatos(datosClave, { montada: true }),
@@ -697,11 +718,12 @@ export function renderService(s) {
     header({
       waText: s.waText,
       logoAlt: s.logoAlt,
-      tema: 'oscuro',
+      // El hero de Consulta es claro (fondo lila); los demás son oscuros.
+      tema: esConsulta ? 'claro' : 'oscuro',
     }),
     `<main id="contenido">${main}</main>`,
     floatingWa({ waText: s.waText, soloDesktop: true }),
-    ctaFija(s),
+    ctaFija(s, esConsulta ? { boton: s.ctaWa } : {}),
     footer({ logoAlt: s.logoAlt, espacioCtaFija: true }),
   ].join('\n')
 

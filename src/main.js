@@ -588,6 +588,50 @@ $$('[data-carrusel]').forEach((bloque) => {
   })
 })
 
+/* ═════════════════════ 11b. Carrusel del hero (landing de consulta) ═════ */
+
+// Diapositivas apiladas que se funden una sobre otra. Avanza solo cada pocos
+// segundos, salvo con movimiento reducido; se pausa con el cursor encima o con
+// el foco dentro (quien está leyendo una foto no quiere que cambie), y cuando
+// la pestaña no está visible.
+$$('[data-carrusel-hero]').forEach((bloque) => {
+  const fotos = $$('[data-diapositiva]', bloque)
+  const puntos = $$('[data-carrusel-punto]', bloque)
+  if (fotos.length < 2) return
+  let actual = 0
+  let reloj = null
+
+  const ir = (i) => {
+    actual = (i + fotos.length) % fotos.length
+    fotos.forEach((f, n) => f.toggleAttribute('data-activo', n === actual))
+    puntos.forEach((p, n) => {
+      p.toggleAttribute('data-activo', n === actual)
+      if (n === actual) p.setAttribute('aria-current', 'true')
+      else p.removeAttribute('aria-current')
+    })
+  }
+  const parar = () => {
+    clearInterval(reloj)
+    reloj = null
+  }
+  const arrancar = () => {
+    if (menosMovimiento || reloj) return
+    reloj = setInterval(() => ir(actual + 1), 4500)
+  }
+
+  $('[data-carrusel-prev]', bloque)?.addEventListener('click', () => ir(actual - 1))
+  $('[data-carrusel-next]', bloque)?.addEventListener('click', () => ir(actual + 1))
+  puntos.forEach((p, n) => p.addEventListener('click', () => ir(n)))
+
+  bloque.addEventListener('mouseenter', parar)
+  bloque.addEventListener('mouseleave', arrancar)
+  bloque.addEventListener('focusin', parar)
+  bloque.addEventListener('focusout', arrancar)
+  document.addEventListener('visibilitychange', () => (document.hidden ? parar() : arrancar()))
+
+  arrancar()
+})
+
 /* ═══════════════════════ 12. Conversiones de WhatsApp y teléfono ════════ */
 
 // Cada clic a WhatsApp manda a GA4 un solo evento, whatsapp_click, y el botón

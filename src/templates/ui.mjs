@@ -148,7 +148,7 @@ export function btnWa(waText, ubicacion, texto = 'Agenda por WhatsApp', { grande
     : 'px-7 py-3.5 text-[0.95rem]'
   return `
     <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="${ubicacion}"
-       class="${BTN_BASE} ${medida} magnetico brillo bg-wsp text-white shadow-[0_12px_28px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1fbe5b] hover:shadow-[0_18px_38px_-8px_rgba(37,211,102,0.65)]">
+       class="${BTN_BASE} ${medida} magnetico brillo bg-wsp text-white shadow-[0_12px_28px_-8px_rgba(37,211,102,0.6)] hover:bg-[#0b6233] hover:shadow-[0_18px_38px_-8px_rgba(37,211,102,0.65)]">
       ${waIcon(grande ? 24 : 20, 'blanco')}
       <span>${texto}</span>
     </a>`

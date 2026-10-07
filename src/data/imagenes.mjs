@@ -527,6 +527,70 @@ const FOTOS_DRA = {
     alt: 'Tarjeta de revelación de género junto al ultrasonido del bebé en consulta',
   },
 
+  // Landing de Consulta ginecológica (brief de octubre 2026). La foto de la
+  // doctora viene recortada, con fondo transparente, para ir sobre el fondo
+  // lila del hero; el resto son las fotos del carrusel del hero.
+  'consulta-hero-dra': {
+    file: 'consulta-hero-dra.webp',
+    w: 900,
+    h: 1018,
+    alt: 'La Dra. Lidia Chávez sentada junto al equipo de ultrasonido de su consultorio',
+  },
+  'consulta-hero-fondo': {
+    file: 'consulta-hero-fondo.webp',
+    w: 1920,
+    h: 1253,
+    alt: 'Consultorio en tonos lila, luminoso y ordenado',
+  },
+  'equipo-aurafem-recepcion': {
+    file: 'equipo-aurafem-recepcion.webp',
+    w: 900,
+    h: 1200,
+    alt: 'El equipo de Aurafem en la recepción del consultorio',
+  },
+  'dra-ultrasonido-obstetrico': {
+    file: 'dra-ultrasonido-obstetrico.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez realizando un ultrasonido obstétrico',
+  },
+  'ultrasonido-embarazo': {
+    file: 'ultrasonido-embarazo.webp',
+    w: 1200,
+    h: 900,
+    alt: 'Ultrasonido a una paciente embarazada en el consultorio',
+  },
+  'recien-nacido-1': {
+    file: 'recien-nacido-1.webp',
+    w: 900,
+    h: 1125,
+    alt: 'Recién nacido en el hospital tras el parto',
+  },
+  'recien-nacido-2': {
+    file: 'recien-nacido-2.webp',
+    w: 900,
+    h: 1200,
+    alt: 'Recién nacido recibiendo sus primeros cuidados',
+  },
+  'quirofano-1': {
+    file: 'quirofano-1.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez y su equipo durante una cirugía',
+  },
+  'quirofano-colposcopio': {
+    file: 'quirofano-colposcopio.webp',
+    w: 900,
+    h: 1200,
+    alt: 'Procedimiento en quirófano con apoyo de colposcopio',
+  },
+  'quirofano-2': {
+    file: 'quirofano-2.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez y su equipo en quirófano',
+  },
+
   // Anticoncepción (galería de /orientacion-anticonceptiva/). Entre
   // paréntesis, la referencia del documento y el pie que pidió la doctora.
   // OKANTC1 → «Pastillas anticonceptivas»

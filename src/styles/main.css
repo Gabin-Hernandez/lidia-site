@@ -62,7 +62,7 @@
   --color-oro-rosa-profundo: #954a60;
   --color-oro-rosa-claro: #fbf3f6;
 
-  --color-wsp: #25d366;
+  --color-wsp: #0f7a3f; /* verde WhatsApp oscurecido: el #25d366 con texto blanco daba ~2:1 de contraste; este da 5.4:1 (mínimo 4.5:1) */
 
   --font-sans: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-display: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
