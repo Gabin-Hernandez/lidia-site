@@ -123,7 +123,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
 
   const navLink = (href, texto, id) => `
         <li>
-          <a href="${href}" class="relative block px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium ${
+          <a href="${href}" class="relative block whitespace-nowrap px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium ${
             activo === id ? 'after:w-full' : ''
           }">${texto}</a>
         </li>`
@@ -156,7 +156,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
   const megaServicios = `
         <li class="group relative max-lg:w-full" data-dropdown>
           <div class="flex items-center justify-center gap-0.5">
-            <a href="/#servicios" class="relative block px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium">Servicios</a>
+            <a href="/#servicios" class="relative block whitespace-nowrap px-1 py-2 text-[0.92rem] font-semibold text-current no-underline after:absolute after:bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-500 after:ease-suave hover:after:w-full max-lg:text-[1.6rem] max-lg:font-display max-lg:font-medium">Servicios</a>
             <button type="button" data-dropdown-btn aria-expanded="false" aria-controls="mega-servicios" aria-label="Abrir submenú de servicios"
                     class="cursor-pointer p-3 text-current transition duration-500 ease-suave group-data-open:rotate-180 lg:p-1.5 lg:group-hover:rotate-180">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -219,15 +219,15 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
         </button>
       </div>
 
-      <nav class="flex items-center gap-7" aria-label="Principal">
-        <ul id="navLinks" class="flex list-none items-center gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
+      <nav class="flex items-center gap-4 xl:gap-7" aria-label="Principal">
+        <ul id="navLinks" class="flex list-none items-center gap-4 xl:gap-7 max-lg:invisible max-lg:fixed max-lg:inset-x-0 max-lg:top-0 max-lg:z-[1000] max-lg:h-[100dvh] max-lg:translate-y-[-100%] max-lg:flex-col max-lg:items-center max-lg:justify-start max-lg:gap-6 max-lg:overflow-y-auto max-lg:bg-lino max-lg:px-6 max-lg:pb-28 max-lg:pt-28 max-lg:text-marino max-lg:transition-[transform,visibility] max-lg:duration-500 max-lg:ease-suave data-open:max-lg:visible data-open:max-lg:translate-y-0">
           ${navLink('/servicios/', 'Costos y Servicios', 'servicios')}
           ${megaServicios}
           ${navLink('/conoce/', 'La doctora', 'conoce')}
           ${enlaceTestimonios}
           ${ARTICULOS.length ? navLink('/blog/', 'Blog', 'blog') : ''}
           ${navLink('/contacto/', 'Contacto', 'contacto')}
-          ${navLink('/citas/', 'Agenda en línea', 'citas')}
+          ${navLink('/citas/', 'Agenda', 'citas')}
           <li class="hidden max-lg:mt-4 max-lg:block">
             ${btnWa(waText, 'header_movil')}
           </li>

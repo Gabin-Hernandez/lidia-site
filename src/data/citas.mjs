@@ -1,19 +1,28 @@
 // Contenido de la página de agenda en línea (/citas/).
 //
-// El calendario en sí (huecos disponibles, formulario de solicitud) lo pinta
-// src/scripts/citas-publico.js contra la API de horarios; aquí sólo vive el
-// texto fijo alrededor: hero, cómo funciona y preguntas frecuentes.
+// El calendario es el widget de reservas de Doctoralia: la paciente agenda
+// directo en la agenda de Doctoralia de la doctora, que ya es la que ella
+// usa. Así hay una sola agenda (sin citas empalmadas entre dos sistemas) y
+// Doctoralia se encarga de confirmación, recordatorios y reprogramación.
+// Aquí sólo vive el texto fijo alrededor: hero, cómo funciona y preguntas.
+
+// Perfil de Doctoralia de la doctora. `slug` es el identificador que usa el
+// widget (data-zlw-doctor) y sale de la dirección pública del perfil.
+export const DOCTORALIA = {
+  slug: 'lidia-estela-chavez-buendia',
+  perfil: 'https://www.doctoralia.com.mx/perfil/lidia-estela-chavez-buendia',
+}
 
 export const CITAS = {
   slug: 'citas',
   title: 'Agenda tu cita en línea | Dra. Lidia Chávez, ginecóloga en Polanco CDMX',
   description:
-    'Elige día y hora para tu consulta con la Dra. Lidia Chávez desde el calendario en línea. Consultorio en Polanco, CDMX. Confirmación por WhatsApp.',
+    'Elige día y hora para tu consulta con la Dra. Lidia Chávez desde el calendario en línea. Consultorio en Polanco, CDMX. Confirmación inmediata por correo.',
   ogAlt: 'Agenda tu cita en línea - Dra. Lidia Chávez, ginecóloga en Polanco CDMX',
   logoAlt: 'Logo Dra. Lidia Chávez - Ginecóloga en Polanco CDMX',
 
   eyebrow: 'Agenda en línea',
-  lead: 'Elige el día y la hora que te acomoden dentro de los horarios disponibles. La Dra. Lidia Chávez confirma tu solicitud por WhatsApp.',
+  lead: 'Elige el día y la hora que te acomoden dentro de los horarios disponibles. Recibes la confirmación por correo en ese momento.',
 }
 
 // Los tres pasos de "cómo funciona", debajo del calendario.
@@ -27,15 +36,15 @@ export const PASOS_CITA = [
     texto: 'Nombre, teléfono y el motivo de tu visita, para que la doctora sepa qué esperar de la consulta.',
   },
   {
-    titulo: 'Confirmación por WhatsApp',
-    texto: 'Tu solicitud queda registrada y la Dra. Lidia Chávez te confirma en breve por WhatsApp o llamada.',
+    titulo: 'Confirmación por correo',
+    texto: 'Tu cita queda agendada y recibes un correo con todos los detalles, además de un recordatorio antes de la consulta.',
   },
 ]
 
 export const FAQ_CITAS = [
   {
     q: '¿Mi cita queda confirmada al enviarla?',
-    a: 'Queda como solicitud. La Dra. Lidia Chávez la revisa y te confirma por WhatsApp o llamada al teléfono que dejes; así se evitan citas dobles o mal agendadas.',
+    a: 'Sí. El calendario sólo muestra horarios libres en la agenda de la doctora, y al reservar recibes un correo de confirmación con todos los detalles.',
   },
   {
     q: '¿Qué pasa si no encuentro un horario que me sirva?',
@@ -43,6 +52,6 @@ export const FAQ_CITAS = [
   },
   {
     q: '¿Puedo cambiar o cancelar la hora que pedí?',
-    a: 'Sí, escribe por WhatsApp con la mayor anticipación posible y se reagenda en el siguiente horario disponible.',
+    a: 'Sí, desde el correo de confirmación que te llega al reservar, o escribiendo por WhatsApp con la mayor anticipación posible.',
   },
 ]

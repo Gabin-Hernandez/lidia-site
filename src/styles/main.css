@@ -1105,3 +1105,11 @@ body {
 body.saliendo {
   opacity: 0;
 }
+
+/* --- Widget de Doctoralia en /citas/ ------------------------------------- */
+/* Alto fijo para el iframe del widget (ver citas.mjs): pisa la altura que le
+   pone el script de Doctoralia, que sólo crece. 760px muestra el calendario
+   completo sin desplegar; lo demás se recorre con el scroll interno. */
+.calendario-doctoralia iframe {
+  height: 760px !important;
+}

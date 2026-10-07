@@ -6,11 +6,9 @@
  * consulta es WhatsApp, así que la página lo convierte en el camino principal y
  * lo hace lo más corto posible con mensajes ya redactados por motivo.
  *
- * `HORARIOS` refleja el horario semanal que la doctora gestiona desde
- * /admin/ (ver hostinger/api/horarios.php). Es una copia estática para esta
- * página: si cambia el horario en el panel, hay que actualizarla aquí y
- * volver a desplegar — el sitio público no llama a la API para no depender
- * de ella en una página que no necesita datos en vivo.
+ * `HORARIOS` es el horario de atención publicado en esta página. Es texto
+ * fijo: si la doctora cambia su horario (su agenda real vive en Doctoralia),
+ * hay que actualizarlo aquí y volver a desplegar.
  */
 
 export const CONTACTO = {

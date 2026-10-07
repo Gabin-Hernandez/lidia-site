@@ -19,7 +19,6 @@ const PAGINAS = [
   'testimonios',
   'contacto',
   'citas',
-  'admin',
   'aviso-de-privacidad',
   'politica-de-cookies',
   'blog',
