@@ -462,14 +462,13 @@ const FOTOS_DRA = {
     alt: 'La Dra. Lidia Chávez de pie en el área de exploración del consultorio',
   },
 
-  // Restantes de la revisión 2, que la clienta mandó aparte.
-  // Casi el mismo disparo que 'equipo-sala-espera' (misma pose, segundos de
-  // diferencia): la doctora la pidió igualmente en la portada, justo antes.
+  // Restantes de la revisión 2, que la clienta mandó aparte. En octubre de
+  // 2026 se cambió por la foto del equipo completo frente al logo.
   'equipo-de-aurafem': {
     file: 'equipo-de-aurafem.webp',
     w: 1200,
-    h: 799,
-    alt: 'El equipo de Aurafem: la Dra. Lidia Chávez y la asistente del consultorio en la sala de espera',
+    h: 800,
+    alt: 'El equipo de Aurafem en la recepción del consultorio, frente al logotipo',
   },
   'prenatal-folleto': {
     file: 'prenatal-folleto.webp',

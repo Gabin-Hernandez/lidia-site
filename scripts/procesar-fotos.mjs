@@ -119,7 +119,8 @@ const FOTOS = [
 
   // Restantes del documento «pagina revision 2»: la foto del equipo para la
   // portada y la miniatura nueva de control prenatal.
-  ['Restantes/Equipo de Aurafem.png', 'equipo-de-aurafem', 1200, null],
+  // Sustituida en oct 2026 por la foto del equipo completo frente al logo.
+  ['Restantes/Equipo de Aurafem 2.png', 'equipo-de-aurafem', 1200, null],
   ['Restantes/miniatura control prenatal.png', 'prenatal-folleto', 900, null],
 
   // Las «IMAGEN #» del documento. Llegaron ya reducidas (1600 px como mucho),
