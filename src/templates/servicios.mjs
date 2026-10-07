@@ -236,7 +236,7 @@ export function renderServicios() {
     }
 
     return `
-    <section aria-labelledby="mas-solicitados" class="border-b border-marino/12 bg-arena/20 py-[clamp(36px,5vw,56px)]">
+    <section data-flores aria-labelledby="mas-solicitados" class="border-b border-marino/12 bg-arena/20 py-[clamp(36px,5vw,56px)]">
       <div class="${CONTAINER}">
         <div class="mb-6 text-center">
           <span data-anim>${rotulo('Lo que más piden')}</span>

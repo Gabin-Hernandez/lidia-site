@@ -184,7 +184,7 @@ function comoFunciona() {
         </li>`
 
   return `
-  <section class="bg-lino ${PAD}">
+  <section data-flores class="bg-lino ${PAD}">
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(32px,4.5vw,72px)] lg:grid-cols-[0.8fr_1.2fr]">
         <div class="lg:sticky lg:top-[120px] lg:self-start">

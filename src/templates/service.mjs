@@ -432,7 +432,7 @@ function seccionProceso(sec, s, orden) {
             <p class="max-w-[48ch] text-[1.16rem] leading-[1.75] text-humo">${p.text}</p>
           </li>`
   return `
-  <section id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
+  <section data-flores id="${sec.id}" class="${SECTION_BG[sec.bg]} ${SCROLL_MT} ${PAD}">
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(36px,5vw,80px)] lg:grid-cols-[0.85fr_1.15fr]">
         <div class="lg:sticky lg:top-[calc(var(--alto-cabecera)+74px)] lg:self-start">

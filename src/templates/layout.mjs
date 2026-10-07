@@ -369,7 +369,7 @@ export function testimonios({ limite = 0, verTodos = false, breves = false, waTe
   // `ancla()`, porque el punto desde el que conviene ver el bloque cambia según
   // lo que tenga encima.
   return `
-  <section class="relative overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
+  <section data-flores class="relative overflow-hidden bg-lino py-[clamp(72px,10vw,140px)]">
     <span aria-hidden="true" class="halo -right-32 top-0 h-[28rem] w-[28rem] bg-arena-2/60"></span>
     <div class="${CONTAINER} relative">
       <div class="mb-[clamp(38px,5.5vw,72px)] grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -426,7 +426,7 @@ export function pilares() {
           <p class="relative text-[1.13rem] leading-[1.7] text-humo">${p.texto}</p>
         </article>`
   return `
-  <section class="relative bg-arena/40 py-[clamp(72px,10vw,140px)]">
+  <section data-flores class="relative bg-arena/40 py-[clamp(72px,10vw,140px)]">
     <div class="${CONTAINER}">
       <div class="mb-[clamp(38px,5.5vw,72px)] grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
@@ -585,7 +585,7 @@ export function claridad() {
 
 export function ctaFinal({ titulo: t, waText, intro }) {
   return `
-  <section id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,160px)]">
+  <section data-flores id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,160px)]">
     <span aria-hidden="true" class="halo left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 bg-oro-rosa/20"></span>
     <span aria-hidden="true" class="halo -bottom-40 right-10 h-80 w-80 bg-white/60"></span>
 

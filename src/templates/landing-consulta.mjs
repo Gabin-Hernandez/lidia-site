@@ -175,7 +175,7 @@ export function queEsperar(s) {
             <p class="mt-2 text-[1.05rem] leading-[1.65] text-humo">${d}</p>
           </li>`
   return `
-  <section class="bg-lino ${PAD}">
+  <section data-flores class="bg-lino ${PAD}">
     <div class="${CONTAINER}">
       <div class="mx-auto max-w-[760px] text-center">
         <span data-anim>${rotulo('Tu consulta')}</span>
@@ -226,7 +226,7 @@ export function bloqueDra(s) {
 
 export function cierreConsulta(s) {
   return `
-  <section id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,150px)]">
+  <section data-flores id="agendar" class="relative scroll-mt-[110px] overflow-hidden bg-arena/60 py-[clamp(84px,11vw,150px)]">
     <span aria-hidden="true" class="halo left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 bg-oro-rosa/20"></span>
     <div class="${CONTAINER} relative text-center">
       <span data-anim class="inline-block">${rotulo('Agenda tu cita')}</span>
