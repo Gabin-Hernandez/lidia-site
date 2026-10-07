@@ -107,8 +107,13 @@ function calendario() {
   // la anchura de la sección la pone el panel. Va sin caja propia a
   // propósito: su fondo es transparente y, al desplegar «Mostrar más horas»,
   // crece su iframe; dentro de una tarjeta blanca eso se veía como un hueco.
-  // Por lo mismo el panel no es sticky: al replegar las horas el iframe no
-  // vuelve a encoger, y un panel fijo se iba deslizando solo por ese alto vacío.
+  // Al replegar las horas el iframe no vuelve a encoger: el widget sólo avisa
+  // su altura cuando cambia su contenido y no manda la menor, así que la
+  // página se quedaba con un hueco enorme. Por eso el iframe va a alto fijo
+  // (main.css, .calendario-doctoralia) y con scroll interno: al desplegar, las
+  // horas extra se recorren dentro del widget y, al replegarlas, su contenido
+  // vuelve a su tamaño sin dejar hueco. Un scroll en nuestra caja no servía:
+  // ahí el hueco era el propio iframe. Por lo mismo el panel no es sticky.
   //
   // Código oficial del widget, tipo «big_with_calendar». Su script
   // (platform.docplanner.com) busca el enlace .zl-url y lo cambia por el
@@ -152,7 +157,7 @@ function calendario() {
           </div>
         </div>
 
-        <div class="mx-auto w-full max-w-[420px]">
+        <div class="calendario-doctoralia mx-auto w-full max-w-[420px]">
           <a id="zl-url" class="zl-url" href="${DOCTORALIA.perfil}" rel="nofollow"
              data-zlw-doctor="${DOCTORALIA.slug}" data-zlw-type="big_with_calendar"
              data-zlw-opinion="false" data-zlw-hide-branding="true" data-zlw-saas-only="false"
@@ -160,6 +165,7 @@ function calendario() {
             Ver horarios y agendar con la Dra. Lidia Chávez en Doctoralia
           </a>
           <script>!function($_x,_s,id){var js,fjs=$_x.getElementsByTagName(_s)[0];if(!$_x.getElementById(id)){js=$_x.createElement(_s);js.id=id;js.src="https://platform.docplanner.com/js/widget.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","zl-widget-s");</script>
+          <script>(function(){var c=document.currentScript.parentNode;new MutationObserver(function(){var f=c.querySelector("iframe");if(f&&f.getAttribute("scrolling")!=="yes"){f.setAttribute("scrolling","yes");f.src=f.src}}).observe(c,{childList:true,subtree:true})})();</script>
         </div>
 
       </div>
