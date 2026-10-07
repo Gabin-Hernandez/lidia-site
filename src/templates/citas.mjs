@@ -1,11 +1,10 @@
 // Plantilla de agenda en línea: /citas/
 //
-// El calendario (huecos disponibles + formulario de solicitud) es contenido
-// dinámico: lo pinta src/scripts/citas-publico.js dentro de #calendario-citas
-// al cargar, contra la API de horarios. Aquí sólo va el envoltorio estático
-// (hero, cómo funciona, preguntas) más un esqueleto de carga para que la
-// sección no se vea vacía mientras responde la API.
-import { CITAS, FAQ_CITAS, PASOS_CITA } from '../data/citas.mjs'
+// El calendario es el widget de reservas de Doctoralia (ver
+// src/data/citas.mjs): el script de Doctoralia sustituye el enlace por un
+// iframe con la agenda real de la doctora. Aquí va además el envoltorio
+// estático: hero, cómo funciona y preguntas.
+import { CITAS, DOCTORALIA, FAQ_CITAS, PASOS_CITA } from '../data/citas.mjs'
 import { RETRATO, img } from '../data/imagenes.mjs'
 import { DOCTORA, DOMAIN, physicianSchema } from '../data/site.mjs'
 import {
@@ -87,9 +86,9 @@ function hero() {
           <img src="${retrato.src}" alt="" aria-hidden="true" width="${retrato.w}" height="${retrato.h}" loading="lazy" decoding="async"
                class="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-oro-rosa/50">
           <span class="text-left">
-            <span class="block text-[0.62rem] font-bold uppercase tracking-[0.22em] text-oro-rosa-profundo">Confirma</span>
+            <span class="block text-[0.62rem] font-bold uppercase tracking-[0.22em] text-oro-rosa-profundo">Te atiende</span>
             <span class="mt-1 block font-display text-[1.02rem] font-semibold leading-tight text-marino">${DOCTORA.nombre}</span>
-            <span class="mt-0.5 block text-[0.78rem] text-humo">Por WhatsApp, tras revisar tu solicitud</span>
+            <span class="mt-0.5 block text-[0.78rem] text-humo">Confirmación inmediata por correo</span>
           </span>
         </div>
       </div>
@@ -97,30 +96,24 @@ function hero() {
   </section>`
 }
 
-/* ─────────────────────────────────────────────── calendario (dinámico) */
+/* ─────────────────────────────────────── calendario (widget Doctoralia) */
 
 function calendario() {
-  // El esqueleto de abajo se sustituye por completo en cuanto
-  // citas-publico.js responde; sirve de estado de carga y de contenido
-  // mínimo si el JS no llega a ejecutarse.
+  // Código oficial del widget de Doctoralia, tipo «big_with_calendar». Su
+  // script (platform.docplanner.com) busca el enlace .zl-url y lo cambia por
+  // el iframe con la agenda; si el script no carga, queda el enlace al
+  // perfil, que sigue sirviendo para agendar.
   return `
   <section class="bg-arena/40 ${PAD}">
     <div class="${CONTAINER}">
-      <div id="calendario-citas" data-cargando
-           class="mx-auto max-w-[880px] overflow-hidden rounded-[1.75rem] border border-marino/8 bg-lino shadow-alta">
-        <div class="grid gap-6 p-[clamp(24px,4vw,40px)] sm:grid-cols-[1fr_1.1fr]">
-          <div class="animate-pulse space-y-3">
-            <div class="h-4 w-2/3 rounded-full bg-marino/10"></div>
-            <div class="grid grid-cols-7 gap-1.5 pt-2">
-              ${Array.from({ length: 21 }, () => '<div class="aspect-square rounded-lg bg-marino/8"></div>').join('')}
-            </div>
-          </div>
-          <div class="animate-pulse space-y-3">
-            <div class="h-4 w-1/2 rounded-full bg-marino/10"></div>
-            ${Array.from({ length: 4 }, () => '<div class="h-10 rounded-xl bg-marino/8"></div>').join('')}
-          </div>
-        </div>
-        <p class="border-t border-marino/8 bg-lino px-6 py-4 text-center text-[0.9rem] text-humo">Cargando horarios disponibles…</p>
+      <div class="mx-auto flex max-w-[460px] justify-center overflow-hidden rounded-[1.75rem] border border-marino/8 bg-white p-[clamp(10px,2vw,20px)] shadow-alta">
+        <a id="zl-url" class="zl-url" href="${DOCTORALIA.perfil}" rel="nofollow"
+           data-zlw-doctor="${DOCTORALIA.slug}" data-zlw-type="big_with_calendar"
+           data-zlw-opinion="false" data-zlw-hide-branding="true" data-zlw-saas-only="false"
+           data-zlw-expand-calendar="true" data-zlw-a11y-title="Calendario de citas de la Dra. Lidia Chávez">
+          Ver horarios y agendar con la Dra. Lidia Chávez en Doctoralia
+        </a>
+        <script>!function($_x,_s,id){var js,fjs=$_x.getElementsByTagName(_s)[0];if(!$_x.getElementById(id)){js=$_x.createElement(_s);js.id=id;js.src="https://platform.docplanner.com/js/widget.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","zl-widget-s");</script>
       </div>
     </div>
   </section>`
@@ -142,9 +135,9 @@ function comoFunciona() {
       <div class="grid gap-[clamp(32px,4.5vw,72px)] lg:grid-cols-[0.8fr_1.2fr]">
         <div class="lg:sticky lg:top-[120px] lg:self-start">
           <span data-anim>${rotulo('Cómo funciona')}</span>
-          ${titulo(`De tu solicitud a la ${acento('consulta')}`, { clase: `${H2} mt-5 text-marino` })}
+          ${titulo(`De tu reserva a la ${acento('consulta')}`, { clase: `${H2} mt-5 text-marino` })}
           <p data-anim style="--d:.1s" class="mt-6 max-w-[44ch] text-[1.18rem] leading-[1.75] text-humo">
-            El calendario reserva el hueco mientras la doctora confirma tu cita.
+            Sólo ves horarios libres de la agenda de la doctora: lo que eliges queda reservado al momento.
           </p>
         </div>
         <ol data-anim-grupo class="list-none self-start">${PASOS_CITA.map(paso).join('')}</ol>
