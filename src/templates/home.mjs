@@ -313,7 +313,7 @@ function recorrido() {
           <p class="max-w-[52ch] text-[1.15rem] leading-[1.75] text-humo">${p.texto}</p>
         </li>`
   return `
-  <section class="relative overflow-hidden bg-arena/40 py-[clamp(72px,10vw,140px)]">
+  <section data-flores class="relative overflow-hidden bg-arena/40 py-[clamp(72px,10vw,140px)]">
     <div class="${CONTAINER}">
       <div class="grid gap-[clamp(36px,5vw,72px)] lg:grid-cols-[0.9fr_1.1fr]">
         <div class="lg:sticky lg:top-[120px] lg:self-start">

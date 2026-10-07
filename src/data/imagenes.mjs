@@ -462,14 +462,13 @@ const FOTOS_DRA = {
     alt: 'La Dra. Lidia Chávez de pie en el área de exploración del consultorio',
   },
 
-  // Restantes de la revisión 2, que la clienta mandó aparte.
-  // Casi el mismo disparo que 'equipo-sala-espera' (misma pose, segundos de
-  // diferencia): la doctora la pidió igualmente en la portada, justo antes.
+  // Restantes de la revisión 2, que la clienta mandó aparte. En octubre de
+  // 2026 se cambió por la foto del equipo completo frente al logo.
   'equipo-de-aurafem': {
     file: 'equipo-de-aurafem.webp',
     w: 1200,
-    h: 799,
-    alt: 'El equipo de Aurafem: la Dra. Lidia Chávez y la asistente del consultorio en la sala de espera',
+    h: 800,
+    alt: 'El equipo de Aurafem en la recepción del consultorio, frente al logotipo',
   },
   'prenatal-folleto': {
     file: 'prenatal-folleto.webp',
@@ -525,6 +524,70 @@ const FOTOS_DRA = {
     w: 900,
     h: 1200,
     alt: 'Tarjeta de revelación de género junto al ultrasonido del bebé en consulta',
+  },
+
+  // Landing de Consulta ginecológica (brief de octubre 2026). La foto de la
+  // doctora viene recortada, con fondo transparente, para ir sobre el fondo
+  // lila del hero; el resto son las fotos del carrusel del hero.
+  'consulta-hero-dra': {
+    file: 'consulta-hero-dra.webp',
+    w: 900,
+    h: 1018,
+    alt: 'La Dra. Lidia Chávez sentada junto al equipo de ultrasonido de su consultorio',
+  },
+  'consulta-hero-fondo': {
+    file: 'consulta-hero-fondo.webp',
+    w: 1920,
+    h: 1253,
+    alt: 'Consultorio en tonos lila, luminoso y ordenado',
+  },
+  'equipo-aurafem-recepcion': {
+    file: 'equipo-aurafem-recepcion.webp',
+    w: 900,
+    h: 1200,
+    alt: 'El equipo de Aurafem en la recepción del consultorio',
+  },
+  'dra-ultrasonido-obstetrico': {
+    file: 'dra-ultrasonido-obstetrico.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez realizando un ultrasonido obstétrico',
+  },
+  'ultrasonido-embarazo': {
+    file: 'ultrasonido-embarazo.webp',
+    w: 1200,
+    h: 900,
+    alt: 'Ultrasonido a una paciente embarazada en el consultorio',
+  },
+  'recien-nacido-1': {
+    file: 'recien-nacido-1.webp',
+    w: 900,
+    h: 1125,
+    alt: 'Recién nacido en el hospital tras el parto',
+  },
+  'recien-nacido-2': {
+    file: 'recien-nacido-2.webp',
+    w: 900,
+    h: 1200,
+    alt: 'Recién nacido recibiendo sus primeros cuidados',
+  },
+  'quirofano-1': {
+    file: 'quirofano-1.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez y su equipo durante una cirugía',
+  },
+  'quirofano-colposcopio': {
+    file: 'quirofano-colposcopio.webp',
+    w: 900,
+    h: 1200,
+    alt: 'Procedimiento en quirófano con apoyo de colposcopio',
+  },
+  'quirofano-2': {
+    file: 'quirofano-2.webp',
+    w: 900,
+    h: 1200,
+    alt: 'La Dra. Lidia Chávez y su equipo en quirófano',
   },
 
   // Anticoncepción (galería de /orientacion-anticonceptiva/). Entre

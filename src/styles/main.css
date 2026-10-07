@@ -62,7 +62,7 @@
   --color-oro-rosa-profundo: #954a60;
   --color-oro-rosa-claro: #fbf3f6;
 
-  --color-wsp: #25d366;
+  --color-wsp: #0f7a3f; /* verde WhatsApp oscurecido: el #25d366 con texto blanco daba ~2:1 de contraste; este da 5.4:1 (mínimo 4.5:1) */
 
   --font-sans: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-display: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
@@ -1112,4 +1112,39 @@ body.saliendo {
    completo sin desplegar; lo demás se recorre con el scroll interno. */
 .calendario-doctoralia iframe {
   height: 760px !important;
+}
+
+/* --- Marca de agua de flores --------------------------------------------- */
+/* Flores en silueta, muy tenues, en el fondo de las secciones marcadas con
+   data-flores en las plantillas (elegidas a mano: las que tienen aire, no las
+   de fotos grandes, mapas o listas densas). Hay dos modelos y se alternan solos
+   según el orden de cada página: la 1.ª, 3.ª, 5.ª… sección con flores lleva un
+   par de rosas en esquina; la 2.ª, 4.ª… el patrón completo. Así nunca hay dos
+   patrones completos seguidos ni en la misma vista, y basta con poner o quitar
+   data-flores para que el reparto se reacomode.
+   Imágenes: «Blue Floral Pattern» de tanrica en Pixabay (licencia de contenido
+   de Pixabay: uso comercial sin atribución), pasado a un solo tono y
+   transparente; el SVG original está en fotos-originales/. Son imágenes de
+   fondo: quedan debajo del contenido y no tapan texto ni botones. */
+
+/* Rosas en esquina: una arriba a la izquierda y otra abajo a la derecha,
+   desvanecidas hacia el centro (public/img/flores-esquina-a/b.webp). */
+main > section:nth-child(odd of [data-flores]):not([class*='bg-noche']) {
+  background-image: url('/img/flores-esquina-a.webp'), url('/img/flores-esquina-b.webp');
+  background-repeat: no-repeat, no-repeat;
+  background-size: clamp(220px, 30vw, 420px) auto, clamp(200px, 28vw, 390px) auto;
+  background-position: left -30px top -20px, right -30px bottom -20px;
+}
+
+/* Patrón completo, repetido (public/img/flores-marca-agua.webp). */
+main > section:nth-child(even of [data-flores]):not([class*='bg-noche']) {
+  background-image: url('/img/flores-marca-agua.webp');
+  background-repeat: repeat;
+  background-size: 520px 520px;
+  background-position: center top;
+}
+@media (max-width: 640px) {
+  main > section:nth-child(even of [data-flores]):not([class*='bg-noche']) {
+    background-size: 340px 340px;
+  }
 }

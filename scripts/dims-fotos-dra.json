@@ -193,7 +193,7 @@
   ],
   "equipo-de-aurafem": [
     1200,
-    803
+    800
   ],
   "prenatal-folleto": [
     900,
@@ -224,6 +224,46 @@
     1200
   ],
   "prenatal-revelacion-genero": [
+    900,
+    1200
+  ],
+  "consulta-hero-dra": [
+    900,
+    1018
+  ],
+  "consulta-hero-fondo": [
+    1920,
+    1253
+  ],
+  "equipo-aurafem-recepcion": [
+    900,
+    1200
+  ],
+  "dra-ultrasonido-obstetrico": [
+    900,
+    1200
+  ],
+  "ultrasonido-embarazo": [
+    1200,
+    900
+  ],
+  "recien-nacido-1": [
+    900,
+    1125
+  ],
+  "recien-nacido-2": [
+    900,
+    1200
+  ],
+  "quirofano-1": [
+    900,
+    1200
+  ],
+  "quirofano-colposcopio": [
+    900,
+    1200
+  ],
+  "quirofano-2": [
     900,
     1200
   ]

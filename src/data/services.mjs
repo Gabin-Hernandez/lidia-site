@@ -63,6 +63,9 @@ const CATALOGO = [
       { label: 'Preparación', valor: 'Ropa cómoda y fecha de tu última regla' },
     ],
     landingCompacta: true,
+    // Texto único de todos los botones de WhatsApp de la landing, como pidió la
+    // clienta (el brief pide no tener CTAs distintos compitiendo entre sí).
+    ctaWa: 'Agendar mi cita',
     sections: [
       {
         bg: 'light',

@@ -119,7 +119,8 @@ const FOTOS = [
 
   // Restantes del documento «pagina revision 2»: la foto del equipo para la
   // portada y la miniatura nueva de control prenatal.
-  ['Restantes/Equipo de Aurafem.png', 'equipo-de-aurafem', 1200, null],
+  // Sustituida en oct 2026 por la foto del equipo completo frente al logo.
+  ['Restantes/Equipo de Aurafem 2.png', 'equipo-de-aurafem', 1200, null],
   ['Restantes/miniatura control prenatal.png', 'prenatal-folleto', 900, null],
 
   // Las «IMAGEN #» del documento. Llegaron ya reducidas (1600 px como mucho),
@@ -131,6 +132,20 @@ const FOTOS = [
   ['Restantes/IMAGEN 41.jpeg', 'prenatal-cesarea', 900, null],
   ['Restantes/IMAGEN 44.jpeg', 'prenatal-parto', 900, null],
   ['Restantes/IMAGEN 30.jpeg', 'prenatal-revelacion-genero', 900, null],
+
+  // Landing de Consulta ginecológica (brief de octubre 2026, zip «newli»). El
+  // hero lleva el fondo lila y la foto recortada de la doctora (venía como PNG
+  // con transparencia dentro de 1.svg), y un carrusel con el resto de fotos.
+  ['LandingConsulta/1-embebida.png', 'consulta-hero-dra', 900, null],
+  ['LandingConsulta/2.jpg', 'consulta-hero-fondo', 1920, null],
+  ['LandingConsulta/PHOTO-2026-05-12-12-55-18 3.jpg', 'equipo-aurafem-recepcion', 900, null],
+  ['LandingConsulta/PHOTO-2026-06-20-14-33-50 2.jpg', 'dra-ultrasonido-obstetrico', 900, null],
+  ['LandingConsulta/PHOTO-2026-05-07-22-42-33.jpg', 'ultrasonido-embarazo', 1200, null],
+  ['LandingConsulta/PHOTO-2026-04-02-13-54-37 (1).jpg', 'recien-nacido-1', 900, null],
+  ['LandingConsulta/PHOTO-2026-05-16-13-41-52 2.jpg', 'recien-nacido-2', 900, null],
+  ['LandingConsulta/PHOTO-2026-05-15-14-14-12.jpg', 'quirofano-1', 900, null],
+  ['LandingConsulta/PHOTO-2026-06-11-09-57-56.jpg', 'quirofano-colposcopio', 900, null],
+  ['LandingConsulta/PHOTO-2026-06-22-23-42-07 4.jpg', 'quirofano-2', 900, null],
 ]
 
 fs.mkdirSync(DESTINO, { recursive: true })
