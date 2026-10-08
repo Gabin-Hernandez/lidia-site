@@ -209,7 +209,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
       <div class="flex items-center gap-2.5 lg:hidden">
         <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header_movil_barra" aria-label="Escríbenos por WhatsApp"
            class="flex h-10 items-center gap-2 rounded-full bg-wsp px-3 text-[0.82rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-300 active:scale-95 min-[400px]:px-4">
-          ${waIcon(20, 'blanco')}
+          ${waIcon(30, 'blanco')}
           <span class="max-[399px]:sr-only">WhatsApp</span>
         </a>
         <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px]" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
@@ -235,7 +235,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
 
         <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header"
            class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233] lg:flex">
-          ${waIcon(18, 'blanco')}
+          ${waIcon(28, 'blanco')}
           <span>WhatsApp</span>
         </a>
       </nav>
@@ -685,7 +685,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
           <div class="mt-7 flex flex-wrap gap-3">
             <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-location="footer"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233]">
-              ${waIcon(18, 'blanco')} WhatsApp
+              ${waIcon(28, 'blanco')} WhatsApp
             </a>
             <a href="tel:${DOCTORA.telefono}" class="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:border-white hover:bg-white/10">
               ${DOCTORA.telefonoDisplay}

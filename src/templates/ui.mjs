@@ -103,7 +103,10 @@ export function waIcon(size, variante = 'marca') {
   if (variante === 'glifo') {
     return `<svg ${medida} viewBox="0 0 24 24" fill="currentColor"><path d="${WA_GLIFO}"/></svg>`
   }
-  const [disco, glifo] = variante === 'blanco' ? ['#FFFFFF', WA_VERDE] : [WA_VERDE, '#FFFFFF']
+  // 'blanco' (botones verdes): disco blanco con el logo en el mismo verde
+  // oscuro del botón (--color-wsp), así se lee como recortado y lo que destaca
+  // es el blanco. Antes el logo iba en verde claro y el disco se veía menos.
+  const [disco, glifo] = variante === 'blanco' ? ['#FFFFFF', 'var(--color-wsp)'] : [WA_VERDE, '#FFFFFF']
   return `<svg ${medida} viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="${disco}"/><path fill="${glifo}" transform="translate(6.4 6.4) scale(.8)" d="${WA_GLIFO}"/></svg>`
 }
 
@@ -149,7 +152,7 @@ export function btnWa(waText, ubicacion, texto = 'Agenda por WhatsApp', { grande
   return `
     <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="${ubicacion}"
        class="${BTN_BASE} ${medida} magnetico brillo bg-wsp text-white shadow-[0_12px_28px_-8px_rgba(37,211,102,0.6)] hover:bg-[#0b6233] hover:shadow-[0_18px_38px_-8px_rgba(37,211,102,0.65)]">
-      ${waIcon(grande ? 24 : 20, 'blanco')}
+      ${waIcon(grande ? 38 : 30, 'blanco')}
       <span>${texto}</span>
     </a>`
 }
