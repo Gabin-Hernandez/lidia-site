@@ -84,6 +84,16 @@ export function icono(nombre, clase = 'h-5 w-5') {
 }
 
 // Glifo de la marca WhatsApp (burbuja con auricular) en retícula de 24×24.
+// Logo oficial de WhatsApp en tres capas (viewBox 512): borde blanco con
+// colita, burbuja verde y teléfono.
+let waIdGradiente = 0
+const WA_OFICIAL_BORDE =
+  'M0 512l35.31-128C12.359 344.276 0 300.138 0 254.234 0 114.759 114.759 0 255.117 0 395.476 0 512 114.759 512 254.234 512 393.71 395.476 512 255.117 512c-44.138 0-86.51-14.124-123.586-35.31L0 512z'
+const WA_OFICIAL_BURBUJA =
+  'M137.71 430.786l7.945 4.414c32.662 20.303 70.621 32.662 110.345 32.662 115.641 0 211.862-96.221 211.862-213.628S371.641 44.138 255.117 44.138 44.138 137.71 44.138 254.234c0 40.607 11.476 80.331 32.662 113.876l5.297 7.945-20.303 74.152 75.916-19.421z'
+const WA_OFICIAL_TELEFONO =
+  'M187.145 135.945l-16.772-.883c-5.297 0-10.593 1.766-14.124 5.297-7.945 7.062-21.186 20.303-24.717 37.959-6.179 26.483 3.531 58.262 26.483 90.041s67.09 82.979 144.772 105.048c24.717 7.062 44.138 2.648 60.028-7.062 12.359-7.945 20.303-20.303 22.952-33.545l2.648-12.359c.883-3.531-.883-7.945-4.414-9.71l-55.614-25.6c-3.531-1.766-7.945-.883-10.593 2.648l-22.069 28.248c-1.766 1.766-4.414 2.648-7.062 1.766-15.007-5.297-65.324-26.483-92.69-79.448-.883-2.648-.883-5.297.883-7.062l21.186-23.834c1.766-2.648 2.648-6.179 1.766-8.828l-25.6-57.379c-.884-2.649-3.532-5.297-7.063-5.297z'
+
 const WA_GLIFO =
   'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z'
 
@@ -103,10 +113,14 @@ export function waIcon(size, variante = 'marca') {
   if (variante === 'glifo') {
     return `<svg ${medida} viewBox="0 0 24 24" fill="currentColor"><path d="${WA_GLIFO}"/></svg>`
   }
-  // 'blanco' (botones verdes): disco blanco con el logo en el mismo verde
-  // oscuro del botón (--color-wsp), así se lee como recortado y lo que destaca
-  // es el blanco. Antes el logo iba en verde claro y el disco se veía menos.
-  const [disco, glifo] = variante === 'blanco' ? ['#FFFFFF', 'var(--color-wsp)'] : [WA_VERDE, '#FFFFFF']
+  // 'blanco' (botones verdes): el logo oficial de WhatsApp —burbuja verde con
+  // degradado, borde blanco con colita y teléfono blanco—, como lo pidió la
+  // clienta. El borde blanco lo separa del verde oscuro del botón.
+  if (variante === 'blanco') {
+    const g = `wa-g-${++waIdGradiente}` // id único: el logo se repite en la página
+    return `<svg ${medida} viewBox="0 0 512 512"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#61D46F"/><stop offset="1" stop-color="#2AB540"/></linearGradient></defs><path fill="#fff" d="${WA_OFICIAL_BORDE}"/><path fill="url(#${g})" d="${WA_OFICIAL_BURBUJA}"/><path fill="#fff" d="${WA_OFICIAL_TELEFONO}"/></svg>`
+  }
+  const [disco, glifo] = [WA_VERDE, '#FFFFFF']
   return `<svg ${medida} viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="${disco}"/><path fill="${glifo}" transform="translate(6.4 6.4) scale(.8)" d="${WA_GLIFO}"/></svg>`
 }
 
@@ -152,7 +166,7 @@ export function btnWa(waText, ubicacion, texto = 'Agenda por WhatsApp', { grande
   return `
     <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="${ubicacion}"
        class="${BTN_BASE} ${medida} magnetico brillo bg-wsp text-white shadow-[0_12px_28px_-8px_rgba(37,211,102,0.6)] hover:bg-[#0b6233] hover:shadow-[0_18px_38px_-8px_rgba(37,211,102,0.65)]">
-      ${waIcon(grande ? 38 : 30, 'blanco')}
+      ${waIcon(grande ? 52 : 44, 'blanco')}
       <span>${texto}</span>
     </a>`
 }

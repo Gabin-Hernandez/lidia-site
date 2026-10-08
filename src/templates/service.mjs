@@ -488,7 +488,7 @@ function seccionCheckUps(s) {
           ${c.incluye ? `<p class="mt-4 flex-1 text-[0.95rem] leading-relaxed text-humo">${escapeAttr(String(c.incluye).replace(/\n/g, ' · '))}</p>` : '<span class="flex-1"></span>'}
           <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(c.nombre)}" data-wa-location="opciones_checkup"
              class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-marino px-5 py-2.5 text-[0.85rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
-            ${waIcon(16, 'glifo')}
+            ${waIcon(22, 'blanco')}
             <span>Agendar por WhatsApp</span>
           </a>
         </article>`
@@ -527,7 +527,7 @@ function faqSection(s) {
             <p class="mb-6 text-[1.1rem] leading-[1.7] text-humo">Escríbele directamente a la Dra. Lidia Chávez. Te responde personalmente por WhatsApp.</p>
             <a href="${waLink(s.waText)}" target="_blank" rel="noopener" data-wa-location="faq"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233]">
-              ${waIcon(28, 'blanco')} ${s.ctaWa || 'Preguntar por WhatsApp'}
+              ${waIcon(32, 'blanco')} ${s.ctaWa || 'Preguntar por WhatsApp'}
             </a>
           </div>
         </div>
@@ -616,7 +616,7 @@ function ctaFija(s, { boton = 'Agendar' } = {}) {
       </span>
       <a href="${waLink(s.waText)}" target="_blank" rel="noopener" tabindex="-1" data-wa-location="ctafija"
          class="inline-flex shrink-0 items-center gap-2 rounded-full bg-wsp px-5 py-2.5 text-[0.88rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)]">
-        ${waIcon(28, 'blanco')} ${boton}
+        ${waIcon(32, 'blanco')} ${boton}
       </a>
     </div>
   </div>`

@@ -150,7 +150,7 @@ function canales() {
         <!-- WhatsApp: el canal principal, en oscuro para que gane la mirada -->
         <article class="group relative flex flex-col overflow-hidden rounded-[1.5rem] bg-noche p-8 text-white shadow-alta">
           <span aria-hidden="true" class="halo -right-20 -top-20 h-56 w-56 bg-wsp/25"></span>
-          <span class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-wsp/15">${waIcon(24)}</span>
+          <span class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-wsp/15">${waIcon(34, 'blanco')}</span>
           <h3 class="${H3} relative mb-3 text-white">WhatsApp</h3>
           <p class="relative mb-7 text-[1.14rem] leading-[1.7] text-white/65">
             El camino más corto. Escribes, se revisan los horarios disponibles y se confirma tu cita, normalmente el mismo día.
@@ -207,7 +207,7 @@ function motivos() {
           <span class="mb-2 block font-display text-[1.32rem] font-semibold leading-snug text-marino">${m.titulo}</span>
           <span class="mb-6 block text-[1.08rem] leading-[1.6] text-humo">${m.texto}</span>
           <span class="mt-auto inline-flex items-center gap-2 text-[0.85rem] font-bold text-wsp">
-            ${waIcon(16, 'glifo')} Escribir
+            ${waIcon(22, 'blanco')} Escribir
             <span aria-hidden="true" class="transition-transform duration-500 ease-suave group-hover:translate-x-1">${icono('flecha', 'h-3.5 w-3.5')}</span>
           </span>
         </a>`
