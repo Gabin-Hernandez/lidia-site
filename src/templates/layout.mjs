@@ -209,7 +209,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
       <div class="flex items-center gap-2.5 lg:hidden">
         <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header_movil_barra" aria-label="Escríbenos por WhatsApp"
            class="flex h-10 items-center gap-2 rounded-full bg-wsp px-3 text-[0.82rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-300 active:scale-95 min-[400px]:px-4">
-          ${waIcon(20, 'blanco')}
+          ${waIcon(36, 'blanco')}
           <span class="max-[399px]:sr-only">WhatsApp</span>
         </a>
         <button class="group relative z-[1010] flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px]" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
@@ -235,7 +235,7 @@ export function header({ waText, logoAlt, tema = 'claro', activo = '' }) {
 
         <a href="${waLink(waText)}" target="_blank" rel="noopener" data-wa-location="header"
            class="group/wa relative hidden items-center gap-2.5 overflow-hidden rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline shadow-[0_8px_20px_-6px_rgba(37,211,102,0.7)] transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233] lg:flex">
-          ${waIcon(18, 'blanco')}
+          ${waIcon(32, 'blanco')}
           <span>WhatsApp</span>
         </a>
       </nav>
@@ -610,9 +610,9 @@ export function ctaFinal({ titulo: t, waText, intro }) {
 export function floatingWa({ waText, soloDesktop = false }) {
   return `
   <a href="${waLink(waText)}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-wa-location="floating"
-     class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full bg-wsp text-white shadow-[0_12px_30px_-6px_rgba(37,211,102,0.75)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
+     class="group fixed bottom-6 right-6 z-[999] ${soloDesktop ? 'hidden lg:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full drop-shadow-[0_10px_18px_rgba(15,122,63,0.45)] transition duration-500 ease-suave hover:scale-110 max-sm:bottom-4 max-sm:right-4">
     <span aria-hidden="true" class="absolute inset-0 animate-ping rounded-full bg-wsp/40"></span>
-    <span class="relative">${waIcon(30, 'glifo')}</span>
+    <span class="relative">${waIcon(58, 'blanco')}</span>
   </a>`
 }
 
@@ -685,7 +685,7 @@ export function footer({ logoAlt, espacioCtaFija = false }) {
           <div class="mt-7 flex flex-wrap gap-3">
             <a href="${waLink('Hola Dra. Lidia, quiero agendar una consulta.')}" target="_blank" rel="noopener" data-wa-location="footer"
                class="inline-flex items-center gap-2.5 rounded-full bg-wsp px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:-translate-y-0.5 hover:bg-[#0b6233]">
-              ${waIcon(18, 'blanco')} WhatsApp
+              ${waIcon(32, 'blanco')} WhatsApp
             </a>
             <a href="tel:${DOCTORA.telefono}" class="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-5 py-2.5 text-[0.85rem] font-bold text-white no-underline transition duration-500 ease-suave hover:border-white hover:bg-white/10">
               ${DOCTORA.telefonoDisplay}

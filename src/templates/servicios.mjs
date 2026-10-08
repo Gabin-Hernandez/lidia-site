@@ -198,7 +198,7 @@ export function renderServicios() {
           <span class="text-[0.75rem] font-bold uppercase tracking-wider text-humo">${escapeAttr(catNombre)}</span>
           <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(s.nombre)}" data-wa-location="catalogo"
              class="inline-flex items-center gap-2 rounded-full bg-marino px-4 py-2 text-[0.82rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
-            ${waIcon(15, 'glifo')}
+            ${waIcon(21, 'blanco')}
             <span>Agendar</span>
           </a>
         </div>
@@ -227,7 +227,7 @@ export function renderServicios() {
           <div class="mt-5 flex items-center gap-3 border-t border-marino/8 pt-4">
             <a href="${waLink(waMsg)}" target="_blank" rel="noopener" data-wa-service="${waServicio(s.etiqueta)}" data-wa-location="destacados"
                class="inline-flex items-center gap-2 rounded-full bg-marino px-4 py-2 text-[0.82rem] font-bold text-lino no-underline transition duration-300 hover:bg-oro-rosa-profundo">
-              ${waIcon(15, 'glifo')}
+              ${waIcon(21, 'blanco')}
               <span>Agendar</span>
             </a>
             <a href="#${anclaId}" class="text-[0.8rem] font-semibold text-humo no-underline transition-colors hover:text-marino">Ver detalle</a>
