@@ -10,7 +10,7 @@ import { getCheckUps, precioDeServicio } from '../data/servicios-completos.mjs'
 import { DOCTORA, DOMAIN, MOSTRAR_PRECIOS, physicianSchema, waLink } from '../data/site.mjs'
 import { RETRATO, SERVICIO_IMG, fotoGaleria, img, imgServicio } from '../data/imagenes.mjs'
 import { SERVICES } from '../data/services.mjs'
-import { bloqueDra, cierreConsulta, heroConsulta, paraMi, queEsperar } from './landing-consulta.mjs'
+import { bloqueDra, cierreConsulta, heroConsulta, paraMi, queEsperar, videoConsulta } from './landing-consulta.mjs'
 import {
   arcos,
   bandaCifras,
@@ -670,6 +670,7 @@ export function renderService(s) {
   const main = esConsulta
     ? [
         heroConsulta(s),
+        videoConsulta(s),
         paraMi(s),
         queEsperar(s),
         bloqueDra(s),

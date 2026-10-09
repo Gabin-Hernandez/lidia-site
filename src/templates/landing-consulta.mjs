@@ -6,16 +6,17 @@
 // qué ofrece la doctora, por qué confiar y cómo agendar; lo explicativo y de
 // SEO se queda más abajo (lo arma service.mjs con las secciones de siempre).
 //
-// Todos los botones son enlaces a WhatsApp con `data-wa-location`, así que
-// disparan el mismo evento de GA4 (whatsapp_click) sin crear eventos nuevos.
+// Todos los botones de agenda son enlaces a WhatsApp con `data-wa-location`,
+// así que disparan el mismo evento de GA4 (whatsapp_click) sin eventos nuevos.
 import { DIRECCION, DOCTORA } from '../data/site.mjs'
 import { RETRATO, img } from '../data/imagenes.mjs'
 import { CONTAINER, H2, acento, btnWa, escapeAttr, icono, rotulo, titulo } from './ui.mjs'
 
 const PAD = 'py-[clamp(64px,8.5vw,120px)]'
+const CTA_AQUI = 'Agendar mi cita AQUI'
 
-// Primera diapositiva: la doctora recortada sobre el fondo lila, como en la
-// maqueta del brief. Después, el resto de fotos que mandó la clienta.
+// Primera diapositiva: la doctora recortada e integrada al fondo del hero.
+// Después, el resto de fotos que mandó la clienta conserva el marco.
 const CARRUSEL = [
   'equipo-aurafem-recepcion',
   'dra-ultrasonido-obstetrico',
@@ -31,12 +32,11 @@ const CARRUSEL = [
 
 export function heroConsulta(s) {
   const fondo = img('consulta-hero-fondo')
-  const dra = img('consulta-hero-dra')
   const fotos = CARRUSEL.map(img)
   const estrellas = Array.from({ length: 5 }, () => icono('estrella', 'h-3.5 w-3.5')).join('')
 
   const diapositiva = (f, i) => `
-            <figure data-diapositiva class="absolute inset-0 m-0 opacity-0 transition-opacity duration-700 ease-suave data-activo:opacity-100" ${i === 0 ? 'data-activo' : ''}>
+            <figure data-diapositiva class="absolute inset-0 m-0 overflow-hidden rounded-[2rem] bg-[#ece4f3] opacity-0 shadow-[0_40px_80px_-35px_rgba(49,81,114,0.55)] ring-1 ring-white/70 transition-opacity duration-700 ease-suave data-activo:opacity-100" ${i === 0 ? 'data-activo' : ''}>
               <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
                    class="h-full w-full object-cover">
             </figure>`
@@ -74,7 +74,7 @@ export function heroConsulta(s) {
 
         <!-- Un solo botón principal: nada compite con WhatsApp en el primer pantallazo. -->
         <div class="entrada mt-8 max-sm:[&>a]:w-full" style="--d:.55s">
-          ${btnWa(s.waText, 'hero', s.ctaWa, { grande: true })}
+          ${btnWa(s.waText, 'hero', CTA_AQUI, { grande: true })}
         </div>
         <p class="entrada mt-3 text-[0.9rem] text-humo max-sm:text-center" style="--d:.6s">
           Respuesta directa por WhatsApp · Atención en ${DIRECCION.calle.replace(', Colonia', ',')}
@@ -89,18 +89,16 @@ export function heroConsulta(s) {
         </ul>
       </div>
 
-      <!-- Carrusel: la doctora primero (recortada sobre el lila, como la
-           maqueta) y luego las demás fotos. Lo anima main.js; sin JS se queda
+      <!-- Carrusel: la doctora primero, integrada al fondo del hero, y luego
+           las demás fotos con marco. Lo anima main.js; sin JS se queda
            en la primera diapositiva. -->
       <div class="entrada mx-auto w-full max-w-[460px] max-lg:max-w-[380px]" style="--d:.3s">
         <div data-carrusel-hero class="relative">
-          <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-[#ece4f3] shadow-[0_40px_80px_-35px_rgba(49,81,114,0.55)] ring-1 ring-white/70"
+          <div class="relative aspect-[4/5]"
                aria-roledescription="carrusel" aria-label="Fotos del consultorio y de la Dra. Lidia Chávez">
             <figure data-diapositiva data-activo class="absolute inset-0 m-0 opacity-0 transition-opacity duration-700 ease-suave data-activo:opacity-100">
-              <img src="${fondo.src}" alt="" aria-hidden="true" width="${fondo.w}" height="${fondo.h}" loading="eager" decoding="async"
-                   class="absolute inset-0 h-full w-full object-cover">
-              <img src="${dra.src}" alt="${escapeAttr(dra.alt)}" width="${dra.w}" height="${dra.h}" loading="eager" fetchpriority="high" decoding="async"
-                   class="absolute inset-x-0 bottom-0 mx-auto h-[94%] w-auto max-w-none object-contain">
+              <img src="/lidia.webp" alt="La Dra. Lidia Chávez sentada junto al equipo de ultrasonido de su consultorio" width="1220" height="1356" loading="eager" fetchpriority="high" decoding="async"
+                   class="absolute bottom-0 left-1/2 h-[108%] w-auto max-w-none -translate-x-1/2 bg-transparent object-contain" style="mask-image:linear-gradient(to right,transparent,#000 7%,#000 91%,transparent),linear-gradient(to bottom,#000 0%,#000 88%,transparent);mask-composite:intersect">
             </figure>
             ${fotos.map((f, i) => diapositiva(f, i + 1)).join('')}
           </div>
@@ -123,6 +121,46 @@ export function heroConsulta(s) {
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </section>`
+}
+
+/* ═════════════════════════════════════════════ video de la doctora ══ */
+
+export function videoConsulta(s) {
+  return `
+  <section class="relative overflow-hidden bg-[#f4eff0] py-[clamp(68px,9vw,120px)]">
+    <span aria-hidden="true" class="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-oro-rosa/10 blur-3xl"></span>
+    <div class="${CONTAINER} relative grid items-center gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-[clamp(48px,6vw,96px)]">
+      <div class="max-w-[480px]" data-anim>
+        ${rotulo('Un mensaje de la doctora')}
+        <h2 class="${H2} mt-5 text-marino">Conoce a la <em class="font-normal text-oro-rosa-profundo">Dra. Lidia</em></h2>
+        <p class="mt-6 text-[1.12rem] leading-[1.75] text-humo">
+          Ponle voz a quien te atenderá. En menos de un minuto puedes escucharla y conocerla antes de tu consulta.
+        </p>
+        <p class="mt-5 flex items-center gap-2 text-[0.88rem] font-semibold text-marino/70">
+          <span class="h-1.5 w-1.5 rounded-full bg-oro-rosa-profundo"></span> Video de 41 segundos
+        </p>
+        <div class="mt-8 max-sm:[&>a]:w-full">${btnWa(s.waText, 'video', CTA_AQUI)}</div>
+      </div>
+
+      <div data-video-consulta data-anim class="relative">
+        <div class="relative isolate aspect-video overflow-hidden rounded-[1.75rem] bg-marino shadow-[0_32px_72px_-38px_rgba(49,81,114,0.65)] ring-1 ring-marino/10">
+          <video data-video class="h-full w-full object-cover" width="1280" height="720" poster="/lidia-video-poster.webp"
+                 preload="none" muted playsinline controls aria-label="Video de presentación de la Dra. Lidia Chávez">
+            <source src="/lidia-video.mp4" type="video/mp4">
+            Tu navegador no puede reproducir este video.
+          </video>
+          <span class="pointer-events-none absolute right-4 top-4 hidden rounded-full border border-white/25 bg-marino/65 px-3 py-1.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md sm:inline-flex">00:41</span>
+        </div>
+        <button type="button" data-video-activar style="display:none" aria-label="Reproducir el video con sonido"
+                class="relative z-10 mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-3 whitespace-nowrap rounded-full bg-white px-4 py-3 font-bold text-marino shadow-[0_12px_32px_rgba(0,0,0,0.18)] transition hover:scale-[1.04] hover:bg-lino focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:absolute sm:left-6 sm:top-6 sm:mt-0 sm:w-auto sm:px-5">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-oro-rosa-profundo text-white">
+            <svg class="h-4 w-4 translate-x-px" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8a1 1 0 0 1 1.52-.85l11.2 7.2a1 1 0 0 1 0 1.7l-11.2 7.2A1 1 0 0 1 7 19.2V4.8Z"/></svg>
+          </span>
+          <span data-video-accion>Escuchar con sonido</span>
+        </button>
       </div>
     </div>
   </section>`

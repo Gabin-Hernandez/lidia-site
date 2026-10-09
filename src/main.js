@@ -632,6 +632,69 @@ $$('[data-carrusel-hero]').forEach((bloque) => {
   arrancar()
 })
 
+/* ═══════════════ 11c. Video de presentación de la doctora ══════════════ */
+
+$$('[data-video-consulta]').forEach((bloque) => {
+  const video = $('[data-video]', bloque)
+  const boton = $('[data-video-activar]', bloque)
+  if (!video || !boton) return
+  const accion = $('[data-video-accion]', boton)
+
+  let visible = false
+  let conSonido = false
+  boton.style.display = ''
+  video.controls = false
+
+  const vistaPrevia = () => {
+    if (!visible || conSonido || menosMovimiento || document.hidden) return
+    video.preload = 'auto'
+    video.muted = true
+    video.loop = true
+    video.play().catch(() => {}) // El póster y el botón siguen disponibles.
+  }
+
+  const activarSonido = () => {
+    video.pause()
+    video.currentTime = 0
+    video.loop = false
+    video.muted = false
+    video.controls = true
+    conSonido = true
+    boton.style.display = 'none'
+    video.play().catch(() => {
+      // Si el navegador bloquea la reproducción, deja los controles visibles.
+      boton.style.display = ''
+    })
+  }
+
+  boton.addEventListener('click', activarSonido)
+  video.addEventListener('click', () => {
+    if (!conSonido) activarSonido()
+  })
+  video.addEventListener('ended', () => {
+    video.controls = false
+    accion.textContent = 'Ver de nuevo con sonido'
+    boton.setAttribute('aria-label', 'Reproducir de nuevo el video con sonido')
+    boton.style.display = ''
+  })
+
+  if ('IntersectionObserver' in window) {
+    const observador = new IntersectionObserver(([entrada]) => {
+      visible = entrada.isIntersecting
+      if (visible) vistaPrevia()
+      else video.pause()
+    }, { threshold: 0.4 })
+    observador.observe(bloque)
+  } else {
+    visible = true
+    vistaPrevia()
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) video.pause()
+    else vistaPrevia()
+  })
+})
+
 /* ═══════════════════════ 12. Conversiones de WhatsApp y teléfono ════════ */
 
 // Cada clic a WhatsApp manda a GA4 un solo evento, whatsapp_click, y el botón
