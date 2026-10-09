@@ -646,7 +646,7 @@ $$('[data-video-consulta]').forEach((bloque) => {
   video.controls = false
 
   const vistaPrevia = () => {
-    if (!visible || conSonido || menosMovimiento || document.hidden) return
+    if (!visible || conSonido || menosMovimiento || document.hidden || $('[data-video-modal]')?.open) return
     video.preload = 'auto'
     video.muted = true
     video.loop = true
@@ -693,7 +693,69 @@ $$('[data-video-consulta]').forEach((bloque) => {
     if (document.hidden) video.pause()
     else vistaPrevia()
   })
+  document.addEventListener('video-modal-close', vistaPrevia)
 })
+
+const videoModal = $('[data-video-modal]')
+if (videoModal?.showModal) {
+  const video = $('[data-video-modal-media]', videoModal)
+  const boton = $('[data-video-modal-sonido]', videoModal)
+  const accion = $('[data-video-modal-accion]', boton)
+  const cerrar = $('[data-video-modal-cerrar]', videoModal)
+  const desbordeAnterior = document.documentElement.style.overflow
+  let conSonido = false
+
+  const activarSonido = () => {
+    video.pause()
+    video.currentTime = 0
+    video.loop = false
+    video.muted = false
+    video.controls = true
+    conSonido = true
+    boton.style.display = 'none'
+    video.play().catch(() => {
+      boton.style.display = ''
+    })
+  }
+
+  boton.addEventListener('click', activarSonido)
+  video.addEventListener('click', () => {
+    if (!conSonido) activarSonido()
+  })
+  video.addEventListener('ended', () => {
+    video.controls = false
+    accion.textContent = 'Ver de nuevo con sonido'
+    boton.setAttribute('aria-label', 'Reproducir de nuevo el video con sonido')
+    boton.style.display = ''
+  })
+  cerrar.addEventListener('click', () => videoModal.close())
+  videoModal.addEventListener('click', (evento) => {
+    const { left, right, top, bottom } = videoModal.getBoundingClientRect()
+    if (evento.clientX < left || evento.clientX > right || evento.clientY < top || evento.clientY > bottom) {
+      videoModal.close()
+    }
+  })
+  videoModal.addEventListener('close', () => {
+    video.pause()
+    video.muted = true
+    video.controls = false
+    document.documentElement.style.overflow = desbordeAnterior
+    document.dispatchEvent(new Event('video-modal-close'))
+  })
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) video.pause()
+    else if (videoModal.open && !conSonido && !menosMovimiento) video.play().catch(() => {})
+  })
+
+  videoModal.showModal()
+  document.documentElement.style.overflow = 'hidden'
+  $('[data-video-consulta] [data-video]')?.pause()
+  if (!menosMovimiento) {
+    video.preload = 'auto'
+    video.loop = true
+    video.play().catch(() => {})
+  }
+}
 
 /* ═══════════════════════ 12. Conversiones de WhatsApp y teléfono ════════ */
 

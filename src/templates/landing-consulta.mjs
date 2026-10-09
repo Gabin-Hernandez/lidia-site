@@ -163,7 +163,41 @@ export function videoConsulta(s) {
         </button>
       </div>
     </div>
-  </section>`
+  </section>
+
+  <dialog data-video-modal aria-labelledby="video-modal-titulo" aria-describedby="video-modal-descripcion"
+          class="fixed inset-0 m-auto w-[min(94vw,960px)] max-h-[calc(100dvh-24px)] overflow-y-auto rounded-[1.75rem] border border-white/25 bg-lino p-0 text-marino shadow-[0_32px_100px_rgba(13,32,51,0.4)] backdrop:bg-[#172d43]/80 backdrop:backdrop-blur-sm">
+    <div class="flex items-start justify-between gap-4 px-5 pb-4 pt-5 sm:px-8 sm:pt-7">
+      <div>
+        <p class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-oro-rosa-profundo">Un mensaje para ti</p>
+        <h2 id="video-modal-titulo" class="mt-1 text-[clamp(1.4rem,3vw,2rem)] font-bold leading-tight">Conoce a la Dra. Lidia Chávez</h2>
+        <p id="video-modal-descripcion" class="mt-1 text-sm text-humo">Video de 41 segundos · Comienza sin sonido</p>
+      </div>
+      <button type="button" data-video-modal-cerrar aria-label="Cerrar video"
+              class="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-marino/15 bg-white text-marino transition hover:bg-rosa-palido focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oro-rosa-profundo">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
+      </button>
+    </div>
+    <div class="relative isolate aspect-video overflow-hidden bg-marino">
+      <video data-video-modal-media class="h-full w-full object-cover" width="1280" height="720"
+             poster="/lidia-video-poster.webp" preload="none" muted playsinline
+             aria-label="Video de presentación de la Dra. Lidia Chávez">
+        <source src="/lidia-video.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
+      <button type="button" data-video-modal-sonido aria-label="Reproducir el video con sonido"
+              class="absolute bottom-4 left-4 z-10 inline-flex cursor-pointer items-center gap-3 rounded-full bg-white/95 py-2 pl-2 pr-5 text-sm font-bold text-marino shadow-[0_10px_32px_rgba(0,0,0,0.25)] transition hover:scale-[1.03] hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:bottom-6 sm:left-6 sm:text-base">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-oro-rosa-profundo text-white">
+          <svg class="h-4 w-4 translate-x-px" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8a1 1 0 0 1 1.52-.85l11.2 7.2a1 1 0 0 1 0 1.7l-11.2 7.2A1 1 0 0 1 7 19.2V4.8Z"/></svg>
+        </span>
+        <span data-video-modal-accion>Escuchar con sonido</span>
+      </button>
+    </div>
+    <div class="flex flex-col items-start justify-between gap-4 px-5 py-5 sm:flex-row sm:items-center sm:px-8">
+      <p class="text-sm leading-relaxed text-humo">Una atención clara, respetuosa y sin prisas.</p>
+      <div class="w-full shrink-0 sm:w-auto max-sm:[&>a]:w-full">${btnWa(s.waText, 'video-modal', CTA_AQUI)}</div>
+    </div>
+  </dialog>`
 }
 
 /* ══════════════════════════════════════════ ¿esta consulta es para mí? ══ */
