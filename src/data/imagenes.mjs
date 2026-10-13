@@ -625,6 +625,17 @@ const FOTOS_DRA = {
     h: 799,
     alt: 'La Dra. Lidia Chávez con varios métodos anticonceptivos: preservativos, pastillas, dispositivo intrauterino e implante',
   },
+
+  // Hero de /revision-ginecologicapreventiva/ (octubre 2026).
+  // Foto OK.JPG: la Dra. Lidia Chávez formando un corazón con el cable del
+  // transductor de ultrasonido, en el consultorio.
+  'dra-corazon-transductor': {
+    file: 'dra-corazon-transductor.webp',
+    w: 900,
+    h: 1125,
+    alt: 'La Dra. Lidia Chávez formando un corazón con el cable del transductor del equipo de ultrasonido',
+    pos: '50% 50%',
+  },
 }
 
 /**
@@ -729,8 +740,8 @@ export const SERVICIO_IMG = {
     ],
   },
   'revision-ginecologicapreventiva': {
-    hero: 'dra-consola-ultrasonido',
-    heroPos: '62% 30%',
+    hero: 'dra-corazon-transductor',
+    heroPos: '50% 50%',
     tarjeta: 'dra-transductor',
     editorial: ['dra-consola-ultrasonido', 'papanicolaou-instrumental', 'dra-de-pie'],
     // La galería se había quedado en una sola foto al quitar las de quirófano
