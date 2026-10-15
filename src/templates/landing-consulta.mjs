@@ -9,36 +9,31 @@
 // Todos los botones de agenda son enlaces a WhatsApp con `data-wa-location`,
 // así que disparan el mismo evento de GA4 (whatsapp_click) sin eventos nuevos.
 import { DIRECCION, DOCTORA } from '../data/site.mjs'
-import { RETRATO, img } from '../data/imagenes.mjs'
+import { RETRATO, SERVICIO_IMG, fotoGaleria, img } from '../data/imagenes.mjs'
 import { CONTAINER, H2, acento, btnWa, escapeAttr, icono, rotulo, titulo } from './ui.mjs'
 
 const PAD = 'py-[clamp(64px,8.5vw,120px)]'
 const CTA_AQUI = 'Agendar mi cita AQUI'
 
 // Primera diapositiva: la doctora recortada e integrada al fondo del hero.
-// Después, el resto de fotos que mandó la clienta conserva el marco.
-const CARRUSEL = [
-  'equipo-aurafem-recepcion',
-  'dra-ultrasonido-obstetrico',
-  'ultrasonido-embarazo',
-  'recien-nacido-1',
-  'quirofano-colposcopio',
-  'recien-nacido-2',
-  'quirofano-1',
-  'quirofano-2',
-]
+// Después, las fotos que eligió la doctora (documento «PAGINA 3», oct 2026):
+// las mismas de la galería de Consulta ginecológica, con sus pies. Se leen de
+// SERVICIO_IMG para que galería y carrusel no se desfasen; `null` = sin pie.
+const CARRUSEL = SERVICIO_IMG['consulta-ginecologica'].galeria
 
 /* ═════════════════════════════════════════════════════════════ hero ══ */
 
 export function heroConsulta(s) {
   const fondo = img('consulta-hero-fondo')
-  const fotos = CARRUSEL.map(img)
+  const fotos = CARRUSEL.map(fotoGaleria)
   const estrellas = Array.from({ length: 5 }, () => icono('estrella', 'h-3.5 w-3.5')).join('')
 
   const diapositiva = (f, i) => `
             <figure data-diapositiva class="absolute inset-0 m-0 overflow-hidden rounded-[2rem] bg-[#ece4f3] opacity-0 shadow-[0_40px_80px_-35px_rgba(49,81,114,0.55)] ring-1 ring-white/70 transition-opacity duration-700 ease-suave data-activo:opacity-100" ${i === 0 ? 'data-activo' : ''}>
               <img src="${f.src}" alt="${escapeAttr(f.alt)}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"
+                   ${f.pos ? `style="object-position:${f.pos}"` : ''}
                    class="h-full w-full object-cover">
+              ${f.pie ? `<figcaption aria-hidden="true" class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noche/85 via-noche/30 to-transparent px-5 pb-4 pt-14 text-left text-[0.9rem] font-semibold leading-tight text-white">${f.pie}</figcaption>` : ''}
             </figure>`
 
   const confianza = (t) =>
